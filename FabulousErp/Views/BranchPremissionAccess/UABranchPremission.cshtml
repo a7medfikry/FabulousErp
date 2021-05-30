@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "UABranchPremission";
+    ViewBag.FormCode = "SUABP";
+}
+@using (Html.BeginForm())
+{
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <label class="col-md-2"> User ID : <span class="star">*</span> </label>
+            <div class="col-md-4">
+                @Html.DropDownList("UserIDD", ViewBag.UserList as SelectList, "-Choose-", new { @id = "UserID", @class = "dropdown-list" })
+            </div>
+            <label class="col-md-2"> User Name :  </label>
+            <div class="col-md-4">
+                <input type="text" id="UserName" disabled />
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <label class="col-md-2"> Company ID : <span class="star">*</span> </label>
+            <div class=" col-md-4">
+                @Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class = "dropdown-list" })
+            </div>
+            <label class="col-md-2"> Company Name : </label>
+            <div class="col-md-4">
+                <input type="text" id="CompanyName" disabled />
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2"> Branch ID : <span class="star">*</span> </label>
+            <div class="col-md-4">
+                @Html.DropDownList("BranchID", new SelectList(" "), "-Choose-", new { @id = "BranchID", @class = "dropdown-list" })
+            </div>
+            <label class="col-md-2"> Branch Name : </label>
+            <div class="col-md-4">
+                <input type="text" id="BarnchName" disabled />
+            </div>
+        </div>
+
+        <label id="SaveBtn" class="hide-normal">
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="Addbtn()">Add</button>
+            <label id="UserAlreadyExistError" style="color:red"></label>
+        </label>
+
+        <!-- Table Area Start -->
+        <div class="mt-2">
+            <table class="table table-striped table-bordered display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th width="15%"> User ID </th>
+                        <th width="35%"> User Name </th>
+                        <th width="15%"> Branch ID </th>
+                        <th width="35%"> Branch Name </th>
+                    </tr>
+                </thead>
+                <tbody id="SetUserList"></tbody>
+            </table>
+        </div>
+        <!-- table Area End -->
+    </div>
+}
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccess/BranchPremissionAccess/BPA_SaveBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccess/BranchPremissionAccess/BPA_DropDownChange.js")

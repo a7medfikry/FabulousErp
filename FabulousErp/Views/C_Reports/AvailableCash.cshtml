@@ -1,0 +1,18 @@
+﻿@model List<FabulousErp.Controllers.Reports.Financial._Company.AccountsData>
+ @{ ViewBag.Title = "Available Cash";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "RAC";
+}
+<div class="container-fluid">
+    <button class="btn btn-secondary btn-sm" onclick="location.reload()"> Clear </button>
+    <button class="btn btn-success btn-sm" id="RAC-export"> Export To Excel <i class="fa fa-file-excel-o"></i> </button>
+    <div class="form-row mb-1 mt-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cut Of Date : </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="RAC-cutDate" />
+        </div>  
+    </div>
+    <div class="table-responsive RAC-table"></div>
+</div>
+
+@Html.IncludeVersionedJs("/_Content/JS/Reports/Financial/_Company/Reports_Script.js")

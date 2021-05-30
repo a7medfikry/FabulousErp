@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Payable Transaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int SortBy = 1;
+}
+<p>
+
+    @if (ViewBag.section != "Inquiry" && ViewBag.section != "Report")
+    {
+        @Html.ActionLink("Create New", "Create", $"Payable_Transaction", new { Setting = ViewBag.section }, new { })
+        if (ViewBag.section == "Inquiry")
+        {
+            SortBy = 1;
+        }
+    }
+    else
+    {
+        if (ViewBag.section == "Inquiry")
+        {
+            <button onclick="PrintThis(null,false,true,null,null,'',true);" class="btn btn-primary">Print</button>
+        }
+        else if (ViewBag.section == "Report")
+        {
+            <div class="clearfix">
+                <button onclick="PrintThis(null,false,true,null,null,'',true);" class="btn btn-primary">Print</button>
+                <button class="btn btn-info" onclick="ExportThisToExcel()">Export To Excel</button>
+
+                <input type="radio" name="search" value="2" class="v-middle search" />
+                <label class="v-middle" style="margin-bottom:1px;">By Creation Date</label>
+
+                <input type="radio" name="search" value="3" class="v-middle search" />
+                <label class="v-middle" style="margin-bottom:1px;">By Posting Date</label>
+
+                <label style="margin-bottom:1px;margin-left:20px;">
+                    from
+                </label>
+                <input type="date" class="From form-control" style="display:inline-block;" />
+                <label style="margin-bottom:1px;">   to </label>
+                <input type="date" class="To form-control" style="display:inline-block;" />
+            </div>
+
+            SortBy = 4;
+
+        }
+    }
+</p>
+<section id="Table">
+    @Html.Action("IndexPartial", $"Payable_Transaction", new { SortBy = SortBy, section = ViewBag.section })
+</section>
+<script>
+    function ExportThisToExcel() {
+        ExportToExcel('Payable Transaction', 'hide', false, function () {
+            $("#Table").find("table").find(".ShowInExcel").addClass("ShowenInExcel")
+            $("#Table").find("table").find(".ShowenInExcel").removeClass("ShowInExcel")
+
+        }, function () {
+            $("#Table").find("table").find(".ShowenInExcel").addClass("ShowInExcel")
+            $("#Table").find("table").find(".ShowInExcel").removeClass("ShowenInExcel")
+
+        }, $("#Table").find("table").attr("id"))
+    }
+    $("input").on("click change", function () {
+        var SortBy = $(".search:checked").val();
+        $.ajax({
+            datatype:"html",
+            url: "@Url.Action("IndexPartial", $"Payable_Transaction")?section=@ViewBag.section&SortBy=" + SortBy + "&From=" + $(".From").val() + "&To=" + $(".To").val(),
+            success: function (data) {
+                $("#Table").html(data);
+            }
+        })
+    });
+</script>

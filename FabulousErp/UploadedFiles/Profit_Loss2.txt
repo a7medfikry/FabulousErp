@@ -1,0 +1,48 @@
+// 12.0 Get the Profit or Loss Account-ID of the Currency according to the Difference
+    // Fill The Second-Row of Original-Amount
+    //$('#TCGE-TransactionRate').focusout(function () {
+    //    var transactionRate = $(this).val();
+    //    var currencyID = $('#TCGE-CurrencyID').val();
+    //    var difference = $('#TCGE-DiffrenceRate').val();
+
+    //    if (difference < 0) {
+    //        // Get the Loss Account-ID of the Currency
+    //        $.ajax({
+    //            type: "GET",
+    //            url: "/C_CashReciept/GetCurrencyAccounts?currencyID=" + currencyID + "&profit=" + "Loss",
+    //            success: function (result) {
+    //                if (result.length > 0) {
+    //                    $.each(result, function (index, row) {
+    //                        // Fill The Second-Row of Account-Name
+    //                        $('#TCCR-table').children('tbody').find('tr:nth-child(3)').children('td').eq(1).text(row.Company_AccountsName);
+
+    //                        // Fill The Second-Row of Account-ID
+    //                        $('#CBT-currencyaccountID').text(row.Currency_AccountsID);
+    //                        $('#CBT-currencyC_AID').text(row.C_AID);
+    //                    });
+    //                }
+    //            }
+    //        });
+    //    } else {
+    //        // Get the Profit Account-ID of the Currency
+    //        $.ajax({
+    //            type: "GET",
+    //            url: "/C_CashReciept/GetCurrencyAccounts?currencyID=" + currencyID + "&profit=" + "Profit",
+    //            success: function (result) {
+    //                if (result.length > 0) {
+    //                    $.each(result, function (index, row) {
+    //                        // Fill The Second-Row of Account-Name
+    //                        $('#TCCR-table').children('tbody').find('tr:nth-child(3)').children('td').eq(1).text(row.Company_AccountsName);
+
+    //                        // Fill The Second-Row of Account-ID
+    //                        $('#CBT-currencyaccountID').text(row.Currency_AccountsID);
+    //                        $('#CBT-currencyC_AID').text(row.C_AID);
+    //                    });
+    //                }
+    //            }
+    //        });
+    //    }
+    //    // Fill The Second-Row of Original-Amount
+    //    var diffamount = difference * transactionRate;
+    //    $('#TCCR-table').children('tbody').find('tr:nth-child(3)').children('td').eq(3).text(diffamount);
+    //});

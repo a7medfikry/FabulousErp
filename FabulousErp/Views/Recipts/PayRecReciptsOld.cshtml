@@ -1,0 +1,211 @@
+﻿@model List<PayRecRecipt>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<style>
+    .Fram {
+        background: #fff;
+    }
+
+    .col-md-6 {
+        width: 48%;
+        display: inline-block;
+    }
+
+    .Fram * {
+        direction: rtl;
+        font-size: 28px;
+    }
+
+    .right {
+        float: right;
+    }
+    .Fram div {
+        display: inline-block;
+    }
+    .Fram *{
+        text-align:right;
+        direction:rtl;
+    }
+    @@media (min-width: 768px){
+        .col-md-4 {
+            -ms-flex: 0 0 32.333333%;
+            flex: 0 0 32.333333%;
+            max-width: 32.333333%;
+        }
+    }
+    .Print {
+        margin: 20px 40px 20px 40px;
+    }
+    table tbody tr td {
+        border: solid 1px;
+    }
+   
+</style>
+<section class="Print" id="Print">
+    <section class="Fram">
+        <br />
+        <div class="col-md-12 ">
+            <div class="col-md-6 CompanyName text-right">
+                <span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_nam).Value</span>
+            </div>
+            <div class="col-md-6 Logo text-center">
+                <img src="@Model.FirstOrDefault(x=>x.Prop==PayRecProp.Logo).Value" />
+            </div>
+        </div>
+        <div class="col-sm-12  text-center">
+            <span></span>
+
+        </div>
+        <br />
+        <br />
+        <div class="Border1">
+            <div class="col-md-6 Padding0">
+                <div class="col-md-12 Border1">
+                    <span>اسم العميل:</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Client_name).Value</span>
+                </div>
+                <div class="col-md-12 Border1">
+                    <span>عنوان العميل:</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Client_address).Value</span>
+                </div>
+                <div class="col-md-12 Border1">
+                    <span>رقم التسجيل:</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Tax_file_no).Value</span>
+                </div>
+            </div>
+            @*<div class="col-md-3 ">
+                <div class="col-md-12 Border1">
+                    <span>رقم التليفون</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Phone).Value</span>
+                </div>
+                <div class="col-md-12 Border1">
+                    <span>الفاكس</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Fax).Value</span>
+                </div>
+                <div class="col-md-12 Border1">
+                    <span>رقم الملف</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Tax_file_no).Value</span>
+                </div>
+            </div>*@
+            <div class="col-md-6 ">
+                <div class="col-md-12 Border1">
+                    <span>رقم الفاتورة:</span><span></span>
+                </div>
+                <div class="col-md-12 Border1">
+                    <span>تاريخ الفاتورة:</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Inv_date).Value</span>
+                </div>
+                <div class="col-md-12 Border1">
+                    <span>تاريخ الاستحقاق:</span><span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Due_date).Value</span>
+                </div>
+            </div>
+        </div>
+        <table style="width:100%;">
+            <thead>
+                <tr>
+                    <td>
+                        رقم
+                    </td>
+                    <td>
+                        بيان
+                    </td>
+                    <td>
+                        القيمة
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Model.FirstOrDefault(x => x.Prop == PayRecProp.Inv_count).Value
+                    </td>
+                    <td>
+                        @Model.FirstOrDefault(x => x.Prop == PayRecProp.Ref).Value
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Purch).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        الخصم
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Discount).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+
+                    <td>
+                        ض.ق.م
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Vat_amount).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+
+                    <td>
+                        أ.ت.ص
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Deduct).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+
+                    <td>
+                        الاجمالي
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Total).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+
+                    <td>
+                        <span>  @Model.FirstOrDefault(x => x.Prop == PayRecProp.Money_text).Value</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table style="width:100%">
+            <tbody>
+                <tr>
+                    <td></td>
+
+                    <td>
+                        <span>عنوان الشركة</span>
+                        <span>  @Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_Address).Value</span>
+
+                    </td>
+                    <td>
+                        <span>رقم الملف الضريبي </span>
+
+                        @Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_tax_file).Value
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+
+                    <td>
+                        <span>فاكس</span> @Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_fax).Value
+                        <span>تليفون</span> @Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_phon).Value
+                    </td>
+                    <td>
+                        <span>رقم التسجيل الضريبي </span>
+
+                        <span>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_tax_reg_num).Value</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</section>
+<script>
+    $(function () {
+        JustPrintThis("Print", "", null);
+    })
+</script>

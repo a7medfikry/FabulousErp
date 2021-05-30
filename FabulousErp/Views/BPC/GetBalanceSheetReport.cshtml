@@ -1,0 +1,100 @@
+﻿@using FabulousErp.Controllers;
+@using FabulousDB.Models;
+@model List<BPC_report>
+@{
+    Layout = null;
+    string IsAccount = "";
+    int Year = ViewBag.Year;
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="HeadRowName">
+                Raw Name
+            </th>
+            <th class="TotalCheck">
+                Account Name
+            </th>
+            <th class="TotalCheck">
+                Account Id
+            </th>
+            <th class="CurrentYear">
+                @Year
+            </th>
+            @if (ViewBag.RptType != Report_type.CashFlow)
+            {
+                <th class="CompareYear">
+                    @ViewBag.CompareYear
+                </th>
+                <th class="LastYear">
+                    @(Year - 1)
+                </th>
+                <th class="Last2Year">
+                    @(Year - 2)
+
+                </th>
+                <th class="Last3Year">
+                    @(Year - 3)
+
+                </th>
+                <th class="Last4Year">
+                    @(Year - 4)
+                </th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (BPC_report i in Model.OrderBy(x => x.OrderId))
+        {
+            if (!string.IsNullOrEmpty(i.Account_name))
+            {
+                IsAccount = "Account";
+            }
+            else
+            {
+                IsAccount = "";
+            }
+            <tr class="@IsAccount">
+                <td>
+                    @i.Raw_name
+                </td>
+                <td class="TotalCheck">
+                    @i.Account_name
+                </td>
+                <td class="TotalCheck">
+
+                    @i.Account_id
+                </td>
+                <td class="CurrentYear maskmoney">
+                    @i.Current_year
+                </td>
+                @if (ViewBag.RptType != Report_type.CashFlow)
+                {
+                    <th class="CompareYear maskmoney">
+                        @i.CompareYear
+                    </th>
+                    <td class="LastYear maskmoney">
+                        @i.Last_year
+                    </td>
+                    <td class="Last2Year maskmoney">
+                        @i.Last_2_year
+                    </td>
+                    <td class="Last3Year maskmoney">
+                        @i.Last_3_year
+                    </td>
+                    <td class="Last4Year maskmoney">
+                        @i.Last_4_year
+                    </td>
+                }
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        MaskMoneyLbl("@FabulousErp.Business.GetCompanyId()")
+    })
+</script>

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_sales_invoice>
+
+@{
+    ViewBag.Title = "Sales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                Customer
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction_date)
+            </th>
+            <th>
+                Invoice Number
+            </th>
+            <th>
+                Store Id
+            </th>
+            <th>
+                Site Id
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @try
+                {
+                    @Html.DisplayFor(modelItem => item.Receivable.Vendor.Vendor_name)
+                }
+                catch
+                {
+
+                }
+            </td>
+            <td>
+                @(item.Transaction_date?.ToShortDateString())
+            </td>
+            <td>
+                @try
+                {
+                    @item.Receivable.Trans_doc_type.Counter
+                }
+                catch
+                {
+                }
+            </td>
+            <td>
+                @item.Store.Store_name
+            </td>
+            <td>
+                @item.Site.Site_name
+
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>

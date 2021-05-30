@@ -1,0 +1,201 @@
+﻿@model FabulousDB.Models.Fixed_assets_revaluate
+
+@{
+    ViewBag.Title = "Revaluate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm($"Create", "Fixed_assets_revaluate", new { }, new AjaxOptions { OnSuccess = "RevaluateSucc" }, new { id = "MainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(x => x.Gl_transaction_id)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Revaluate_no, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Revaluate_no, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Revaluate_no, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Revaluate_date, "Revaluate date", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Revaluate_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+            @Html.ValidationMessageFor(model => model.Revaluate_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Assets_id, "Assets id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Assets_id", null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Assets_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Old_cost, "Old cost", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Old_cost, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Old_cost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Old_use_life, "Old use life", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Old_use_life, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            @Html.ValidationMessageFor(model => model.Old_use_life, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Adjustment_cost, "Adjustment cost", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Adjustment_cost, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adjustment_cost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Net_profit, "Net profit", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Net_profit, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Net_profit, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2"> Transaction date</label>
+        <div class="col-md-10">
+            <input id="ReplaceTransactionDate" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2"> Posting date</label>
+        <div class="col-md-10">
+            <input id="ReplacePostingDate" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2"> Currency</label>
+        <div class="col-md-10">
+            <input id="ReplaceCurrency" />
+        </div>
+    </div>
+    <div class="form-group Width60">
+        <label class="control-label col-md-2 MyLable">Reference</label>
+        <div class="col-md-10 MyDiv">
+            <input id="ReplaceReference" />
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" id="FirstForm" class="btn btn-default" />
+        </div>
+    </div>
+
+</div>
+}
+
+<script>
+    function RevaluateSucc() {
+        window.location.reload();
+    }
+    $(document).on("change", "select,#Adjustment_cost", function () {
+        if ($("#Assets_id").val() && $("#TCGE-CurrencyID").val()) {
+            var Url = "@Url.Action("GetDebitCreditAccountByAssetsIdRevaluate", "Assets_class")" + "?AssetsId=" + $("#Assets_id").val() + "&Old_acq=" + $("#Old_cost").val() + "&Adjustment=" + $("#Adjustment_cost").val();
+            var Amount = parseFloat($("#Old_cost").val()) - parseFloat($("#Adjustment_cost").val());
+            if (Amount < 0) {
+                Amount = -Amount;
+            }
+            GetAccountsAndExchangeRate(Url, Amount, $("#TCGE-JEDate").val(), "Assets_class_id", true, null, function () {
+                $("#Currency_id").val("");
+                $("#TCGE-CurrencyID").val("");
+            })
+        }
+    })
+
+
+    $(function () {
+        $("#ReplaceTransactionDate").replaceWith($("#TCGE-JEDate"));
+        $("#ReplacePostingDate").replaceWith($("#TCGE-PostingDate"));
+        $("#ReplaceCurrency").replaceWith($("#TCGE-CurrencyID"));
+        $("#ReplaceReference").replaceWith($("#TCGE-Reference"));
+        $("#TCGE-JEDate").attr("name","Transaction_date")
+    })
+     $("#Create").click(function () {
+        var BatchId = "";
+        var BostingToORThrow = "@ViewBag.PostingToOrThrow";
+         $("#MainForm").validate();
+        if ($("#MainForm").valid()) {
+            InsertTransactionData($("#TCGE-CompanyID").text(), BostingToORThrow, $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), $("#TCGE-CurrencyID").val(), $("#TCGE-SystemRate").val(), $("#TCGE-TransactionRate").val(), "FIXRenw", "FIXRenw", BatchId, "",
+                function (TransactionId) {
+                    InsertCallBack(TransactionId)
+            })
+        }
+    })
+    function InsertCallBack(TransactionId) {
+        $("#Gl_transaction_id").val(TransactionId);
+        $("#FirstForm").trigger("click");
+    }
+    $("#Assets_id").change(function () {
+        $.ajax({
+            url: "/FixedAssets/Assets/GetAccquistion?AssetsId=" + $("#Assets_id").find("option:selected").val(),
+            method:"post",
+            success: function (data) {
+                $("#Old_cost").val(data);
+                $("#Old_cost").attr("readonly", "readonly");
+            }
+        })
+    });
+</script>
+<span id="TCGE-GlobalError" class="text-error"></span>
+
+<section id="JVSecCont">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" id="Create" class="btn btn-success" />
+        </div>
+    </div>
+    <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @{Html.RenderAction("GetBatchHeader", "C_GeneralEntryTransaction", new { TCS_JENum = true, area = "" });}
+
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+
+<!-- Pop-up Modal For System-Rates -->
+<div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Choose The System Rate </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

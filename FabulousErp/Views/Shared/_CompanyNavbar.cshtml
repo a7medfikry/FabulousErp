@@ -1,0 +1,544 @@
+﻿@using FabulousErp.Bussiness
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top menu_area">
+    <!-- Navbar-toggler -->
+    <button class="btn btn-dark btn-sm rounded-circle text-white" id="sidebarToggle" href="#">
+        <i class="fa fa-bars"></i>
+    </button>
+    <a class="navbar-brand ml-2" href="/Home/Financial_Home"> <i class="fa fa-home"></i> </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <!-- Links -->
+        <ul class="navbar-nav MainHeaderNav" id="nav">
+            <!-- General Setting -->
+            <li class="nav-item dropdown NoTrans" data-class="MainHeaderSetting">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    G.S <i class="fa fa-cog"></i>
+                </a>
+                <div class="dropdown-menu financial-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Users </li>
+                                <li> <a href="/CreateNewAccount/NewAccountInfo"> <i class="fa fa-plus-circle"></i> Create User </a></li>
+                                <li> <a href="/CreateNewGroup/NewGroupInfo"> <i class="fa fa-users"></i> Create Group Of user </a></li>
+                                <li> <a href="/ListOfUser/GetUsers"> <i class="fa fa-list-ul"></i> Manage users </a></li>
+                                <li> <a href="/ListOfGroup/GetGroups"> <i class="fa fa-list-ul"></i> Manage Groups </a></li>
+                                <li> <a href="/AccountGroupInfo/AddUserToGroup"> <i class="fa fa-plus-square"></i> Add user to Group </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Accessibility </li>
+                                <li> <a href="/UGFormsAccess/FormsAccess"> <i class="fa fa-shield"></i> Company Forms Access </a></li>
+                                @*<li> <a href="/UGFormsAccess/BranchFormsAccess"> <i class="fa fa-shield"></i> Branch Forms Access </a></li>*@
+                                @*<li> <a href="/UGFormsAccess/FactoryFormsAccess"> <i class="fa fa-shield"></i> Factory Forms Access </a></li>*@
+                                <li> <a href="/CompanyPremissionAccess/UACompPremission"> <i class="fa fa-universal-access"></i> Company Access </a></li>
+                                @*<li> <a href="/BranchPremissionAccess/UABranchPremission"> <i class="fa fa-universal-access"></i> Branch Access </a></li>*@
+                                @*<li> <a href="/FactoryPremissionAccess/UAFactoryPremission"> <i class="fa fa-universal-access"></i> Factory Access </a></li>*@
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Organization </li>
+                                <li> <a href="/MainCompany/CompanyInformation"> <i class="fa fa-building"></i> New Company </a></li>
+
+
+                                <li> <a href="/Inventory/Inv_store/"><i class="fa fa-building"></i> Create New Store</a></li>
+                                @*<li> <a href="/CompanyBranch/BranchInformation"> <i class="fa fa-building"></i> New Branch </a></li>
+        <li> <a href="/CompanyFactory/FactoryInformation"> <i class="fa fa-building"></i> New Factory </a></li>*@
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Fiscal Year </li>
+                                <li> <a href="/FiscalDef/FiscalYearDef"> <i class="fa fa-file"></i> Fiscal year Definition </a></li>
+                                <li> <a href="/CreateNewYear/NewYear"> <i class="fa fa-file"></i> New Year </a></li>
+                                <li> <a href="/CloseFiscalYear/CloseYear"> <i class="fa fa-file"></i> Close Year </a></li>
+                                <li> <a href="/CompanyFiscalYear/AddCompanyFiscalYear"> <i class="fa fa-file"></i> Fiscal Year To Company </a></li>
+                                <li> <a href="/OpenAndClosFiscalPeriods/OpenClosePeriods"> <i class="fa fa-file"></i> Open/Close periods </a></li>
+                                <li> <a href="/OpenAndClosFiscalPeriods/AdjOpenClosePeriods"> <i class="fa fa-file"></i> Adjustment Open/Close periods </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Currency </li>
+                                <li> <a href="/CurrenciesDefinition/CurrenciesTypes"> <i class="fa fa-money"></i> Currency Definition </a></li>
+                                <li> <a href="/CurrencyFormateSetting/FormateSetting"> <i class="fa fa-money"></i> Formate Setting </a></li>
+                                <li> <a href="/ExchangeCurrenciesSetup/ExchangeCurrencies"> <i class="fa fa-gg"></i> Exchange Currency </a></li>
+                                <li> <a href="/UserEditTRate/UEditRate"> <i class="fa fa-gg"></i> User Edit Transaction Rate </a> </li>
+                                <li> <a href="/CurrenciesDefinition/SetCurrencyUnit"> <i class="fa fa-gg"></i> Set Currency Unit Name </a> </li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Chart Of Account </li>
+                                <li> <a href="/CreateAccountChart/AccountChart"> <i class="fa fa-bar-chart"></i> Chart Of Account </a></li>
+                                <li> <a href="/CompanyChartAccount/AddChartToCompany"> <i class="fa fa-bar-chart"></i> Add Chart Of Account to Company </a></li>
+                                <li> <a href="/CreateAccountGroup/AccountGroup"> <i class=""></i> Create Account Group </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">Tax</li>
+                                <li> <a href="/Tax/Tax_Setting"> <i class=""></i> Tax Setting </a></li>
+                                <li> <a href="/Inquiry_TaxSchedule/TaxSchedule"> <i class=""></i> Inquiry Tax Schedule </a></li>
+                                <li> <a href="/Inquiry_CompanyTax/CompanyTax"> <i class=""></i> Inquiry Company Tax </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Post </li>
+                                <li> <a href="/CreatePostingSetup/PostingSetup"> <i class=""></i> Posting Setup </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Installment </li>
+                                <li> <a href="/Installment/Installment_setting"> <i class=""></i> Installment Setting </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> Logistics </li>
+                                <li> <a href="/Inventory/Unit_of_measure/Create"> <i class=""></i> Unit of measure </a></li>
+                                <li> <a href="/Inventory/Inv_movment_GS/Create">Inventory General Setting</a></li>
+                                <li> <a href="/Inventory/Inv_po_GS/Create">PO General Setting</a></li>
+                                <li> <a href="/Inventory/Inv_sales_GS/Create">Sales General Setting</a></li>
+                                <li>
+                                    <a href="/Inventory/Inv_pricelist/Create">Price list</a>
+                                </li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header"> DataBase </li>
+                                <li> <a href="/Bus/TakeBackup"> <i class=""></i> Take Backup </a></li>
+                                <li> <a href="/Bus/RestoreData"> <i class=""></i> Restore Backup </a></li>
+
+
+                                @*<li> <a href="/AccessOfUserPost/UserPost"> <i class=""></i> User Post </a></li>
+        <li> <a href="/PrintDocumentSetting/PrintDocument"> <i class=""></i> Print Document </a></li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Setting -->
+            <li class="nav-item dropdown NoTrans">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   @FabulousErp.BusController.Translate("Setting") <i class="fa fa-cog"></i>
+                </a>
+                <div class="dropdown-menu financial-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+                                @*<li class="dropdown-header text-danger font-weight-bold bg-header"> Financial </li>
+
+                                    <li> <a href="/C_CreateAnalyticAccounts/CompanyAnalyticAccounts"> <i class=""></i> Company Analytic Account </a></li>
+                                    <li> <a href="/C_CreateCostCenter/CompanyCostCenter"> <i class=""></i> Company Cost Center </a></li>
+                                    <li> <a href="/C_AnalyticAccountDistribution/CompanyAnalyticDistribution"> <i class=""></i> Company Analytic Account Distribution </a></li>
+                                    <li> <a href="/C_CreateAccount/CompanyAccount"> <i class=""></i> Company Create Account </a></li>
+                                    <li> <a href="/C_CreateCostCenterAccounts/CompCCAccounts"> <i class=""></i> Company Cost Center Accounts </a></li>
+                                    <li> <a href="/C_CreateMainCostCenter/CompMainCostCenter"> <i class=""></i> Company Main Cost Center </a></li>
+                                    <li> <a href="/C_UpdateMainCostCenter/CompUpdateGroupCC"> <i class=""></i> Update Company Main Cost Center </a></li>
+                                    <li> <a href="/C_AddDistToAccount/DistToCompAccount"> <i class=""></i> Add Distribution Account To Company </a></li>
+                                    <li> <a href="/C_AddCostAccountToAccount/CostAccountToCompAccount"> <i class=""></i> Add Cost Account To Company Account </a></li>
+                                    <li> <a href="/C_CheckBookSetting/CompanyCheckBook"> <i class=""></i> Company Checkbook Setting </a></li>
+                                    <li> <a href="/C_LinkAnalyticToAccount/CompanyLinkAnalyticToAccount"> <i class=""></i> Company Link Analytic To Account ID </a></li>*@
+
+
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">Account</li>
+                                <li> <a href="/C_CreateAccount/CompanyAccount"> <i class=""></i> Company Create Account </a></li>
+                                <li> <a href="/BPC/RowSettings?RptType=BallanceSheet"> <i class=""></i> Balance Sheet Setting </a></li>
+                                <li> <a href="/BPC/RowSettings?RptType=PL"> <i class=""></i> PL Setting </a></li>
+                                <li> <a href="/BPC/RowSettings?RptType=CashFlow"> <i class=""></i> Cash Flow Setting </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">Analytic</li>
+                                <li> <a href="/C_CreateAnalyticAccounts/CompanyAnalyticAccounts"> <i class=""></i> Company Analytic Account </a></li>
+                                <li> <a href="/C_AnalyticAccountDistribution/CompanyAnalyticDistribution"> <i class=""></i> Create Analytic Company Distribution </a></li>
+                                <li> <a href="/C_AddDistToAccount/DistToCompAccount"> <i class=""></i> Add Distribution Account To Company </a></li>
+                                <li> <a href="/C_LinkAnalyticToAccount/CompanyLinkAnalyticToAccount"> <i class=""></i> Company Link Analytic To Account ID </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">Fixed Assets</li>
+                                <li>@Html.ActionLink("Assets_class", "Index", "Assets_class", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Assets_main", "Index", "Assets_main", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Assets", "Index", "Assets", new { area = "FixedAssets", Setting = "Edit" }, new { })</li>
+                                <li>@Html.ActionLink("Book", "Create", "Books", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Deprecation Setting", "Index", "Deprecation_Setting", new { area = "FixedAssets" }, new { })</li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">CheckBook</li>
+                                <li> <a href="/C_CheckBookSetting/CompanyCheckBook"> <i class=""></i> Company Checkbook Setting </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Payable
+                                </li>
+                                <li>
+                                    <a href="/Payable/Genral_setting/Edit">Genral setting</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Group_setting">Payable Group setting</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Creditor_setting">Vendore setting</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payment_term">Payment term</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Shipping_method">Shipping Method</a>
+                                </li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Receivable
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Genral_setting/Edit">Genral setting</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Group_setting">Receivable Group setting</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Creditor_setting">Customer setting</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Payment_term">Payment term</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Shipping_method">Shipping Method</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <!-- Settings -->
+            <!-- Transcations -->
+            <li class="nav-item dropdown NoTrans" data-class="MainHeaderTransaction">
+                <a class="nav-link dropdown-toggle NoTrans" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  @FabulousErp.BusController.Translate("Transactions") <i class="fa fa-exchange"></i>
+                </a>
+                <div class="dropdown-menu financial-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+
+                                @*<li class="dropdown-header text-danger font-weight-bold bg-header">Company</li>
+                                    <li> <a href="/C_CreateBatch/CompanyCreateBatch"> Company Create Batch </a></li>
+                                    <li> <a href="/C_CreateBatch/CompanyBatchApproval"> Company Batch Approval </a></li>
+                                    <li> <a href="/C_CreateBatch/CompanyMultiBatchesPost"> Company Multi Batches Post </a></li>
+                                    <li> <a href="/C_GeneralEntryTransaction/CompanyGETransaction"> General Entry Transaction </a> </li>
+                                    <li> <a href="/C_GeneralEntryTransaction/AdjustmentGETransaction"> Adjustment General Entry Transaction </a> </li>
+                                    <li> <a href="/C_GeneralEntryTransaction/CompanyShowTransactions"> Show Company Transactions </a> </li>
+                                    <li> <a href="/C_GeneralEntryTransaction/CompanyVoidTransactions"> Void General Transactions </a> </li>
+                                    <li> <a href="/C_CashReciept/CompanyCashReciept"> Cash Reciept </a> </li>
+                                    <li> <a href="/C_CashWithdraw/CompanyCashWithdraw"> Cash Withdraw </a> </li>
+                                    <li> <a href="/C_BankCheckReceived/CompanyBankCheckReceived"> Bank Check-Received </a> </li>
+                                    <li> <a href="/C_BankCheckOut/CompanyBankCheckOut"> Bank Check-Out </a> </li>
+                                    <li> <a href="/CheckbookTransfer/Index"> Checkbook Transfer </a> </li>
+                                    <li> <a href="/BankReconcile/Index"> Bank Reconcile </a> </li>
+                                    <li> <a href="/CheckbookRevaluate/Revaluate"> Checkbook Revaluate </a> </li>
+                                    <li> <a href="/C_CheckbookVoid/Cash"> Cash Reciept/Withdraw Void </a> </li>
+                                    <li> <a href="/C_CheckbookVoid/Bank"> Bank Check-out/Received Void</a> </li>
+                                    <li> <a href="/C_CheckbookVoid/Transfer"> Checkbook Transfer Void</a> </li>
+                                    <li> <a href="/C_TaxTransaction/CompanyTaxTransaction"> Company Purchase Tax</a> </li>
+                                    <li> <a href="/C_CheckTransfer/CompanyCheckTransfer"> Check Transfer</a> </li>
+                                    <li> <a href="/C_CheckbookVoid/Check"> Check Void Transfer</a> </li>*@
+
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Accounting
+                                </li>
+                                <li> <a href="/C_CreateBatch/CompanyCreateBatch"> Company Create Batch </a> </li>
+                                <li> <a href="/C_CreateBatch/CompanyBatchApproval"> Company Batch Approval </a></li>
+                                <li> <a href="/C_CreateBatch/CompanyMultiBatchesPost"> Company Multi Batches Post </a></li>
+                                <li> <a href="/C_GeneralEntryTransaction/CompanyGETransaction"> General Entry Transaction </a> </li>
+                                <li> <a href="/C_GeneralEntryTransaction/AdjustmentGETransaction"> Adjustment General Entry Transaction </a> </li>
+                                <li> <a href="/C_GeneralEntryTransaction/CompanyShowTransactions"> Show Company Transactions </a> </li>
+                                <li> <a href="/C_GeneralEntryTransaction/CompanyVoidTransactions"> Company Void General Transactions </a> </li>
+                                <li> <a href="/C_TaxTransaction/CompanyTaxTransaction"> Purchase tax </a> </li>
+                                <li> <a href="/C_TaxTransaction/CompanyTaxTransaction?Tax=Sales"> Sales tax </a> </li>
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Fixed Assets
+                                </li>
+                                <li>@Html.ActionLink("Create Assets", "Create", "Assets", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Fixed assets renewal", "Create", "Fixed_assets_renewal", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Fixed assets disposel", "Create", "Fixed_assets_disposel", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Depreciation", "Create", "Deprecations", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Fixed assets revaluate", "Create", "Fixed_assets_revaluate", new { area = "FixedAssets" }, new { })</li>
+
+
+                                <li>@Html.ActionLink("Void Assets", "Index", "Assets", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+
+                                <li>@Html.ActionLink("Void Fixed assets renewal", "Index", "Fixed_assets_renewal", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                <li>@Html.ActionLink("Void Fixed assets disposel", "Index", "Fixed_assets_disposel", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                <li>@Html.ActionLink("Void Depreciation", "Index", "Deprecations", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                <li>@Html.ActionLink("Void Fixed assets revaluate", "Index", "Fixed_assets_revaluate", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    CheckBook
+                                </li>
+                                <li> <a href="/C_CashReciept/CompanyCashReciept"> Cash Reciept </a> </li>
+                                <li> <a href="/C_CashWithdraw/CompanyCashWithdraw"> Cash Withdraw </a> </li>
+                                <li> <a href="/C_BankCheckReceived/CompanyBankCheckReceived"> Bank Check-Received </a> </li>
+                                <li> <a href="/C_BankCheckOut/CompanyBankCheckOut"> Bank Check-Out </a> </li>
+                                <li> <a href="/CheckbookTransfer/Index"> Cash Transfer </a> </li>
+                                <li> <a href="/C_CheckTransfer/CompanyCheckTransfer"> Check Transfer</a> </li>
+                                <li> <a href="/BankReconcile/Index"> Bank Reconcile </a> </li>
+                                <li> <a href="/CheckbookRevaluate/Revaluate"> Checkbook Revaluate </a> </li>
+                                <li> <a href="/C_CheckbookVoid/Cash"> Cash Reciept/Withdraw Void </a> </li>
+                                <li> <a href="/C_CheckbookVoid/Bank"> Bank Check-out/Received Void</a> </li>
+                                <li> <a href="/C_CheckbookVoid/Transfer"> Cash Transfer Void</a> </li>
+                                <li> <a href="/C_CheckbookVoid/Check"> Check Void Transfer</a> </li>
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Payable
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payable_transaction/Create">Payable transaction</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payable_payment/Create">Payable payment</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Assign_payable_doc/Create">Assign Payable Doc</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payable_transaction?section=void">Void Payable Transaction</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payable_payment?section=void">Void Payment</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Assign_payable_doc?section=void">Void Assign</a>
+                                </li>
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Receivable
+                                </li>
+
+                                <li>
+                                    <a href="/Receivable/Receivable_transaction/Create">Receivable transaction</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Receivable_payment/Create">Receivable payment</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Assign_Receivable_doc/Create">Assign Receivable Doc</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Receivable_transaction?section=void">Void Receivable Transaction</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Receivable_payment?section=void">Void Payment</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Assign_Receivable_doc?section=void">Void Assign</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <!-- transactions -->
+            <!-- Inquiry -->
+            <li class="nav-item dropdown NoTrans" data-class="MainHeaderInquiry">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Inquriy <i class="fa fa-tv"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li class="NoTrans">
+                        <a class="dropdown-item dropdown-toggle" href="#">Financial</a>
+                        <div class="dropdown-menu Inquiry-content">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <ul class="list-unstyled">
+                                        <li class="dropdown-header text-center ul-header">General Setting</li>
+                                        <li> <a href="/Inquiry_CompanySetup/CompanyInformation"> <i class=""></i> Company Setup </a></li>
+                                        <li> <a href="/Inquiry_CompanyAccess/CompanyAccess"> <i class=""></i> Company Access </a></li>
+                                        @*<li> <a href="/Inquiry_BranchAccess/BranchAccess"> <i class=""></i> Branch Access </a></li>*@
+                                        @*<li> <a href="/Inquiry_FactoryAccess/FactoryAccess"> <i class=""></i> Factory Access </a></li>*@
+                                        <li> <a href="/Inquiry_UserData/ShowListofUsers"> <i class=""></i> List of users </a></li>
+                                        <li> <a href="/Inquiry_UserProfile/Accountprofile"> <i class=""></i> Accounts Profile </a></li>
+                                        <li> <a href="/AllFiscalPeriods/ShowFiscalPeriods"> <i class=""></i> Show Fiscal Periods </a></li>
+                                        <li> <a href="/Inquiry_TaxSchedule/TaxSchedule"> <i class=""></i> Tax Schedule </a></li>
+                                        <li> <a href="/Inquiry_CompanyTax/CompanyTax"> <i class=""></i> Company Tax </a></li>
+                                        @*<li> <a href="/Inquiry_BranchTax/BranchTax"> <i class=""></i> Branch Tax </a></li>
+                                          <li> <a href="/Inquiry_FactoryTax/FactoryTax"> <i class=""></i> Factory Tax </a></li>*@
+                                    </ul>
+                                </div>
+                                <div class="col-sm-7">
+                                    <ul class="list-unstyled">
+                                        <li class="dropdown-header text-center ul-header">Accounting</li>
+
+                                        <li class="dropdown-header text-danger font-weight-bold bg-header">Company</li>
+                                        <li> <a href="/Inquiry_AccountChart/ListAccountChart"> <i class=""></i> Chart Of Account List  </a></li>
+                                        <li> <a href="/Inquiry_CompanyAnalytic/CompanyAnalyticAccount"> <i class=""></i> Company Analytic </a></li>
+                                        <li> <a href="/Inquiry_CompanyCostCenter/CompanyCostCenter"> <i class=""></i> Company Cost Center </a></li>
+                                        <li> <a href="/Inquiry_CurrencyList/CurrencyList"> <i class=""></i> List Of Currencies </a></li>
+                                        <li> <a href="/Inquiry_CompanyAnalyticDistribution/CompanyAnalyticDistribution"> <i class=""></i> Company Analytic Distribution </a></li>
+                                        <li> <a href="/Inquiry_CompanyCostCenterAccounts/CompanyCenterAccounts"> <i class=""></i> Company Cost Center Accounts  </a></li>
+                                        <li> <a href="/Inquiry_ICCOA/CompanyChartOfAccounts"> <i class=""></i> Company Chart Of Accounts </a></li>
+                                        <li> <a href="/Inquiry_CheckbookSetting/CompanyCB"> <i class=""></i> Inquiry OF Checkbook </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/Cash"> <i class=""></i> Inquiry OF Checkbook Transactions </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CashInquiry"> <i class=""></i> Cash Reciept/Withdraw Transactions </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CashVoidInquiry"> <i class=""></i> Cash Reciept/Withdraw Void Transactions </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/BankInquiry"> <i class=""></i> Bank Check-out/Received Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/BankVoidInquiry"> <i class=""></i> Bank Check-out/Received Void Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/Transfer"> <i class=""></i> Checkbook Transfer Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/TransferVoidInquiry"> <i class=""></i> Checkbook Transfer Void Transactions</a></li>
+                                        <li> <a href="/Inquiry_CompanyJETransactionsDetails/AccountDetails"> <i class=""></i> Inquiry OF Company Transaction Account Details </a></li>
+                                        <li> <a href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountDetails"> <i class=""></i> Inquiry OF Company Transaction Historical Account Details </a></li>
+                                        <li> <a href="/Inquiry_CompanyJETransactionsDetails/AccountSummary"> <i class=""></i> Inquiry OF Company Transaction Account Summary </a></li>
+                                        <li> <a href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountSummary"> <i class=""></i> Inquiry OF Company Transaction Historical Account Summary </a></li>
+                                        <li> <a href="/Inquiry_CompanyJETransactionsDetails/TransactionDetails"> <i class=""></i> Inquiry OF Company Transaction Details </a></li>
+                                        <li> <a href="/Inquiry_CompanyJETransactionsDetails/BatchSecurity"> <i class=""></i> Inquiry OF Company Batches Security </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CheckInquiry"> <i class=""></i> Inquiry Of Check Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CheckVoidInquiry"> <i class=""></i> Inquiry Of Check Void Transactions</a></li>
+
+
+                                        @*<li class="dropdown-header text-danger font-weight-bold bg-header">Branch</li>
+                                            <li> <a href="/Inquiry_BranchAnalytic/BranchAnalyticAccount"> <i class=""></i> Branch Analytic </a></li>
+                                            <li> <a href="/Inquiry_BranchCostCenter/BranchCostCenter"> <i class=""></i> Branch Cost center </a></li>
+                                            <li> <a href="/Inquiry_BranchAnalyticDistribution/BranchAnalyticDistribution"> <i class=""></i> Branch Analytic Distribution </a></li>
+                                            <li> <a href="/Inquiry_BranchCostCenterAccounts/BranchCenterAccounts"> <i class=""></i> Branch Cost Center Accounts </a></li>
+                                            <li> <a href="/Inquiry_IBCOA/BranchChartOfAccounts"> <i class=""></i> Branch Chart Of Accounts  </a></li>
+                                            <li> <a href="/Inquiry_CheckbookSetting/BranchCB"> <i class=""></i> Inquiry OF Branch Checkbook </a></li>*@
+
+
+                                        @*<li class="dropdown-header text-danger font-weight-bold bg-header">Factory</li>
+                                            <li> <a href="/Inquiry_FactoryAnalytic/FactoryAnalyticAccount"> <i class=""></i> Factory Analytic </a></li>
+                                            <li> <a href="/Inquiry_FactoryCostCenter/FactoryCostCenter"> <i class=""></i> Factory Cost Center </a></li>
+                                            <li> <a href="/Inquiry_FactoryAnalyticDistribution/FactoryAnalyticDistribution"> <i class=""></i> Factory Analytic Distribution </a></li>
+                                            <li> <a href="/Inquiry_FactoryCostCenterAccounts/FactoryCenterAccounts"> <i class=""></i> Factory Cost Center Accounts </a></li>
+                                            <li> <a href="/Inquiry_IFCOA/FactoryChartOfAccounts"> <i class=""></i> Factory Chart Of Accounts </a></li>
+                                            <li> <a href="/Inquiry_CheckbookSetting/FactoryCB"> <i class=""></i> Inquiry OF Factory Checkbook </a></li>*@
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!-- Inquiry -->
+            <!-- Report -->
+            <li class="nav-item dropdown NoTrans" data-class="MainHeaderReport">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Report <i class="fa fa-print"></i>
+                </a>
+                <div class="dropdown-menu financial-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+
+                                @*<li class="dropdown-header text-danger font-weight-bold bg-header">Company</li>
+                                <li> <a href="/C_Reports/TrailBalance"> Trail Balance </a> </li>
+                                <li> <a href="/C_Reports/AccountDetails"> Account Details </a> </li>
+                                <li> <a href="/C_Reports/AvailableCash"> <i class=""></i> Available Cash </a></li>*@
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Accounting
+                                </li>
+                                <li> <a href="/C_Reports/TrailBalance"> <i class=""></i> Trail Balance </a></li>
+                                <li> <a href="/C_Reports/AccountDetails"> <i class=""></i> Account Details </a></li>
+                                <li> <a href="/C_Reports/AvailableCash"> <i class=""></i> Available Cash </a></li>
+                                <li> <a href="/BPC/BalanceSheetReport?RptType=BallanceSheet"> <i class=""></i> Balance Sheet Report </a></li>
+                                <li> <a href="/BPC/BalanceSheetReport?RptType=PL"> <i class=""></i> PL Report </a></li>
+                                <li> <a href="/BPC/BalanceSheetReport?RptType=CashFlow"> <i class=""></i> Cash Flow Report </a></li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Fixed Assets
+                                </li>
+                                <li>@Html.ActionLink("Stoking_assets", "Create", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Stocking Report", "StockingReport", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+
+                                <li>@Html.ActionLink("Deprecation_record", "Index", "Deprecation_record", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                <li>@Html.ActionLink("Year report", "Year", "Reports", new { area = "FixedAssets" }, new { })</li>
+
+
+
+                                <li>@Html.ActionLink("Delete Assets", "DeleteAssets", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Delete Assets Class", "DeleteAssetsClass", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                <li>@Html.ActionLink("Delete Assets Main", "DeleteAssetsMain", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Delete Renwal", "DeleteRenwal", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                <li>@Html.ActionLink("Delete disposel", "Deletedisposel", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                <li>@Html.ActionLink("Delete Revaluate", "DeleteRevaluate", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    CheckBook
+                                </li>
+
+                                <li>@Html.ActionLink("Books Report", "Bookreport", "Books", new { area = "FixedAssets" }, new { })</li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Payable
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payable_transaction?section=Report">Daily Payable transaction</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Payable_payment?section=Report">Daily Payable payment</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Assign_payable_doc?section=Report">Daily Assign Doc</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Reports/AgingRpt">Aging Report</a>
+                                </li>
+                                <li>
+                                    <a href="/Payable/Reports/ClasicAging">Clasic Aging Report</a>
+                                </li>
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Receivable
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Receivable_transaction?section=Report">Daily Receivable transaction</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Receivable_payment?section=Report">Daily Receivable payment</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Assign_Receivable_doc?section=Report">Daily Assign Doc</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Reports/AgingRpt">Aging Report</a>
+                                </li>
+                                <li>
+                                    <a href="/Receivable/Reports/ClasicAging">Clasic Aging Report</a>
+                                </li>
+
+
+                                <li class="dropdown-header text-danger font-weight-bold bg-header">
+                                    Tax
+                                </li>
+                                <li>
+                                    <a href="/TaxRpt/Purchase">Purchase Vat Tax Report </a>
+                                </li>
+                                <li>
+                                    <a href="/TaxRpt/Purchase?Tax=Sales">Sales Vat Tax Report </a>
+                                </li>
+                                <li>
+                                    <a href="/TaxRpt/WithHoldingTrans">With Holdeing Transaction </a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </li>
+            <!-- Report -->
+        </ul>
+        <!-- Links -->
+        <!-- Search -->
+        <form class="form-inline ml-2" id="seachForm" action="">
+            <input type="text" id="searchinput" placeholder="Search for forms..">
+            <button type="button" class="searchbtn ml-1" id="SearchFormsBtn"> <span class="fa fa-search"></span> </button>
+        </form>
+        <!-- Search -->
+        <!-- Account -->
+        <ul class="navbar-nav ml-auto" id="nav">
+
+            <li class="nav-item dropdown NoTrans">
+
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     @FabulousErp.Business.GetUserName() <span class="fa fa-user"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a class="dropdown-item" href="/AccountProfileInfo/AccountInfo">Profile</a>
+                        <a class="dropdown-item" href="/UserChangePassword/ChangePassword">Change Password</a>
+                        <a class="dropdown-item" href="/UserLogin/Logout">Sign Out</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="/Bus/SetLanguage?Lang=@FabulousDB.Models.Langs.English" style="color:#fff;">
+                    <span style="color:#fff;">English</span>
+                </a>
+            </li>
+            <li>
+                <div style="width:5px;"></div>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="/Bus/SetLanguage?Lang=@FabulousDB.Models.Langs.Arabic" style="color:#fff;">
+                    <span style="color:#fff;">العربية</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Account -->
+    </div>
+</nav>

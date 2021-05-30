@@ -1,0 +1,181 @@
+﻿<span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+<span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+<span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+<span class="hide-normal" id="TCGV-CheckPostingSetup">@ViewBag.CheckPostingSetup</span>
+<span class="hide-normal" id="TCGV-PT">@ViewBag.PT</span>
+<span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+
+<input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+<input type="text" id="TCGE-HardGurrencyFormate" class="hide-normal" />
+<input id="BostingToORThrow" class="hide" value="@FabulousErp.Business.PostingToOrThrow()" />
+
+
+<div class="mt-1">
+    <span id="TCS-NoAC" class="text-danger font-weight-bold"></span>
+    <table class="table table-bordered table-striped table-responsive-md" id="TCGE-GTbl">
+        <thead>
+            <tr>
+                <th>@FabulousErp.BusController.Translate("Action")</th>
+                <th>@FabulousErp.BusController.Translate("Account Name")</th>
+                <th>@FabulousErp.BusController.Translate("Doc").</th>
+                <th>@FabulousErp.BusController.Translate("Original Amount")</th>
+                <th>@FabulousErp.BusController.Translate("Debit")</th>
+                <th>@FabulousErp.BusController.Translate("Credit")</th>
+            </tr>
+        </thead>
+        <tbody id="TCGE-TTbl"></tbody>
+        <tfoot class="text-center">
+            <tr>
+                <th colspan="4" style="text-align:right">@FabulousErp.BusController.Translate("Total")</th>
+<th id="DebitTblFoot"></th>
+                <th id="CreditTblFoot"></th>
+            </tr>
+            <tr>
+                <th colspan="4" style="text-align:right">@FabulousErp.BusController.Translate("Difference")</th>
+<th colspan="2" id="DiffOfDAC"></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="modal fade" id="TCGE-PUShowAnalyticAccount" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4>@FabulousErp.BusController.Translate("Analytic Account")..</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped table-responsive-md" id="TCGE-ShowTblAccountAnalytic">
+                    <thead>
+                        <tr>
+                            <th>@FabulousErp.BusController.Translate("Distribution ID")</th>
+                            <th>@FabulousErp.BusController.Translate("Distribution Name")</th>
+                            <th>@FabulousErp.BusController.Translate("Percentage")</th>
+                            <th>@FabulousErp.BusController.Translate("Amount")</th>
+                            <th>@FabulousErp.BusController.Translate("Description")</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TCGE-ShowTAccountAnalytic"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" id="TCGE-PUAACancel" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="TCGE-PUShowCostCenter" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4>@FabulousErp.BusController.Translate("Cost Center")..</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+
+                <label class="hide-normal" id="TCGE-PUSHCCHS">
+                    <label>@FabulousErp.BusController.Translate("Cost Center ID") : </label> <label id="TCGE-PUSHCCCostID"></label>
+                </label>
+
+                <label class="hide-normal" id="TCGE-PUSHMCCHS">
+                    <label>@FabulousErp.BusController.Translate("Main Cost Center ID") : </label> <label id="TCGE-PUSHCCMainCostID"></label>
+                </label>
+
+                <div class="mt-2">
+                    <table class="table table-bordered table-striped table-responsive-md" id="TCGE-TblShowCostCenter">
+                        <thead>
+                            <tr>
+                                <th>@FabulousErp.BusController.Translate("Cost Account ID")</th>
+                                <th>@FabulousErp.BusController.Translate("Cost Account Name")</th>
+                                <th>@FabulousErp.BusController.Translate("Percentage")</th>
+                                <th>@FabulousErp.BusController.Translate("Amount")</th>
+                                <th>@FabulousErp.BusController.Translate("Description")</th>
+                            </tr>
+                        </thead>
+                        <tbody id="TCGE-TShowCostCenter"></tbody>
+                    </table>
+
+                    <table class="table table-bordered table-striped table-responsive-md hide-normal" id="TCGE-TblShowMainCostCenter">
+                        <thead>
+                            <tr>
+                                <th>@FabulousErp.BusController.Translate("Cost Center ID")</th>
+                                <th>@FabulousErp.BusController.Translate("Cost Center Percentage")</th>
+                                <th>@FabulousErp.BusController.Translate("Cost Account ID")</th>
+                                <th>@FabulousErp.BusController.Translate("Cost Account Name")</th>
+                                <th>@FabulousErp.BusController.Translate("Percentage")</th>
+                                <th>@FabulousErp.BusController.Translate("Amount")</th>
+                                <th>@FabulousErp.BusController.Translate("Description")</th>
+                            </tr>
+                        </thead>
+                        <tbody id="TCGE-TShowMainCostCenter"></tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" id="TCGE-PUCCCancel" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped table-responsive hide-normal" id="TCGE-TDBAnalytic">
+    <thead>
+        <tr>
+            <th>@FabulousErp.BusController.Translate("Analytic Account ID")</th>
+            <th>@FabulousErp.BusController.Translate("c_DistID")</th>
+            <th>@FabulousErp.BusController.Translate("Account Distribution ID")</th>
+            <th>@FabulousErp.BusController.Translate("Account Distribution Name")</th>
+            <th>@FabulousErp.BusController.Translate("AccountID")</th>
+            <th>@FabulousErp.BusController.Translate("Description")</th>
+            <th>@FabulousErp.BusController.Translate("Percentage")</th>
+            <th>@FabulousErp.BusController.Translate("Amount")</th>
+            <th>@FabulousErp.BusController.Translate("Debit")</th>
+            <th>@FabulousErp.BusController.Translate("Credit")</th>
+        </tr>
+    </thead>
+    <tbody id="TCGE-TAccountAnalyticDB"></tbody>
+</table>
+
+<table class="table table-bordered table-striped table-responsive hide-normal" id="TCGE-TDBCost">
+    <thead>
+        <tr>
+            <th>@FabulousErp.BusController.Translate("Cost Center ID")</th>
+            <th>@FabulousErp.BusController.Translate("c_CAID")</th>
+            <th>@FabulousErp.BusController.Translate("Cost Account ID")</th>
+            <th>@FabulousErp.BusController.Translate("Cost Account Name")</th>
+            <th>@FabulousErp.BusController.Translate("AccountID")</th>
+            <th>@FabulousErp.BusController.Translate("Describtion")</th>
+            <th>@FabulousErp.BusController.Translate("Percentage")</th>
+            <th>@FabulousErp.BusController.Translate("Amount")</th>
+            <th>@FabulousErp.BusController.Translate("Debit")</th>
+            <th>@FabulousErp.BusController.Translate("Credit")</th>
+            <th>@FabulousErp.BusController.Translate("CostCType")</th>
+            <th>@FabulousErp.BusController.Translate("MainCCID")</th>
+            <th>@FabulousErp.BusController.Translate("CCIDPercentage")</th>
+            <th>@FabulousErp.BusController.Translate("CostCenterName")</th>
+        </tr>
+    </thead>
+    <tbody id="TCGE-TCostCenterAccountDB"></tbody>
+</table>
+
+
+<div class="modal fade" id="TCGE-PUMoreDetailsRecord">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <label>@FabulousErp.BusController.Translate("Account ID") :</label>
+                <label id="TCGE-PUMDAccID"></label>
+                <br />
+                <label>@FabulousErp.BusController.Translate("Description") :</label>
+                <label id="TCGE-PUMDDes"></label>
+            </div>
+        </div>
+    </div>
+</div>
+

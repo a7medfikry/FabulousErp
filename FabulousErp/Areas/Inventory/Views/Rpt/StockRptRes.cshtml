@@ -1,0 +1,45 @@
+﻿@model IEnumerable<FabulousModels.Inventory.StockRpt>
+
+@{
+    ViewBag.Title = "StockRptRes";
+    Layout = null;
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Item_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UOM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Avaliable)
+        </th> 
+     
+    </tr>
+        </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Avaliable)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

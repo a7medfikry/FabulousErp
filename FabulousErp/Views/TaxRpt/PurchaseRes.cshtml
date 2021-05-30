@@ -1,0 +1,182 @@
+﻿@model List<FabulousErp.Tax.Purches_tax_rpt>
+@{
+    Layout = null;
+}
+<style>
+    table thead tr {
+        height: 25px;
+        background-color: cornflowerblue;
+        text-align: center;
+    }
+
+    .tfoot {
+        background-color: #a7c1d8;
+    }
+</style>
+@foreach (var ii in Model.GroupBy(x => x.Date.Month))
+{
+    <h3>
+        @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(ii.Key)
+
+    </h3>
+
+    {
+        <table style="direction:rtl;width:100%;" id="Tbl">
+            <thead>
+                <tr>
+                    <td>
+                        نوع المستند
+                    </td>
+                    <td class="hide">
+                        نوع الضريبة
+                    </td>
+                    @*<td>
+                            نوع سلع الضريبة
+                        </td>*@
+                    <td class="hide">
+                        نوع سلع الجدول
+                    </td>
+                    <td>
+                        رقم الفاتوره
+                    </td>
+                    <td>
+                        اسم المورد
+                    </td>
+                    <td class="hide">
+                        رقم التسجيل الضريبي للعميل
+                    </td>
+                    <td class="hide">
+                        رقم الملف الضريبي للعميل
+                    </td>
+                    <td class="hide">
+                        العنوان
+                    </td>
+                    <td class="hide">
+                        الرقم القومي
+                    </td>
+                    <td class="hide">
+                        رقم الموبيل
+                    </td>
+                    <td>
+                        تاريخ الفاتورة
+                    </td>
+                    <td>
+                        إسم المنتج
+                    </td>
+                    <td class="hide">
+                        نوع السلعة
+                    </td>
+                    <td>
+                        فئة الضريبة
+                    </td>
+                    <td>
+                        كمية المنتج
+                    </td>
+                    <td>
+                        المبلغ الصافي
+                    </td>
+                    <td>
+                        قيمة الضريبة
+                    </td>
+                    <td>
+                        إجمالي
+                    </td>
+                </tr>
+            </thead>
+
+            @foreach (FabulousErp.Tax.Purches_tax_rpt i in ii)
+            {
+                try
+                {
+                    <tr>
+                        <td class="TdDocType" data-value="@((int)i.Tax_doc_type)" data-text="@i.Tax_doc_type.ToString().Replace("_"," ")">
+                            @i.Tax_doc_type.ToString().Replace("_", " ")
+                        </td>
+                        <td class="hide">
+                            @((int)i.Tax_type)
+                        </td>
+                        @*<td>
+                                @((int)i.Item_type)
+                            </td>*@
+                        <td class="hide">
+                            @((int)i.Item_tbl_type)
+                        </td>
+                        <td>
+                            @i.Doc_num
+                        </td>
+                        <td>
+                            @i.Vendore_name
+                        </td>
+                        <td class="hide">
+                            @i.Tax_registration_num
+                        </td>
+                        <td class="hide">
+                            @i.Tax_file_num
+                        </td>
+                        <td class="hide">
+                            @i.Address
+                        </td>
+                        <td class="hide">
+                            @i.National_id
+                        </td>
+                        <td class="hide">
+                            @i.Mobile_num
+                        </td>
+                        <td>
+                            @i.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @i.Item_name
+                        </td>
+                        <td class="hide">
+                            @((int)i.Item_type)
+                        </td>
+                        <td>
+                            @i.Tax_cat
+                        </td>
+                        <td>
+                            @i.Item_quentaty
+                        </td>
+                        <td>
+                            @i.Net_amount.ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                        <td>
+                            @if (i.Tax_amount.HasValue)
+                            {
+                                @i.Tax_amount.Value.ToString(FabulousErp.Business.GetDecimalNumber())
+                            }
+                        </td>
+                        <td>
+                            @i.Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                    </tr>
+                }
+                catch
+                {}
+            }
+            <tr class="tfoot noExl">
+                <td colspan="7">
+                    Total
+                </td>
+                <td>
+                    @ii.Sum(x => x.Net_amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+                <td>
+                    @try
+                    {
+                        @ii.Sum(x => x.Tax_amount).Value.ToString(FabulousErp.Business.GetDecimalNumber())
+
+                    }
+                    catch
+                    {
+
+                    }
+                </td>
+                <td>
+                    @ii.Sum(x => x.Total).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+            </tr>
+        </table>
+    }
+
+}

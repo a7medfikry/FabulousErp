@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Group Access";
+    ViewBag.FormCode = "IGA";
+}
+
+<div class="container-fluid">
+    <div class="row mb-1">
+        <label class="col-md-12 text-danger"> Filter Your Search By : </label>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Group ID : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryGroupID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Group Name : </label>
+        <label class="col-md-3" id="GroupName"></label>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th> Group ID </th>
+                <th> User ID </th>
+                <th> User Name </th>
+            </tr>
+        </thead>
+        <tbody id="group-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/UserGroup/Inquiry_GroupAccess.js")

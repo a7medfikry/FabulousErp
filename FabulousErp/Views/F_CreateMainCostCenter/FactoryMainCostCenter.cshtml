@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Create Factory Main Cost Center";
+    ViewBag.FormCode = "SFMCC";
+}
+<div class="container-fluid">
+    <span class="text-error" id="AccessError"></span>
+    <span class="text-error" id="GlobalError"></span>
+
+    <div class="form-row mb-1" id="FactoryMainCC">
+        @if (FabulousErp.Business.GetCompanyId() != null )
+        {
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "FactoryID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="FactoryName" disabled />
+            </div>
+        }
+       
+    </div>
+
+    <div id="MainCostCenterDetails">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Group ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.TextBox("CostCenterGroupID", null, new { @id = "CostCenterGroupID", @maxlength = "20", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Group Name <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.TextBox("CostCenterGroupName", null, new { @id = "CostCenterGroupName", @maxlength = "100", @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-3">
+                <select class="form-control form-control-sm" id="rCosrCenterGroupID"></select>
+            </div>
+        </div>
+
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : <i class="star">*</i> </label>
+            <label class="col-md-2">
+                @Html.DropDownList("FactoryCostCenterID", new SelectList(""), "-Choose-", new { @id = "FactoryCostCenterID", @class = "form-control form-control-sm" })
+            </label>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : </label>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="FactoryCostCenterName" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Percentage % : <i class="star">*</i> </label>
+            <div class="col-md-1">
+                @Html.TextBox("Percentage", null, new { @id = "Percentage", @maxlength = "3", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+
+        <div class="row col-md-12 mb-1">
+            <div id="FactoryAddBtn">
+                <button class="btn btn-primary btn-sm" id="FactoryAddCostCenterID">Add</button>
+            </div>
+            <span id="ComparePercentage" class="hide-normal mt-1">
+                <label class="text-success" id="TakedPercentage"></label> % - From 100 %
+            </span>
+            <span class="text-error" id="PercentageError"></span>
+        </div>
+
+        <!-- Table Area Start -->
+        <table class="table table-bordered table-striped display nowrap" id="TestTable">
+            <thead>
+                <tr>
+                    <th>Cost Center ID</th>
+                    <th>Cost Center Name</th>
+                    <th>percentage %</th>
+                    <th>Action (Delete)</th>
+                </tr>
+            </thead>
+            <tbody id="CostCenterGroupTbl"></tbody>
+        </table>
+        <!-- Table Area Start -->
+
+        <div class="row col-md-12">
+
+            <div class="hide-normal" id="FactorySaveBtn">
+                <button class="btn btn-success btn-sm" id="FactorySaveCostCenterGroup">Save</button>
+            </div>
+
+            <span class="text-error" id="SaveError"></span>
+            <span class="text-success" id="SaveSuccess"></span>
+        </div>
+
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_CostCenter/F_CreateMainCostCenter/FactoryMainCostCenter.js")

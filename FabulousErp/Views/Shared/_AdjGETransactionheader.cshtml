@@ -1,0 +1,50 @@
+﻿<div class="collapse show" id="collapseFirst">
+    <div class="form-row mb-1">
+        @if (ViewBag.FromTCGE == true)
+        {
+            <div class="col-md-2 col-form-label col-form-label-sm"><span>Batch ID</span> : <button type="button" class="btn btn-primary btn-sm" id="TCGE-BtnPUNewBatch"> new Batch </button> </div>
+            <div class="col-md-2">
+                @Html.DropDownList("TCGE-BatchID", @ViewBag.BatchIDList as SelectList, "-Choose-", new { @id = "TCGE-BatchID", @class = "form-control form-control-sm" })
+            </div>
+        }
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Date : </label>
+        <div class="col-md-2">
+            @Html.TextBox("TCGE-JEDate", null, new { @id = "TCGE-JEDate", @type = "date", @class = "form-control form-control-sm" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : </label>
+        <div class="col-md-2">
+            @Html.TextBox("TCGE-PostingDate", null, new { @id = "TCGE-AdjPostingDate", @type = "date", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Currency : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCGE-CurrencyID", @ViewBag.CurrencyIDList as SelectList, "-Choose-", new { @id = "TCGE-CurrencyID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Reference : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="TCGE-Reference" maxlength="100" />
+        </div>
+
+    </div>
+    <div class="hide-normal" id="TCCR-rateField">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> System Rate : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-SystemRate" disabled />
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-TransactionRate" disabled />
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Difference : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-DiffrenceRate" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="form-row mb-2">
+    <span class="hide-normal" id="IADI-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <input class="hide-normal" type="text" id="IADI-GurrencyFormate" />
+    <input class="hide-normal" type="text" id="IADI-HardGurrencyFormate" />
+
+    <label class="col-md-1 col-form-label col-form-label-sm">Account ID :</label>
+    <div class="col-md-3">
+        @Html.DropDownList("IADI-AnalyticsGroup", ViewBag.AnalyticsGroup as SelectList, "-Choose-", new { @id = "IADI-AnalyticsGroup", @class = "form-control form-control-sm" })
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm">Account ID :</label>
+    <div class="col-md-3">
+        <select id="IADI-AnaylticDis" class="form-control form-control-sm"></select>
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm">Year :</label>
+    <div class="col-md-2">
+        @Html.DropDownList("IADI-Year", ViewBag.YearList as SelectList, "-Choose-", new { @id = "IADI-Year", @class = "form-control form-control-sm" })
+    </div>
+    <label class="col-md-2 col-form-label col-form-label-sm"> Date : </label>
+    <div class="col-md-1">
+        <div class="custom-control custom-radio">
+            <input type="radio" name="date" id="IADI-allDate" class="custom-control-input" />
+            <label class="custom-control-label" for="IADI-allDate">All</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="custom-control custom-radio">
+            <input type="radio" name="date" id="IADI-fromDate" class="custom-control-input" />
+            <label class="custom-control-label" for="IADI-fromDate">From / To :</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <input type="date" class="form-control form-control-sm" id="IADI-startDate" disabled />
+    </div>
+    <div class="col-md-2">
+        <input type="date" class="form-control form-control-sm" id="IADI-endDate" disabled />
+    </div>
+</div>
+
+<script>
+    $("#IADI-AnalyticsGroup").change(function () {
+        var ThisId = $(this).val();
+        $.ajax({
+            url: "@Url.Action("GetAnaylticsDis")?AnaylticId=" + ThisId,
+            method: "POST",
+            success: function (data) {
+                $("#IADI-AnaylticDis").empty();
+                $("#IADI-AnaylticDis").append("<option value=''>All</option>");
+
+                $.each(data,function (k,i) {
+                    $("#IADI-AnaylticDis").append("<option value='"+i.id+"'>"+i.name+"</option>");
+                })
+            }
+        })
+    })
+    $("input[type='radio'][name='date']").change(function () {
+        if ($("#IADI-fromDate").is(":checked")) {
+            $("#IADI-startDate").removeAttr("disabled")
+            $("#IADI-endDate").removeAttr("disabled")
+            $("#IADI-startDate").attr("min", "" + $("#IADI-Year").find("option:selected").text() + "-01-01")
+            $("#IADI-startDate").attr("max", "" + $("#IADI-Year").find("option:selected").text() + "-12-01")
+            $("#IADI-endDate").attr("min", "" + $("#IADI-Year").find("option:selected").text() + "-01-01")
+            $("#IADI-endDate").attr("max", "" + $("#IADI-Year").find("option:selected").text() + "-12-01")
+            $("#IADI-startDate").trigger("change")
+            $("#IADI-endDate").trigger("change")
+        } else {
+            $("#IADI-startDate").attr("disabled", "disabled")
+            $("#IADI-endDate").attr("disabled", "disabled")
+        }
+    })
+</script>

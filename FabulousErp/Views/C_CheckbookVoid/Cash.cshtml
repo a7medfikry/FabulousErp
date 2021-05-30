@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Cash Reciept/Withdraw Void";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCVC";
+}
+<div class="container-fluid">
+
+    <!-- Span For Void-Transaction Check -->
+    <span id="C_CBT" hidden></span>
+    <span id="C_DocumentType" hidden></span>
+    <span id="documentNumberName" hidden></span>
+    <span id="C_TransactionDate" hidden></span>
+    <span id="C_PostingDate" hidden></span>
+
+    <button class="btn btn-primary btn-sm" id="CBT-Void"> Void </button>
+    <button class="btn btn-secondary btn-sm" id="TCGE-Reset"> Clear </button>
+
+    <span class="text-error" id="TCGE-GlobalError"></span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Document Number : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("documentNumberVoid", ViewBag.DocumentNumber as SelectList, "-Choose-", new { @id = "TCGV-JENum", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "...", new { @id = "CBT-checkbookID", @class = "form-control form-control-sm", @disabled = "disabled" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+        <div class="col-md">
+            <input type="text" class="form-control form-control-sm" id="CBT-checkbookName" disabled />
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Currency : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCGE-CurrencyID", ViewBag.CurrencyIDList as SelectList, "...", new { @id = "TCGE-CurrencyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="TCGE-JEDate" />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="TCGE-PostingDate" />
+        </div>
+    </div>
+    <div class="hide-normal" id="TCCR-rateField">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> System Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-SystemRate" readonly />
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-TransactionRate" readonly />
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Difference : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-DiffrenceRate" readonly />
+            </div>
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Reference : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="TCGE-Reference" />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Received From/Pay To : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="CBT_receivedFrom_payTo" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Amount : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="CBT-amount" disabled />
+        </div>
+    </div>
+
+    @Html.Partial("_MainVoidTransaction")
+
+</div>
+
+
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/ShowTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/VoidTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransactionVoid_Script.js")

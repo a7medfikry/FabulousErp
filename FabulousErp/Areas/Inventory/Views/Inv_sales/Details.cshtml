@@ -1,0 +1,83 @@
+﻿@model FabulousDB.Models.Inv_sales
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inv_sales</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Items.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Items.Item_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sales_person)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sales_person)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Within_days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Within_days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request_from)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

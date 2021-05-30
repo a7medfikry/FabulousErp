@@ -1,0 +1,83 @@
+﻿@using Payable.Controllers
+@model VendoreBalance
+@{
+    Layout = null;
+
+}
+
+<table style="width:100%;">
+    <thead>
+        <tr>
+            <th>
+                Period Name
+            </th>
+            <th>
+                Amount
+            </th>
+        </tr>
+    </thead>
+    @foreach (Payable_aging_period i in Model.Aging)
+    {
+        <tr>
+            <td>
+                @i.Name
+            </td>
+            <td>
+                @i.Amount.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+    }
+    <tr style="background:transparent;">
+        <td>
+            Total
+        </td>
+        <td>
+            @Model.Aging.Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+</table>
+
+<table style="margin-top:20px;width:100%;">
+    <thead>
+        <tr>
+            <th>
+                Vendore
+            </th>
+            <th>
+                Number Of Transactions
+            </th>
+            <th>
+                Amount Of Transactions
+            </th>
+            <th>
+                Number Of Payment
+            </th>
+            <th>
+                Amount Of Payment
+            </th>
+        </tr>
+    </thead>
+    @foreach (List<TrxPayNumber> V in Model.TrxPayNumber.GroupBy(x => x.Vendor_id).Select(x => x.ToList()))
+    {
+        <tr>
+
+            <td>
+                @V.FirstOrDefault().Vendore_name
+            </td>
+            <td>
+                @V.Count(x => x.IsTrx == true)
+
+            </td>
+            <td>
+                @V.Sum(x => x.Amount_of_transaction).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+            <td>
+                @V.Count(x =>x.IsTrx==false)
+            </td>
+            <td>
+                @V.Sum(x => x.Amount_of_payment).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,204 @@
+﻿@model FabulousDB.Models.Inv_po_items
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm(new AjaxOptions { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Item_id, "Item id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Item_id", null,"", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Item_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label id="ItemName"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UOM_id, "UOM Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UOM_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UOM_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control",step="0.1",type="number",min="0" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit_price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unit_price, new { htmlAttributes = new { @class = "form-control maskmoney " } })
+                @Html.ValidationMessageFor(model => model.Unit_price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Total, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control maskmoney",@disabled= "disabled" } })
+                @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Amount_system_currency, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount_system_currency, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Amount_system_currency, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Net_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Net_amount, new { htmlAttributes = new { @class = "form-control maskmoney", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Net_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Table_vat_id, "Table vat id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Table_vat_id" name="Table_vat_id" class = "form-control">
+                    <option></option>
+                    @foreach (FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.Tax.
+                        C_TaxSetting_table i in ViewBag.Table_vat_id as List<FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.Tax.C_TaxSetting_table>)
+                    {
+                        <option value="@i.CT_ID" data-value="@i.C_Taxpercentage">@i.C_Taxcode</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Table_vat_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Table_vat_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+           
+                @Html.EditorFor(model => model.Table_vat_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Table_vat_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vat_id, "Vat_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Vat_id" name="Vat_id" class="form-control">
+                    <option></option>
+                    @foreach (FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.Tax.
+                        C_TaxSetting_table i in ViewBag.Vat_id as List<FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.Tax.C_TaxSetting_table>)
+                    {
+                        <option value="@i.CT_ID" data-value="@i.C_Taxpercentage">@i.C_Taxcode</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Vat_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vat_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Vat_amount,"", new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Vat_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deduct_id, "Deduct_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Deduct_id" name="Deduct_id" class="form-control">
+                    <option></option>
+                    @foreach (FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.Tax.
+                        C_TaxSetting_table i in ViewBag.Deduct_id as List<FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.Tax.C_TaxSetting_table>)
+                    {
+                        <option value="@i.CT_ID" data-value="@i.C_Taxpercentage">@i.C_Taxcode</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Deduct_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deduct_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Deduct_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Deduct_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Po_id, "Po_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Po_id, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Po_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="reset" id="reset" class="hide" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("#Item_id").change(function () {
+        $.ajax({
+            url: "@Url.Action("GetItemName", "Inv_item")?Item_id=" + $(this).val(),
+            success: function(data) {
+                    $("#ItemName").text(data)
+            },
+            method:"POST"
+        });
+    })
+</script>
+<script>
+    $(document).on("change", "#Quantity,#Unit_priceMask",function () {
+        console.log(GetMaskNumber($("#Unit_priceMask").val()));
+        $("#TotalMask").val(parseFloat($("#Quantity").val()) * GetMaskNumber($("#Unit_priceMask").val())).trigger('mask.maskMoney').trigger("change");
+    });
+    $(document).on("change", "#DiscountMask", function () {
+        $("#Net_amountMask").val(GetMaskNumber($("#TotalMask").val()) - GetMaskNumber($("#DiscountMask").val())).trigger('mask.maskMoney').trigger("change");
+    });
+    $("#Table_vat_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        
+        $("#Table_vat_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    });
+    $("#Vat_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Vat_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    })
+    $("#Deduct_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Deduct_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    })
+</script>

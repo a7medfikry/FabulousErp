@@ -1,0 +1,424 @@
+﻿@model FabulousErp.Receivable.Models.Assign_Receivable_doc
+
+@{
+    ViewBag.Title = "Assign Document";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" class="CMCur" value="@ViewBag.companyID" />
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vendor_id, "Customer Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Vendor_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.Label("Vendor Name", "Name", htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-12">
+                @Html.Label("VendorNamelbl", " ", htmlAttributes: new { @class = "col-md-12", id = "VendorNamelbl" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Doc_type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.Doc_type, ViewBag.Doc_type as SelectList, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Doc_type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Trans_doc_type_id, "Payment", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 TransDiv">
+                @Html.DropDownList("Trans_doc_type_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Trans_doc_type_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Doc_Num, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Doc_Num, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Doc_Num, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Currency_id, " ", new { @id = "MainCurrency_id" })
+                @Html.Hidden("MainRate")
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Applay_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Applay_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.Applay_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Orginal_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Orginal_amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Orginal_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Applay_assign, "Assigned", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Applay_assign, "0", new { @class = "", data_value = "0", id = "AssignAmount" })
+                @Html.ValidationMessageFor(model => model.Applay_assign, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unassign_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Unassign_amount, $"{Model.Orginal_amount}", new { @class = "", id = "UnassignAmount" })
+                @Html.ValidationMessageFor(model => model.Unassign_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" id="Submit" value="Create" class="btn btn-success" />
+    </div>
+</div>
+<section class="Tbl">
+    @*@Html.Action("BelowTable")*@
+</section>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    $(document).on("change", "#Vendor_id,#Trans_doc_type_id", function () {
+        if ($("#Vendor_id").find("option:selected").val() && $("#Trans_doc_type_id").find("option:selected").val()) {
+             $.ajax({
+                url: "@Url.Action("BelowTable")?VendoreId=" + $("#Vendor_id").val(),
+                contentType: 'html',
+                success: function (data) {
+                    $(".Tbl").html(data);
+                    ReTranslateTh();
+                    MaskMoneyTxt("@ViewBag.companyID", null, IsoMask)
+                    CalcRemainBelowTable();
+                }
+            })
+        }
+    })
+    $(document).on("change", "#Vendor_id,#Doc_type", function () {
+        if ($("#Vendor_id").find("option:selected").val() && $("#Doc_type").find("option:selected").val()) {
+             $.ajax({
+            url: "@Url.Action("GetNameAndCBookById", "Creditor_setting")?id=" + $("#Vendor_id").find("option:selected").val(),
+
+            success: function (data) {
+                $("#VendorNamelbl").text(data.Name);
+            },
+            method:"POST"
+          })
+        $.ajax({
+                url: "@Url.Action("GetVendorIncoice")?VendorId=" + $("#Vendor_id").find("option:selected").val() + "&doc_type=" + $("#Doc_type").val(),
+                method: "POST",
+                success: function (data) {
+                      $("#Trans_doc_type_id").empty();
+                      $("#Trans_doc_type_id").append("<option value=''></option>");
+
+                      $.each(data, function (k, i) {
+                          $("#Trans_doc_type_id").append("<option value='" + i.Id + "'>" + i.Counter + "</option>");
+                      });
+                }
+          })
+        }
+    })
+    var IsoMask = "";
+    $(document).on("change", "#Trans_doc_type_id", function () {
+        $.ajax({
+            url: "@Url.Action("GetTransactionDetails")?TransTypeId=" + $(this).find("option:selected").val(),
+            method: "POST",
+            success: function (data) {
+                $("#Doc_Num").val(data.Doc_Num);
+                $("#Doc_Num").attr("readonly", "readonly");
+                $("#Orginal_amount").val(data.OA);
+                $("#AssignAmount").text(RoundNumber(data.AA,2))
+                $("#AssignAmount").attr("data-value",data.AA)
+                $("#Orginal_amount").attr("readonly", "readonly");
+                $("#UnassignAmount").text(RoundNumber(data.OA, 2) - RoundNumber(data.AA,2))
+                $("#MainCurrency_id").text(data.ISOCode);
+                $("#MainCurrency_id").attr("CurrId",data.Currency_id);
+                $("#MainRate").val(data.Rate);
+                MaskMoneyTxt("@ViewBag.companyID", null, data.ISOCode);
+                IsoMask = data.ISOCode;
+            }
+        })
+    })
+     $(function () {
+         MaskMoneyTxt("@ViewBag.companyID", null)
+         $("#Applay_date").replaceWith($("#TCGE-PostingDate"));
+         $("#TCGE-PostingDate").attr("name","Applay_date")
+         $("#TCGE-PostingDate").addClass("Applay_date");
+         var today = HandleDate(new Date());
+         $("#TCGE-PostingDate").val(today);
+
+    });
+</script>
+<script>
+    $("#Submit").click(function () {
+        var BostingToORThrow = 1;
+        var BatchId = "";
+        var postingDate = $("#TCGE-PostingDate").val();
+        CheckPostingDateInPeriods(postingDate, function (PostCheck) {
+            if (PostCheck) {
+                InsertTransactionData("@ViewBag.companyID", $("#BostingToORThrow").val(), $("#TCGE-PostingDate").val(), $("#TCGE-PostingDate").val(),"Applay Assign Document","@ViewBag.CompCurr", "1", "1", "PayAss", "PayAss", BatchId, "",
+                function (TransactionId) {
+                          SubmitDoc(TransactionId)
+                      }, null, null, function () {
+                          SubmitDoc(0)
+
+                      })
+            }
+        });
+
+
+    })
+    function SubmitDoc(Jr) {
+            var Doc = [];
+        $(".Tbl").find("table").find(".AssignInput:checked").each(function () {
+            Doc.push({
+                Trans_doc_type_id_to: $(this).attr("data-doc-id"),
+                Trans_doc_type_id: $("#Trans_doc_type_id").find("option:selected").val(),
+                Vendor_id: $("#Vendor_id").val(),
+                Doc_type: $("#Doc_type").find("option:selected").text(),
+                Currency_id: $("#MainCurrency_id").attr("currid"),// $(this).parents("tr").find(".Currency").attr("data-CurrId"),
+                Applay_date: $(".Applay_date").val(),
+                Orginal_amount: $("#Orginal_amount").val(),
+                Applay_assign: $(this).parents("tr").find(".AsignedAmount").first().val(),
+                Unassign_amount: $("#UnassignAmount").text(),
+                Earn_or_lose: $(this).parents("tr").find(".EarningOrLose").text(),
+                Taken_discount: $(this).parents("tr").find(".TakenDiscount").val(),
+                JournalEntry: Jr,
+                Transaction_rate: $("#MainRate").val()
+            })
+        })
+        $.ajax({
+            url: "@Url.Action("Create")",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            method:"POST",
+            data: JSON.stringify(Doc),
+            success: function (data) {
+                if (data == 1) {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+</script>
+
+<script>
+    $(document).on("change", ".AsignedAmount", function () {
+        var This = $(this);
+
+        var ThisCurr = $(This).parents("tr").find(".Currency").attr("data-CurrId");
+        var MainCurr = $("#MainCurrency_id").attr("CurrId");
+        var ThisRate = parseFloat($(this).parents("tr").find(".Rate").text());
+        var MainRate = $("#MainRate").val();
+        //var Rate = 1;
+        var OrginalAmount = 0;
+        var OrginalAmount = (parseFloat($(document).find("#Orginal_amount").val()) -
+            parseFloat($(document).find("#AssignAmount").attr("data-value")));
+
+        OrginalAmount = RoundNumber(OrginalAmount, 2);
+        var ThisTransactionTotal = $(This).parent("td").prev("td").prev("td").find(".TotalAmount").text();//CalcRate(parseFloat($(This).parent("td").prev("td").prev("td").find(".TotalAmount").text()), ThisRate, MainRate);
+        ThisTransactionTotal = parseFloat(ThisTransactionTotal);
+        if (MainCurr != ThisCurr) {
+
+            // OrginalAmount = CalcRate(OrginalAmount, MainRate, ThisRate );
+            ThisTransactionTotal = CalcRate(ThisTransactionTotal, ThisRate, MainRate);
+        }
+
+
+        //OrginalAmount = RoundNumber(OrginalAmount, 2)
+        var ThisInvBeforeAssigned = CalcRate($(This).parent("td").prev("td").find("label").text(), ThisRate, MainRate);
+        var AssignAmount = parseFloat($(This).val()); //CalcRate($(This).val(), ThisRate, MainRate);
+
+        var AssignedAmounts = 0;
+        var AssignedAmountsMinusThis = 0;
+
+        $(".Tbl").find("table").find(".AssignInput:checked").each(function () {
+            var MyThisCur = $(this).parents("tr").find(".Currency").attr("data-CurrId");
+            var AddedAmount = parseFloat($(this).parents("tr").find(".AsignedAmount").first().val());
+            //if (MainCurr != MyThisCur) {
+            //    AddedAmount = CalcRate(AddedAmount, ThisRate, MainRate);
+            //}
+            AssignedAmounts += AddedAmount;
+        })
+
+        AssignedAmounts = RoundNumber(AssignedAmounts, 2)
+
+        var ThisValue = $(This).val();
+        if (MainCurr != ThisCurr) {
+            ThisValue = CalcRate(ThisValue, ThisRate, MainRate)
+        }
+
+        AssignedAmountsMinusThis = RoundNumber(AssignedAmounts - ThisValue, 2);
+
+        if (OrginalAmount < AssignedAmounts) {
+            if ($("#UnassignAmount").val() < 0) {
+                $(This).next().val(0).trigger("keyup");
+            } else {
+                var ThisReal = RoundNumber(parseFloat(OrginalAmount) - parseFloat(AssignedAmountsMinusThis), 2);
+                if (ThisReal < 0) {
+                    ThisReal = 0;
+                }
+                var OrginalRemain = OrginalAmount;//RoundNumber(NoNegitiveSubtract(ThisInvBeforeAssigned, ThisTransactionTotal), 2);
+                $(".Tbl").find("table").find(".AssignInput:checked").each(function () {
+                    var MyThisCur = $(this).parents("tr").find(".Currency").attr("data-CurrId");
+                    var AddedAmount = parseFloat($(this).parents("tr").find(".AsignedAmount").first().val());
+                    var ThisMyIn = $(this).parents("tr").find(".AsignedAmount").first();
+                    if ($(ThisMyIn).attr("id") != $(This).attr("id")) {
+                        OrginalRemain -= AddedAmount;
+
+                    }
+                })
+                if (OrginalRemain < OrginalAmount) {
+
+                    $(This).next().val(OrginalRemain).trigger("keyup");
+                } else {
+                    $(This).next().val(OrginalAmount).trigger("keyup");
+                }
+            }
+
+        } else {
+
+            if ((ThisInvBeforeAssigned + AssignAmount) <= RoundNumber(ThisTransactionTotal, 2)) {
+                // - AssignedAmountsMinusThis
+
+                var Remaing = RoundNumber(ThisTransactionTotal - ThisInvBeforeAssigned - $(This).val(), 2);
+                if (isNaN(Remaing)) {
+                    Remaing = 0;
+                }
+                if (MainCurr != ThisCurr) {
+                    // Remaing = CalcRate(Remaing, MainRate, ThisRate)
+                }
+                // $(this).parent("td").next("td").find(".AmountRemaing").text(RoundNumber(CalcRate(Remaing, ThisRate, MainRate),2));
+                $(this).parent("td").next("td").find(".AmountRemaing").text(Remaing);
+            } else {
+                var ORBE = RoundNumber(ThisTransactionTotal - ThisInvBeforeAssigned, 2);
+                if (isNaN(ORBE)) {
+                    ORBE = 0
+                }
+                $(This).next().val(ORBE).trigger('keyup');
+                AssignedAmounts = ORBE;
+            }
+            var SetAssignAmount = RoundNumber(parseFloat($("#AssignAmount").attr("data-value")) + AssignedAmounts, 2);
+            $("#AssignAmount").text(parseFloat(SetAssignAmount));
+        }
+
+        var EarnLose = 0;
+        var ThisVal = parseFloat($(This).val());
+        if (ThisCurr != $(".CMCur").val()
+            && $(".CMCur").val() != MainCurr) {
+            var ThisTaken = $(This).parents("tr").find(".TakenDiscount").val();
+            ThisTaken = parseFloat(ThisTaken);
+            if (MainCurr == ThisCurr) {
+                var EarnLoseRate = ThisRate - MainRate;
+                EarnLose = EarnLoseRate * (ThisVal + ThisTaken);
+                $(This).parents("tr").find(".EarningOrLose").text(RoundNumber(EarnLose, 2));
+            } else {
+                var ThisMyAmount = (ThisVal + ThisTaken) * ThisRate;
+                var ThisMyMainAmount = (ThisVal + ThisTaken) * MainRate;
+                EarnLose = ThisMyAmount - ThisMyMainAmount;
+                $(This).parents("tr").find(".EarningOrLose").text(RoundNumber(EarnLose, 2));
+            }
+        }
+        $("#UnassignAmount").text(RoundNumber(parseFloat($("#Orginal_amount").val()) - parseFloat($("#AssignAmount").text()),2));
+    })
+    function CalcRemainBelowTable() {
+        var MainCurr = $("#MainCurrency_id").attr("CurrId");
+        var MainRate = $("#MainRate").val();
+
+        $(".Tbl").find("table").find("tr").each(function () {
+            var MyThisCur = $(this).find(".Currency").attr("data-CurrId");
+            ThisValue = $(this).find(".AmountRemaing").text();
+            if (MyThisCur) {
+                if (MainCurr != MyThisCur) {
+                    var ThisRate = parseFloat($(this).find(".Rate").text());
+                    $(this).find(".AmountRemaing").text(RoundNumber(CalcRate(ThisValue, ThisRate, MainRate), 2));
+                }
+            }
+        })
+    }
+
+</script>
+<section class="clearfix col-sm-12">
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+</section>
+
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(document).on("focusout", ".AsignedAmount,.TakenDiscount", function () {
+        GetJv();
+    });
+    function GetJv() {
+        var TakenDiscount = [];
+        var EarnAndLoss = [];
+        var TransactionRate = 1;
+        var Currencies = [];
+        var Rates = [];
+
+        var QueryStr = "";
+        var i = 0;
+        $(".Tbl").find("table").find("tr").not(".Head").each(function () {
+            if ($(this).find(".AssignInput").is(":checked")) {
+                TakenDiscount.push(parseFloat($(this).find(".TakenDiscount").val()));
+                EarnAndLoss.push(parseFloat($(this).find(".EarningOrLose").text()));
+                Currencies.push($(this).find(".Currency").attr("data-CurrId"));
+                Rates.push($(this).find(".Rate").text())
+                QueryStr += "&TakenDiscount[" + i + "]=" + parseFloat($(this).find(".TakenDiscount").val())
+                    + "&EarnAndLoss[" + i + "]=" + parseFloat($(this).find(".EarningOrLose").text())
+                    + "&Currencies[" + i + "]="+$(this).find('.Currency').attr('data-CurrId')
+                    + "&Rates[" + i + "]=" + $(this).find(".Rate").text()
+                    + "&MainCurr=" + $("#MainCurrency_id").attr("currid")
+                i++;
+            }
+        })
+
+        var Url = "@Url.Action("GetAssignEarnAndLose", "Receivable_gl_account")" + "?VendorId=" + $("#Vendor_id").find("option:selected").val() + QueryStr
+            
+            $.ajax({
+                url: Url,
+                method: "POST",
+                success: function (data) {
+                    EmptyGlTransaction();
+                    $.each(data, function (k, i) {
+                        ManyJvAction(i, false);
+                    })
+                }
+            })
+    }
+</script>

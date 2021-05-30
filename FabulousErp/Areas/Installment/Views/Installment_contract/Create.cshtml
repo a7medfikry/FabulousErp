@@ -1,0 +1,476 @@
+﻿@model FabulousDB.Models.Installment_contract
+
+@{
+    ViewBag.Title = "Installment Contract";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="ContractDiv">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contract_no, "Contract No", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract_no, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract_no, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Desc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Desc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group hide">
+            <div class="col-md-10">
+                <label>Payable</label>
+                <input type="radio" class="IsPay Pay v-middle" name="IsPay" value="true" />
+                <label>Receivable</label>
+                <input type="radio" class="IsPay Rec v-middle" name="IsPay" value="false" />
+            </div>
+        </div>
+        <br />
+        <div class="form-group vendorediv">
+            @Html.LabelFor(model => model.Vendore_id, "Vendore id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Vendore_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Vendore_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group customerdiv">
+            @Html.LabelFor(model => model.Customer_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Customer_id", null, "", htmlAttributes: new { @class = "form-control", id = "Vendor_id" })
+                @Html.ValidationMessageFor(model => model.Customer_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group customerdiv">
+            <div class="col-md-10">
+                <label id="VendorNamelbl"></label>
+            </div>
+        </div>
+
+        <div class="form-group vendoreinvoicesdiv" style="display:none;">
+            <label class="control-label col-md-2">Vendore invoices</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Vendore_invoices", null, "", htmlAttributes: new { @class = "form-control", multiple = "multiple" })
+                @Html.ValidationMessageFor(model => model.Vendore_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-12 ">
+            @Html.LabelFor(model => model.Pay_for, htmlAttributes: new { @class = "col-md-1" })
+            <div class="col-md-10">
+                @{
+                    int W1 = 30;
+                }
+                @foreach (var value in Business.GetEnumValues<FabulousDB.Models.Pay_for>())
+                {
+                    @Html.RadioButtonFor(m => m.Pay_for, value, new { @class = "v-middle Pay_for", data_value = (int)value })
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "height100 v-middle Margin0 ", style = $"width: 20%;" })
+                    <span style="margin-left:20px;"></span>
+                    W1 = 35;
+                }
+                @Html.ValidationMessageFor(model => model.Pay_for, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contract_date, "Contract Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract_date, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(model => model.Contract_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Installment_plan_id, "Installment Plan", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Installment_plan_id", null, "", htmlAttributes: new { @class = "form-control Installment_plan_id" })
+                @Html.ValidationMessageFor(model => model.Installment_plan_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("InstallmentAmountLbl", "Installment Amount", new { @class = "col-md-6" })
+            <div class="col-md-5">
+                @Html.Label("InstallmentAmount", " ", new { @class = "control-label col-md-2",id= "InstallmentAmount" })
+            </div>
+        </div>
+
+
+        <input id="InstallmentStr" name="InstallmentStr" type="hidden" />
+        <input id="Invs" name="Invs" type="hidden" />
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="CreateForm" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<h4 id="Error"></h4>
+<section id="InstallmentSec"></section>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" id="Create" value="Create" class="btn btn-success" />
+    </div>
+</div>
+<script>
+    $(function () {
+        MaskMoneyTxt("@FabulousErp.Business.GetCompanyId()");
+        $("#Contract_date").val(moment().format('YYYY-MM-DD'));
+    })
+    $(".Installment_plan_id").change(function () {
+        var Validate = false;
+        if (!$("#Amount").val() || parseFloat($("#Amount").val()) == 0) {
+            NotValid($("#Amount"))
+            $("#Installment_plan_id").val("");
+            Validate = true;
+            $("#Installment_plan_id").val("");
+        }
+        if (!$("#Contract_date").val()) {
+            NotValid($("#Contract_date"))
+            Validate = true;
+            $("#Installment_plan_id").val("");
+        }
+
+        if (Validate) {
+            return;
+        }
+        {
+            var CashAdvance = -1;
+            if ($(document).find("#CashAdvance").length > 0) {
+                CashAdvance = $(document).find("#CashAdvance").val();
+            }
+            var InstallmentSelect = $("#Installment_plan_id").val();
+            $.ajax({
+                url: "@Url.Action("InstallmentRelation", "Installment_setting",new {area= "Installment" })?SettingId=" + InstallmentSelect +
+                    "&OrginalAmount=" + $("#Amount").val() + "&TDate=" + $("#Contract_date").val() + "&CashAdvance=" + CashAdvance,
+                beforeSend: function () {
+                    $("#InstallmentSec").empty();
+                },
+                success: function (data) {
+                    $("#InstallmentSec").html(data);
+                    $(document).find(".FirstPay").val(moment().format("YYYY-MM-DD"))
+                },
+                dataType:"html"
+            })
+        }
+
+    })
+    function PrintInstallment(InstIds) {
+        if ($("#PrintAllInstallment").is(":checked")) {
+            $.each(InstIds, function (k, i) {
+                window.open(
+                    '/C_CashReciept/PrintRecipt?JN=' + i +"&IsDoc=true&PostingKey=@FabulousErp.Business.CheckBookKey.TCBC.ToString()",
+                    '_blank'
+                );
+            });
+        }
+    }
+    $("#Create").click(function () {
+        $("#Error").text("")
+        var InstalAmount = GetMaskNumber($("#InstallmentAmount").text());
+        var AllInstAmount = 0;
+        $(document).find(".InstallmentAmount").each(function () {
+            AllInstAmount += GetMaskNumber($(this).val());
+        })
+        AllInstAmount = RoundNumber(AllInstAmount,@Business.GetDecimalPointNumber());
+        if (AllInstAmount > InstalAmount) {//RoundNumber(SumAllPercent(0)) 
+            $("#Error").text("The Amount You Enter Is Greater Than " + InstalAmount + " by " + (InstalAmount - AllInstAmount))
+            return;
+        } else if (AllInstAmount < InstalAmount) {//RoundNumber(SumAllPercent(0))
+            $("#Error").text("The Amount You Enter Is Smaller Than " + $("#Amount").val() + " by " + (AllInstAmount - InstalAmount))
+            return;
+        }
+        try {
+            var Installment = [];
+            var Valid = true;
+            $("#InstallmentSec").find(".Sec").each(function (k, i) {
+                var Ref = $(this).find(".Ref").text();
+                var ThisDate = null;
+                var ChequNumber = "";
+                Ref = $(this).find(".Ref").text();
+
+                if ($(this).find(".Cdate").val()) {
+                    ThisDate = $(this).find(".Cdate").val();
+                } else {
+                    NotValid($(this).find(".Cdate"))
+                    Valid = false;
+                }
+                if ($(this).find(".ChequNumber").is(":visible")) {
+                    if ($(this).find(".ChequNumber").val()) {
+                        ChequNumber = $(this).find(".ChequNumber").val();
+                    } else {
+                        NotValid($(this).find(".ChequNumber"))
+                        Valid = false;
+                    }
+                }
+                if (Valid) {
+                    Installment.push({
+                        Refrence: Ref,
+                        Amount: $(this).find(".Amount").val(),
+                        Cheque_number: ChequNumber,
+                        Date: ThisDate,
+                        Cheque_Date: ThisDate,
+                        Historical: $(this).find(".Historical").is(":checked"),
+                        Percentage: $(this).find(".Percent").val()
+                    });
+                }
+                else {
+                    return;
+                }
+            })
+            if (!Valid) {
+                return;
+            }
+            $("#InstallmentStr").val(JSON.stringify(Installment));
+        } catch (err) {
+            Valid = false;
+        }
+       
+        if (Valid) {
+            $("#Invs").val("[" + $("#Vendore_invoices").val() + "]");
+            PrintAsImage("ContractDiv", false, function () {
+                $("#CreateForm").trigger("click");
+            });
+        }
+    });
+
+</script>
+<script>
+    $(function () {
+        if (getParameterByName("IsPay") == "true") {
+            $(".IsPay[value='true']").trigger("click")
+        } else {
+            $(".IsPay[value='false']").trigger("click")
+        }
+    })
+    $(".IsPay").click(function () {
+        if ($(this).val() == "true") {
+            $(".vendorediv").show();
+            $(".customerdiv").hide();
+        } else {
+            $(".vendorediv").hide();
+            $(".customerdiv").show();
+        }
+    });
+
+    function SumAllPercent(ThisOrder, IsAfter = true) {
+        var SumPer = 0;
+        $(".Percent").each(function () {
+            if (IsAfter) {
+                if (parseInt($(this).attr("data-order")) > ThisOrder) {
+                    SumPer += RoundNumber($(this).val());
+                }
+            } else {
+                if ($(this).attr("data-order") < ThisOrder) {
+                    SumPer += RoundNumber($(this).val());
+                }
+            }
+
+        })
+        return SumPer;
+    }
+    function SumAllAmount(ThisOrder) {
+        var SumPer = 0;
+        $(".Amount").each(function () {
+            if ($(this).attr("data-order") > ThisOrder) {
+                SumPer += RoundNumber($(this).val());
+            }
+        })
+        return SumPer;
+    }
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index", new { IsPay = Request["IsPay"] })
+</div>
+<script>
+    $(document).on("change", ".Percent", function () {
+        //var ThisPercent = parseFloat($(this).val());
+        //var ThisOrder = parseInt($(this).attr("data-order"));
+
+        //var AllPlusThis = SumAllPercent(ThisOrder, false) + ThisPercent;
+        //if (ThisPercent >= 100 || (AllPlusThis) > 100) {
+        //    $(this).val(0);
+        //    SetAmount();
+        //    return;
+        //}
+        //$(".InstallmentPercntage").each(function () {
+        //    if ($(this).attr("data-order") > ThisOrder) {
+        //        $(this).val(0)
+        //    }
+        //})
+        //var SumAll = SumAllPercent(ThisOrder);
+        //var Count = $("#APTbl").find(".InstallmentPercntage").length;
+        //var EachInstallment = (100 - SumAll) / Count;
+        //var Contenue = true;
+        //$(".InstallmentPercntage").each(function () {
+        //    if (parseInt($(this).attr("data-order"))>parseInt(ThisOrder))
+        //    {
+        //        if (Contenue) {
+        //            if (SumAllPercent(0) < 100) {
+        //                var SetThis = RoundNumber(100 - SumAllPercent(0))
+        //                SetThis = RoundNumber(SetThis / GetCountAfterThis($(this).attr("data-order")))
+        //                $(this).val(SetThis);
+        //            } else {
+        //                $(this).val(RoundNumber(SumAllPercent(0) - 100))
+        //                ClearAllAfter($(this).attr("data-order"))
+        //                Contenue = false;
+        //            }
+        //        }
+
+        //    }
+        //})
+        //var AdvPercent = RoundNumber($(".AdvPercent").val());
+        //var ThisCustomInst = RoundNumber(GetCustomInstallPercent());
+        //var InstllmentAfter = RoundNumber(GetInstallPercent(ThisOrder));
+        //SetAmount();
+    });
+    $(document).on("change", ".Amount", function () {
+        ////var ThisOrder = parseInt($(this).attr("data-order"));
+        ////var MainAmount = parseFloat($("#Amount").val())
+        ////var ThisAmount = parseFloat($(this).val());
+
+        ////var AdvPercent = parseFloat($(".AdvAmount").val());
+        ////var ThisCustomInst = parseFloat(GetCustomInstallAmount());
+        ////var AdvAndCust = parseFloat(AdvPercent + ThisCustomInst);
+        ////var RemAmount = MainAmount - AdvAndCust;
+        ////var Count = $("#APTbl").find(".InstallmentPercntage").length;
+
+        ////var RemInstallAmount = RoundNumber((RemAmount) / Count);
+        ////var FirstInt = parseInt($("#APTbl").find(".InstallmentPercntage").first().attr("data-order"));
+
+        ////var AllPlusThis = SumAllAmount(0);
+        ////if (ThisAmount >= MainAmount || (((AllPlusThis) > MainAmount) && (ThisOrder != FirstInt))) {
+        ////    $(this).val(0);
+        ////    return;
+        ////}
+        ////var Contenue = true;
+        ////if (ThisOrder == FirstInt) {
+        ////    ClearAllAfter(FirstInt, false)
+        ////    ClearAllAfter(FirstInt, true)
+        ////}
+        ////var ThisPercent = RoundNumber((ThisAmount / MainAmount) * 100);
+        ////$(".Percent[data-order=" + ThisOrder + "]").val(ThisPercent).trigger("change");
+    })
+</script>
+<script>
+    $(".Pay_for").on("click", function () {
+        //if (getParameterByName("IsPay") == "false")
+        {
+            $("#AmountMask").val(0);
+            if ($(this).val() == "@FabulousDB.Models.Pay_for.Manual.ToString()") {
+                $("#AmountMask").removeAttr("disabled");
+            } else {
+                $("#AmountMask").attr("disabled", "disabled");
+            }
+            if ($(this).val() == "@FabulousDB.Models.Pay_for.Invoice.ToString()") {
+                $(".vendoreinvoicesdiv").show();
+                GetBalance();
+
+            } else {
+                $(".vendoreinvoicesdiv").hide();
+            }
+            GetBalance();
+        }
+    })
+    $("#Vendor_id").change(function () {
+        if (getParameterByName("IsPay") == "false") {
+            GetCustomerInvoices()
+            GetBalance();
+            GetVendoreData();
+        } else {
+            GetVendoreInvoices()
+            GetBalance();
+        }
+  
+
+    })
+    function GetCustomerInvoices() {
+        $.ajax({
+            url: "/Inventory/Inv_sales_invoice/GetCustomerInvoice?CustomerId=" + $("#Vendor_id").val() +"&IsInstallment=true",
+            method: "POST",
+            success: function (data) {
+                $("select#Vendore_invoices").empty();
+                $("select#Vendore_invoices").append("<option></option>")
+                $.each(data, function (k, i) {
+                    $("select#Vendore_invoices").append("<option value='" + i.Id + "'>" + i.Trx + "</option>")
+                })
+            }
+        })
+    }
+    function GetVendoreInvoices() {
+        $.ajax({
+            url: "/Inventory/Inv_receive_po/GetVendoreInvoice?VendoreId=" + $("#Vendore_id").val() +"&IsInstallment=true",
+            method: "POST",
+            success: function (data) {
+                $("select#Vendore_invoices").empty();
+                $("select#Vendore_invoices").append("<option></option>")
+                $.each(data, function (k, i) {
+                    $("select#Vendore_invoices").append("<option value='" + i.Id + "'>" + i.Trx + "</option>")
+                })
+            }
+        })
+    }
+    function GetBalance() {
+        if ($(".Pay_for:checked").val() == "@FabulousDB.Models.Pay_for.Balance.ToString()"
+            && getParameterByName("IsPay") == "false") {
+            $("#AmountMask").val(0).trigger("change").trigger("focusout");
+            GetCustomerBalance($("#Vendor_id").val(), function (a) {
+                $("#AmountMask").val(a).trigger('mask.maskMoney').trigger("change").trigger("focusout");
+            })
+        } else if ($(".Pay_for:checked").val() == "@FabulousDB.Models.Pay_for.Balance.ToString()"
+            && getParameterByName("IsPay") == "true") {
+            GetVendoreData($("#Vendore_id"), function (a) {
+                $("#AmountMask").val(a).trigger('mask.maskMoney').trigger("change").trigger("focusout");
+            })
+        }
+    }
+    $(document).on("change", '#Vendore_invoices', function () {
+        var Inv = $(this).val();
+        $.ajax({
+            url: "/Inventory/Inv_sales_invoice/GetInvTotal",
+            data: { Inv: Inv },
+            method: "POST",
+            success: function (data) {
+                $("#AmountMask").val(data).trigger('mask.maskMoney').trigger("change").trigger("focusout");
+                $("#Installment_plan_id").trigger("change");
+            }
+        })
+    })
+    $(document).on("focusout", "#CashAdvance", function () {
+        $("#Installment_plan_id").trigger("change");
+    })
+</script>
+@if (Request["IsPay"] == "false")
+{
+    <script src="~/Areas/Receivable/Scripts/CustomerData.js"></script>
+}
+else
+{
+
+    <script src="~/Areas/Payable/Scripts/Payable_transaction.js"></script>
+}

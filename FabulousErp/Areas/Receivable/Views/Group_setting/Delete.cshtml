@@ -1,0 +1,144 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_Group_setting
+
+@{
+    ViewBag.Title = "Group Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <h2 class="text-danger">@ViewBag.Error</h2>
+    @Html.ActionLink("Back to List", "Index")
+
+}
+else
+{
+    <h2>Delete</h2>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Check_book.CompanyID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Check_book.CompanyID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Currency.CurrencyID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Currency.CurrencyID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Payment_term.Terms_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Payment_term.Terms_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Shipping_method.Ship_method)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Shipping_method.Ship_method)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Group_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Group_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Group_description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Group_description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Password)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Password)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Minimum_transaction)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Minimum_transaction)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Maximum_transaction)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Maximum_transaction)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Inactive)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Inactive)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Credit_limit)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Credit_limit)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Minimum_payment)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Minimum_payment)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Payment_per)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Payment_per)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Revaluate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Revaluate)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+
+}

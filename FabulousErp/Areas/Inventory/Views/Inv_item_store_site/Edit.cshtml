@@ -1,0 +1,55 @@
+﻿@model List<FabulousDB.Models.Inv_item_store_site>
+
+@{
+    Layout = null;
+}
+
+@foreach (FabulousDB.Models.Inv_item_store_site i in Model)
+{
+    using (Ajax.BeginForm("Edit", "Inv_item_store_site", new AjaxOptions { },new {style="display:inline-block;width:60%;" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input type="hidden" name="Id" value="@i.Id" />
+            <div class="form-group hide">
+                @Html.LabelFor(model => i.Item_id, "Item_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input id="Item_id" name="Item_id" class="Item_id" value="@i.Item_id" />
+                    @Html.ValidationMessageFor(model => i.Item_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="width:50%;">
+                @Html.LabelFor(model => i.Store_id, "Store_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Store_id", new SelectList(ViewBag.StoreList, "Id", "Store_id", i.Store_id), htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => i.Store_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="width:49%;">
+                @Html.LabelFor(model => i.Site_id, "Site_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Site_id", new SelectList(ViewBag.SiteList, "Id", "Site_name", i.Site_id), htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => i.Site_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group hide">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+    }
+    @Ajax.ActionLink(" ", "Delete", "Inv_item_store_site",new { id=i.Id }
+    , new AjaxOptions
+    {
+        OnSuccess= $"RemoveSite({i.Id})",
+        HttpMethod="POST"
+    },new {@class= $"fa fa-times DelBtn {i.Id}", date_id=$"{i.Id}" })
+}
+

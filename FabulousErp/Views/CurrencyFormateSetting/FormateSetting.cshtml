@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Formate Setting";
+    ViewBag.FormCode = "SCF";
+}
+<div class="container-fluid">
+    <span id="CompORGCurrency" class="hide-normal"></span>
+    <div class="form-row hide">
+        <div class="col-md-4">
+            <label class="col-form-label-sm"> Company ID : </label>
+            @Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-8">
+            <label class="col-form-label-sm"> Company Name : </label>
+            <input type="text" class="form-control form-control-sm" id="CompanyName" disabled />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-4">
+            <label class="col-form-label-sm"> Currency : <i class="star">*</i> </label>
+            @Html.DropDownList("Currency", new List<SelectListItem>
+                                    {
+                                    new SelectListItem{Text = "1986.09 EGP" , Value = "1986.09 EGP" },
+                                    new SelectListItem{Text = "EGP 1986.09" , Value = "EGP 1986.09" },
+                                    new SelectListItem{Text = "1986.09" , Value = "1986.09" }
+                                    }, "-Choose-",new { @id = "Currency", @class= "form-control form-control-sm" })
+            <span class="text-error">
+                @Html.ValidationMessage("CurrencyError", new { @id = "CurrencyError" })
+            </span>
+        </div>
+
+        <div class="col-md-4">
+            <label class="col-form-label-sm"> Decimal Notation : <i class="star">*</i> </label>
+            @Html.DropDownList("DecimalNotation", new List<SelectListItem>
+                                     {
+                                     new SelectListItem{Text = "1,234,567.89" , Value = "1,234,567.89" },
+                                     new SelectListItem{Text = "1 234 567.89" , Value = "1 234 567.89" }
+                                     }, "-Choose-",new { @id = "DecimalNotation" , @class="form-control form-control-sm" })
+            <span class="text-error">
+                @Html.ValidationMessage("DecimalNotationError", new { @id = "DecimalNotationError" })
+            </span>
+        </div>
+
+        <div class="col-md-4">
+            <label class="col-form-label-sm"> Decimal Numbers : <i class="star">*</i> </label>
+            @Html.DropDownList("DecimalNumbers", new List<SelectListItem>
+                                     {
+                                     new SelectListItem{Text = "1" , Value = "1" },
+                                     new SelectListItem{Text = "2" , Value = "2" },
+                                     new SelectListItem{Text = "3" , Value = "3" },
+                                     new SelectListItem{Text = "4" , Value = "4" },
+                                     new SelectListItem{Text = "5" , Value = "5" },
+                                     new SelectListItem{Text = "6" , Value = "6" },
+                                     new SelectListItem{Text = "7" , Value = "7" },
+                                     new SelectListItem{Text = "8" , Value = "8" },
+                                     new SelectListItem{Text = "9" , Value = "9" }
+                                     }, "-Choose-",new { @id = "DecimalNumbers", @class= "form-control form-control-sm" })
+            <span class="text-error">
+                @Html.ValidationMessage("DecimalNumbersError", new { @id = "DecimalNumbersError" })
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group mt-2">
+        <button type="button" id="FormateSaveBtn" class="btn btn-primary btn-sm" onclick="SaveFormateBtn()"> Save </button>
+        <button type="button" id="FormateUpdateBtn" onclick="UpdateFormateBtn()" class="btn btn-primary btn-sm hide-normal">Update</button>
+        <label id="SuccessSaved" class="text-success"></label>
+        <label id="UpdateError" class="text-error"></label>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#CompanyID").trigger('change')
+    })
+</script>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/CurrencyDefinition/CurrencyFormateSetting/SaveSFormate.js")

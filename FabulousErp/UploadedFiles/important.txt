@@ -1,0 +1,259 @@
+$(document).ready(function () {
+
+    var companyID = $("#TCGE-CompanyID").text(),
+        EPDcheck = $("#TCGE-EPD").text(),
+        fJEPer = $("#TCGE-FJEPer").text(),
+        ThisSlector;
+
+    if (fJEPer === "NoPS") {
+        alert("This Company in Financial Module Not have Posting Setup..!");
+        window.location.href = "/Home/Financial_Home";
+    }
+
+    // 5.0 Transaction-Date (Today By Default)
+    // Posting-Date (Date related to Transaction-Date)
+    // Get the System-Rates Related to currency and Transaction-Date
+    $('.CBT-transferDate').focus(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        if (ThisSlector.find('.CBT-checkbookID').val().length === 0) {
+            ThisSlector.find('.CBT-checkbookID').focus();
+        } else {
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            ThisSlector.find('.CBT-transferDate').val(today);
+        }
+        ThisSlector.find('.CBT-amount').val("");
+    });
+    $('.CBT-transferDate').focusout(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        var $this = $(this);
+        if (EPDcheck === "F2") {
+            var currencyID = ThisSlector.find('.TCGE-CurrencyID').val();
+            var postingDate = $(this).val();
+
+            var checkPostingDate = CheckPostingDateInPeriods(postingDate);
+            if (checkPostingDate !== true) {
+                ThisSlector.find(".TCGE-SystemRate").val("");
+                ThisSlector.find(".TCGE-TransactionRate").val("");
+                ThisSlector.find(".TCGE-DiffrenceRate").val("");
+                ThisSlector.find(".TCGE-TransactionRate").prop("disabled", true);
+            } else {
+                if (GetCurrencyRates(currencyID, postingDate, ThisSlector)) {
+                    myFunction2($this);
+                }
+            }
+        }
+    });
+
+    // 6.0 Check Checkbook Security Before Get Data
+    $(".CBT-checkbookID").change(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        Clear(ThisSlector);
+        var checkbookID = $(this).val();
+        if (checkbookID.length == 0) {
+            Clear();
+        } else {
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                method: "get",
+                url: "/api/CheckBookAPIs/CheckbookSecurity?checkbookID=" + checkbookID + "&companyID=" + companyID,
+                success: function (result) {
+                    if (result.CB_Password === "Exist") {
+                        $("#CBT-CBid").text(checkbookID);
+                        ThisSlector.find(".CBT-checkbookID").val("");
+                        ThisSlector.find(".CBT-checkbookName").val("");
+                        $("#CBT-checkbookModal").modal("show");
+                    } else if (result.CB_UserID === "UserIDAccess") {
+                        GetCheckbookData(checkbookID, ThisSlector);
+                    } else if (result.CB_UserID === "NoPermit") {
+                        ThisSlector.find(".CBT-checkbookID").val("");
+                        ThisSlector.find(".CBT-checkbookName").val("");
+                        alert("you not have access to this checkbook");
+                    } else {
+                        GetCheckbookData(checkbookID);
+                    }
+                }
+            });
+        }
+        //----------- for validation
+        if ($(this).val().length === 0) {
+            $(this).css("border", "1px solid red");
+        } else {
+            $(this).css("border", "");
+        }
+    });
+    $("#CBT-checkbookCheck").click(function () {
+        var password = $("#CBT-checkbookPassword").val();
+        var checkbookID = $("#CBT-CBid").text();
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            method: "get",
+            url: "/api/CheckBookAPIs/CheckbookSecurityCheck?password=" + password + "&checkbookID=" + checkbookID + "&companyID=" + companyID,
+            success: function (result) {
+                GetCheckbookData(checkbookID, ThisSlector);
+                $(ThisSlector).find(".CBT-checkbookID").val(checkbookID);
+                $("#CBT-checkbookModal").modal("hide");
+            },
+            statusCode: {
+                406: function (request) {
+                    $("#CBT-wrongpass").text(JSON.parse(request.responseText).Message);
+                }
+            }
+            /*
+            error: function (request, statues, error) {
+                if (request.status === 406) {
+                    $(".CBT-wrongpass").text(JSON.parse(request.responseText).Message);
+                }
+            }
+            */
+        });
+    });
+
+    // 10.0 Check If The Amount Between Max-Amount and Min.Amount OR Not
+    // Fill The First-Row of Debit If Location Is (Cash Recipt)
+    // Fill The First-Row of Credit If Location Is (Cash Withdraw)
+    $('.CBT-amount').focusout(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        var Amount = $(this).val().replace(regRemoveCurrFormate, "");
+        var TransactionRate = $('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, "");
+        var MaxAmount = ThisSlector.find('#CBT-maxAmount').text();
+        var MinAmount = ThisSlector.find('#CBT-minAmount').text();
+        var transferDate = ThisSlector.find('.CBT-transferDate').val();
+        var test = true;
+
+        if (test === true && $(this).val().length > 0) {
+
+            var test1 = true;
+
+            if (MaxAmount.length > 0 && MinAmount.length > 0) {
+                if (parseFloat(Amount) >= parseFloat(MinAmount) && parseFloat(Amount) <= parseFloat(MaxAmount)) {
+                    $("#TCGE-GlobalError").text("");
+                } else {
+                    test1 = false;
+                    $(this).val("");
+                    $(this).focus();
+                    $("#TCGE-GlobalError").text("Checkbook Minimum Amount = " + MinAmount + " And Maximum Amount = " + MaxAmount + "")
+                }
+            } else if (MaxAmount.length > 0 && MinAmount.length === 0) {
+
+                if (parseFloat(Amount) <= parseFloat(MaxAmount)) {
+                    $("#TCGE-GlobalError").text("");
+                } else {
+                    test1 = false;
+                    $(this).val("");
+                    $(this).focus();
+                    $("#TCGE-GlobalError").text("Checkbook Maximum Amount = " + MaxAmount + "")
+                }
+            } else if (MinAmount.length > 0 && MaxAmount.length === 0) {
+
+                if (parseFloat(Amount) >= parseFloat(MinAmount)) {
+                    $("#TCGE-GlobalError").text("");
+                } else {
+                    test1 = false;
+                    $(this).val("");
+                    $(this).focus();
+                    $("#TCGE-GlobalError").text("Checkbook Minimum Amount = " + MinAmount + "")
+                }
+            }
+            if (test1 === true) {
+                if ($(".TCGE-OriginalAmount").is(":hidden")) {
+                    console.log("a");
+                } else {
+                    console.log("a");
+                }
+                var dORc = parseFloat(Amount) * parseFloat(TransactionRate);
+                SumDebitAndCredit();
+            }
+        }
+        //----------- for validation
+        if ($(this).val().length === 0) {
+            $(this).css("border", "1px solid red");
+        } else {
+            $(this).css("border", "");
+        }
+    });
+    $('#CBT-checkbookModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input")
+            .val('')
+            .end()
+            .find("label").text('').end();
+    });
+
+
+
+
+
+
+
+});
+
+
+
+
+
+function GetCheckbookData(checkbookID, Selector) {
+    var companyID = $("#TCGE-CompanyID").text();
+    var tbody = $('#TCGE-TTbl');
+    $.ajax({
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        method: "get",
+        url: "/api/CheckBookAPIs/GetCheckbookData?checkbookID=" + checkbookID + "&companyID=" + companyID,
+        success: function (result) {
+            $(Selector).find(".TCGE-CurrencyID").append("<option value='" + result.CurrencyID + "' selected>" + result.CurrencyName + "</option>");
+            $(Selector).find(".CBT-checkbookName").val(result.CheckbookName);
+            $(Selector).find('#CBT-minAmount').text(result.MinAmount);
+            $(Selector).find('#CBT-maxAmount').text(result.MaxAmount);
+
+            $(Selector).find('.CBT-nextDeposit').text(result.NextDepositNumber);
+            $(Selector).find('.CBT-nextWithdraw').text(result.NextWithdrawNumber);
+
+            // Fill The First-Row of Account-Name
+            tbody.find('tr').eq(0).find('td').eq(2).text(result.Company_AccountsName);
+
+            // Fill The First-Row of Account-ID
+            tbody.find('tr').eq(0).find('td').eq(4).text(result.Company_AccountsID);
+            tbody.find('tr').eq(0).find('td').eq(1).text(result.C_AID);
+
+            if (result.CurrencyID === companyID) {
+                // so currency is main
+                $(Selector).find('.TCCR-rateField').hide();
+            } else {
+                $(Selector).find('.TCCR-rateField').show();
+            }
+        }
+    });
+}
+function Clear(Selector) {
+    $(Selector).find(".CBT-checkbookName").val("");
+    $(Selector).find(".CBT-transferDate").val("");
+    $(Selector).find(".CBT-postingDate").val("");
+    $(Selector).find(".CBT-amount").val("");
+    $(Selector).find(".TCGE-SystemRate").val("");
+    $(Selector).find(".TCGE-TransactionRate").val("");
+    $(Selector).find(".TCGE-DiffrenceRate").val("");
+    $(Selector).find(".TCGE-reference").val("");
+}
+
+
+function CalculateAmount() {
+    var Amount = $('#transferFrom').find('.CBT-amount').val().replace(regRemoveCurrFormate, ""),
+        transactionRate1 = $('#transferFrom').find('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+        transactionRate2 = $('#transferTo').find('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+        finalAmount = parseFloat(Amount) * parseFloat(transactionRate1) / parseFloat(transactionRate2);
+    return finalAmount;
+}
+function myFunction2($this) {
+    if ($($this).parents("#transferTo").length == 1) {
+        var x = CalculateAmount();
+        $('#transferTo').find('.CBT-amount').val(x);
+        $('#transferTo').find('.CBT-amount').prop('disabled',true);
+    }
+}
+

@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Chart of Account List";
+    ViewBag.FormCode = "ILCOA";
+}
+<div class="container-fluid">
+    <div class="form-row">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Search by Chart ID : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("ChartID", ViewBag.ChartList as SelectList, "-Choose-", new { @id = "ChartID", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <table class="table table-bordered table-striped display nowrap" style="width:100%" id="example">
+            <thead>
+                <tr>
+                    <th> Chart of Account ID </th>
+                    <th> Chart of Account Name </th>
+                    <th> Date </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <!-- table Area End -->
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/ChartOfAccount/Inquiry_AccountChart/ListAccountChart.js")

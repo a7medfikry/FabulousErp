@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Create New Year";
+    ViewBag.FormCode = "SCNY";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <label> Fiscal Year ID : <span class="star">*</span> </label>
+            @Html.DropDownList("CNFiscalYearID", ViewBag.CNFiscalYearID as SelectList, "Select", new { id = "CNFiscalYearID", @class = "form-control form-control-sm" })
+            <label class="text-error">@Html.ValidationMessage("CNFiscalYearIDError", new { @id = "CNFiscalYearIDError", @class = "FDError" })</label>
+        </div>
+        <div class="col-md-4">
+            <label> Fiscal Year Name : </label>
+            <label class="text-danger bg-forname" id="CNFiscalYearName"></label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label> Year : <span class="star">*</span></label>
+            @Html.TextBox("CNYear", null, new { @id = "CNYear", @class = "form-control form-control-sm" })
+            <label class="text-error">@Html.ValidationMessage("CNYearError", new { @id = "CNYearError", @class = "FDError" })</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label> Start Date : <span class="star">*</span> </label>
+            <input type="date" id="CNStartDate" class="form-control form-control-sm" />
+            <label class="text-error">@Html.ValidationMessage("CNStartDateError", new { @id = "CNStartDateError", @class = "FDError" })</label>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label> End Date : <span class="star">*</span> <label class="text-error">@Html.ValidationMessage("CNEndDateError", new { @id = "CNEndDateError", @class = "FDError" })</label> </label>
+            @Html.TextBox("CNEndDate", null, new { @type = "Date", id = "CNEndDate", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <button type="button" class="btn btn-danger" id="CreateYear"> Create </button>
+        </div>
+    </div>
+
+</div>
+
+<link href="~/_Content/Styles/Settings/Financial/GeneralSetting/FiscalPeriods/CreateNewYear/Validation.css" rel="stylesheet" />
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/CreateNewYear/FDCreateNew.js")

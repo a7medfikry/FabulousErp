@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Factory Analytic Account";
+    ViewBag.FormCode = "SFAA";
+}
+<div class="container-fluid">
+
+    <div class="row col-12">
+        <span class="text-error" id="GlobalError"></span>
+    </div>
+
+    @if (FabulousErp.Business.GetCompanyId() != null )
+    {
+        <div class="form-row mb-2">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.DropDownList("FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "FactoryID", @class = "form-control form-control-sm" })
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="FactoryName" disabled />
+            </div>
+        </div>
+    }
+
+
+    <div class="form-row mb-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("AnalyticID", null, new { @class = "form-control form-control-sm", @id = "AnalyticID", @maxlength = "20" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts Name : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("AnalyticName", null, new { @class = "form-control form-control-sm", @id = "AnalyticName", @maxlength = "100" })
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary btn-sm" id="AddAnalyticToFactory">Save</button>
+            <label class="text-success" id="SaveSuccess"></label>
+        </div>
+    </div>
+
+    @*<div class="row form-group">
+
+    </div>
+
+    <div class="row col-12">
+        <button type="button" class="btn btn-primary btn-sm" id="AddAnalyticToFactory">Save</button>
+        <label class="text-success" id="SaveSuccess"></label>
+    </div>*@
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Analytic Account ID</th>
+                <th>Analytic Account Name</th>
+            </tr>
+        </thead>
+        <tbody id="FactoryAnalyticData"></tbody>
+    </table>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_Analytic/F_CreateAnalyticAccounts/AddAnalyticToFactory.js")

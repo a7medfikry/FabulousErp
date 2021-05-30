@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "Company Information";
+    ViewBag.FormCode = "ICI";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <label> Company ID : </label>
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryCompanyID", @class = "dropdown-list" })
+        </div>
+    </div>
+    <!-- tabs -->
+    <ul class="nav nav-pills nav-justified mt-1" role="tablist" id="mytab">
+        <li class="nav-item pill-1 mr-1 ">
+            <a class="nav-link active" data-toggle="tab" href="#company-content" role="tab" aria-selected="true"> Company </a>
+        </li>
+        <li class="nav-item pill-2 mr-1">
+            <a class="nav-link" data-toggle="tab" href="#branch-content" role="tab" aria-selected="true"> Branch </a>
+        </li>
+        <li class="nav-item pill-3 mr-1">
+            <a class="nav-link" data-toggle="tab" href="#factory-content" role="tab" aria-selected="true"> Factory </a>
+        </li>
+    </ul>
+
+    <!-- tab contents -->
+    <div class="tab-content bg-light">
+        <div id="company-content" class="tab-pane active fade show p-2" role="tabpanel">
+            <div class="row">
+                <div class="col-md-2">
+                    <ul class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                        <li>
+                            <a class="nav-link active" data-toggle="pill" href="#main-info" role="tab" aria-selected="false"> Main Info. </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-toggle="pill" href="#address-info" role="tab" aria-selected="false"> Address Info. </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-toggle="pill" href="#legal-info" role="tab" aria-selected="false"> Legal Info. </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-toggle="pill" href="#communication-info" role="tab" aria-selected="false"> Communication </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-10">
+                    <div class="tab-content">
+                        <!-- Main Information -->
+                        <div id="main-info" class="tab-pane active">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="company-id"> Company ID : </label>
+                                    <input type="text" id="company-id" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="company-id"> Company Name : </label>
+                                    <input type="text" id="company-name" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-alies"> Company Alies : </label>
+                                    <input type="text" id="company-alies" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-id"> Company Logo : </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-countryname"> Country Name : </label>
+                                    <input type="text" id="company-countryname" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-language"> Language : </label>
+                                    <input type="text" id="company-language" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-currency"> Currency : </label>
+                                    <input type="text" id="company-currency" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-activity"> Company Main Activity : </label>
+                                    <input type="text" class="textArea" id="company-activity" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information -->
+                        <div id="address-info" class="tab-pane fade" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="company-streetname"> Street Name : </label>
+                                    <input type="text" id="company-streetname" readonly />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="company-buildingno"> Building Number : </label>
+                                    <input type="text" id="company-buildingno" readonly />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="company-floorno"> Floor Number : </label>
+                                    <input type="text" id="company-floorno" readonly />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="company-area"> Area : </label>
+                                    <input type="text" id="company-area" readonly />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="company-city"> City : </label>
+                                    <input type="text" id="company-city" readonly />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="company-state"> Governorate : </label>
+                                    <input type="text" id="company-state" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legal Information -->
+                        <div id="legal-info" class="tab-pane fade" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-type"> Company Type : </label>
+                                    <input type="text" id="company-type" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-establishdate"> Establish Date : </label>
+                                    <input type="text" id="company-establishdate" readonly />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-commregister"> Commerical Register : </label>
+                                    <input type="text" id="company-commregister" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-commoffice"> Commerical Office : </label>
+                                    <input type="text" id="company-commoffice" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-taxfile"> Tax File Number : </label>
+                                    <input type="text" id="company-taxfile" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-taxoffice"> Tax Office : </label>
+                                    <input type="text" id="company-taxoffice" readonly />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-vatid"> Vat ID : </label>
+                                    <input type="text" id="company-vatid" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-taxvatoffice"> Tax Vat Office : </label>
+                                    <input type="text" id="company-taxvatoffice" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-importid"> Import ID : </label>
+                                    <input type="text" id="company-importid" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-importoffice"> Import Office : </label>
+                                    <input type="text" id="company-importoffice" readonly />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-exportid"> Export ID : </label>
+                                    <input type="text" id="company-exportid" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-exportoffice"> Export Office : </label>
+                                    <input type="text" id="company-exportoffice" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-socialid"> Social Insurance ID : </label>
+                                    <input type="text" id="company-socialid" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-socialoffice"> Social Insurance Office : </label>
+                                    <input type="text" id="company-socialoffice" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Communication Information -->
+                        <div id="communication-info" class="tab-pane fade" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-telecode1"> Code : </label>
+                                    <input type="text" id="company-telecode1" readonly />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="company-tele1"> Telephone : </label>
+                                    <input type="text" id="company-tele1" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-teleext1"> Ext : </label>
+                                    <input type="text" id="company-teleext1" readonly />
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="company-faxcode"> Code : </label>
+                                    <input type="text" id="company-faxcode" readonly />                                </div>
+                                <div class="col-md-6">
+                                    <label for="company-fax1"> Fax : </label>
+                                    <input type="text" id="company-fax1" readonly />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="company-faxext1"> Ext : </label>
+                                    <input type="text" id="company-faxext1" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Branch content -->
+        <div id="branch-content" class="tab-pane fade p-2" role="tabpanel" style="height:400px;">
+            <table class="table table-bordered table-striped table-responsive-md" style="width:100%">
+                <thead>
+                    <tr>
+                        <th> Branch ID </th>
+                        <th> Branch Name </th>
+                        <th> Branch Alies </th>
+                        <th> Address </th>
+                        <th> Social Insurance ID </th>
+                        <th> Social Insurance Office </th>
+                        <th> Telephone1 </th>
+                        <th> Telephone2 </th>
+                        <th> Fax1 </th>
+                        <th> Fax2 </th>
+                    </tr>
+                </thead>
+                <tbody id="branch-append-data"></tbody>
+            </table>
+        </div>
+
+        <!-- Factory content -->
+        <div id="factory-content" class="tab-pane fade p-2" role="tabpanel" style="height:400px">
+            <table class="table table-bordered table-striped table-responsive-md" style="width:100%">
+                <thead>
+                    <tr>
+                        <th> Factory ID </th>
+                        <th> Factory Name </th>
+                        <th> Factory Alies </th>
+                        <th> Address </th>
+                        <th> Social Insurance ID </th>
+                        <th> Social Insurance Office </th>
+                        <th> Telephone1 </th>
+                        <th> Telephone2 </th>
+                        <th> Fax1 </th>
+                        <th> Fax2 </th>
+                    </tr>
+                </thead>
+                <tbody id="factory-append-data"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/C_B_F_Setup/Inquiry_CompanySetup.js")

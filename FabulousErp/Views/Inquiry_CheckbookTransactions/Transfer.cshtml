@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Transfer Inquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <!-- Span For Void-Transaction Check -->
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <button class="btn btn-primary btn-sm" id="Print" onclick="PrintThis('PrintSec',false,true,false,null,'Cash Trasfer @Request["TrsNum"]',true,true,null,'PrintSec *{font-size:24px;}')"> Print </button>
+    <section id="PrintSec">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm">Cash Transfer No : </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CBI-docNumber", ViewBag.DocumentNumber as SelectList, "-Choose-", new { @id = "CBI-docNumber", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> JV Number : </label>
+            <div class="col-md-2">
+                @Html.DropDownList("documentNumberVoid", ViewBag.JVNumber as SelectList, "-Choose-", new { @id = "TCGV-JENum", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Void Date : </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="C_VoidDate" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Reference : </label>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" id="TCVT-Reference" disabled />
+            </div>
+        </div>
+
+        <section id="transferFrom">
+            <h5 class="font-weight-bold"> Transfer From : </h5>
+            @{
+                Html.RenderAction("TransferData");
+            }
+        </section>
+
+        <section id="transferTo">
+            <h5 class="font-weight-bold"> Transfer To : </h5>
+            @{
+                Html.RenderAction("TransferData");
+            }
+        </section>
+    </section>
+    @Html.Partial("_MainVoidTransaction")
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/ShowTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/VoidTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransactionVoid_Script.js")
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookTransactions.js")
+<script>
+    $(function () {
+        if (getParameterByName("PO")) {
+            //$("#CBI-docNumber").val(getParameterByName("PO"))
+            //$("#CBI-docNumber").trigger("change");
+            $("#TCGV-JENum").val(getParameterByName("PO"))
+            $('#TCGV-JENum').trigger('change');
+            RunAfterAjax(function () {
+                PrintAsImage("PrintSec")
+            },2000)
+
+            //$("#Print").trigger("click");
+        }
+
+    })
+</script>
+<link href="~/Styles/PrintBundle.css" rel="stylesheet" />

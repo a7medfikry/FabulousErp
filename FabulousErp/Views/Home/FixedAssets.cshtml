@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <fieldset class="container-fluid home-page">
+        <!-- Transactions Field -->
+        <div class="transactions-field">
+            <div class="transactions-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Transactions
+                    </div>
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        
+                        </ul>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="transactions-company" class="tab-pane active container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                   <li class="mb-1 p-1 bg-light NoTrans">
+                                        
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="transactions-fixedasets" data-parent=".transactions-accordion">
+                                            <li>@Html.ActionLink("Create Assets", "Create", "Assets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Fixed assets renewal", "Create", "Fixed_assets_renewal", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Fixed assets disposel", "Create", "Fixed_assets_disposel", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Depreciation", "Create", "Deprecations", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Fixed assets revaluate", "Create", "Fixed_assets_revaluate", new { area = "FixedAssets" }, new { })</li>
+
+
+                                            <li>@Html.ActionLink("Void Assets", "Index", "Assets", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+
+                                            <li>@Html.ActionLink("Void Fixed assets renewal", "Index", "Fixed_assets_renewal", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink("Void Fixed assets disposel", "Index", "Fixed_assets_disposel", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink("Void Depreciation", "Index", "Deprecations", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink("Void Fixed assets revaluate", "Index", "Fixed_assets_revaluate", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+
+
+                                        </ul>
+                                    </li>
+                              
+                                </ul>
+                            </div>
+
+                            <!-- Branch Content -->
+                            <div id="transactions-branch" class="container tab-pane fade">
+                                <ul class="list-unstyled p-1">
+                                   <li class="mb-1 p-1 bg-light">
+                                       
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="transactions-Bfixedasets" data-parent=".transactions-accordion"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Factory Content -->
+                            <div id="transactions-factory" class="container tab-pane fade">
+                                <ul class="list-unstyled p-1">
+                                   
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                    
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="transactions-Ffixedasets" data-parent=".transactions-accordion"></ul>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ****** Setting Field ****** -->
+        <div class="setting-field">
+            <div class="setting-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Setting
+                    </div>
+                    <div class="card-header">
+                    
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Accounting -->
+                            <div id="accounting-company" class="active tab-pane fade show container">
+                                <ul class="list-unstyled p-1">
+                                    
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                    
+                                        <ul class=" list-group list-unstyled" data-toggle="" data-parent=".setting-accordion" id="setting-fixedasets">
+                                            <li>@Html.ActionLink("Assets_class", "Index", "Assets_class", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Assets_main", "Index", "Assets_main", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Assets", "Index", "Assets", new { area = "FixedAssets", Setting = "Edit" }, new { })</li>
+                                            <li>@Html.ActionLink("Book", "Create", "Books", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Deprecation Setting", "Index", "Deprecation_Setting", new { area = "FixedAssets" }, new { })</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                           
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Inquiry Field ********** -->
+        <div class="inquiry-field">
+            <div class="inquiry-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Inquiry
+                    </div>
+                
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="inquiry-company" class="tab-pane active show fade container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                               
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                    
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="inquiry-fixedasets" data-parent=".inquiry-accordion">
+                                            <li>@Html.ActionLink("Assets", "Index", "Assets", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink("Fixed assets renewal", "Index", "Fixed_assets_renewal", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink("Fixed assets disposel", "Index", "Fixed_assets_disposel", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink("Depreciation", "Index", "Deprecations", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink("Fixed assets revaluate", "Index", "Fixed_assets_revaluate", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                        </ul>
+                                    </li>
+                                  
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Report Field ********** -->
+        <div class="report-field">
+            <div class="report-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Reports
+                    </div>
+                 
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="report-company" class="tab-pane active container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                      
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="report-fixedasets" data-parent=".report-accordion">
+                                            <li>@Html.ActionLink("Stoking_assets", "Create", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Stocking Report", "StockingReport", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+
+                                            <li>@Html.ActionLink("Deprecation_record", "Index", "Deprecation_record", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                            <li>@Html.ActionLink("Year report", "Year", "Reports", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Books Report", "Bookreport", "Books", new { area = "FixedAssets" }, new { })</li>
+
+
+
+                                            <li>@Html.ActionLink("Delete Assets", "DeleteAssets", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Delete Assets Class", "DeleteAssetsClass", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                            <li>@Html.ActionLink("Delete Assets Main", "DeleteAssetsMain", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Delete Renwal", "DeleteRenwal", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink("Delete disposel", "Deletedisposel", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                            <li>@Html.ActionLink("Delete Revaluate", "DeleteRevaluate", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+
+
+                                        </ul>
+                                    </li>
+ 
+                                </ul>
+                            </div>
+
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>

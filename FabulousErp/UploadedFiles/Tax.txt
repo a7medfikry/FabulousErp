@@ -1,0 +1,5 @@
+Tax Transaction 
+
+T. Vat Amount   => Debit on T. Vat Id Account
+Vat Amount	=> Debit on Vat ID
+Dacutta Amount  => Credit on Dacutta Tax ID	

@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Print Document";
+    ViewBag.FormCode = "SPD";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-row form-group">
+                <div class="col-md-4 hide">
+                    <label class="col-form-label col-form-label-sm"> Company ID :</label>
+                    @Html.DropDownList("SPD-CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "SPD-CompanyID", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-9">
+                    <label class="col-form-label col-form-label-sm"> Company Name : </label>
+                    <input type="text" class="form-control form-control-sm" id="SPD-CompanyName" disabled />
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <label class="col-md-9 col-form-label col-form-label-sm"> Module : </label>
+                <div class="col-md-9">
+                    @Html.DropDownList("SPD-Module", new List<SelectListItem>
+                                          {
+                                          new SelectListItem{Text = "Financial" , Value = "Financial" },
+                                          new SelectListItem{Text = "Purshacing" , Value = "Purshacing" },
+                                          new SelectListItem{Text = "Sales" , Value = "Sales" },
+                                          new SelectListItem{Text = "Inventory" , Value = "Inventory" },
+                                          }, "-Choose-", new { @id = "SPD-Module", @class= "form-control form-control-sm", @disabled = "disabled" })
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <label class="col-md-9 col-form-label col-form-label-sm"> Form Name: </label>
+                <div class="col-md-9">
+                    @Html.DropDownList("SPD-TFormName", new SelectList(""), "-Choose-", new { @id = "SPD-TFormName", @class = "form-control form-control-sm", @disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 bg-light100 rounded">
+            <div class="form-row">
+                <div class="d-block">
+                    <div class="custom-control custom-checkbox ">
+                        <input id="SPD-CBAsk" type="checkbox" class="custom-control-input" value="true" checked>
+                        <label class="custom-control-label" for="SPD-CBAsk" id="SPD-CBAsklbl">Ask</label>
+                    </div>
+                    <div class="custom-control custom-checkbox ">
+                        <input id="SPD-CBPrintDirect" type="checkbox" class="custom-control-input" value="false">
+                        <label class="custom-control-label" for="SPD-CBPrintDirect" id="SPD-CBPrintDirectlbl">Print Direct</label>
+                    </div>
+                    <div class="custom-control custom-checkbox ">
+                        <input id="SPD-CBAnalytic" type="checkbox" class="custom-control-input" value="false">
+                        <label class="custom-control-label" for="SPD-CBAnalytic" id="SPD-CBAnalyticlbl">Analytic</label>
+                    </div>
+                    <div class="custom-control custom-checkbox ">
+                        <input id="SPD-CBCostCenter" type="checkbox" class="custom-control-input" value="false">
+                        <label class="custom-control-label" for="SPD-CBCostCenter" id="SPD-CBCostCenterlbl">Cost Center</label>
+                    </div>
+                    <button class="btn btn-success btn-sm mt-2" type="button" id="SPD-SavePSBtn">Save</button>
+                    <button class="btn btn-primary btn-sm mt-2" type="button" id="SPD-UpdatePSBtn">Update</button>
+                    <button class="btn btn-danger btn-sm mt-2" type="button" id="SPD-ResetBtn">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="p-3">
+        
+    </div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")
+<script>
+    $(function () {
+        $("#SPD-CompanyID").trigger("change")
+    })
+</script>

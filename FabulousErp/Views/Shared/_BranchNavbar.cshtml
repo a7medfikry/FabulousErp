@@ -1,0 +1,144 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark sticky-top menu_area">
+    <!-- Navbar-toggler -->
+    <button class="btn btn-dark btn-sm rounded-circle text-white" id="sidebarToggle" href="#">
+        <i class="fa fa-bars"></i>
+    </button>
+    <a class="navbar-brand ml-3" href="/Dashboard/dashboard"> <i class="fa fa-home"></i> </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <!-- Links -->
+        <ul class="navbar-nav" id="nav">
+            <!-- Settings -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Settings <i class="fa fa-cog"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li>
+                        <a class="dropdown-item dropdown-toggle" href="#">Financial</a>
+                        <div class="dropdown-menu financial-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <ul class="list-unstyled">
+                                        <li class="dropdown-header text-center ul-header">Accounting</li>
+
+                                        <li class="dropdown-header text-danger font-weight-bold bg-header">Branch</li>
+                                        <li> <a href="/B_CreateAnalyticAccounts/BranchAnalyticAccounts"> <i class=""></i> Branch Analytic Account </a></li>
+                                        <li> <a href="/B_CreateCostCenter/BranchCostCenter"> <i class=""></i> Branch Cost Center </a></li>
+                                        <li> <a href="/B_AnalyticAccountDistribution/BranchAnalyticDistribution"> <i class=""></i> Branch Analytic Account Distribution </a></li>
+                                        <li> <a href="/B_CreateAccount/BranchAccount"> <i class=""></i> Branch Create Account </a></li>
+                                        <li> <a href="/B_CreateCostCenterAccounts/BranchCCAccounts"> <i class=""></i> Branch Cost Center Accounts </a></li>
+                                        <li> <a href="/B_CreateMainCostCenter/BranchMainCostCenter"> <i class=""></i> Branch Main Cost Center </a></li>
+                                        <li> <a href="/B_UpdateMainCostCenter/BranchUpdateGroupCC"> <i class=""></i> Update Branch Main Cost Center </a></li>
+                                        <li> <a href="/B_AddCostAccountToAccount/CostAccountToBranchAccount"> <i class=""></i> Add Cost Account To Branch Account </a></li>
+                                        <li> <a href="/B_AddDistToAccount/DistToBranchAccount"> <i class=""></i> Add Distribution Account To Branch Account </a></li>
+                                        <li> <a href="/B_CheckBookSetting/BranchCheckBook"> <i class=""></i> Branch Checkbook Setting </a></li>
+                                        <li> <a href="/F_LinkCDtoBA/CurrencyDefinitionToBranchAccount"> <i class=""></i> Link Currency Definition To Branch Account </a></li>
+
+
+                                        <li class="dropdown-header text-danger font-weight-bold bg-header">Factory</li>
+                                        <li> <a href="/F_CreateAnalyticAccounts/FactoryAnalyticAccounts"> <i class=""></i> Factory Analytic Account </a></li>
+                                        <li> <a href="/F_CreateCostCenter/FactoryCostCenter"> <i class=""></i> Factory Cost Center </a></li>
+                                        <li> <a href="/F_AnalyticAccountDistribution/FactoryAnalyticDistribution"> <i class=""></i> Factory Analytic Account Distribution </a></li>
+                                        <li> <a href="/F_CreateAccount/FactoryAccount"> <i class=""></i> Factory Create Account </a></li>
+                                        <li> <a href="/F_CreateCostCenterAccounts/FactoryCCAccounts"> <i class=""></i> Factory Cost Center Accounts </a></li>
+                                        <li> <a href="/F_CreateMainCostCenter/FactoryMainCostCenter"> <i class=""></i> Factory Main Cost Center </a></li>
+                                        <li> <a href="/F_UpdateMainCostCenter/FactoryUpdateGroupCC"> <i class=""></i> Update Factory Main Cost Center </a></li>
+                                        <li> <a href="/F_AddCostAccountToAccount/CostAccountToFactoryAccount"> <i class=""></i> Add Cost Account To Factory Account </a></li>
+                                        <li> <a href="/F_AddDistToAccount/DistToFactoryAccount"> <i class=""></i> Add Distribution Account To Factory Account </a></li>
+                                        <li> <a href="/F_CheckBookSetting/FactoryCheckBook"> <i class=""></i> Factory Checkbook Setting </a></li>
+                                        <li> <a href="/F_LinkCDtoFA/CurrencyDefinitionToFactoryAccount"> <i class=""></i> Link Currency Definition To Factory Account </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!-- Settings -->
+            <!-- Transcations -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Transactions <i class="fa fa-exchange"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item dropdown-toggle" href="">1</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- transactions -->
+            <!-- Inquiry -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Inquriy <i class="fa fa-tv"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li>
+                        <a class="dropdown-item dropdown-toggle" href="#">Financial</a>
+                        <div class="dropdown-menu Inquiry-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <ul class="list-unstyled">
+                                        <li class="dropdown-header text-center ul-header">Accounting</li>
+
+                                        <li class="dropdown-header text-danger font-weight-bold bg-header">Branch</li>
+                                        <li><a onclick="location.href='@Url.Action("BranchAnalyticAccount", "Inquiry_BranchAnalytic")'"> <i class=""></i> Branch Analytic </a></li>
+                                        <li><a onclick="location.href='@Url.Action("BranchCostCenter", "Inquiry_BranchCostCenter")'"> <i class=""></i> Branch Cost center </a></li>
+                                        <li><a onclick="location.href='@Url.Action("BranchAnalyticDistribution", "Inquiry_BranchAnalyticDistribution")'"> <i class=""></i> Branch Analytic Distribution </a></li>
+                                        <li><a onclick="location.href='@Url.Action("BranchCenterAccounts", "Inquiry_BranchCostCenterAccounts")'"> <i class=""></i> Branch Cost Center Accounts </a></li>
+                                        <li><a onclick="location.href='@Url.Action("BranchChartOfAccounts", "Inquiry_IBCOA")'"> <i class=""></i> Branch Chart Of Accounts </a></li>
+
+
+                                        <li class="dropdown-header text-danger font-weight-bold bg-header">Factory</li>
+                                        <li><a onclick="location.href='@Url.Action("FactoryAnalyticAccount", "Inquiry_FactoryAnalytic")'"> <i class=""></i> Factory Analytic </a></li>
+                                        <li><a onclick="location.href='@Url.Action("FactoryCostCenter", "Inquiry_FactoryCostCenter")'"> <i class=""></i> Factory Cost Center </a></li>
+                                        <li><a onclick="location.href='@Url.Action("FactoryAnalyticDistribution", "Inquiry_FactoryAnalyticDistribution")'"> <i class=""></i> Factory Analytic Distribution </a></li>
+                                        <li><a onclick="location.href='@Url.Action("FactoryCenterAccounts", "Inquiry_FactoryCostCenterAccounts")'"> <i class=""></i> Factory Cost Center Accounts </a></li>
+                                        <li><a onclick="location.href='@Url.Action("FactoryChartOfAccounts", "Inquiry_IFCOA")'"> <i class=""></i> Factory Chart Of Accounts </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!-- Inquiry -->
+            <!-- Report -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Report <i class="fa fa-print"></i>
+                </a>
+            </li>
+            <!-- Report -->
+        </ul>
+        <!-- Links -->
+        <!-- Search -->
+        <form class="form-inline ml-2" id="seachForm" action="">
+            <input type="text" id="searchinput" placeholder="Search for forms..">
+            <button type="button" class="searchbtn ml-1" id="SearchFormsBtn"> <span class="fa fa-search"></span> </button>
+        </form>
+        <!-- Search -->
+        <!-- Account -->
+        <ul class="navbar-nav ml-auto" id="nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @FabulousErp.Business.GetUserName() <span class="fa fa-user"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a class="dropdown-item" href="/AccountProfileInfo/AccountInfo">Profile</a>
+                        <a class="dropdown-item" href="/UserChangePassword/ChangePassword">Change Password</a>
+                        <a class="dropdown-item" href="/UserLogin/Logout">Sign Out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Account -->
+    </div>
+</nav>
+

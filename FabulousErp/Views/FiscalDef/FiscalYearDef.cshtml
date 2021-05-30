@@ -1,0 +1,107 @@
+﻿@model FabulousModels.ViewModels.Settings.Financial.GeneralSetting.FiscalPeriods.Fiscal_Definition
+
+@{
+    ViewBag.Title = "Fiscal year Definition";
+    ViewBag.FormCode = "SFYD";
+}
+
+@using (Html.BeginForm("FiscalyearDef", "FiscalDef", FormMethod.Post, new { id = "Form1" }))
+{
+<div class="container-fluid">
+    <div class="row form-group">
+        <label class="col-md-10"> Fiscal Year ID : <span class="star">*</span></label> <span id="FiscalIDError"></span>
+        <div class="col-md-11">
+            @Html.TextBoxFor(x => x.Fiscal_Year_ID, new { id = "FiscalYearID", @maxlength = "10", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label class="col-md-10"> Fiscal Year Name : <span class="star">*</span> </label> <span id="FiscalNameError"></span>
+        <div class="col-md-11">
+            @Html.TextBoxFor(x => x.Fiscal_Year_Name, new { id = "FiscalYearName", @maxlength = "50", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    @*
+        <div class="form-group">
+            <label class="col-md-3"> Fiscal Year Start <span id="Star">*</span> </label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(x => x.Fiscal_Year_Start, new { @type = "Date", id = "FiscalStartDate" }) <label id="FiscalStartError">@Html.ValidationMessageFor(x => x.Fiscal_Year_Start)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3"> Fiscal year End <span id="Star">*</span> </label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(x => x.Fiscal_Year_End, new { @type = "Date", id = "FiscalEndDate" }) <label id="FiscalEndError">@Html.ValidationMessageFor(x => x.Fiscal_Year_End)</label>
+            </div>
+        </div>
+    *@
+
+    <div class="row form-group">
+        <label class="col-md-10"> Number Of Periods : <span class="star">*</span> </label> <span id="PeriodsError"></span>
+        <div class="col-md-11">
+            @Html.TextBoxFor(x => x.Number_Of_Periods, new { @type = "number", id = "Periods", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label class="col-md-12"> Number Of Adjustment Periods : <span class="star">*</span> </label> <span id="AdjError"></span>
+        <div class="col-md-11">
+            @Html.TextBoxFor(x => x.Number_Of_Adjustment_Periods, new { @type = "number", id = "Adjustments", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <input type="button" onclick="formsubmit()" id="Calculate" value="Calculate" class="btn btn-primary btn-sm" />
+        <button type="button" class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("NewYear", "CreateNewYear")'">Create New Year</button>
+    </div>
+    <label id="SuccessSaved" class="FDSuccessSubmit"></label>
+
+</div>
+    @*
+        <button type="button" class="btn btn-primary" onclick="ShowPopCreate()">Create New Year To a Specific Fiscal Year ID</button>
+
+        <div class="modal fade" id="CreateNewYearModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4> New Year To a Specific Fiscal Year ID</h4>
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form">
+                            <div class="form-group">
+                                <label>Fiscal Year ID : </label>
+                                @Html.DropDownList("CNFiscalYearID", ViewBag.CNFiscalYearID as SelectList, "Select", new { id = "CNFiscalYearID", @class = "dropdown" })
+                                <label id="CNFiscalYearName"></label>
+                                <p>@Html.ValidationMessage("CNFiscalYearIDError", new { @id = "CNFiscalYearIDError", @class="FDError" })</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Year : </label>
+                                @Html.TextBox("CNYear", null, new { @id = "CNYear" })
+                                <p>@Html.ValidationMessage("CNYearError", new { @id = "CNYearError", @class = "FDError" })</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Start Date : </label>
+                                @Html.TextBox("CNStartDate", null, new { @type = "Date", id = "CNStartDate" })
+                                <p>@Html.ValidationMessage("CNStartDateError", new { @id = "CNStartDateError", @class = "FDError" })</p>
+                            </div>
+                            <div class="form-group">
+                                <label>End Date : </label>
+                                @Html.TextBox("CNEndDate", null, new { @type = "Date", id = "CNEndDate" })
+                                <p>@Html.ValidationMessage("CNEndDateError", new { @id = "CNEndDateError", @class = "FDError" })</p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-block btn-danger" id="CreateYear">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    *@
+}
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/FiscalDef/Validation.js")

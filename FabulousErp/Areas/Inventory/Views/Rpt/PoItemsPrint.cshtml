@@ -1,0 +1,168 @@
+﻿@model List<FabulousModels.Inventory.PoItemsPrint>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime DocDate = (DateTime)ViewBag.DocDate;
+    DateTime TrDate = DateTime.Now;
+    try
+    {
+        TrDate = (DateTime)ViewBag.TrDate;
+
+    }
+    catch
+    {
+
+    }
+    List<FabulousModels.Inventory.ItemSerial> ItemSerial = ViewBag.ItemSerial as List<FabulousModels.Inventory.ItemSerial>;
+}
+
+<button class="Print" onclick="PrintThis('Sec', false, false, true, null, '@ViewBag.Title',false,true,null,'',false,'',true)"></button>
+
+<section id="Sec">
+    <section>
+        <table style="width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    " class="NoDataTable">
+            <tr>
+                @if (!string.IsNullOrEmpty(ViewBag.GrGo))
+                {
+                    <td>
+                        @FabulousErp.BusController.Translate(ViewBag.GrGo)
+                    </td>
+                    <td>
+                        @ViewBag.GrGoV
+                    </td>
+                }
+                <td>
+                    @FabulousErp.BusController.Translate("Transaction Date")
+                </td>
+                <td>
+                    @TrDate.ToShortDateString()
+                </td>
+                <td>
+                    @FabulousErp.BusController.Translate(ViewBag.VCName)
+                </td>
+                <td>
+                    @ViewBag.VCNameV
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @FabulousErp.BusController.Translate("Document Date")
+                </td>
+                <td>
+                    @DocDate.ToShortDateString()
+                </td>
+                @if (ViewBag.ShowDocNum)
+                {
+                    <td>
+                        @FabulousErp.BusController.Translate("Document Number")
+                    </td>
+                    <td>
+                        @ViewBag.DocNum
+                    </td>
+                }
+            </tr>
+        </table>
+    </section>
+    <table class="table table-bordered NoDataTable" style="border-color:black;border:1px;">
+        <thead>
+            <tr>
+                <td>
+                    @FabulousErp.BusController.Translate("Item Id")
+                </td>
+                <td>
+                    @FabulousErp.BusController.Translate("Item Name")
+                </td>
+                <td>
+                    @FabulousErp.BusController.Translate("UOM")
+                </td>
+                <td>
+                    @FabulousErp.BusController.Translate("Qty")
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (FabulousModels.Inventory.PoItemsPrint i in Model)
+            {
+                <tr>
+                    <td>
+                        @i.Item_id
+                    </td>
+                    <td>
+                        @i.Item_name
+                    </td>
+                    <td>
+                        @i.UOM
+                    </td>
+                    <td>
+                        @i.Qty
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @try
+    {
+        if (ItemSerial.Any())
+        {
+            <table class="table table-bordered NoDataTable" style="border:1px;border-color:black;">
+                <thead>
+                    <tr>
+                        <th>Item Id</th>
+                        <th>Serial No</th>
+                        @if (ItemSerial.FirstOrDefault().Has_expiery)
+                        {
+                            <th>Expiery date</th>
+                        }
+                        @if (ItemSerial.FirstOrDefault().Has_warranty)
+                        {
+                            <th>Warranty Start</th>
+                            <th>Warranty End</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (FabulousModels.Inventory.ItemSerial i in ItemSerial)
+                    {
+                        <tr>
+                            <td>@i.Item_id</td>
+                            <td>@i.Serial</td>
+                            @if (i.Has_expiery)
+                            {
+                                <td>
+                                    @*@try
+                                    {@i.Expiery_date.Value.ToShortDateString()}
+                                catch { }*@
+                            </td>
+                        }
+                            @if (i.Has_warranty)
+                            {
+                                <td>
+                                    @try
+                                    {@i.Warranty_start.Value.ToShortDateString()}
+                                catch { }
+                            </td>
+                            <td>
+                                @try
+                                {@i.Warranty_end.Value.ToShortDateString()}
+                            catch { }
+                        </td>
+                    }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    }
+    catch
+    {
+
+    }
+</section>
+<script>
+    $(function () {
+        $(".Print").trigger("click");
+    })
+</script>

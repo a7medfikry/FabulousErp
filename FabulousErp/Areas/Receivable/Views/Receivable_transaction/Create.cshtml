@@ -1,0 +1,888 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_transaction
+
+@{
+    ViewBag.Title = "Receivable Transaction";
+    if (ViewBag.Partial == true)
+    {
+        Layout = null;
+    }
+    string HasNoPayment = "";
+    if (!ViewBag.AllowPayment)
+    {
+        HasNoPayment = "hide";
+    }
+    <text>
+        <script>
+            HasNoPayment = "@HasNoPayment";
+        </script>
+    </text>
+}
+
+
+@using (Ajax.BeginForm("Create", "Receivable_transaction", new AjaxOptions { OnSuccess = "SubmitPayment" }, new { id = "ReceivableForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" id="TransDiv">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Journal_number, new { @class = "Journal_number" })
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Trans_doc_type_id, "Trans_doc_type_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Trans_doc_type_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Trans_doc_type_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Doc_type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.Doc_type, ViewBag.Doc_type as SelectList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Doc_type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group Width60">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Desc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Desc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "TCGE-JEDate" })
+
+                @Html.ValidationMessageFor(model => model.Transaction_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Posting_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Posting_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "TCGE-PostingDate" })
+
+                @Html.ValidationMessageFor(model => model.Posting_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<section class="FormTransactionRate hide">
+            <div class="form-group">
+                @Html.LabelFor(model => model.System_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.System_rate, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.System_rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Transaction_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Transaction_rate, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Transaction_rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Difference", "Difference", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Label("Difference", "0", htmlAttributes: new { @class = "control-label col-md-2", id = "DifferenceLbl" })
+                </div>
+            </div>
+        </section>*@
+        <section class="GlTransactionRate col-sm-12">
+            <span id="ReplaceWithTrans"></span>
+        </section>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vendor_id, "Customer id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Vendor_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.Label("VendorNamelbl", " ", htmlAttributes: new { @class = "col-md-12", id = "VendorNamelbl" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.PONumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PONumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PONumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.VDocument_number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VDocument_number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.VDocument_number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Doc_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Doc_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+                @Html.ValidationMessageFor(model => model.Doc_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Due_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Due_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+                @Html.ValidationMessageFor(model => model.Due_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment_terms_id, "Payment Terms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Payment_terms_id", null, Convert.ToString(Model.Payment_terms_id), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Payment_terms_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shipping_method_id, "Ship. Method", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Shipping_method_id", null, Convert.ToString(Model.Shipping_method_id), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Shipping_method_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <section class="clearfix">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Purchase, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Purchase, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Purchase, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Taken_discount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Taken_discount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Taken_discount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group ">
+                @Html.Label("Total", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("TotalValue", "0", new { htmlAttributes = new { @class = "control-label col-md-2 maskmoney labelInput hide", id = "TotalValue" } })
+                    @Html.Label("TotalValueView", "0", new { @class = "control-label col-md-2", style = "width: 100%;", id = "TotalValueLbl" })
+                    @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </section>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="FirstForm" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<section class="ReceivablePayment @HasNoPayment">
+    <h4>Payment</h4>
+    @{
+        int? TransDocId = null;
+        if (Model != null)
+        {
+            TransDocId = Model.Id;
+        }
+    }
+    @Html.Action("PartialCreate", "Receivable_payment", new { id = TransDocId })
+</section>
+<section class="clearfix col-sm-12">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" id="Create" class="btn btn-success" />
+        </div>
+    </div>
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+</section>
+
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(function () {
+        DisableAjax($("#Create"));
+    })
+    RunAfterAjax(function () {
+        $("#Create").removeAttr("disabled");
+    })
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+    $("#Currency_id").change(function () {
+        if (window.location.href.indexOf("Details") == -1) {
+          TransactionRateStatus("@Business.FinancialForms.Receivable_transaction")
+        }
+    })
+   
+    $(function () {
+
+        //$("#Purchase").val(0);
+        //$("#Taken_discount").val(0);
+        //$("#Tax").val(0)
+       // $(".ReceivablePayment").find("#Orginal_amount").val(0);
+
+    });
+    $("#TransDiv").on("change", "#Currency_id", function () {
+        MaskMoneyTxt("@ViewBag.companyID", null, $(this).find("option:selected").text())
+        if (CompId != $(this).val()) {
+            $(".FormTransactionRate").removeClass("hide");
+        } else {
+            $(".FormTransactionRate").addClass("hide");
+        }
+    });
+    $("#TransDiv").on("change focusout", "#Transaction_rate,#System_rate", function () {
+        var TransRate = parseFloat($("#TransDiv").find("#Transaction_rate").val());
+        var SysRate = parseFloat($("#TransDiv").find("#System_rate").val());
+        $("#TransDiv").find("#DifferenceLbl").text((TransRate - SysRate).toFixed(DecimalPoint));
+    })
+    $(document).on("click", "#Cash_type", function () {
+        if ($(this).val() == "@Cash_type.Cash") {
+            $(document).find("#Cheque_number").parents(".form-group").hide();
+            $(".ReceivablePayment").find("#Due_date").parents(".form-group").hide();
+        } else {
+            $(document).find("#Cheque_number").parents(".form-group").show();
+            $(".ReceivablePayment").find("#Due_date").parents(".form-group").show();
+        }
+    })
+</script>
+
+@*<script>
+        var MaxAmount;
+        var MinAmount;
+        var VendoreValid;
+
+        $(".ReceivablePayment").find("#Cash_type[value='Cash']").trigger("click");
+        $("#Vendor_id").change(function () {
+            VendoreValid = false;
+
+            var Vendor_id =$(this).find("option:selected").val()
+            $.ajax({
+                url: "@Url.Action("HasPassword", "Creditor_setting")?id=" + Vendor_id,
+                method: "POST",
+                success: function (HasPassword) {
+                    if (HasPassword) {
+                        ModelMsg("<div class='col-sm-12'><label>Enter Password</label><input type='password' class='GroupSettingPas form-control'  /></div>", "Enter Password"
+                            , false,
+                            function () {
+                                $.ajax({
+                                    url: "@Url.Action("CheckPass", "Creditor_setting")?Id=" + Vendor_id + "&Password=" + $(document).find(".GroupSettingPas").val(),
+                                    method: "POST",
+                                    success: function (data) {
+                                        if (data) {
+                                            GetCreditorName(Vendor_id)
+                                            VendoreValid = true;
+
+                                        } else {
+                                            ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                            $("#Vendor_id").val("");
+                                            VendoreValid = false;
+                                        }
+                                    }
+                                })
+                            }, function () {
+                                if (!VendoreValid) {
+                                    $("#Vendor_id").val("");
+                                }
+                            })
+                    } else {
+                        GetCreditorName(Vendor_id)
+                    }
+                }
+            });
+            $.ajax({
+                url: "@Url.Action("CheckCreditorLimit", "Creditor_setting")?id=" + Vendor_id,
+                method: "POST",
+                success: function (CL) {
+                    CLType = CL.status;
+                    CLAmount = CL.amount
+                    if (CL.status == "@Credit_limit_enum.Amount") {
+                            VeAmount = CL.veAmount;
+                    }
+                    if ("@HasNoPayment" == "hide") {
+                        if (CL.status == "@Credit_limit_enum.No_credit" || CL.status == "@Credit_limit_enum.Amount") {
+                            $(".ReceivablePayment").removeClass("hide");
+                            VZeroSum = true;
+                            CLAmount = CL.amount
+                        } else {
+                            $(".ReceivablePayment").addClass("hide");
+                            VZeroSum = false;
+                        }
+                    } else {
+                        VZeroSum = true;
+                    }
+                    MinAmount = CL.MinAmount;
+                    MaxAmount = CL.MaxAmount;
+                    //$(document).find("#PurchaseMask").trigger("focusout");
+                }
+            })
+        })
+         function GetCreditorName(Id) {
+                $.ajax({
+                url: "@Url.Action("GetNameAndCBookById", "Creditor_setting")?id=" + Id,
+                success: function (data) {
+                    $("#VendorNamelbl").text(data.Name);
+                    $(".ReceivablePayment").find("#Check_book_id").val(data.CBook);
+                    $("#TransDiv").find("#Payment_terms_id").val(data.PTI);
+                    $("#TransDiv").find("#Shipping_method_id").val(data.SI);
+                },
+                method:"POST"
+            })
+        }
+        var OverLimitValid = false;
+        var Changed = false;
+        $("#Create").click(function () {
+            $("#TCGE-JEDate").removeAttr("disabled")
+            $("#TCGE-PostingDate").removeAttr("disabled")
+          @if (HasNoPayment=="")
+          {
+              <text>
+                $("#PaymentForm").validate();
+                $("#PaymentForm").valid();
+                if (!$("#PaymentForm").valid()) {
+                    return false;
+                }
+              </text>
+          }
+
+
+            var OrginalAmount = parseFloat($(document).find(".ReceivablePayment").find("#Orginal_amount").val());
+            if (!OrginalAmount) {
+                OrginalAmount = 0;
+            }
+            var TotalValue = parseFloat($("#TotalValue").val());
+            var TrasRate = 1;
+            if ($("#TransDiv").find("#TCGE-TransactionRate").val()) {
+                TrasRate = parseFloat($("#TransDiv").find("#TCGE-TransactionRate").val());
+            }
+
+             if ($("#Doc_typeTrans").find("option:selected").val() == "@Doc_type.Credit_Memo"
+                || $("#Doc_typeTrans").find("option:selected").val() == "@Doc_type.Return") {
+                VZeroSum = false;
+            } else {
+                VZeroSum = true;
+
+            }
+            $("#ReceivableForm").validate();
+            $("#ReceivableForm").valid();
+            if (OrginalAmount * TrasRate == TotalValue * TrasRate) {
+                VZeroSum = false;
+            }
+            if (VZeroSum) {
+                if (CLType == "@Credit_limit_enum.Amount") {
+
+                    var MyThisMax = parseFloat(CLAmount) + ((TotalValue - OrginalAmount) * TrasRate);
+
+
+                    var AddedMsg = "";
+                    if ($("#Currency_id").find("option:selected").text() != CurrIso) {
+                        AddedMsg = " Or " + MyThisMax + " " + $("#Currency_id").find("option:selected").text();
+                    }
+                    if (VeAmount + (OrginalAmount * TrasRate)  < MyThisMax) {
+                        {
+                            if (!OverLimitValid) {
+                                $.ajax({
+                                    url: "@Url.Action("GetCreditLimitPasswordOption", "Genral_setting")",
+                                    method: "POST",
+                                    success: function (data) {
+                                        if (data) {
+                                            ModelMsg("<div class='col-sm-12'>You are overlimit your max limit is " + (VeAmount - parseFloat(CLAmount) - OrginalAmount) + CurrIso + AddedMsg + "<label>if you Want To Change Enter Password</label><input type='password' class='CreditLimitPass form-control'  /></div>", "Enter Password"
+                                                , false, function () {
+                                                    $.ajax({
+                                                        url: "@Url.Action("CheckCreditLimitPasswordOption", "Genral_setting")?Password=" + $(document).find(".CreditLimitPass").val(),
+                                                        method: "POST",
+                                                        success: function (data) {
+                                                            if (data) {
+                                                                OverLimitValid = true;
+                                                                Changed = true;
+                                                            } else {
+                                                                ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                                            }
+                                                        }
+                                                    })
+                                                }, null)
+
+                                        } else {
+                                            if (!Changed) {
+                                                ModelMsg("You are overlimit your max limit is " + (VeAmount - parseFloat(CLAmount) - OrginalAmount)  + CurrIso + AddedMsg, "Over Limit", true, null, null)
+                                            }
+
+                                        }
+                                    }
+                                })
+                                return false;
+                                // Talert("You are overlimit your max limit is " + (parseFloat(CLAmount) - OrginalAmount).toString())
+                            } else {
+                                if (!Changed) {
+                                    ModelMsg("You are overlimit your max limit is " + (parseFloat(CLAmount) - OrginalAmount) + " " + CurrIso + AddedMsg, "Over Limit", true)
+                                }
+                            }
+                        }
+                    }
+                } else if (CLType == "@Credit_limit_enum.No_credit") {
+                    var Left = (parseFloat(CLAmount) + ((TotalValue - OrginalAmount) * TrasRate));
+                    if (Left > 0) {
+                        if (VeAmount + (OrginalAmount * TrasRate)  < Left) {
+                            //parseFloat($(document).find(".PayablePayment").find("#Orginal_amount").val()) < parseFloat($("#TotalValue").val()
+                            ModelMsg("This Customer Has No Credit Limit, Over Limit By " + (Left) + " ", "No Credit Limit", true)
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (!($("#ReceivableForm").valid())) {
+                return false;
+            } else {
+                $.ajax({
+                    url: "@Url.Action("ValidateTransaction")",
+                    data: $("#ReceivableForm").serialize(),
+                    method: "POST",
+                    success: function (data) {
+                        if (data.status) {
+                            var BatchId = "";
+
+                            InsertTransactionData($("#TCGE-CompanyID").text(), $("#BostingToORThrow").val(), $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), $("#TCGE-CurrencyID").val(), $("#TCGE-SystemRate").val(), $("#TCGE-TransactionRate").val(), "RecTrns", "RecTrns", BatchId, "",
+                                function (JournalEntryNumber,PO) {
+                                    $(document).find(".Journal_number").val(JournalEntryNumber)
+                                    $("#FirstForm").trigger("click");
+                                    InsertIntoTax(JournalEntryNumber)
+                                }, null, true, null, true)
+
+                        } else {
+                            ModelMsg(data.msg, "", true, null, null);
+                        }
+                    }
+                })
+            }
+        })
+        function SubmitPayment(data) {
+            if (isNaN(data.PayId)) {
+                ModelMsg(data.Error, "", true, null, null);
+            } else {
+                if ($(document).find(".ReceivablePayment").find("#Orginal_amount").val() != 0) {
+                    $(document).find(".ReceivablePayment").find("#Transaction_date").val($("#TransDiv").find("#TCGE-JEDate").val());
+                    $(document).find(".ReceivablePayment").find("#Posting_date").val($("#TransDiv").find("#TCGE-PostingDate").val());
+                    $(document).find(".ReceivablePayment").find("#Vendor_id").val($("#TransDiv").find("#Vendor_id").find("option:selected").val());
+                    $(document).find(".ReceivablePayment").find("#Reference").val($("#TransDiv").find("#Desc").val());
+                    $(document).find(".ReceivablePayment").find("#System_rate").val($("#TransDiv").find("#System_rate").val());
+                    $(document).find(".ReceivablePayment").find("#Transaction_rate").val($("#TransDiv").find("#Transaction_rate").val());
+                    $(document).find(".ReceivablePayment").find("#Due_date").val($("#TransDiv").find("#Due_date").val());
+                    // $(document).find(".ReceivablePayment").find("#Orginal_amount").val($(document).find(".ReceivablePayment").find("#Paid_amount").val());
+                    $(document).find(".ReceivablePayment").find("#Taken_discount").val(0);
+                    $(document).find(".ReceivablePayment").find("#Transaction_id").val(data.PayId);
+                    $(document).find(".ReceivablePayment").find("#Paid_amount").val(0);
+                    $(document).find(".ReceivablePayment").find("#Paid_amountLbl").text(0);
+                    $(document).find(".ReceivablePayment").find("#Currency_id").val($("#TransDiv").find("#Currency_id").val());
+                    $(document).find(".ReceivablePayment").find("#SubmitPayment").trigger("click");
+                    Talert("Transaction Number " , data.Trx_num + " " + $("#Doc_type").find("option:selected").text() , "  Number ", data.Counter)
+                    RedirectInt(window.location);
+
+                } else {
+                    RedirectInt(window.location);
+                }
+            }
+            PrintInt("/Recipts/PayRecRecipts?Id=" + data.PayId + "&IsPay=false")
+        }
+    </script>*@
+
+@Html.IncludeVersionedJs("/Areas/Receivable/Scripts/Receivable_transaction.js")
+<script>
+     TransRateStatus ="@Business.FinancialForms.Payable_transaction";
+</script>
+<script>
+    $(document).find(".ReceivablePayment").find("#Transaction_date").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Posting_date").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Vendor_id").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Transaction_id").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Reference").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#System_rate").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Transaction_rate").parents(".form-group").hide();
+    //  $(document).find(".ReceivablePayment").find("#Orginal_amount").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Taken_discount").parents(".form-group").hide();
+    //$(document).find(".ReceivablePayment").find("#Paid_amount").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#SubmitPayment").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Currency_id").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Payment_type").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Paid_amountLbl").parents(".form-group").hide();
+    $(document).find(".ReceivablePayment").find("#Transaction_idDrop").remove();
+    $("#TransDiv").on("change focusout", "#Taken_discount,#Orginal_amount,#Transaction_rate,#Purchase", function () {
+        var Id = $(this).attr("id");
+        var val = $(this).val();
+        $(document).find(".ReceivablePayment").find("#" + Id).val(val);
+        $(document).find(".ReceivablePayment").find("#" + Id).trigger("change");
+
+        //if (Id == "Purchase") {
+        //    $(document).find(".ReceivablePayment").find("#Orginal_amount").val(val);
+        //    $(document).find(".ReceivablePayment").find("#Orginal_amount").trigger("change");
+        //} else {
+
+        //}
+    })
+    $("#TransDiv").on("change focusout", "#PurchaseMask,#Taken_discountMask,#TaxMask", function () {
+        CalcPurch();
+    })
+    function CalcPurch() {
+        var Pur = GetMaskNumber($(document).find("#PurchaseMask").val());
+        if (!Pur) {
+            Pur = 0;
+        }
+        var Dis = GetMaskNumber($(document).find("#Taken_discountMask").val());
+        if (!Dis) {
+            Dis = 0;
+        }
+        var Tax = GetMaskNumber($(document).find("#TaxMask").val());
+        if (!Tax) {
+            Tax = 0;
+        }
+        var Total = RoundNumber(parseFloat(Pur - Dis + Tax), 2);
+        $("#TotalValue").val(Total);
+        $("#TotalValue").trigger("change");
+        $("#TotalValueMask").val($("#TotalValue").val());
+        $("#TotalValueLbl").text($("#TotalValueMask").val())
+    }
+    $("#TotalValue").change(function () {
+        $("#TotalValueMask").val($(this).val()).trigger('mask.maskMoney');
+        $("#TotalValueLbl").text($("#TotalValueMask").val())
+    })
+</script>
+
+@*Gl Transaction*@
+@if (ViewBag.Partial != true)
+{
+    <script>
+    $(function () {
+        $("#TransDiv").find("#Transaction_date").replaceWith($("#JVSecCont").find("#TCGE-JEDate"));
+        $("#TransDiv").find("#TCGE-JEDate").attr("name", "Transaction_date");
+        $("#TransDiv").find("#TCGE-JEDate").val("@Model.Transaction_date.ToShortDateString()")
+
+        $("#TransDiv").find("#Posting_date").replaceWith($("#JVSecCont").find("#TCGE-PostingDate"));
+        $("#TransDiv").find("#TCGE-PostingDate").attr("name", "Posting_date")
+        $("#TransDiv").find("#TCGE-PostingDate").val("@Model.Posting_date.ToShortDateString()")
+
+        var attr = $("#TransDiv").find("#TCGE-PostingDate").attr('disabled');
+        if (typeof attr !== typeof undefined && attr !== false) {
+            $("#TransDiv").find("#TCGE-PostingDate").removeAttr("disabled");
+            $("#TransDiv").find("#TCGE-PostingDate").attr("readonly", "readonly");
+        }
+
+        $("#TransDiv").find("#ReplaceWithTrans").replaceWith($("#JVSecCont").find("#TCCR-rateField"))
+        $("#TCGE-SystemRate").attr("name","System_rate")
+        $("#TCGE-TransactionRate").attr("name","Transaction_rate")
+        $(document).find(".GlAddedBatch").hide();
+    })
+    </script>
+}
+
+<script>
+    var CurrIso = "@ViewBag.LocalCurr";
+
+    $(document).on("focusout", "#PurchaseMask", function () {
+        var ThisAmount = parseFloat($("#Purchase").val());
+        var TrasRate = 1;
+        if ($("#TransDiv").find("#TCGE-TransactionRate").val()) {
+            TrasRate = parseFloat($("#TransDiv").find("#TCGE-TransactionRate").val());
+        }
+        ThisAmount = ThisAmount * TrasRate;
+        var AddedMaxMsg = "";
+        var AddedMinMsg = "";
+        if ($("#Currency_id").find("option:selected").text() != CurrIso) {
+            AddedMaxMsg = " Or " + RoundNumber((MaxAmount / TrasRate), ) + " " + $("#Currency_id").find("option:selected").text();
+            AddedMinMsg = " Or " + RoundNumber((MinAmount / TrasRate), ) + " " + $("#Currency_id").find("option:selected").text();
+        }
+        if (MaxAmount) {
+            if (ThisAmount > MaxAmount) {
+                MinMaxCheckPassword("Your MaxAmount Amount is " + MaxAmount + " " + CurrIso + AddedMaxMsg)
+            }
+        }
+        if (MinAmount) {
+            if (ThisAmount < MinAmount) {
+                MinMaxCheckPassword("Your Minimum Amount is " + MinAmount + " " + CurrIso + AddedMinMsg)
+            }
+        }
+
+    })
+      function MinMaxCheckPassword(Msg) {
+        var MinMaxValid = false;
+         $.ajax({
+            url: "@Url.Action("GetMinMaxPasswordOption", "Genral_setting")",
+            method: "POST",
+             success: function (data) {
+                 if (data) {
+                     ModelMsg("<div class='col-sm-12'>" + Msg + " <label>if you Want To Change Enter Password</label><input type='password' class='MinMaxPassword form-control'  /></div>", "Enter Password"
+                         , false,
+                         function () {
+                             var Password = $(document).find(".MinMaxPassword").val();
+                             $.ajax({
+                                 url: "@Url.Action("CheckMinMaxPasswordOption", "Genral_setting")?Password=" + Password,
+                                 method: "POST",
+                                 success: function (data) {
+                                     if (data) {
+                                         MinMaxValid = true;
+                                     } else {
+                                         ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                         $("#PurchaseMask").val(0).trigger("keyup");
+                                         MinMaxValid = false;
+
+                                     }
+                                 }
+                             })
+                         }, function () {
+                             if (!MinMaxValid) {
+                                 $("#PurchaseMask").val(0).trigger("keyup");
+                             }
+                         })
+                 } else {
+                     ModelMsg(Msg, "Invalid Input", true);
+                     $("#PurchaseMask").val(0).trigger("keyup");
+                 }
+             }
+        })
+    }
+    $(function () {
+        $("#Currency_id").trigger("change");
+        setTimeout(function () {
+            $(document).find("#PurchaseMask").trigger("keyup")
+
+        },500)
+
+        MaskMoneyTxt("@ViewBag.companyID", function () {
+        })
+
+    })
+    $(document).on("click", "#TCGE-JEDate", function () {
+        $("#TransDiv").find("#Currency_id").val("");
+    })
+    $(document).on("change", "#TCGE-JEDate", function () {
+        $("#Doc_date").val($(this).val())
+        var ThisDate = moment($(this).val()).add('days', 30).format('YYYY-MM-DD');
+        $("#Due_date").val(ThisDate);
+    })
+    $("#TransDiv").on("focusout change", "#Currency_id,#TCGE-JEDate,#TCGE-PostingDate", function () {
+        $("#TCGE-CurrencyID").val($("#Currency_id").val())
+        $("#TCGE-CurrencyID").trigger("change")
+        $("#TransDiv").find("#TCGE-SystemRate").trigger("change")
+        $("#TransDiv").find("#TCGE-TransactionRate").trigger("change")
+        if (!$("#TransDiv").find("#TCGE-SystemRate").is(":visible")) {
+            $("#TransDiv").find("#Transaction_rate").val(1)
+        }
+        if (!$("#TransDiv").find("#TCGE-TransactionRate").is(":visible")) {
+            $("#TransDiv").find("#System_rate").val(1)
+        }
+        currencyID = $("#Currency_id").val();
+        GetCurrencyRates($("#Currency_id").val(), $("#TCGE-PostingDate").val())
+    })
+   
+    $("#TransDiv").on("change focusout", "#Desc", function () {
+        $(document).find("#TCGE-Describtion").val($(this).val())
+        $(document).find("#TCGE-Reference").val($(this).val())
+        $(document).find(".ReceivablePayment").find("#Reference").val($(this).val())
+    })
+    $(document).on("change focusout", "#TCGE-SystemRate", function () {
+        $("#TransDiv").find("#System_rateMask").val($(this).val())
+        $("#TransDiv").find("#System_rateMask").trigger("change")
+        $("#TransDiv").find("#System_rateMask").trigger("focusout")
+
+    })
+    //$(document).on("change focusout", "#TCGE-TransactionRate", function () {
+    //    $("#TransDiv").find("#Transaction_rateMask").val($(this).val())
+    //    $("#TransDiv").find("#Transaction_rateMask").trigger("change")
+    //    $("#TransDiv").find("#Transaction_rateMask").trigger("focusout")
+    //})
+
+
+
+    $(document).on("focusout", "#Check_book_id,#Doc_type,#PurchaseMask,#Purchase,#Taken_discountMask,#Taken_discount,#Tax,#Currency_id,#Vendor_id,#Check_book_id,#Orginal_amount,#Orginal_amountMask", function () {
+        if (!$("#TCGE-CurrencyID").val() && $("#Currency_id").val()) {
+            $("#TCGE-CurrencyID").val($("#Currency_id").val())
+        }
+        if ($("#TCGE-CurrencyID").val() && $("#TransDiv").find("#Vendor_id").val()) {
+
+            var Orginal_amount = GetMaskNumber($(".ReceivablePayment").find("#Orginal_amount").val()), Receivable = 0, BookId = 0;
+            var Taken_discount = GetMaskNumber($("#TransDiv").find("#Taken_discount").val());
+            var TransactionRate = GetMaskNumber($("#TransDiv").find("#TCGE-TransactionRate").val());
+            if (!TransactionRate) {
+                TransactionRate = 1;
+            }
+            if ($(".ReceivablePayment").find("#Check_book_id").length > 0) {
+                if (Orginal_amount > 0) {
+                    if ($(".ReceivablePayment").find("#Check_book_id").find("option:selected").val()) {
+                        BookId = $(".ReceivablePayment").find("#Check_book_id").find("option:selected").val();
+                    }
+                    if ($(".ReceivablePayment").find("#Orginal_amount").val()) {
+                        Orginal_amount = $(".ReceivablePayment").find("#Orginal_amount").val();
+                    }
+                    Receivable = parseFloat(parseFloat(Orginal_amount) * TransactionRate)
+                }
+            }
+
+
+            var Url = "@Url.Action("GetTransactionAccount", "Receivable_gl_account")" + "?VendorId=" + $("#TransDiv").find("#Vendor_id").find("option:selected").val()
+                + "&Doc_type=" + $("#TransDiv").find("#Doc_type").find("option:selected").val()
+                + "&Sales=" + parseFloat($("#TransDiv").find("#Purchase").val()) * TransactionRate
+                + "&Discount=" + Taken_discount * TransactionRate
+                + "&Total=" + parseFloat($("#TransDiv").find("#TotalValue").val()) * TransactionRate
+                + "&Orginal_amount=" + parseFloat(Orginal_amount) * TransactionRate
+                + "&Receivable=" + Receivable
+                + "&BookId=" + BookId
+                + "&Transaction_rate=" + TransactionRate
+                + "&ThisCurrIso=" + $("#Currency_idTrans").find("option:selected").text()
+            InsertReceivableJv(Url,"@ViewBag.PostingNum","@FabulousErp.Business.GetCompanyId()")
+           
+        }
+    })
+</script>
+<script>
+    $("#VDocument_number").focusout(function () {
+        $.ajax({
+            url: "@Url.Action("CheckDocNumWithVendore")?VendoreId=" + $("#Vendor_id").find("option:selected").val() +"&DocNum="+$(this).val(),
+            method: "POST",
+            success: function (data) {
+                if (data) {
+                    ModelMsg("<p>" + $("#VDocument_number").val() + " Already Exist With That Customer</p>",
+                    "Duplicate Document number ",true);
+                    $("#VDocument_number").val("")
+                }
+            }
+
+        })
+    });
+</script>
+<script>
+    var CurrencyValid = false;
+    $(document).on("change", "#Currency_id,#Vendor_id",function () {
+        if ($("#Currency_id").find("option:selected").val() && $("#Vendor_id").find("option:selected").val()
+            && getParameterByName("Print")!="true") {
+            $.ajax({
+                url: "@Url.Action("GetVendoreCurr", "Creditor_setting")?VendoreId=" + $("#Vendor_id").find("option:selected").val(),
+                method: "POST",
+                success: function (data) {
+                    var asd = console.log(data.indexOf($("#Currency_id").find("option:selected").val()));
+                    if (data.indexOf($("#Currency_id").find("option:selected").val())==-1) {
+                        ModelMsg("<label>Currency Not Included Do You Want To Include It To This Customer</label>", "Currency Not Included"
+                            , false, function () {
+                                $.ajax({
+                                    url: "@Url.Action("AddCurrencyToVendore", "Creditor_setting")?VendoreId=" + $("#Vendor_id").find("option:selected").val() + "&Currency_id=" + $("#Currency_id").find("option:selected").val(),
+                                    method: "POST",
+                                    beforeSend: function () {
+                                        CurrencyValid = true;
+                                    },
+                                    success: function (data) {
+                                        if (data == 1) {
+                                            CurrencyValid = true;
+                                        } else {
+                                            CurrencyValid = false;
+                                        }
+                                    }
+                                })
+                            }, function () {
+                                if (!CurrencyValid) {
+                                    $("#Currency_id").val("")
+                                }
+                            })
+                    }
+                }
+            })
+      }
+
+    })
+</script>
+
+
+@*Tax*@
+
+
+<input id="TaxTable" value="Sales" type="hidden" />
+<input id="TCT-taxGroupID" value="1" type="hidden" />
+<!-- Modal -->
+<div id="TaxPop" class="modal fade" role="dialog" style="width:100%">
+    <div class="modal-dialog" style="margin-left:auto;margin-right:auto;">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-body" style="width:100%;">
+                @Html.Action("MainTax", "C_TaxTransaction", new { area = "", Tax = "Sales" })
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#TaxAddRowDiv").hide();
+        $("#TaxAddRowDiv").attr("class", "");
+        $("#TCT-taxTable").hide();
+        $("#TaxPop").find("label.col-md-1").removeClass("col-md-1").addClass("col-md-2");
+        $("#TaxPop").find("div.col-md-2").removeClass("col-md-2").addClass("col-md-4");
+        $("#TCT-taxGroupID").val("2");
+    })
+
+    $(document).on("click", "#TaxMask", function () {
+        $('#TCT-taxTable').find("tbody").find("tr").remove();
+        ThisPur = parseFloat($("#Purchase").val()) - parseFloat($("#Taken_discount").val());
+        $(".TransactionHide").hide()
+        $("#TCT-totalAmount").val(setSystemCurrFormate(ThisPur))
+        $("#TCT-quantity").val(1);
+        $("#TCT-quantity").trigger("focusin").trigger("keyup").trigger("focusout");
+        $("#TCT-unitPrice").val(setSystemCurrFormate(ThisPur));
+        $("#TCT-unitPrice").trigger("change")
+        $("#TCT-itemName").val($("#Desc").val());
+        $("#TCT-discount").val($("#Taken_discountMask").val());
+        //$("#TCT-unitPrice").attr("disabled", "disabled");
+        $("#TaxPop").modal("show");
+        $("#TCT-taxGroupID").trigger("change")
+        var ThisAmount = GetMaskNumber($("#PurchaseMask").val()) - GetMaskNumber($("#Taken_discountMask").val());
+        $(document).find("#TCT-netAmount").val(ThisAmount).trigger("mask.maskMoney").trigger("change").trigger("focusout")
+        $('#TCT-taxTblBody').empty();
+        $.each(JvArr, function (k,i) {
+            RmDc(i);
+        })
+        JvArr = [];
+    })
+
+    $(document).on('change', "#TCT-taxType,#TCT-taxTableType,#TCT-itemType", function () {
+        $("#TCT-quantity").trigger("focusin").trigger("keyup").trigger("focusout");
+        var ThisAmount = GetMaskNumber($("#PurchaseMask").val()) - GetMaskNumber($("#Taken_discountMask").val());
+        $(document).find("#TCT-netAmount").val(ThisAmount).trigger("mask.maskMoney").trigger("change").trigger("focusout")
+    })
+</script>

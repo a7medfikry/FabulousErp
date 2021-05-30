@@ -1,0 +1,132 @@
+﻿@model FabulousDB.Models.New_assets_transaction
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("Create", "New_assets_transaction", new AjaxOptions { OnBegin = "CheckSettings", OnSuccess = "SubmitAssetsForm" }, new { id = "AssetsTransactionForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.EditorFor(model => model.Gl_transaction_id, new { htmlAttributes = new { @class = "form-control hide" } })
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Transaction Date", "Transaction Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "AssetsTransactionTransactionDate" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Posting Date", "Posting Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Posting_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "AssetsTransactionPostingDate" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Acquesation_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Acquesation_cost, new { htmlAttributes = new { @class = "form-control", id = "AcqCost_transaction" } })
+                @Html.EditorFor(model => model.Acquesation_cost, new { htmlAttributes = new { @class = "form-control hide", id = "AcqCost_transactionTranslateValue", name = "Acquesation_costOrginalValue" } })
+                @Html.ValidationMessageFor(model => model.Acquesation_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Currency_id, null, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label ">Document </label>
+            <div class="col-md-10">
+                <select class="form-control" id="TCGE-SUDAbove" name="TCGE-SUD">
+                    <option value="">-Choose-</option>
+                    <option value="SED">Supported an external document</option>
+                    <option value="SID">Supported an internal document</option>
+                    <option value="UnS">Unsupported</option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date_of_orgin, "Date Of Orgin", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Date_of_orgin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "DOO_trainsaction", required = "required" })
+                @Html.ValidationMessageFor(model => model.Date_of_orgin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group Width60">
+            @Html.LabelFor(model => model.Reference, htmlAttributes: new { @class = "control-label col-md-2 MyLable",@style= "width: 20.5%;" })
+            <div class="col-md-10" style="width: 78.9%;">
+                @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Vendor_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Vendor_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Assets_class_id, "Assets class", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Assets_class_id", null, "", htmlAttributes: new { @class = "form-control", required = "required", id = "Assets_class_id_above" })
+                @Html.ValidationMessageFor(model => model.Assets_class_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Type", EnumHelper.GetSelectList(typeof(FixedAssets.Business.Business.Assets_trnsaction_type)), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="FirstForm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("#Assets_class_id_above").change(function () {
+        $("#Assets_class_id_below").val($(this).val());
+        $("#Assets_class_id_below").change();
+    })
+    $("#TCGE-SUDAbove").change(function () {
+        $(document).find("#TCGE-SUD").val($(this).val())
+        $(document).find("#TCGE-GTbl").find('tr').eq(1).find('td').eq(3).text($(this).val());
+        $(document).find("#TCGE-GTbl").find('tr').eq(2).find('td').eq(3).text($(this).val());
+    })
+
+    $(function () {
+        $(".AssetsHead").hide();
+        var PostinInput = $("#TCGE-PostingDate");
+
+        $("#AssetsTransactionPostingDate").replaceWith(PostinInput);
+        $("#AssetsTransactionPostingDate").attr("name", "Posting_date")
+
+
+        $("#AssetsTransactionTransactionDate").replaceWith($("#TCGE-JEDate"))
+        $("#TCGE-JEDate").attr("name", "Transaction_date")
+
+    })
+</script>

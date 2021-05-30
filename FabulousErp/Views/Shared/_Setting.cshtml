@@ -1,0 +1,213 @@
+﻿<script>
+    var DecimalPoint =@FabulousErp.Business.GetDecimalPointNumber();
+    var CompId = "@FabulousErp.Business.GetCompanyId()"
+    var MainIso="@FabulousErp.Business.GetMainIso()"
+</script>
+<input class="PageKey" type="hidden" value="@Html.Raw(ViewBag.PageKey)" />
+
+@if (Request.Url.PathAndQuery.Contains("Rpt") || Request.Url.PathAndQuery.Contains("Report"))
+{
+    <text>
+        <script>
+            $(document).ajaxComplete(function () {
+                ReTranslate();
+            })
+        </script>
+    </text>
+}
+<script>
+    var RemoveClass = [];
+    $(document).ready(function () {
+        DataTable();
+        $(document).find("select").each(function () {
+            $(this).attr("title","@Business.Translate("-Choose-")")
+
+            if (!$(this).hasClass("selectpicker")) {
+                if (!$(this).hasClass("NoSelect")) {
+                    $(this).addClass("selectpicker");
+                    $(this).attr("data-live-search", "true");
+                    $(this).selectpicker();
+                    RefreshSelcetPicker($(this));
+                    var Class = $(this).attr("class");
+                    $.each(Class.split(" "), function (k, i) {
+                        if (i != "form-control"
+                            && i != "selectpicker" && i != "form-control-sm"
+                            && i != "input-sm"
+                            && i !="dropdown-list") {
+                            if (!RemoveClass.find(x => x == i)) {
+                                RemoveClass.push(i);
+                            }
+                        }
+
+                    })
+                    // shown.bs.select
+                    $(this).on("loaded.bs.select", function () {
+                        $.each(RemoveClass, function (k, i) {
+                            $(document).find("div." + i).removeClass(i);
+                        });
+                    })
+                }
+            }
+
+        })
+        try {
+            if (SelectPickerCallBack) {
+                SelectPickerCallBack();
+            }
+        } catch (err) {
+
+        }
+
+        RunAfterAjax(function(){
+            RunAfterAjax(function () {
+                $(this).on("loaded.bs.select", function () {
+                    $.each(RemoveClass, function (k, i) {
+                        $(document).find("div." + i).removeClass(i);
+                    });
+                })
+                ForceRefreshPicker();
+                try {
+                    if (SelectPickerCallBack) {
+                        SelectPickerCallBack();
+                    }
+                } catch (err) {
+
+                }
+            })
+        })
+    });
+
+    function DataTable() {
+        try {
+             $('table').not("table[id^='TCGE']").not(".NoDataTable").each(function () {
+                 if ($.fn.DataTable.isDataTable($(this))) {
+                     $(this).find(".dataTables_empty").parent("tr").remove();
+                     var table = $(this).DataTable();
+                     table
+                         .rows()
+                         .remove();
+                     $(this).find("tbody").find("tr").each(function () {
+                         try {
+                             table.rows.add($(this));
+                         } catch (err) {
+                             console.log(err)
+                         }
+                     })
+                table.draw();
+            }
+        })
+        if ($(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").length > 0) {
+            //if ($(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("thead").length <= 0) {
+            //    $(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("tr").first().wrap("<thead/>")
+            //}
+            //if ($(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("tbody").length <= 0) {
+            //    $(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("tr").eq(1).wrap("<tbody/>")
+            //}
+            //if ($('table').not("table[id^='TCGE']").not(".NoDataTable").parents("#Res").length <= 0)
+            {
+                $('table').not("table[id^='TCGE']").not(".NoDataTable").each(function () {
+                    if (!$.fn.DataTable.isDataTable($(this))) {
+                         $(this).DataTable({
+                                "pageLength": 100,
+                                "oLanguage": {
+                                    "sSearch": "<span> @Business.Translate("Search"): </span>"
+                                },
+                                "order": [],
+                                "lengthMenu": [[10, 25, 50, 100,-1], [10, 25, 50, 100, "All"]]
+                         });
+
+                        $(document).find(".dtrg-group").text("");
+                        $(document).find("input[type='search']").prev();
+                    }
+                })
+            }
+        }
+        } catch (err) {
+
+        }
+        RunAfterAjax(function () {
+            $(".dataTables_empty").parents("tr").remove();
+            $(document).find("td:textEquals(There's No Any Data)").parent("tr").remove();
+        })
+    }
+    function ItemCardDT(This) {
+        var Table = $(This).DataTable({
+                                "pageLength": 100,
+                                rowGroup: {
+                                    dataSrc: 0
+                                },
+                                //"columnDefs": [
+                                //    {
+                                //        "targets": [0],
+                                //        "visible": false,
+                                //        "searchable": false
+                                //    }
+                                //],
+                                "oLanguage": {
+                                    "sSearch": "<span> @Business.Translate("Search"): </span>"
+                                },
+                                "order": [],
+                                "lengthMenu": [[10, 25, 50, 100,-1], [10, 25, 50,100, "All"]]
+       });
+        return Table;
+    }
+    $(document).on('click', "button.dropdown-toggle", function () {
+        console.log($(this).prev("select").attr("disabled"));
+        if (!$(this).prev("select").attr("disabled")) {
+            $(this).removeClass("disabled")
+            if (!$(this).next("div").hasClass("show")) {
+                $(this).trigger("click")
+            }
+        } else {
+            $(this).addClass("disabled")
+        }
+    });
+    $(function () {
+        $("button").addClass("hor-grd");
+        $(".btn-primary").each(function () {
+            $(this).removeClass("btn-primary")
+            $(this).addClass("btn-grd-primary")
+        })
+        $(".btn-success").each(function () {
+            $(this).removeClass("btn-success")
+            $(this).addClass("btn-grd-success")
+        })
+        $(".btn-info").each(function () {
+            $(this).removeClass("btn-info")
+            $(this).addClass("btn-grd-info")
+        })
+        $(".btn-warning").each(function () {
+            $(this).removeClass("btn-warning")
+            $(this).addClass("btn-grd-warning")
+        })
+        $(".btn-primary").each(function () {
+            $(this).removeClass("btn-primary")
+            $(this).addClass("btn-grd-primary")
+        })
+        $(".btn-primary").each(function () {
+            $(this).removeClass("btn-primary")
+            $(this).addClass("btn-grd-primary")
+        })
+        $(".btn-danger").each(function () {
+            $(this).removeClass("btn-danger")
+            $(this).addClass("btn-grd-danger")
+        })
+        $(".btn-inverse").each(function () {
+            $(this).removeClass("btn-inverse")
+            $(this).addClass("btn-grd-inverse")
+        })
+    })
+</script>
+<script>
+    $(function () {
+        SetMaskCurr(@Html.Raw(Json.Encode(Business.GetCurrencyFormate())));
+    })
+</script>
+@if (FabulousErp.Business.GetLanguage() == FabulousDB.Models.Langs.Arabic.ToString())
+{
+    @Html.IncludeVersionedJs("/Scripts/New/menu-rtl.js")
+}
+else
+{
+    @Html.IncludeVersionedJs("/Scripts/New/menu-sidebar-static.js")
+}

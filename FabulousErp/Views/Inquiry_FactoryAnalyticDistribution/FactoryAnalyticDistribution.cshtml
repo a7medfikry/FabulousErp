@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "List Of Factory Analytic Distribution";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IFADA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <span class="col-md-12 text-error" id="IFADA-errors"></span>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "IFADA-factoryID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="IFADA-factoryname" disabled />
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("BranchAnalyticID", new SelectList(""), "-Choose-", new { @id = "IFADA-FactoryAnalyticID", @class = "form-control form-control-sm", @disabled = "disabled" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="IFADA-analyticname" disabled />
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="30%"> Account Distribution ID </th>
+                <th width="70%"> Account Distribution Name </th>
+            </tr>
+        </thead>
+        <tbody id="IFADA-append-data"></tbody>
+    </table>
+</div>
+
+
+
+<!-- Scripts here -->
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Factory/F_Analytic/F_AnalyticAccountDistribution/Inquiry_FactoryAnalyticAccountDistribution.js")

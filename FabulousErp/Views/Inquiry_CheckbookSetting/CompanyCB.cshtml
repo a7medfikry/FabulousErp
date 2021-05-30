@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Inquiry Company Checkbook Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "ICCBS";
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="ICCBS-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-5">
+            <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <!-- table Area Start -->
+    <table class="table table-bordered table-striped display nowrap" id="ICCBS-table">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Name </th>
+                <th> Type </th>
+                <th> Status </th>
+                <th> Currency </th>
+                <th> Account ID </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <!-- table Area End -->
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookSetting.js")

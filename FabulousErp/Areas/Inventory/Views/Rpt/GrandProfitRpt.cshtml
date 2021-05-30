@@ -1,0 +1,104 @@
+﻿
+@{
+    if (ViewBag.IsGrandProfit == "true")
+    {
+
+        ViewBag.Title = "Grand Profit";
+    }
+    else
+    {
+        ViewBag.Title = "Grand Profit By Item";
+
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("GrandProfitRes", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes", OnSuccess = "ReTranslate" }))
+{
+    if (ViewBag.IsGrandProfit == "true")
+    {
+        <div class="form-group">
+            <label class="col-md-4">From Item Id</label>
+            <div class="col-md-10">
+                @Html.DropDownList("FromItem_id", null, "", new { @class = "form-control", id = "FromItem_id" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4">To Item Id</label>
+            <div class="col-md-10">
+                @Html.DropDownList("ToItemId", null, "", new { @class = "form-control", id = "ToItemId" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4">Date From</label>
+            <div class="col-md-10">
+                @Html.TextBox("DateFrom", null, new { @class = "form-control", type = "date" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4">Date To</label>
+            <div class="col-md-10">
+                @Html.TextBox("DateTo", null, new { @class = "form-control", type = "date" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4">Group Id</label>
+            <div class="col-md-10">
+                @Html.DropDownList("GroupItem", null, "", new { @class = "form-control", name = "GroupItem", id = "GroupItem" })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label class="col-md-4">Item Id</label>
+            <div class="col-md-10">
+                @Html.DropDownList("ItemId", null, "", new { @class = "form-control", id = "ToItemId" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4">Date From</label>
+            <div class="col-md-10">
+                @Html.TextBox("DateFrom", null, new { @class = "form-control", type = "date" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4">Date To</label>
+            <div class="col-md-10">
+                @Html.TextBox("DateTo", null, new { @class = "form-control", type = "date" })
+            </div>
+        </div>
+    }
+    @*<div class="form-group">
+            <label class="col-md-4" for="ItemName">Item Name</label>
+            <div class="col-md-10">
+                <label id="ItemName"></label>
+            </div>
+        </div>*@
+    <input name="IsGrandProfit" value="@ViewBag.IsGrandProfit" type="hidden" />
+    <div class="col-md-3 d-inline-block">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")
+<script>
+    $("#GroupItem").on("change", function () {
+        if ($(this).val()) {
+            $("#FromItem_id").val("")
+            $("#ToItemId").val("")
+            $("#FromItem_id").selectpicker("refresh")
+            $("#ToItemId").selectpicker("refresh")
+        }
+    })
+    $("#ToItemId,#FromItem_id").on("change", function () {
+        if ($(this).val()) {
+            $("#GroupItem").val("")
+            $("#GroupItem").selectpicker("refresh")
+        }
+    })
+</script>

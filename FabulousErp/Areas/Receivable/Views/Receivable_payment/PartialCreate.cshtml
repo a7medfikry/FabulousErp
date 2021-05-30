@@ -1,0 +1,394 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_payment
+@{
+    string hide = "";
+    try
+    {
+        if (Model.Vendor.Payment_per == Payment_per.Any)
+        {
+            hide = "hide";
+        }
+    }
+    catch
+    {
+
+    }
+
+    Layout = null;
+
+}
+@if (FabulousErp.Business.GetLanguage() == FabulousDB.Models.Langs.English.ToString())
+{
+    <style>
+        .LRChild {
+            height: 35px !important;
+        }
+        .LRChild * {
+            float: left;
+            text-align: left;
+        }
+        .LRChild label {
+            margin-right: 25px;
+        }
+    </style>
+}
+else
+{
+    <style>
+        .LRChild {
+            height: 35px !important;
+            float: right;
+            text-align: right;
+        }
+
+            .LRChild * {
+                float: right;
+                text-align: right;
+            }
+
+            .LRChild label {
+                margin-left: 25px;
+                float: right;
+                text-align: right;
+            }
+    </style>
+}
+@using (Ajax.BeginForm("Create", "Receivable_payment", new AjaxOptions { OnSuccess = "ShowBookId" }, new { id = "PaymentForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Journal_number, new { @class = "Journal_number" })
+    <input name="" type="hidden" />
+    <input name="Trx_trans_doc_type_id" id="Trx_trans_doc_type_id" type="hidden" />
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Payment_no, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Payment_no, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Payment_no, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Transaction_date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+            @Html.ValidationMessageFor(model => model.Transaction_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Posting_date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Posting_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+            @Html.ValidationMessageFor(model => model.Posting_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+    </div>
+    <div class="form-group" id="VendoreDiv">
+        @Html.LabelFor(model => model.Vendor_id, "Customer Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Vendor_id", null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <label class="col-md-12" for="VendorNamelbl" id="VendorNamelbl"> </label>
+        </div>
+    </div>
+    <div class="form-group @hide PayTransactionDiv">
+        @Html.LabelFor(model => model.Transaction_id, "Doc. No.", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Transaction_id, new { htmlAttributes = new { @class = "form-control hide" } })
+
+            @Html.DropDownList("Transaction_id", null, "", htmlAttributes: new { @class = "form-control hide", id = "Transaction_idDrop" })
+            @Html.ValidationMessageFor(model => model.Transaction_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group hide NotPayTransactionDiv">
+    </div>
+    <div class="form-group Width60">
+        @Html.LabelFor(model => model.Reference, htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="text-center col-sm-12 LRChild">
+        @Html.LabelFor(model => model.Cash_type, htmlAttributes: new { @class = "col-md-2 LRChild", style = "Padding:0;width:11%;" })
+        @{
+            int Count = 1;
+        }
+        @foreach (var value in Business.GetEnumValues<Cash_type>())
+        {
+            if (/*ViewBag.IsTransaction == false &&*/ value == Cash_type.Installment)
+            {
+                continue;
+            }
+            @Html.RadioButtonFor(m => m.Cash_type, value, new { @class = "v-middle Cash_type "@*, style = "float:right;"*@, id = $"Cash_type_{Count}" })
+            @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0 LRChild" })
+            <span style="margin-left:20px;"></span>
+            Count++;
+        }
+        <div class="InstDiv col-sm-4 LRChild" style="display:none;">
+            <label class = "control-label col-md-2" style="width:50%;" >Installment Contract</label>
+            <select id="InstallmentContract" class="form-control Width40" style="width:45%;"></select>
+        </div>
+        <div class="InstmentsDiv col-sm-3 LRChild" style="display:none;">
+            <label class="control-label col-md-2" style="width:50%;">Installment</label>
+            <select id="Installments" name="Installment_id" class="form-control Width40"></select>
+        </div>
+    </div>
+    <section class="hidePayment">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Check_book_id, "Check Book", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*Convert.ToString(Model.Check_book_id)*@
+                @Html.DropDownList("Check_book_id", null, "", htmlAttributes: new { @class = "form-control Check_book_id" })
+                @Html.ValidationMessageFor(model => model.Check_book_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cheque_number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cheque_number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cheque_number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Due_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Due_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+                @Html.ValidationMessageFor(model => model.Due_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Orginal_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Orginal_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Orginal_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Taken_discount, "Allowed Discount", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Taken_discount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Taken_discount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Paid_amountLbl", "0", htmlAttributes: new { @class = "control-label col-md-2 hide", id = "Paid_amountLbl" })
+
+        </div>
+        <div class="form-group">
+            @Html.Label("", "Orginal Balance", htmlAttributes: new { @class = "col-md-5" })
+            <div class="col-md-6 d-inline-block">
+                @Html.Label("", " ", htmlAttributes: new { @class = "col-md-12", id = "OCBTI" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("", "After Payment", htmlAttributes: new { @class = "col-md-5" })
+            <div class="col-md-6 d-inline-block">
+                @Html.Label("", " ", htmlAttributes: new { @class = "col-md-12", id = "CBTI" })
+            </div>
+        </div>
+
+
+    </section>
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.System_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.System_rate, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+            @Html.ValidationMessageFor(model => model.System_rate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Transaction_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Transaction_rate, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+            @Html.ValidationMessageFor(model => model.Transaction_rate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Withdraw_number, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Withdraw_number, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Withdraw_number, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.EditorFor(model => model.IsInstallment, new { htmlAttributes = new { @class = "IsInstallment hide",id= "IsInstallment" } })
+
+    <input id="InstallmentStr" name="InstallmentStr" type="hidden" />
+    <div class="form-group PaymentCreateDiv hide">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" id="SubmitPayment" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+<script>
+    var CheckBookget = false;
+    $(function () {
+        $(document).find(".Cash_type[value='@Model.Cash_type']").trigger("click");
+        var SetCheckBook = setInterval(function () {
+            if (CheckBookget) {
+                @*$("#Check_book_id").val("@Model.Check_book_id");
+                $("#Check_book_id").trigger("change");*@
+            clearInterval(SetCheckBook);
+            }
+        },200)
+        $(document).find("#Orginal_amountMask").trigger("keyup")
+        RunAfterAjax(function () {
+            $("#System_rateMask").val(1);
+            $("#Transaction_rateMask").val(1);
+            $("#System_rate").val(1);
+            $("#Transaction_rate").val(1);
+        })
+    })
+    function ShowBookId(data) {
+        Talert("CheckBook " , $(document).find("#Check_book_id option:selected").text() ," Deposit Number " , data.BookId);
+        window.open(
+            '/C_CashReciept/PrintRecipt?JN=' + data.PostingNumber,
+            '_blank'
+        );
+    }
+    $("#PaymentForm").on("change focusout", "#Taken_discount,#Orginal_amount,#Transaction_rate", function () {
+        $("#PaymentForm").find("#Paid_amountLbl").text((parseFloat($("#PaymentForm").find("#Orginal_amount").val())
+            - parseFloat($("#PaymentForm").find("#Taken_discount").val())))
+        $("#PaymentForm").find("#Paid_amount").val($("#PaymentForm").find("#Paid_amountLbl").text());
+    })
+    $(document).on("click", ".Cash_type", function () {
+        $.ajax({
+            url: "@Url.Action("GetCheckBType")?" + "Type=" + $(this).val(),
+            method:"POST",
+            success: function (data) {
+                $(document).find("select.Check_book_id").empty();
+                $(document).find("select.Check_book_id").append("<option value=''></option>");
+                $.each(data, function (k, i) {
+                    $(document).find("select.Check_book_id").append("<option value='" + i.Id + "' data-type='" + i.Type +"'>" + i.Name +"</option>");
+                })
+                CheckBookget = true;
+            }
+        })
+    })
+   $(document).on("change", "#Vendor_id", function () {
+        $.ajax({
+            url: "@Url.Action("VendorePaymentPer", "Creditor_setting")?Id="+$(this).find("option:selected").val(),
+            method: "POST",
+            success: function (data) {
+                if (window.location.href.indexOf("Receivable_payment") > -1) {
+                    $(".PayTransactionDiv").removeClass("hide");
+                    $(".NotPayTransactionDiv").addClass("hide");
+                    $("#Transaction_idDrop").removeClass("hide");
+                    console.log("nohide");
+                } else {
+                    if (data == "@((int)Payment_per.Invoice)") {
+                        $(".PayTransactionDiv").removeClass("hide");
+                        $(".NotPayTransactionDiv").addClass("hide");
+
+                    } else {
+                        $(".PayTransactionDiv").addClass("hide");
+                        $(".NotPayTransactionDiv").removeClass("hide");
+                    }
+                }
+
+            }
+        })
+        $("select#InstallmentContract").empty();
+        $.ajax({
+            url: "@Url.Action("GetInstContract")?VendoreId=" + $(this).find("option:selected").val(),
+            method: "POST",
+            success: function (data) {
+                $("select#InstallmentContract").empty();
+                $("select#InstallmentContract").append("<option value=''> -Choose- </option>")
+
+                $.each(data, function (k, i) {
+                    $("select#InstallmentContract").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+                })
+            }
+        })
+    })
+     $("#InstallmentContract").change(function () {
+        if ($(this).val()) {
+            $.ajax({
+                url:"@Url.Action("GetInstallment")?ContractId="+$(this).val(),
+                method: "POST",
+                success: function (data) {
+                    $(".InstmentsDiv").show();
+                    $("select#Installments").empty()
+                    $("select#Installments").append("<option value=''> -Choose- </option>")
+                    $.each(data, function (k, i) {
+                        $("select#Installments").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+                    })
+                }
+            })
+        }
+
+    });
+    $("#Installments").change(function () {
+        $.ajax({
+            url: "@Url.Action("GetInstallmentAmount")?Id=" + $(this).val(),
+            method: "POST",
+            success: function (data) {
+                $("#Orginal_amountMask").removeAttr("disabled")
+                $("#Due_date").val(data.duedate)
+                $("#Cheque_number").val(data.chequenumber)
+                $("#Orginal_amountMask").val(data.amount);
+                $("#Orginal_amountMask").trigger("change")
+                $("#Orginal_amountMask").attr("disabled","disabled")
+
+            }
+        })
+    });
+     $(document).on("click", ".Cash_type", function () {
+        $(document).find(".hidePayment").show();
+
+        if ($(this).val() == "@Cash_type.Cash") {
+            $(document).find("#Cheque_number").parents(".form-group").hide();
+            $("#ReceivablePayment").find("#Due_date").parents(".form-group").hide();
+            $(".ReceivablePayment").find("#Due_date").parents(".form-group").hide();
+        } else {
+            $(document).find("#Cheque_number").parents(".form-group").show();
+            $("#ReceivablePayment").find("#Due_date").parents(".form-group").show();
+            $(".ReceivablePayment").find("#Due_date").parents(".form-group").show();
+           }
+         @*if ($(this).val() == "@Cash_type.Installment") {
+             $(".InstDiv").show();
+             $(".InstmentsDiv").show();
+        } else {
+             $(".InstDiv").hide();
+             $(".InstmentsDiv").hide();
+        }*@
+    })
+</script>
+<script>
+    function SelectPickerCallBack() {
+        $(".Width40").parent("div.dropdown").css("width", "40%");
+    }
+</script>

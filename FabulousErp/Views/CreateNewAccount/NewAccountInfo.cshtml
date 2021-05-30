@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Create New Account";
+    ViewBag.FormCode = "SCNA";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <label class="col-md-3"> User ID : <span class="star">*</span> </label>
+                        <div class="col-md-6">
+                            @Html.TextBox("UserIDD", null, new { @id = "UserID", @maxlength = "30", @tabindex = "1" })
+                            <span class="text-error" id="ErrorInSearch">@Html.ValidationMessage("ErrorUserID", null, new { id = "ErrorUserID" })</span>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" onclick="SearchBtn()" class="btn btn-info btn-sm"><i class="fa fa-search"></i></button> <label id="BarValid" hidden> </label>
+                            <button type="button" id="DeleteAccount" onclick="DeletAcc()" class="hide-normal btn btn-danger btn-sm">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-md-3"> User Name : <span class="star">*</span></label>
+                        <div class="col-md-9">
+                            @Html.TextBox("UserName", null, new { @id = "UserName", @maxlength = "50", @tabindex = "2" })
+                            <span class="text-error">@Html.ValidationMessage("ErrorUserName", null, new { id = "ErrorUserName" })</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-md-3"> Password : <span class="star">*</span></label>
+                        <div class="col-md-9">
+                            @Html.Password("Password", null, new { @id = "Password", @maxlength = "60", @tabindex = "3" })
+                            <span class="text-error">@Html.ValidationMessage("ErrorPassword", null, new { id = "ErrorPassword" })</span>
+                        </div>
+                    </div>
+                    <!-- Password Requirements -->
+                    <div class="row mb-2">
+                        <div class="col-md-12 bg-light100 p-3" id="pswd_info">
+                            <h5 class="text-danger">Follow this requirements:</h5>
+                            <div class="divider-line"></div>
+                            <ul class="list-unstyled mt-1">
+                                <li id="letter"  class="Trans">- @FabulousErp.BusController.Translate("At least one letter")</li>
+                                <li id="capital" class="Trans">- @FabulousErp.BusController.Translate("At least one capital letter")</li>
+                                <li id="length" class="Trans">-@FabulousErp.BusController.Translate(" At least 8 characters")</li>
+                                <li id="number" class="Trans">- @FabulousErp.BusController.Translate("At least one number")</li>
+</ul>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-md-4"> Confirm Password : <span class="star">*</span></label>
+                        <div class="col-md-8">
+                            <input type="password" id="ConfirmPassword" tabindex="4" />
+                            <span class="text-error"> @Html.ValidationMessage("ErrorConfirmPass", null, new { @id = "ErrorConfirmPass" })</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="d-block">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="ChangePassFirst" class="custom-control-input" />
+                                <label class="custom-control-label" for="ChangePassFirst"> Password Must Change In the Next Login.</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="UpdateProfFirst" class="custom-control-input" />
+                                <label class="custom-control-label" for="UpdateProfFirst"> User Must Update his Profile Account.</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="PasswordExpired" class="custom-control-input" />
+                                <label class="custom-control-label" for="PasswordExpired"> Password Expire After 30 Days.</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="DisActive" class="custom-control-input" />
+                                <label class="custom-control-label" for="DisActive"> Active Account.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md col-md-12">
+                            <!-- Msgs -->
+                            <span id="SavedSuccess" class="hide-normal text-success"></span>
+                            <span id="UpdateSuccess" class="hide-normal text-success"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <!-- Buttons -->
+                        <button type="button" class="btn btn-success btn-sm" id="SaveBtn" onclick="Save()">Save</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="UpdateAcc()">Update</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="ClearBtn()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/CreateNewAccount/Validations.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/CreateNewAccount/SaveBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/CreateNewAccount/SearchBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/CreateNewAccount/NewAccUpdateBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/CreateNewAccount/NewAccClearBtn.js")
+<script>
+    $(document).on("focusout keyup", function () {
+        ReTranslateSpan();
+    })
+</script>

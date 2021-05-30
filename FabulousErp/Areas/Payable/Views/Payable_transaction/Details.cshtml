@@ -1,0 +1,62 @@
+﻿@model FabulousErp.Payable.Models.Payable_transaction
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<button onclick="PrintThis('Sec', false,false, null,CallBack, '<div><left>@FabulousErp.BusController.Translate("Payable Transaction") @ViewBag.TrxNum </left></div>', true,true,beforePrint,'',true,'.col-md-10{width:57% !important;}.control-label{width:41% !important;}#VendorNamelbl{width:100% !important;}');" class="btn btn-primary Print">Print</button>
+@if (ViewBag.Void != null)
+{
+    @Html.Raw(ViewBag.Void)
+}
+
+<section id="Sec">
+    @Html.Action("Create", new { id = ViewBag.id, Partial = true })
+</section>
+<input id="TCGE-GurrencyFormate" type="hidden" />
+<input id="TCGE-HardGurrencyFormate" type="hidden" />
+<input id="IADI-GurrencyFormate" type="hidden" />
+<section id="info"></section>
+
+<script>
+    var IsDetails = true;
+    function CallBack() {
+     //   window.location.reload();
+    }
+    function beforePrint() {
+        $(document).find("input:hidden").remove();
+        //$(document).find("input").css("max-width", "140px")
+        $(document).find("input").css("border", "none")
+        $(document).find("input").css("color", "#000")
+        $(document).find("label").css("display", "inline-block")
+    }
+    $(function () {
+        var Vendor_id = $("#Vendor_idTrans").find("option:selected").val()
+        $(document).find(".ToggleTransAction").after("<span> Journal Entry @ViewBag.JE </span>")
+        GetCreditorName(Vendor_id, function () {
+
+        })
+        $(".Transaction_dateDiv").append('<input class="form-control" data-val="true" type="date" value="@ViewBag.TransactionDate" />')
+        $(".Posting_dateDiv").append('<input class="form-control" data-val="true" type="date" value="@ViewBag.PostingDate" />')
+        $(document).find("#Doc_typeTrans").val("@ViewBag.DocType")
+
+        $("#TCGE-JEDate").remove();
+
+        $("#TCGE-PostingDate").remove();
+        $("#TCGE-Reference").remove();
+
+        $(document).find("input").not(".hide-normal").attr("disabled", "disabled");
+        $(document).find("select").attr("disabled", "disabled");
+
+        $(document).find("input[name='__RequestVerificationToken']").remove();
+        $(document).find("input[name='__RequestVerificationToken']").remove();
+        $(document).find("input[type='submit']").remove();
+        $(document).find('.PayablePayment').hide();
+        CalcTotal();
+        if (getParameterByName("Print") == "true") {
+            $(".Print").trigger("click");
+        }
+    })
+
+    
+</script>

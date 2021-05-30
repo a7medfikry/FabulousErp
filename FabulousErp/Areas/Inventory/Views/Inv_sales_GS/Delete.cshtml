@@ -1,0 +1,95 @@
+﻿@model FabulousDB.Models.Inv_sales_GS
+
+@{
+    ViewBag.Title = "Sales GS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_insert_item_no_enough_store)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_insert_item_no_enough_store)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_proforma_inv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_proforma_inv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_View_jv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_View_jv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Override_price_in_price_list)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Override_price_in_price_list)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_price_lower_cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_price_lower_cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_edit_sales_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_edit_sales_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.passwords_for_unhold_check)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.passwords_for_unhold_check)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.passwords_for_unhold)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.passwords_for_unhold)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_generate_automatic_po)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_generate_automatic_po)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-success" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Branch Link Analytic To Account";
+    ViewBag.FormCode = "SBLAA";
+}
+
+<div class="container-fluid">
+
+    <div class="card bg-white border-dark mb-3">
+        <div class="card-body">
+
+            @if (FabulousErp.Business.GetCompanyId() != null)
+            {
+                <div class="form-row mb-3 justify-content-center">
+                    <label class="col-md-1 col-form-label col-form-label-sm">Branch ID</label>
+                    <div class="col-md-2">
+                        @Html.DropDownList("SBLAA-BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "SBLAA-BranchID", @class = "form-control form-control-sm" })
+                    </div>
+
+                    <label class="col-md-1 col-form-label col-form-label-sm">Name</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" id="SBLAA-BranchName" disabled />
+                    </div>
+                </div>
+
+                <div class="form-row justify-content-center">
+                    <label class="col-md-1 col-form-label col-form-label-sm">Analytic ID</label>
+                    <div class="col-md-2">
+                        @Html.DropDownList("SBLAA-analyticID", new SelectList(""), "-Choose-", new { @id = "SBLAA-analyticID", @class = "form-control form-control-sm" })
+                    </div>
+                    <label class="col-md-1 col-form-label col-form-label-sm">Name</label>
+                    <div class="col-md-3">
+                        <input type="text" id="SBLAA-analyticName" class="form-control form-control-sm" disabled />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="SBLAA-dvTableOfLinked"></div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")

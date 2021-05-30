@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "List of Company Analytic Distribution";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "ICADA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <span class="col-md-12 text-error" id="ICADA-errors"></span>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="ICADA-companyID" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("CompAnalyticID", new SelectList(""),FabulousErp.BusController.Translate("-Choose-"), new { @id = "ICADA-CompAnalyticID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="ICADA-analyticname" disabled />
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="30%">
+                    @FabulousErp.BusController.Translate("Account Distribution ID")
+                </th>
+                <th width="70%">@FabulousErp.BusController.Translate("Account Distribution Name") </th>
+            </tr>
+        </thead>
+        <tbody id="ICADA-append-data"></tbody>
+    </table>
+</div>
+
+
+
+
+<!-- Scripts here -->
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Company/C_Analytic/C_AnalyticAccountDistribution/Inquiry_CompanyAnalyticAccountDistribution.js")

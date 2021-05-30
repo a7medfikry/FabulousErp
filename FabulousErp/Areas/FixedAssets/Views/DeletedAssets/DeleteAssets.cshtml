@@ -1,0 +1,189 @@
+﻿@model IEnumerable<FabulousDB.Models.Deleted_assets>
+
+@{
+    ViewBag.Title = "DeleteAssets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DeleteAssets</h2>
+<section style="overflow:auto;">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Assets_class_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assets_main_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foreign_name)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Proparty_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Acquisation_cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Scrap_value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Start_use)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Start_derecation_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Number_of_units)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deactive_depraction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fully_depraction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disposal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_of_orgin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adjustment_cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_of_Adjustmemt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Use_life)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deprecation_method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Include_scerap_value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assets_number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deprecation_rate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book_id)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Assets_transaction_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gl_transaction_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deleted_date)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_class_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_main_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Foreign_name)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Proparty_type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Acquisation_cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Scrap_value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start_use)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start_derecation_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number_of_units)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deactive_depraction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fully_depraction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disposal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_of_orgin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adjustment_cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_of_Adjustmemt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Use_life)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deprecation_method)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Include_scerap_value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deprecation_rate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book_id)
+                </td>
+             
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_transaction_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gl_transaction_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deleted_date)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</section>

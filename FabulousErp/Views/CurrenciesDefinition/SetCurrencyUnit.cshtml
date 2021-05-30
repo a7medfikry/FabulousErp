@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "SetCurrencyUnit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Set CurrencyUnit</h2>
+
+<div>
+    <div>
+        <div>
+            @using (Ajax.BeginForm("SetCurrencyUnitName", new AjaxOptions { OnSuccess = "CurrencyChangeSucc" }))
+            {
+                <label class="col-form-label">Choose Currency</label>
+
+                @Html.DropDownList("CurrencyID", ViewBag.Currencies as List<SelectListItem>, "", new { @class = "dropdown-list", id = "CurrenciesUnit", name = "CurrencyID" })
+                <br />
+                <label class="col-form-label">Unite Name</label>
+                <input name="Currency_unit_name" type="text" id="Currency_unit_name" />
+                <label class="col-form-label">Small Unite Name</label>
+
+                <input name="Currency_small_unit_name" type="text" id="Currency_small_unit_name" />
+                <br />
+                <button type="submit" class="btn btn-success" id="CurrencyChangeSubmitBtn">Submit</button>
+            }
+        </div>
+
+    </div>
+</div>
+<script>
+    $("#CurrenciesUnit").change(function () {
+        $.ajax({
+            url: "/MainCompany/GetCurrencyUnit?CurrId=" + $(this).val(),
+            method:"POST",
+            success: function (data) {
+                $("#Currency_unit_name").val(data.Currency_unit_name);
+                $("#Currency_small_unit_name").val(data.Currency_small_unit_name);
+            }
+        })
+    });
+    function CurrencyChangeSucc() {
+        $("#CurrencyChangeSubmitBtn").after("<span id='RemoveSpan'>@FabulousErp.BusController.Translate("Currency Unit Has Been Updated")</span>")
+
+        setTimeout(function () {
+         $("#RemoveSpan").fadeOut();
+        }, 1000)
+        setTimeout(function () {
+          $("#RemoveSpan").remove();
+        },2000)
+    }
+</script>

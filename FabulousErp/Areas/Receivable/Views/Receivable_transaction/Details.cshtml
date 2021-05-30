@@ -1,0 +1,66 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_transaction
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<button onclick="PrintThis('Sec', false, false, null, CallBack, '<right>@FabulousErp.BusController.Translate("Receivable Transaction") @ViewBag.TrxNum</right>', true,true,beforePrint,'',true,'.col-md-10{width:57% !important;}.control-label{width:41% !important;}#VendorNamelbl{width:100% !important;}');" class="btn btn-primary Print">Print</button>
+@if (ViewBag.Void != null)
+{
+    @Html.Raw(ViewBag.Void)
+}
+<input id="TCGE-GurrencyFormate" type="hidden" />
+<input id="TCGE-HardGurrencyFormate" type="hidden" />
+<input id="IADI-GurrencyFormate" type="hidden" />
+<section id="info"></section>
+
+<section id="Sec" style="display:none;">
+    @Html.Action("Create", new { id = ViewBag.id, Partial = true })
+</section>
+<script>
+    var IsDetails = true;
+
+    function CallBack() {
+    }
+    function beforePrint() {
+        $(document).find("input:hidden").remove();
+        //$(document).find("input").css("max-width", "140px")
+        $(document).find("input").css("border", "none")
+        $(document).find("input").css("color", "#000")
+        $(document).find("label").css("display", "inline-block")
+
+    }
+    $(function () {
+        var Vendor_id = $("#Vendor_id").find("option:selected").val()
+        $(document).find(".ToggleTransAction").after("<span> Journal Entry @ViewBag.JE </span>")
+        MaskMoneyTxt(CompId, function () {
+            CalcPurch();
+            GetCreditorName(Vendor_id, function () {
+
+            })
+            $("#TotalValueLbl").removeClass("control-label col-md-2").addClass("col-md-12")
+            $(".Transaction_dateDiv").append('<input class="form-control" data-val="true" type="date" value="@ViewBag.TransactionDate" />')
+            $(".Posting_dateDiv").append('<input class="form-control" data-val="true" type="date" value="@ViewBag.PostingDate" />')
+            $(document).find("#Doc_type").val("@ViewBag.DocType")
+
+
+            $("#TCGE-JEDate").remove();
+
+            $("#TCGE-PostingDate").remove();
+            $("#TCGE-Reference").remove();
+
+            $(document).find("input").attr("disabled", "disabled");
+            $(document).find("select").attr("disabled", "disabled");
+
+            $(document).find("input[name='__RequestVerificationToken']").remove();
+            $(document).find("input[type='submit']").remove();
+            $(document).find('.ReceivablePayment').hide();
+            $("#Sec").show();
+            if (getParameterByName("Print") == "true") {
+                $(".Print").trigger("click");
+            }
+        });
+
+    })
+</script>

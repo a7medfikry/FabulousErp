@@ -1,0 +1,127 @@
+[
+  {
+    "outputFileName": "Scripts/New/DesignBundle.js",
+    "inputFiles": [
+      "Scripts/jquery-3.3.1.min.js",
+      "Scripts/New/jquery-ui.min.js",
+      "Scripts/New/popper.min.js",
+      "Scripts/bootstrap.min.js",
+      "Scripts/New/jquery.slimscroll.js",
+      "Scripts/New/modernizr.js",
+      "Scripts/New/css-scrollbars.js",
+      "Scripts/New/custom-prism.js",
+      "Scripts/New/pcoded.min.js",
+      //"Scripts/New/menu-sidebar-static.js",
+      "Scripts/New/jquery.mCustomScrollbar.concat.min.js",
+      "Scripts/New/script.js"
+      //"Scripts/New/i18next.min.js",
+      //"Scripts/New/i18nextBrowserLanguageDetector.min.js",
+      //"Scripts/New/i18nextXHRBackend.min.js",
+      //"Scripts/New/jquery-i18next.min.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "Scripts/New/Bundle.js",
+    "inputFiles": [
+      "_Content/JS/Settings/Financial/Accounting/CurrencyDefinition/CurrencyFormateSetting/jquery.maskMoney.js",
+      "_Content/BootstrapSelect/popper.min.js",
+      "Areas/FixedAssets/Scripts/jquery.unobtrusive-ajax.min.js",
+      "Areas/FixedAssets/Scripts/jquery.validate.min.js",
+      "Areas/FixedAssets/Scripts/jquery.validate.unobtrusive.js",
+      "_Content/moment.js",
+      "_Content/BootstrapSelect/bootstrap-select.min.js",
+      "_Content/jquery.tabletoCSV.js",
+      "_Content/JS/datatables.min.js",
+      "_Content/JS/Home/CheckFavourites.js",
+      "_Content/JS/Home/SearchHome.js",
+      "_Content/jquery.table2excel.js",
+      "_Content/JS/jQuery.print.min.js",
+      "_Content/JS/jquery.serializeToJSON.js",
+      "Scripts/html2canvas.min.js",
+      "_Content/CommonScript.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
+  },
+  {
+    "outputFileName": "Styles/DesignBundle.css",
+    "inputFiles": [
+      "Fonts/GoogleFont.css",
+      "Styles/bootstrap.min.css",
+      "Styles/feather.css",
+      "Styles/themify-icons.css",
+      "Styles/icofont.css",
+      "Styles/prism.css",
+      "Styles/jquery.mCustomScrollbar.css",
+      "Styles/_pcmenu.min.css",
+      "Styles/style.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
+  },
+  {
+    "outputFileName": "Styles/Bundle.css",
+    "inputFiles": [
+      "Content/css/font-awesome.css",
+      "Content/bootstrap4-dataTables.css",
+      "Content/bootstrap4-responsive.css",
+      "Content/fixedHeader.bootstrap4.min.css",
+      "Content/site.css",
+      "_Content/Styles/print.css",
+      "_Content/Styles/util.css",
+      "_Content/Styles/validations.css",
+      "_Content/Styles/datatables.min.css",
+      "_Content/BootstrapSelect/bootstrap-select.min.css",
+      "Styles/MyStyle.css"
+
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
+  },
+  {
+    "outputFileName": "Styles/PrintBundle.css",
+    "inputFiles": [
+      "Content/bootstrap.css",
+      "Content/site.css",
+      "_Content/Styles/print.css",
+      "_Content/Styles/main.css"
+
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
+  },
+  {
+    "outputFileName": "Styles/All.css",
+    "inputFiles": [
+      "Styles/DesignBundle.css",
+      "_Content/Styles/main.css",
+      "Styles/Bundle.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
+  },
+  {
+    "outputFileName": "Scripts/New/All.js",
+    "inputFiles": [
+      "Scripts/New/DesignBundle.js",
+      "Scripts/New/Bundle.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
+  }
+]

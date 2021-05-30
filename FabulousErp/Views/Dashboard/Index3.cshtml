@@ -1,0 +1,261 @@
+﻿@model Chart2
+@{
+    ViewBag.Title = "Index3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body .pcoded[vertical-placement="right"] .main-body {
+        direction: unset;
+    }
+</style>
+<script src="~/Scripts/New/Charts/core.js"></script>
+<script src="~/Scripts/New/Charts/charts.js"></script>
+<script src="~/Scripts/New/Charts/animated.js"></script>
+<section class="col-sm-12">
+    <!-- statustic-card start -->
+    <div class="col-xl-3 offset-1 col-md-5">
+        <div class="card bg-c-yellow text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">@Business.Translate("New Customer")</p>
+                        <h4 class="m-b-0">@ViewBag.NewCustomer</h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather  f-50 text-c-yellow">&uarr;</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-5">
+        <div class="card bg-c-green text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">@Business.Translate("This Year Sales")</p>
+                        <h4 class="m-b-0">@ViewBag.SalesMinusLastYear </h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather f-50 text-c-green">&uarr;</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 offset-1 col-md-5">
+        <div class="card bg-c-pink text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">@Business.Translate("Number Of Invoices")</p>
+                        <h4 class="m-b-0">@ViewBag.SalesInvNum</h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather  f-50 text-c-pink">&uarr;</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-5">
+        <div class="card bg-c-blue text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">@Business.Translate("Grand Profit")</p>
+                        <h4 class="m-b-0">@ViewBag.GrandProfit</h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather f-50 text-c-blue">&uarr;</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- statustic-card start -->
+
+</section>
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">@Business.Translate("Grand Profit")</h4>
+        @*@Html.Partial("/Areas/Inventory/Views/Rpt/GrandProfitRes.cshtml", GrandProfit)*@
+    </section>
+    <div id="Chart1" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Quantity Avaliable</h4>
+        @*@Html.Partial("/Areas/Inventory/Views/Rpt/QtyAvaliableRes.cshtml", QtyRes)*@
+    </section>
+    <div id="Chart2" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Sales Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = false, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <div id="Chart3" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Sales Return Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = true, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <div id="Chart4" style="width:auto;height:500px;"></div>
+</section>
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Purchase Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = false, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <div id="Chart5" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Return Purchase Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = true, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <div id="Chart6" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Vendore Balance</h4>
+    </section>
+    <div id="Chart7" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Vendore Purchase</h4>
+    </section>
+    <div id="Chart8" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Customer Balance</h4>
+    </section>
+    <div id="Chart9" style="width:auto;height:500px;"></div>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Customer Sales</h4>
+    </section>
+    <div id="Chart10" style="width:auto;height:500px;"></div>
+</section>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+<script>
+    $(function () {
+        am4core.ready(function () {
+
+            am4core.useTheme(am4themes_animated);
+            AddChart("Chart1","Item_name", @Html.Raw(Json.Encode(ViewBag.Names1)),@Html.Raw(Json.Encode(Model.GP)))
+            AddChart("Chart2","Item_name", @Html.Raw(Json.Encode(ViewBag.Names2)),@Html.Raw(Json.Encode(Model.QA)))
+            AddChart("Chart3","Item_name", @Html.Raw(Json.Encode(ViewBag.Names3)),@Html.Raw(Json.Encode(Model.MS1)))
+            AddChart("Chart4","Item_name", @Html.Raw(Json.Encode(ViewBag.Names3)),@Html.Raw(Json.Encode(Model.MS2)))
+            AddChart("Chart5","Item_name", @Html.Raw(Json.Encode(ViewBag.Names3)),@Html.Raw(Json.Encode(Model.MS3)))
+            AddChart("Chart6","Item_name", @Html.Raw(Json.Encode(ViewBag.Names3)),@Html.Raw(Json.Encode(Model.MS4)))
+            AddChart("Chart7","Vendore", @Html.Raw(Json.Encode(ViewBag.Names4)),@Html.Raw(Json.Encode(Model.VPurchase)))
+            AddChart("Chart8","Vendore", @Html.Raw(Json.Encode(ViewBag.Names4)),@Html.Raw(Json.Encode(Model.VB)))
+            AddChart("Chart9","Customer", @Html.Raw(Json.Encode(ViewBag.Names4)),@Html.Raw(Json.Encode(Model.CPurchase)))
+            AddChart("Chart10","Customer", @Html.Raw(Json.Encode(ViewBag.Names4)),@Html.Raw(Json.Encode(Model.CB)))
+        })
+    })
+    function GetColor() {
+        var ThisColor = Colors[ColorInt]
+        ColorInt++;
+        if (ColorInt > 4) {
+            ColorInt = 0;
+        }
+        return ThisColor;
+    }
+    var Colors = [ "red", "orange",
+         "green", "blue",
+        "purple"]
+    var ColorInt = 0;
+    var chart;
+    function AddSeries(Name, X, Y) {
+        var series1 = chart.series.push(new am4charts.LineSeries());
+        series1.dataFields.valueY = Y;
+        series1.dataFields.categoryX = X;
+        series1.name =TranslateThis(Name);
+        series1.strokeWidth = 3;
+        series1.tensionX = 0.7;
+        series1.bullets.push(new am4charts.CircleBullet());
+        series1.tooltipText = "[#000]{valueY.value}";
+        var Color = GetColor();
+        series1.stroke = am4core.color(Color);
+
+        // Add scrollbar
+        var scrollbar = new am4charts.XYChartScrollbar();
+        scrollbar.series.push(series1)
+        chart.scrollbarX = scrollbar;
+
+
+        // Add scrollbar
+        chart.scrollbarX = new am4charts.XYChartScrollbar();
+        chart.scrollbarX.series.push(series1)
+
+        var scrollAxis = chart.scrollbarX.scrollbarChart.xAxes.getIndex(0);
+        scrollAxis.renderer.labels.template.disabled = true;
+        scrollAxis.renderer.grid.template.disabled = true;
+        chart.scrollbarX.minHeight = 30;
+        // Add simple bullet
+        var circleBullet = series1.bullets.push(new am4charts.CircleBullet());
+        circleBullet.circle.fill = am4core.color(Color);
+
+    }
+    function AddChart(ChartDiv,Category,LegendArr,Data) {
+         /* Create chart instance */
+        chart = am4core.create(ChartDiv, am4charts.XYChart);
+
+
+            /* Create axes */
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = Category;
+
+
+            /* Create value axis */
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+        categoryAxis.renderer.grid.template.disabled = true;
+
+        categoryAxis.renderer.labels.template.rotation = -60;
+
+
+        valueAxis.renderer.grid.template.disabled = true;
+
+        var Names = LegendArr;
+        /* Add data */
+        chart.data = Data;
+
+        $.each(Names, function (k, i) {
+            AddSeries(i, Category, i.toString().replace(/\s/g,"_"));
+        })
+
+        /* Add legend */
+        chart.legend = new am4charts.Legend();
+        chart.legend.position= "top";
+
+        /* Create a cursor */
+        chart.cursor = new am4charts.XYCursor();
+
+    }
+</script>

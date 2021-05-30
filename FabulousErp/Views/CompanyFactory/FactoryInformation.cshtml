@@ -1,0 +1,269 @@
+﻿@model FabulousModels.ViewModels.Settings.Financial.GeneralSetting.C_B_F_Setup.CompanyFactoryInfo.Factory_Collection
+
+@{
+    ViewBag.Title = "Factory Information";
+    ViewBag.FormCode = "SCPI";
+}
+
+@using (Html.BeginForm("FactoryInformation", "CompanyFactory", FormMethod.Post, new { id = "CompanyForm" }))
+{
+    <div class="container-fluid">
+        <!-- tabs -->
+        <ul class="nav nav-pills border-white" role="tablist">
+            <li class="nav-item pill-1 mr-1">
+                <a class="nav-link active" data-toggle="tab" href="#main-information" role="tab" aria-selected="true">Main Information <span class="badge badge-danger">1</span> </a>
+            </li>
+            <li class="nav-item pill-2 mr-1">
+                <a class="nav-link" data-toggle="tab" href="#address-information" role="tab" aria-selected="true" tabindex="7">Address Information <span class="badge badge-danger">2</span> </a>
+            </li>
+            <li class="nav-item pill-3 mr-1">
+                <a class="nav-link" data-toggle="tab" href="#legal-information" role="tab" aria-selected="true" tabindex="14">Legal Information <span class="badge badge-danger">3</span> </a>
+            </li>
+            <li class="nav-item pill-4">
+                <a class="nav-link" data-toggle="tab" href="#communication-information" role="tab" aria-selected="true" tabindex="17">Communication Information <span class="badge badge-danger">4</span> </a>
+            </li>
+        </ul>
+        <!-- tab panes -->
+        <div class="tab-content bg-light100">
+            <div id="main-information" class="container tab-pane active p-3">
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Company ID : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(x => x.Factory_Main_Info.CompanyID, ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class= "form-control form-control-sm", @tabindex = "1" })
+                        <span id="CIDError"></span>
+                        <i class="fa fa-lock hide-normal" id="Lock"></i>
+                        @Html.ValidationMessageFor(x => x.Factory_Main_Info.CompanyID, null, new { style = "color:red", @id = "ECompanyID", @class = "hidden" })
+                    </div>
+                    <label id="CompName" class="hide-normal col-md-5" style="color:green"></label>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Branch ID : </label>
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(x => x.Factory_Main_Info.BranchID, ViewBag.BranchList as SelectList, "-Choose-", new { @id = "BranchID", @class = "form-control form-control-sm", @tabindex = "2" })
+                        <span id="BIDError"></span>
+                        <i class="fa fa-lock hide-normal" id="Lock"></i>
+                    </div>
+                    <label id="BranchName" class="hide-normal col-md-5" style="color:green"></label>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Factory ID : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Factory_Main_Info.FactoryID, new { @id = "FactoryID", @maxlength = "50", @tabindex = "3", @class = "form-control form-control-sm" }) <i class="fa fa-lock hide-normal" id="Lock"></i>
+                        <span id="FIDError"></span>
+                        @Html.ValidationMessageFor(x => x.Factory_Main_Info.FactoryID, null, new { style = "color:red", @id = "EFactoryID", @class = "hidden" })
+                    </div>
+                    <div class="col-md-5">
+                        <button type="button" onclick="FSearchBtn()" class="btn btn-info btn-sm"><i class="fa fa-search"></i> </button> <label id="BarValid" hidden> </label>
+                        <span id="ErrorInSearch" style="color:red"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Factory Name : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Factory_Main_Info.FactoryName, new { @id = "FactoryName", @maxlength = "50", @tabindex = "4", @class = "form-control form-control-sm" })
+                        <span id="FNError"></span>
+                        @Html.ValidationMessageFor(x => x.Factory_Main_Info.FactoryName, null, new { style = "color:red", @id = "EFactoryName", @class = "hidden" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Factory Alies : </label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(x => x.Factory_Main_Info.FactoryAlies, new { @id = "FactoryAlies", @maxlength = "50", @tabindex = "5", @class = "form-control form-control-sm" })
+                    </div>
+
+                    <label class="col-md-2 col-form-label-sm">Establish Date : </label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(x => x.Factory_Main_Info.EstablishDate, new { @id = "EstablishDate", @type = "date", @maxlength = "50", @tabindex = "6", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="address-information" class="container tab-pane fade p-3">
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Street Name <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.StreetName, new { @id = "StreetName", @maxlength = "50", @tabindex = "8", @class = "form-control form-control-sm" })
+                        <span id="StreetError"></span>
+                        @Html.ValidationMessageFor(x => x.Address_Information.StreetName, null, new { style = "color:red", @id = "EStreetName", @class = "hidden" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Building Number <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.BuldingNo, new { @id = "BuldingNo", @maxlength = "50", @tabindex = "9", @class = "form-control form-control-sm" })
+                        <span id="BuildingError"></span>
+                        @Html.ValidationMessageFor(x => x.Address_Information.BuldingNo, null, new { style = "color:red", @id = "EBuldingNo", @class = "hidden" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Floor Number : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.FloorNo, new { @id = "FloorNo", @maxlength = "50", @tabindex = "10", @class = "form-control form-control-sm" })
+                        @Html.ValidationMessageFor(x => x.Address_Information.FloorNo, null, new { style = "color:red", @id = "EFloorNo", @class = "hidden" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> Area : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.Area, new { @id = "Area", @maxlength = "50", @tabindex = "11", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-2 col-form-label-sm"> City : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.City, new { @id = "City", @maxlength = "50", @tabindex = "12", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-4 col-form-label-sm"> Governorate / State <span class="star">*</span> </label> <span id="GovError"></span>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Address_Information.Governorate, new { @id = "Governorate", @maxlength = "50", @tabindex = "13", @class = "form-control form-control-sm" })
+                        @Html.ValidationMessageFor(x => x.Address_Information.Governorate, null, new { style = "color:red", @id = "EGovernorate", @class = "hidden" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="legal-information" class="container tab-pane fade p-3">
+                <div class="form-group">
+                    <label class="col-md-12 col-form-label-sm"> Social Insurance ID : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Factory_Legal_Info.InsuranceID, new { @id = "InsuranceID", @maxlength = "50", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12 col-form-label-sm"> Social Insurance Office : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Factory_Legal_Info.InsuranceOffice, new { @id = "InsuranceOffice", @maxlength = "50", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="communication-information" class="container tab-pane fade p-3">
+                <div class="row">
+                    <label class="col-md-2" id="Code"> Code :  @Html.TextBoxFor(x => x.Communication_Info.International1, new { @id = "International1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International1, null, new { style = "color:red", @id = "EInternational1", @class = "hidden" }) </label>
+                    <label class="col-md-3" id="Tele"> Telephone :  @Html.TextBoxFor(x => x.Communication_Info.Telephone1, new { @id = "Telephone1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone1, null, new { style = "color:red", @id = "ETelephone1", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX1, new { @id = "TelephoneEX1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX1, null, new { style = "color:red", @id = "ETelephoneEX1", @class = "hidden" })</label>
+                    <label> <button type="button" id="Tbtn1" class="btn btn-default btn-sm" onclick="ShowT2()"> <span class="fa fa-plus"></span> </button> </label>
+                </div>
+
+                <div id="T2" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code :  @Html.TextBoxFor(x => x.Communication_Info.International2, new { @id = "International2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International2, null, new { style = "color:red", @id = "EInternational2", @class = "hidden" })</label>
+                    <label class="col-md-3" id="Tele"> Telephone :  @Html.TextBoxFor(x => x.Communication_Info.Telephone2, new { @id = "Telephone2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone2, null, new { style = "color:red", @id = "ETelephone2", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX2, new { @id = "TelephoneEX2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX2, null, new { style = "color:red", @id = "ETelephoneEX2", @class = "hidden" })</label>
+                    <label> <button type="button" id="Tbtn2" class="btn btn-default btn-sm" onclick="ShowT3()">  <span class="fa fa-plus"></span> </button> </label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT2()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+                <div id="T3" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.International3, new { @id = "International3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International3, null, new { style = "color:red", @id = "EInternational3", @class = "hidden" })</label>
+                    <label class="col-md-3" id="Tele"> Telephone :  @Html.TextBoxFor(x => x.Communication_Info.Telephone3, new { @id = "Telephone3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone3, null, new { style = "color:red", @id = "ETelephone3", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX3, new { @id = "TelephoneEX3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX3, null, new { style = "color:red", @id = "ETelephoneEX3", @class = "hidden" })</label>
+                    <label> <button type="button" id="Tbtn3" class="btn btn-default btn-sm" onclick="ShowT4()">  <span class="fa fa-plus"></span> </button> </label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT3()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+                <div id="T4" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code :  @Html.TextBoxFor(x => x.Communication_Info.International4, new { @id = "International4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International4, null, new { style = "color:red", @id = "EInternational4", @class = "hidden" })</label>
+                    <label class="col-md-3" id="Tele"> Telephone :  @Html.TextBoxFor(x => x.Communication_Info.Telephone4, new { @id = "Telephone4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone4, null, new { style = "color:red", @id = "ETelephone4", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX4, new { @id = "TelephoneEX4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX4, null, new { style = "color:red", @id = "ETelephoneEX4", @class = "hidden" })</label>
+                    <label> <button type="button" id="Tbtn4" class="btn btn-default btn-sm" onclick="ShowT5()"> <span class="fa fa-plus"></span> </button> </label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT4()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+                <div id="T5" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code:  @Html.TextBoxFor(x => x.Communication_Info.International5, new { @id = "International5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International5, null, new { style = "color:red", @id = "EInternational5", @class = "hidden" })</label>
+                    <label class="col-md-3" id="Tele"> Telephone :  @Html.TextBoxFor(x => x.Communication_Info.Telephone5, new { @id = "Telephone5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone5, null, new { style = "color:red", @id = "ETelephone5", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX5, new { @id = "TelephoneEX5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX5, null, new { style = "color:red", @id = "ETelephoneEX5", @class = "hidden" })</label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT5()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+                <hr class="bg-dark" />
+
+                <div class="row">
+                    <label class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code1, new { @id = "Code1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code1, null, new { style = "color:red", @id = "ECode1" })</label>
+                    <label class="col-md-3" id="Fax"> Fax :  @Html.TextBoxFor(x => x.Communication_Info.Fax1, new { @id = "Fax1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax1, null, new { style = "color:red", @id = "EFax1", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.FaxEX1, new { @id = "FaxEX1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX1, null, new { style = "color:red", @id = "EFaxEX1", @class = "hidden" })</label>
+                    <label> <button type="button" class="btn btn-default btn-sm" id="Fbtn1" onclick="ShowF2()"> <span class="fa fa-plus"></span> </button> </label>
+                </div>
+
+
+                <div id="F2" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code2, new { @id = "Code2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code2, null, new { style = "color:red", @id = "ECode2" })</label>
+                    <label class="col-md-3" id="Fax"> Fax :  @Html.TextBoxFor(x => x.Communication_Info.Fax2, new { @id = "Fax2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax2, null, new { style = "color:red", @id = "EFax2", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.FaxEX2, new { @id = "FaxEX2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX2, null, new { style = "color:red", @id = "EFaxEX2", @class = "hidden" })</label>
+                    <label> <button type="button" class="btn btn-default btn-sm" id="Fbtn2" onclick="ShowF3()"> <span class="fa fa-plus"></span> </button> </label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF2()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+
+                <div id="F3" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code3, new { @id = "Code3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code3, null, new { style = "color:red", @id = "ECode3" })</label>
+                    <label class="col-md-3" id="Fax"> Fax :  @Html.TextBoxFor(x => x.Communication_Info.Fax3, new { @id = "Fax3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax3, null, new { style = "color:red", @id = "EFax3", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.FaxEX3, new { @id = "FaxEX3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX3, null, new { style = "color:red", @id = "EFaxEX3", @class = "hidden" })</label>
+                    <label> <button type="button" class="btn btn-default btn-sm" id="Fbtn3" onclick="ShowF4()"> <span class="fa fa-plus"></span> </button> </label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF3()"> <span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+                <div id="F4" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code4, new { @id = "Code4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code4, null, new { style = "color:red", @id = "ECode4" })</label>
+                    <label class="col-md-2" id="Fax"> Fax :  @Html.TextBoxFor(x => x.Communication_Info.Fax4, new { @id = "Fax4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax4, null, new { style = "color:red", @id = "EFax4", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.FaxEX4, new { @id = "FaxEX4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX4, null, new { style = "color:red", @id = "EFaxEX4", @class = "hidden" })</label>
+                    <label> <button type="button" class="btn btn-default btn-sm" id="Fbtn4" onclick="ShowF5()"> <span class="fa fa-plus"></span> </button> </label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF4()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+
+                <div id="F5" class="row hide-normal">
+                    <label class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code5, new { @id = "Code5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code5, null, new { style = "color:red", @id = "ECode5" })</label>
+                    <label class="col-md-3" id="Fax"> Fax :  @Html.TextBoxFor(x => x.Communication_Info.Fax5, new { @id = "Fax5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax5, null, new { style = "color:red", @id = "EFax5", @class = "hidden" })</label>
+                    <label class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.FaxEX5, new { @id = "FaxEX5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX5, null, new { style = "color:red", @id = "EFaxEX5", @class = "hidden" })</label>
+                    <label> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF5()"><span class="fa fa-minus"></span> </button> </label>
+                </div>
+            </div>
+
+            <div class="cu-btn ml-3">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="FResetBtn()"> Clear </button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="FUpdateBtn()"> Update </button>
+                <button type="button" class="btn btn-success btn-sm" id="SaveBtn" onclick="FSaveButton()"> Save </button>
+                <span class="hide-normal" id="PrintSpan">
+                    <button type="button" class="btn btn-info" id="PrintBtn" onclick="FPrint()"> <span class="fa fa-print"></span> Print </button>
+                </span>
+            </div>
+
+            <div class="row p-4">
+                <label id="UpdateWithoutSearch2" class="hide-normal text-error"></label>
+                <label id="UpdateWithSearch" class="hide-normal text-success"></label>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<div>
+    @Html.Partial("_FactoryReport")
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_ClearBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_CommunicationBtns.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_Form.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_DropChange.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_FormLoad.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_PrintBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_SearchBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_UpdateBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_ValFocusOut.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_Validation.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/CompanyFactory/F_SaveBtn.js")
+

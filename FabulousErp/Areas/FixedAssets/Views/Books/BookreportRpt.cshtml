@@ -1,0 +1,81 @@
+﻿@model IEnumerable<FixedAssets.Controllers.Book_report>
+
+@{
+    ViewBag.Title = "BookreportRpt";
+    Layout = null;
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Assets Id
+        </th>
+        <th>
+           Acquestion Cost
+        </th>
+        <th>
+            Renwal
+        </th>
+        <th>
+            Disposal
+        </th>
+        <th>
+           Total Assets
+        </th>
+        <th>
+           Beginning Accumlated
+        </th>
+        <th>
+           Depreciation
+        </th>
+        <th>
+           Renwl Deprecation
+        </th>
+        <th>
+           Ending Accumlated
+        </th>
+        <th>
+           Net Assets
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assets_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Acquestion_cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Renwal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Disposal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total_assets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Beginning_accumlated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depreciation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Renwl_deprecation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ending_accumlated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Net_assets)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+

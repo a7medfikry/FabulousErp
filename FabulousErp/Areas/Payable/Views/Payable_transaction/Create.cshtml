@@ -1,0 +1,885 @@
+﻿@model FabulousErp.Payable.Models.Payable_transaction
+
+@{
+    ViewBag.Title = "Payable Transaction";
+    if (ViewBag.Partial == true)
+    {
+        Layout = null;
+    }
+    string HasNoPayment = "";
+    if (!ViewBag.AllowPayment)
+    {
+        HasNoPayment = "hide";
+    }
+
+    <text>
+        <script>
+            HasNoPayment = "@HasNoPayment";
+        </script>
+    </text>
+}
+
+
+@using (Ajax.BeginForm("Create", "Payable_transaction", new AjaxOptions { OnSuccess = "SubmitPayment" }, new { id = "PayableForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal clearfix" id="TransDiv">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Journal_number, new { @class = "Journal_number", id = "Journal_numberTrans" })
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Trans_doc_type_id, "Trans_doc_type_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Trans_doc_type_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Trans_doc_type_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Doc_type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.Doc_type, ViewBag.Doc_type as SelectList, htmlAttributes: new { @class = "form-control Doc_type", id = "Doc_typeTrans" })
+                @Html.ValidationMessageFor(model => model.Doc_type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group Width60">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Desc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Desc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 Transaction_dateDiv">
+                @Html.TextBoxFor(m => m.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "TCGE-JEDate" })
+
+                @Html.ValidationMessageFor(model => model.Transaction_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Posting_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 Posting_dateDiv">
+                @Html.TextBoxFor(m => m.Posting_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "TCGE-PostingDate" })
+                @Html.ValidationMessageFor(model => model.Posting_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control", id = "Currency_idTrans" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<section class="FormTransactionRate hide">
+            <div class="form-group">
+                @Html.LabelFor(model => model.System_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.System_rate, new { htmlAttributes = new { @class = "form-control maskmoney", id = "System_rateTrans" } })
+                    @Html.ValidationMessageFor(model => model.System_rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Transaction_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Transaction_rate, new { htmlAttributes = new { @class = "form-control maskmoney", id = "Transaction_rateTrans" } })
+                    @Html.ValidationMessageFor(model => model.Transaction_rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Difference", "Difference", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Label("Difference", "0", htmlAttributes: new { @class = "control-label col-md-2", id = "DifferenceLbl" })
+                </div>
+            </div>
+        </section>*@
+        <section class="GlTransactionRate col-sm-12">
+            <span id="ReplaceWithTrans"></span>
+        </section>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vendor_id, "Vendor id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Vendor_id", null, "", htmlAttributes: new { @class = "form-control", id = "Vendor_idTrans" })
+                @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.Label("VendorNamelbl", " ", htmlAttributes: new { @class = "col-md-12", id = "VendorNamelbl" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PONumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PONumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PONumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.VDocument_number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VDocument_number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.VDocument_number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Doc_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Doc_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+                @Html.ValidationMessageFor(model => model.Doc_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Due_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Due_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "Due_dateTrans" })
+
+                @Html.ValidationMessageFor(model => model.Due_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fixed_assets_trx, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fixed_assets_trx, new { htmlAttributes = new { @class = "v-bottom" } })
+
+                @Html.ValidationMessageFor(model => model.Fixed_assets_trx, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment_terms_id, "Payment Terms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Payment_terms_id", null, Convert.ToString(Model.Payment_terms_id), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Payment_terms_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shipping_method_id, "Ship. Method", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Shipping_method_id", null, Convert.ToString(Model.Shipping_method_id), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Shipping_method_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <section class="clearfix">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Purchase, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Purchase, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Purchase, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Taken_discount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Taken_discount, new { htmlAttributes = new { @class = "form-control maskmoney", id = "Taken_discountTrans" } })
+                    @Html.ValidationMessageFor(model => model.Taken_discount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group ">
+                @Html.Label("Total", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("TotalValue", "0", new { htmlAttributes = new { @class = "control-label col-md-2 maskmoney labelInput hide", id = "TotalValue" } })
+                    @Html.Label("TotalValueView", "0", new { @class = "control-label col-md-2", style = "width: 100%;", id = "TotalValueLbl" })
+                    @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </section>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="FirstForm" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<section class="PayablePayment @HasNoPayment">
+    <h4>Payment</h4>
+    @{
+        int? TransDocId = null;
+        if (Model != null)
+        {
+            TransDocId = Model.Id;
+        }
+    }
+    @Html.Action("PartialCreate", "Payable_payment", new { id = TransDocId })
+</section>
+
+<section class="clearfix col-sm-12">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" id="Create" class="btn btn-success" />
+        </div>
+    </div>
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+</section>
+
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    var VZeroSum = false;
+    var CLType = "";
+    var CLAmount = 0;
+    var VeAmount = 0;
+    $(function () {
+
+        //$("#Purchase").val(0);
+        //$("#Taken_discount").val(0);
+        //$("#Tax").val(0)
+       // $(".PayablePayment").find("#Orginal_amount").val(0);
+
+    });
+    $("#TransDiv").on("change", "#Currency_idTrans", function () {
+        MaskMoneyTxt("@ViewBag.companyID", null, $(this).find("option:selected").text())
+    });
+    $("#TransDiv").on("change focusout", "#Transaction_rateTrans,#System_rateTrans", function () {
+        var TransRate = parseFloat($("#TransDiv").find("#Transaction_rateTrans").val());
+        var SysRate = parseFloat($("#TransDiv").find("#System_rateTrans").val());
+        $("#TransDiv").find("#DifferenceLbl").text((TransRate - SysRate).toFixed(DecimalPoint));
+    })
+    $(document).on("click", ".Cash_type", function () {
+        if ($(this).val() == "@Cash_type.Cash") {
+            $(document).find("#Cheque_number").parents(".form-group").hide();
+            $(".PayablePayment").find("#Due_date").parents(".form-group").hide();
+        } else {
+            $(document).find("#Cheque_number").parents(".form-group").show();
+            $(".PayablePayment").find("#Due_date").parents(".form-group").show();
+        }
+    })
+</script>
+
+@*<script>
+        $("#Currency_idTrans").change(function () {
+            if (window.location.href.indexOf("Details") == -1) {
+              TransactionRateStatus("@Business.FinancialForms.Payable_transaction")
+            }
+        })
+
+        var MaxAmount;
+        var MinAmount;
+        var VendoreValid;
+
+        $(".PayablePayment").find(".Cash_type[value='Cash']").trigger("click");
+        $("#Vendor_idTrans").change(function () {
+            VendoreValid = false;
+            var Vendor_id =$(this).find("option:selected").val()
+            $.ajax({
+                url: "@Url.Action("HasPassword", "Creditor_setting")?id=" + Vendor_id,
+                method: "POST",
+                success: function (HasPassword) {
+                    if (HasPassword) {
+                        ModelMsg("<div class='col-sm-12'><label>Enter Password</label><input type='password' class='GroupSettingPas form-control'  /></div>", "Enter Password"
+                            , false,
+                            function () {
+                                $.ajax({
+                                    url: "@Url.Action("CheckPass", "Creditor_setting")?Id=" + Vendor_id + "&Password=" + $(document).find(".GroupSettingPas").val(),
+                                    method: "POST",
+                                    success: function (data) {
+                                        if (data) {
+                                            GetCreditorName(Vendor_id)
+                                            VendoreValid = true;
+                                        } else {
+                                            ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                            $("#Vendor_idTrans").val("");
+                                            VendoreValid = false;
+                                        }
+                                    }
+                                })
+                            }, function () {
+                                if (!VendoreValid) {
+                                    $("#Vendor_idTrans").val("");
+                                }
+                            })
+                    } else {
+                        GetCreditorName(Vendor_id)
+                    }
+                }
+            });
+            $.ajax({
+                url: "@Url.Action("CheckCreditorLimit", "Creditor_setting")?id=" + Vendor_id,
+                method: "POST",
+                success: function (CL) {
+                    CLType = CL.status;
+                    CLAmount = CL.amount
+                    if (CL.status == "@Credit_limit_enum.Amount") {
+                            VeAmount = CL.veAmount;
+                    }
+                    if ("@HasNoPayment" == "hide") {
+                        if (CL.status == "@Credit_limit_enum.No_credit" || CL.status == "@Credit_limit_enum.Amount") {
+                            $(".PayablePayment").removeClass("hide");
+                            VZeroSum = true;
+                            CLAmount = CL.amount
+                        } else {
+                            $(".PayablePayment").addClass("hide");
+                            VZeroSum = false;
+                        }
+                    } else {
+                        VZeroSum = true;
+                    }
+                    MinAmount = CL.MinAmount;
+                    MaxAmount = CL.MaxAmount;
+                    //$(document).find("#PurchaseMask").trigger("focusout");
+                }
+            })
+        })
+        function GetCreditorName(Id, CallBack = null) {
+                $.ajax({
+                url: "@Url.Action("GetNameAndCBookById", "Creditor_setting")?id=" + Id,
+                success: function (data) {
+                    $("#VendorNamelbl").text(data.Name);
+                    $(".PayablePayment").find("#Check_book_id").val(data.CBook);
+                    $("#TransDiv").find("#Payment_terms_id").val(data.PTI);
+                    $("#TransDiv").find("#Shipping_method_id").val(data.SI);
+                    if (CallBack != null) {
+                        CallBack();
+                    }
+                },
+                method:"POST"
+            })
+        }
+        var OverLimitValid = false;
+        var Changed = false;
+
+        $("#Create").click(function () {
+            $("#TCGE-JEDate").removeAttr("disabled")
+            $("#TCGE-PostingDate").removeAttr("disabled")
+          @if (HasNoPayment=="")
+          {
+              <text>
+            $("#PaymentForm").validate();
+            $("#PaymentForm").valid();
+            if (!$("#PaymentForm").valid()) {
+                return false;
+            }
+              </text>
+          }
+            $("#PayableForm").validate();
+            $("#PayableForm").valid();
+            var TotalValue = parseFloat($("#TotalValue").val());
+            if (!TotalValue) {
+                TotalValue = 0;
+            }
+            var OrginalAmount = parseFloat($(document).find(".PayablePayment").find("#Orginal_amount").val());
+            if (!OrginalAmount) {
+                OrginalAmount = 0;
+            }
+            var TrasRate = 1;
+            if ($("#TransDiv").find("#TCGE-TransactionRate").val()) {
+                TrasRate = parseFloat($("#TransDiv").find("#TCGE-TransactionRate").val());
+            }
+            if ($("#Doc_typeTrans").find("option:selected").val() == "@Doc_type.Credit_Memo"
+                || $("#Doc_typeTrans").find("option:selected").val() == "@Doc_type.Return") {
+                VZeroSum = false;
+            } else {
+                VZeroSum = true;
+
+            }
+            if (OrginalAmount * TrasRate == TotalValue * TrasRate) {
+                VZeroSum = false;
+            }
+            if (VZeroSum) {
+                if (CLType == "@Credit_limit_enum.Amount") {
+
+                    var MyThisMax = parseFloat(CLAmount) + ((TotalValue - OrginalAmount) * TrasRate);
+                    var AddedMsg = "";
+                    if ($("#Currency_idTrans").find("option:selected").text() != CurrIso) {
+                        AddedMsg = " Or " + MyThisMax + " " + $("#Currency_idTrans").find("option:selected").text();
+                    }
+                    if (VeAmount + (OrginalAmount * TrasRate)  < MyThisMax) {
+                        {
+                            if (!OverLimitValid) {
+                                $.ajax({
+                                    url: "@Url.Action("GetCreditLimitPasswordOption", "Genral_setting")",
+                                    method: "POST",
+                                    success: function (data) {
+                                        if (data) {
+                                            ModelMsg("<div class='col-sm-12'>You are overlimit your max limit is " + (VeAmount - parseFloat(CLAmount) - OrginalAmount)  + CurrIso + AddedMsg + "<label>if you Want To Change Enter Password</label><input type='password' class='CreditLimitPass form-control'  /></div>", "Enter Password"
+                                                , false, function () {
+                                                    $.ajax({
+                                                        url: "@Url.Action("CheckCreditLimitPasswordOption", "Genral_setting")?Password=" + $(document).find(".CreditLimitPass").val(),
+                                                        method: "POST",
+                                                        success: function (data) {
+                                                            if (data) {
+                                                                OverLimitValid = true;
+                                                                Changed = true;
+                                                            } else {
+                                                                ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                                            }
+                                                        }
+                                                    })
+                                                }, null)
+
+                                        } else {
+                                            if (!Changed) {
+                                                ModelMsg("You are overlimit your max limit is " + (VeAmount - parseFloat(CLAmount) - OrginalAmount) + CurrIso + AddedMsg, "Over Limit", true, null, null)
+                                            }
+
+                                        }
+                                    }
+                                })
+                                return false;
+                                // alert("You are overlimit your max limit is " + (parseFloat(CLAmount) - OrginalAmount).toString())
+                            } else {
+                                if (!Changed) {
+                                    ModelMsg("You are overlimit your max limit is " + (parseFloat(CLAmount) - OrginalAmount) + " " + CurrIso + AddedMsg, "Over Limit", true)
+                                }
+                            }
+                        }
+                    }
+                } else if (CLType == "@Credit_limit_enum.No_credit") {
+                    var Left = (parseFloat(CLAmount) + ((TotalValue - OrginalAmount) * TrasRate));
+                    if (Left > 0) {
+                        if (VeAmount + (OrginalAmount * TrasRate)  < Left)  {
+                            //parseFloat($(document).find(".PayablePayment").find("#Orginal_amount").val()) < parseFloat($("#TotalValue").val()
+                            ModelMsg("This Vendore Has No Credit Limit, Over Limit By " + (Left) + " ", "No Credit Limit", true)
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (!($("#PayableForm").valid())) {
+                return false;
+            } else {
+                  $.ajax({
+                      url: "@Url.Action("ValidateTransaction")",
+                      data: $("#PayableForm").serialize() ,
+                        method:"POST",
+                        success: function (data) {
+                            if (data.status) {
+                                var BatchId = "";
+
+                                InsertTransactionData($("#TCGE-CompanyID").text(), $("#BostingToORThrow").val(), $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), $("#TCGE-CurrencyID").val(), $("#TCGE-SystemRate").val(), $("#TCGE-TransactionRate").val(), "PayTrns", "PayTrns", BatchId, "",
+                                    function (JournalEntryNumber, PO) {
+                                        $(document).find(".Journal_number").val(JournalEntryNumber)
+                                        if (!$("#TransDiv").find("#Taken_discount").val()) {
+                                            $("#TransDiv").find("#Taken_discount").val(0)
+                                        }
+                                        if (!$("#TransDiv").find("#Tax").val()) {
+                                            $("#TransDiv").find("#Tax").val(0)
+                                        }
+                                        $("#FirstForm").trigger("click");
+                                        InsertIntoTax(JournalEntryNumber)
+
+                                    },null,true,null,true)
+                            } else {
+                                ModelMsg(data.msg,"",true,null,null);
+                            }
+                        }
+                  })
+            }
+
+        })
+        function SubmitPayment(data) {
+            if (isNaN(data.PayId)) {
+                ModelMsg(data.Error, "", true, null, null);
+            } else {
+                if ($(document).find(".PayablePayment").find("#Orginal_amount").val() != 0) {
+                    $(document).find(".PayablePayment").find("#Transaction_date").val($("#TransDiv").find("#TCGE-JEDate").val());
+                    $(document).find(".PayablePayment").find("#Posting_date").val($("#TransDiv").find("#TCGE-PostingDate").val());
+                    $(document).find(".PayablePayment").find("#Vendor_id").val($("#TransDiv").find("#Vendor_idTrans").find("option:selected").val());
+                    $(document).find(".PayablePayment").find("#Reference").val($("#TransDiv").find("#Desc").val());
+                    $(document).find(".PayablePayment").find("#System_rateTrans").val($("#TransDiv").find("#System_rateTrans").val());
+                    $(document).find(".PayablePayment").find("#Transaction_rate").val($("#TransDiv").find("#Transaction_rateTrans").val());
+                    $(document).find(".PayablePayment").find("#Due_date").val($("#TransDiv").find("#Due_dateTrans").val());
+                    // $(document).find(".PayablePayment").find("#Orginal_amount").val($(document).find(".PayablePayment").find("#Paid_amount").val());
+                    $(document).find(".PayablePayment").find("#Taken_discount").val(0);
+                    $(document).find(".PayablePayment").find("#Transaction_id").val(data.PayId);
+                    $(document).find(".PayablePayment").find("#Paid_amount").val(0);
+                    $(document).find(".PayablePayment").find("#Paid_amountLbl").text(0);
+                    $(document).find(".PayablePayment").find("#Currency_id").val($("#TransDiv").find("#Currency_idTrans").val());
+                    $(document).find(".PayablePayment").find("#SubmitPayment").trigger("click");
+                    Talert("Transaction Number " , data.Trx_num + " " + $("#Doc_typeTrans").find("option:selected").text() , "  Number " , data.Counter)
+                    RedirectInt(window.location);
+
+                } else {
+                    RedirectInt(window.location);
+                }
+            }
+            PrintInt("/Recipts/PayRecRecipts?Id=" + data.PayId + "&IsPay=true")
+        }
+    </script>*@
+
+<script>
+     TransRateStatus ="@Business.FinancialForms.Payable_transaction";
+</script>
+@Html.IncludeVersionedJs("/Areas/Payable/Scripts/Payable_transaction.js")
+<script>
+    $(document).find(".PayablePayment").find("#Transaction_date").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Posting_date").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Vendor_id").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Transaction_id").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Reference").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#System_rateTrans").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Transaction_rate").parents(".form-group").hide();
+    //  $(document).find(".PayablePayment").find("#Orginal_amount").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Taken_discount").parents(".form-group").hide();
+    //$(document).find(".PayablePayment").find("#Paid_amount").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#SubmitPayment").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Currency_id").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Payment_type").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Paid_amountLbl").parents(".form-group").hide();
+    $(document).find(".PayablePayment").find("#Transaction_idDrop").remove();
+    //change
+    $("#TransDiv").on("focusout", "#Taken_discountTrans,#Orginal_amount,#Transaction_rateTrans,#Purchase", function () {
+        var Id = $(this).attr("id");
+        var val = $(this).val();
+        $(document).find(".PayablePayment").find("#" + Id).val(val);
+        $(document).find(".PayablePayment").find("#" + Id).trigger("change");
+
+        //if (Id == "Purchase") {
+        //    $(document).find(".PayablePayment").find("#Orginal_amount").val(val);
+        //    $(document).find(".PayablePayment").find("#Orginal_amount").trigger("change");
+        //} else {
+
+        //}
+    })
+    $("#TransDiv").on("change focusout", "#Purchase,#Taken_discountTrans,#Tax", function () {
+        CalcTotal();
+    })
+    function CalcTotal() {
+        var Pur = parseFloat($("#TransDiv").find("#Purchase").val());
+        if (!Pur) {
+            Pur = 0;
+        }
+        var Dis = parseFloat($("#TransDiv").find("#Taken_discountTrans").val());
+        if (!Dis) {
+            Dis = 0;
+        }
+        var Tax = parseFloat($("#TransDiv").find("#Tax").val());
+        if (!Tax) {
+            Tax = 0;
+        }
+        var Total = parseFloat(Pur - Dis + Tax);
+        $("#TotalValue").val(RoundNumber(Total));
+        $("#TotalValueMask").val(RoundNumber(Total)).trigger('mask.maskMoney');
+        $("#TotalValueLbl").text(MaskThisMoney(RoundNumber(Total)))
+    }
+    $("#TotalValue").change(function () {
+        $("#TotalValueMask").val($(this).val()).trigger('mask.maskMoney');
+        $("#TotalValueLbl").text($("#TotalValueMask").val())
+    })
+</script>
+@*Gl Transaction*@
+@if (ViewBag.Partial != true)
+{
+    <script>
+        $(function () {
+
+        $("#TransDiv").find("#Transaction_date").replaceWith($("#JVSecCont").find("#TCGE-JEDate"));
+        $("#TransDiv").find("#TCGE-JEDate").attr("name", "Transaction_date");
+        $("#TransDiv").find("#TCGE-JEDate").val("@Model.Transaction_date.ToShortDateString()")
+        $("#TransDiv").find("#Posting_date").replaceWith($("#JVSecCont").find("#TCGE-PostingDate"));
+        $("#TransDiv").find("#TCGE-PostingDate").attr("name", "Posting_date")
+        $("#TransDiv").find("#TCGE-PostingDate").val("@Model.Posting_date.ToShortDateString()")
+
+        //var attr = $("#TransDiv").find("#TCGE-PostingDate").attr('disabled');
+        //if (typeof attr !== typeof undefined && attr !== false) {
+        //    $("#TransDiv").find("#TCGE-PostingDate").removeAttr("disabled");
+        //    $("#TransDiv").find("#TCGE-PostingDate").attr("readonly", "readonly");
+        //}
+
+        $("#TransDiv").find("#ReplaceWithTrans").replaceWith($("#JVSecCont").find("#TCCR-rateField"))
+        $("#TCGE-SystemRate").attr("name", "System_rate")
+        $("#TCGE-TransactionRate").attr("name", "Transaction_rate")
+        $(document).find(".GlAddedBatch").hide();
+    })
+    </script>
+}
+
+<script>
+    var CurrIso = "@ViewBag.LocalCurr";
+    $(document).on("focusout", "#PurchaseMask", function () {
+        var ThisAmount = parseFloat($("#Purchase").val());
+        var TrasRate = 1;
+        if ($("#TransDiv").find("#TCGE-TransactionRate").val()) {
+            TrasRate = parseFloat($("#TransDiv").find("#TCGE-TransactionRate").val());
+        }
+        ThisAmount = ThisAmount * TrasRate;
+        var AddedMaxMsg = "";
+        var AddedMinMsg = "";
+        if ($("#Currency_idTrans").find("option:selected").text() != CurrIso) {
+            AddedMaxMsg=" Or " + RoundNumber((MaxAmount / TrasRate), ) + " " + $("#Currency_idTrans").find("option:selected").text();
+            AddedMinMsg = " Or " + RoundNumber((MinAmount / TrasRate), ) + " " + $("#Currency_idTrans").find("option:selected").text();
+        }
+        if (MaxAmount) {
+            if (ThisAmount > MaxAmount) {
+                MinMaxCheckPassword("Your MaxAmount Amount is " + MaxAmount + " " + CurrIso + AddedMaxMsg)
+            }
+        }
+        if (MinAmount) {
+            if (ThisAmount < MinAmount) {
+                MinMaxCheckPassword("Your Minimum Amount is " + MinAmount + " " + CurrIso + AddedMinMsg)
+            }
+        }
+
+    })
+    var MinMaxValid;
+
+    function MinMaxCheckPassword(Msg) {
+         MinMaxValid = false;
+         $.ajax({
+            url: "@Url.Action("GetMinMaxPasswordOption", "Genral_setting")",
+            method: "POST",
+             success: function (data) {
+                 if (data) {
+                     ModelMsg("<div class='col-sm-12'>" + Msg + " <label>@Business.Translate("if you Want To Change Enter Password")</label><input type='password' class='MinMaxPassword form-control'  /></div>", "@Business.Translate("Enter Password")"
+                         , false,
+                         function () {
+                             var Password = $(document).find(".MinMaxPassword").val();
+                             $.ajax({
+                                 url: "@Url.Action("CheckMinMaxPasswordOption", "Genral_setting")?Password=" + Password,
+                                 method: "POST",
+                                 success: function (data) {
+                                     if (data) {
+                                         MinMaxValid = true;
+                                     } else {
+                                         ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                         $("#PurchaseMask").val(0.00).trigger("keyup");
+                                         MinMaxValid = false;
+
+                                     }
+                                 }
+                             })
+                         }, function () {
+                             if (!MinMaxValid) {
+                                 $("#PurchaseMask").val(0.00).trigger("keyup");
+                             }
+                         })
+                 } else {
+                     ModelMsg(Msg, "Invalid Input", true);
+                     $("#PurchaseMask").val(0.00).trigger("keyup");
+                 }
+             }
+        })
+    }
+    $(function () {
+        $("#Currency_idTrans").trigger("change");
+        setTimeout(function () {
+            $(document).find("#PurchaseMask").trigger("keyup")
+
+        },500)
+
+        MaskMoneyTxt()
+    })
+
+    $(document).on("focusout", "#TCGE-JEDate", function () {
+        $("#Doc_date").val($(this).val())
+        var ThisDate = moment($(this).val()).add('days', 30).format('YYYY-MM-DD');
+        $("#Due_dateTrans").val(ThisDate);
+        $("#TCGE-CurrencyID").val($("#Currency_idTrans").val())
+    })
+    $("#TransDiv").on("change focusout", "#Currency_idTrans", function () {
+        $("#TCGE-CurrencyID").val($(this).val())
+        $("#TCGE-CurrencyID").trigger("change")
+        $("#TransDiv").find("#TCGE-SystemRate").trigger("change")
+        $("#TransDiv").find("#TCGE-TransactionRate").trigger("change")
+        if (!$("#TransDiv").find("#TCGE-SystemRate").is(":visible")) {
+            $("#TransDiv").find("#Transaction_rateTrans").val(1)
+        }
+        if (!$("#TransDiv").find("#TCGE-TransactionRate").is(":visible")) {
+            $("#TransDiv").find("#System_rateTrans").val(1)
+        }
+        currencyID = $(this).val();
+    })
+
+    $("#TransDiv").on("change focusout", "#Desc", function () {
+        $(document).find("#TCGE-Describtion").val($(this).val())
+        $(document).find("#TCGE-Reference").val($(this).val())
+        $(document).find(".PayablePayment").find("#Reference").val($(this).val())
+    })
+    //$(document).on("change focusout", "#TCGE-SystemRate", function () {
+    //    $("#TransDiv").find("#System_rateTransMask").val($(this).val())
+    //    $("#TransDiv").find("#System_rateTransMask").trigger("change")
+    //    $("#TransDiv").find("#System_rateTransMask").trigger("focusout")
+    //})
+    //$(document).on("change focusout", "#TCGE-TransactionRate", function () {
+    //    $("#TransDiv").find("#Transaction_rateTransMask").val($(this).val())
+    //    $("#TransDiv").find("#Transaction_rateTransMask").trigger("change")
+    //    $("#TransDiv").find("#Transaction_rateTransMask").trigger("focusout")
+    //})
+
+    $(document).on("change", "#TaxMask,#Tax", function () {
+        $(document).find("#PurchaseMask").trigger("focusout")
+    })
+    //change
+    $(document).on("focusout", "#Doc_typeTrans,#PurchaseMask,#Taken_discountTransMask,#Currency_idTrans,#Vendor_idTrans,#Check_book_id,#Orginal_amountMask", function () {
+        if ($("#TCGE-CurrencyID").val() && $("#TransDiv").find("#Vendor_idTrans").find("option:selected").val()) {
+
+            var Orginal_amount = 0, Payable = 0, BookId = 0;
+            var Taken_discount = parseFloat($("#TransDiv").find("#Taken_discountTrans").val());
+            if (!Taken_discount) {
+                Taken_discount = 0;
+            }
+
+            var TransactionRate = GetMaskNumber($("#TransDiv").find("#TCGE-SystemRate").val());
+            if (!TransactionRate) {
+                TransactionRate = 1;
+            }
+            if ($(".PayablePayment").find("#Check_book_id").length > 0) {
+                if ($(".PayablePayment").find("#Orginal_amount").val() > 0) {
+                    if ($(".PayablePayment").find("#Check_book_id").find("option:selected").val()) {
+                        BookId = $(".PayablePayment").find("#Check_book_id").find("option:selected").val();
+                    }
+                    else {
+                        return;
+                    }
+                    if ($(".PayablePayment").find("#Orginal_amount").val()) {
+                        Orginal_amount = $(".PayablePayment").find("#Orginal_amount").val();
+                    }
+                    else {
+                        return;
+                    }
+                    Payable = parseFloat(parseFloat(Orginal_amount) * TransactionRate)
+                }
+            }
+
+            var Url = "@Url.Action("GetTransactionAccount", "Payable_gl_account")" + "?VendorId=" + $("#TransDiv").find("#Vendor_idTrans").find("option:selected").val()
+                    + "&Doc_type=" + $("#TransDiv").find("#Doc_typeTrans").find("option:selected").val()
+                    + "&Purchase=" + parseFloat($("#TransDiv").find("#Purchase").val()) * TransactionRate
+                    + "&Taken_discount=" + Taken_discount * TransactionRate
+                    + "&Total=" + parseFloat($("#TransDiv").find("#TotalValue").val()) * TransactionRate
+                    + "&Orginal_amount=" + parseFloat(Orginal_amount) * TransactionRate
+                    + "&Payable=" + Payable
+                    + "&BookId=" + BookId
+                    + "&Transaction_rate=" + TransactionRate
+                    + "&ThisCurrIso=" + $("#Currency_idTrans").find("option:selected").text()
+            InsertPayableJv(Url, "@ViewBag.PostingNum", "@ViewBag.companyID")
+
+        }
+    })
+</script>
+<script>
+
+</script>
+<script>
+    var CurrencyValid = false;
+    $(document).on("change", "#Currency_idTrans,#Vendor_idTrans",function () {
+        if ($("#Currency_idTrans").find("option:selected").val() && $("#Vendor_idTrans").find("option:selected").val()
+            && window.location.href.indexOf("Details")==-1) {
+            $.ajax({
+                url: "@Url.Action("GetVendoreCurr", "Creditor_setting")?VendoreId=" + $("#Vendor_idTrans").find("option:selected").val(),
+                method: "POST",
+                success: function (data) {
+                    var asd = console.log(data.indexOf($("#Currency_idTrans").find("option:selected").val()));
+                    if (data.indexOf($("#Currency_idTrans").find("option:selected").val())==-1) {
+                        ModelMsg("<label>Currency Not Included Do You Want To Include It To This Vendore</label>", "Currency Not Included"
+                            , false, function () {
+                                $.ajax({
+                                    url: "@Url.Action("AddCurrencyToVendore", "Creditor_setting")?VendoreId=" + $("#Vendor_idTrans").find("option:selected").val() + "&Currency_id=" + $("#Currency_idTrans").find("option:selected").val(),
+                                    method: "POST",
+                                    beforeSend: function () {
+                                        CurrencyValid = true;
+                                    },
+                                    success: function (data) {
+                                        if (data == 1) {
+                                            CurrencyValid = true;
+                                        } else {
+                                            CurrencyValid = false;
+                                        }
+                                    }
+                                })
+                            }, function () {
+                                if (!CurrencyValid) {
+                                    $("#Currency_idTrans").val("")
+                                }
+                            })
+                    }
+                }
+            })
+      }
+
+    })
+</script>
+
+
+
+
+
+
+
+@*Tax*@
+
+<input id="TCT-taxGroupID" value="1" type="hidden" />
+<!-- Modal -->
+<div id="TaxPop" class="modal fade" role="dialog" style="width:100%">
+    <div class="modal-dialog" style="margin-left:auto;margin-right:auto;">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-body" style="width:100%;">
+                @Html.Action("MainTax", "C_TaxTransaction", new { area = "", PostingNumber = ViewBag.PostingNum })
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#TaxAddRowDiv").hide();
+        $("#TaxAddRowDiv").attr("class", "");
+        $("#TCT-taxTable").hide();
+        $("#TaxPop").find("label.col-md-1").removeClass("col-md-1").addClass("col-md-2");
+        $("#TaxPop").find("div.col-md-2").removeClass("col-md-2").addClass("col-md-4");
+    })
+    $(document).on("click", "#TaxMask", function () {
+        $(this).trigger("focusout");
+        $('#TCT-taxTable').find("tbody").find("tr").remove();
+        ThisPur = parseFloat($("#Purchase").val()) - parseFloat($("#Taken_discountTrans").val());
+        $(".TransactionHide").hide()
+        $("#TCT-totalAmount").val(setSystemCurrFormate(ThisPur))
+        $("#TCT-quantity").val(1);
+        $("#TCT-quantity").trigger("focusin").trigger("keyup").trigger("focusout");
+        $("#TCT-unitPrice").val(setSystemCurrFormate(ThisPur));
+        $("#TCT-itemName").val($("#Desc").val());
+        $("#TCT-discount").val($("#Taken_discountTransMask").val());
+        //  $("#TCT-unitPrice").attr("disabled", "disabled");
+        $("#TaxPop").modal("show");
+        $("#TCT-taxGroupID").trigger("change")
+        var ThisAmount = GetMaskNumber($("#PurchaseMask").val()) - GetMaskNumber($("#Taken_discountMask").val());
+        $(document).find("#TCT-netAmount").val(ThisAmount).trigger("mask.maskMoney").trigger("change").trigger("focusout")
+        $('#TCT-taxTblBody').empty();
+        $.each(JvArr, function (k, i) {
+            RmDc(i);
+        })
+        JvArr = [];
+    })
+    $(document).on('change', "#TCT-taxType,#TCT-taxTableType,#TCT-itemType", function () {
+        $("#TCT-quantity").trigger("focusin").trigger("keyup").trigger("focusout");
+        var ThisAmount = GetMaskNumber($("#PurchaseMask").val()) - GetMaskNumber($("#Taken_discountMask").val());
+
+        $(document).find("#TCT-netAmount").val(ThisAmount).trigger("mask.maskMoney").trigger("change").trigger("focusout")
+    })
+</script>

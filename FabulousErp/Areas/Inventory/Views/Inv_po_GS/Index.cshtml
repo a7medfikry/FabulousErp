@@ -1,0 +1,68 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_po_GS>
+
+@{
+    ViewBag.Title = "Po GS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Allow_receiv_without_inv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Allow_receiv_part_of_po)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Allow_View_jv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Show_items_cost_in_receiving)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passwords_for_unhold_check)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passwords_for_unhold)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Allow_generate_automatic_po)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Allow_receiv_without_inv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Allow_receiv_part_of_po)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Allow_View_jv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Show_items_cost_in_receiving)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.passwords_for_unhold_check)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.passwords_for_unhold)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Allow_generate_automatic_po)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

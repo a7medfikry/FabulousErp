@@ -1,0 +1,27 @@
+﻿<div class="form-row mb-2">
+    <span class="hide-normal" id="IADI-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <input class="hide-normal" type="text" id="IADI-GurrencyFormate" />
+    <input class="hide-normal" type="text" id="IADI-HardGurrencyFormate" />
+
+    <label class="col-md-2 col-form-label col-form-label-sm">Account ID :</label>
+    <button class="btn btn-sm btn-primary Prev"><<</button>
+
+    <div class="col-md-2">
+        @Html.DropDownList("IADI-AccountID", ViewBag.AccountList as SelectList, "-Choose-", new { @id = "IADI-AccountID", @class = "form-control form-control-sm" })
+    </div>
+    <button class="btn btn-sm btn-primary Next">>></button>
+
+    <label class="col-md-2 col-form-label col-form-label-sm">Account Name :</label>
+    <div class="col-md-2">
+        <input type="text" id="IADI-AccountName" class="form-control form-control-sm" disabled />
+    </div>
+    <label class="col-md-1 col-form-label col-form-label-sm">Year :</label>
+    <div class="col-md-2">
+        @Html.DropDownList("IADI-Year", ViewBag.YearList as SelectList, "-Choose-", new { @id = "IADI-Year", @class = "form-control form-control-sm" })
+    </div>
+</div>
+<script>
+    $(function () {
+        NextPrev($("#IADI-AccountID"), $("#IADI-allDate"))
+    })
+</script>

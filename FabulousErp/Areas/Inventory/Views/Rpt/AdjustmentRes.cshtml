@@ -1,0 +1,70 @@
+﻿
+@model IEnumerable<FabulousModels.Inventory.StockRpt>
+
+@{
+    Layout = null;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Item_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UOM)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Avaliable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit_cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                Damge
+            </th> 
+            <th>
+                Loss
+            </th>
+        </tr>
+    </thead>
+    <tbody id="TBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="ItemId" data-jvDamgerow="" data-jvInvrow="" data-jvLossrow="" data-id="@item.Id" data-po="@item.Po">
+                    @Html.DisplayFor(modelItem => item.Item_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                </td>
+                <td class="Avaliable">
+                    @Html.DisplayFor(modelItem => item.Avaliable)
+                </td>
+                <td class="UnitCost">
+                    @Html.DisplayFor(modelItem => item.Unit_cost)
+                </td>
+                <td class="maskmoney">
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td style="width:20%;">
+                    <input class="form-control Damage" min="0" type="number" style="width:80%;margin:auto;" />
+                </td> 
+                <td style="width:20%;">
+                    <input class="form-control Loss" min="0" type="number" style="width:80%;margin:auto;" />
+                </td>
+            </tr>
+
+        }
+    </tbody>
+
+</table>

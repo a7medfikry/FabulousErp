@@ -1,0 +1,1057 @@
+﻿@{
+    ViewBag.Title = "Financial Home";
+}
+<style>
+    .body-header {
+        display: none;
+    }
+</style>
+
+
+<fieldset class="container-fluid home-page">
+        <!-- Transactions Field -->
+        <div class="transactions-field">
+            <div class="transactions-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Transactions
+                    </div>
+                    @*  <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item">
+                        <a class="NoTrans " class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#transactions-company">@Business.Translate("Company")</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" aria-selected="true" href="#transactions-branch">@Business.Translate("Branch")</a>
+                        <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" aria-selected="true" href="#transactions-branch">@Business.Translate("Branch")</a>
+                        </li>
+                        <li class="nav-itPayem">
+                        <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" href="#transactions-factory">@Business.Translate("Factory")</a>
+                        </li>
+                        </ul>
+                </div>*@
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="transactions-company" class="tab-pane active container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#transactions-accounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-accounting" data-parent=".transactions-accordion">
+                                            <li> <a class="NoTrans " href="/C_CreateBatch/CompanyCreateBatch">@Business.Translate("Company Create Batch")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CreateBatch/CompanyBatchApproval">@Business.Translate("Company Batch Approval")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CreateBatch/CompanyMultiBatchesPost">@Business.Translate("Company Multi Batches Post")</a></li>
+                                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/CompanyGETransaction">@Business.Translate("General Entry Transaction")</a></li>
+                                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/AdjustmentGETransaction">@Business.Translate("Adjustment General Entry Transaction")</a></li>
+                                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/CompanyShowTransactions">@Business.Translate("Show Company Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/CompanyVoidTransactions">@Business.Translate("Company Void General Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/C_TaxTransaction/CompanyTaxTransaction">@Business.Translate("Purchase tax")</a></li>
+                                            <li> <a class="NoTrans " href="/C_TaxTransaction/CompanyTaxTransaction?Tax=Sales">@Business.Translate("Sales tax")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#transactions-fixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Assets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-fixedasets" data-parent=".transactions-accordion">
+                                            <li>@Html.ActionLink($"{Business.Translate("Create Assets")}", "Create", "Assets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Fixed assets renewal")}", "Create", "Fixed_assets_renewal", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Fixed assets disposel")}", "Create", "Fixed_assets_disposel", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Depreciation")}", "Create", "Deprecations", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Fixed assets revaluate")}", "Create", "Fixed_assets_revaluate", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Void Assets")}", "Index", "Assets", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Void Fixed assets renewal")}", "Index", "Fixed_assets_renewal", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Void Fixed assets disposel")}", "Index", "Fixed_assets_disposel", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Void Depreciation")}", "Index", "Deprecations", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Void Fixed assets revaluate")}", "Index", "Fixed_assets_revaluate", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#transactions-checkbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-checkbook" data-parent=".transactions-accordion">
+                                            <li> <a class="NoTrans " href="/C_CashReciept/CompanyCashReciept">@Business.Translate("Cash Reciept")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CashWithdraw/CompanyCashWithdraw">@Business.Translate("Cash Withdraw")</a></li>
+                                            <li> <a class="NoTrans " href="/C_BankCheckReceived/CompanyBankCheckReceived">@Business.Translate("Bank Check-Received")</a></li>
+                                            <li> <a class="NoTrans " href="/C_BankCheckOut/CompanyBankCheckOut">@Business.Translate("Bank Check-Out")</a></li>
+                                            <li> <a class="NoTrans " href="/CheckbookTransfer/Index">@Business.Translate("Cash Transfer")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CheckTransfer/CompanyCheckTransfer">@Business.Translate("Check Transfer")</a> </li>
+                                            <li> <a class="NoTrans " href="/BankReconcile/Index">@Business.Translate("Bank Reconcile")</a></li>
+                                            <li> <a class="NoTrans " href="/CheckbookRevaluate/Revaluate">@Business.Translate("Checkbook Revaluate")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Cash">@Business.Translate("Cash Reciept/Withdraw Void")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Bank">@Business.Translate("Bank Check-out/Received Void")</a> </li>
+                                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Transfer">@Business.Translate("Cash Transfer Void")</a> </li>
+                                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Check">@Business.Translate("Check Void Transfer")</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#Payable" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Payable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="Payable" data-parent=".transactions-accordion">
+
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_transaction/Create">@Business.Translate("Payable transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_payment/Create">@Business.Translate("Payable payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Assign_payable_doc/Create">@Business.Translate("Assign Payable Doc")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_transaction?section=void">@Business.Translate("Void Payable Transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_payment?section=void">@Business.Translate("Void Payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Assign_payable_doc?section=void">@Business.Translate("Void Assign")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#Receivable" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Receivable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="Receivable" data-parent=".transactions-accordion">
+
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_transaction/Create">@Business.Translate("Receivable transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_payment/Create">@Business.Translate("Receivable payment")</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc/Create">@Business.Translate("Assign Receivable Doc")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_transaction?section=void">@Business.Translate("Void Receivable Transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_payment?section=void">@Business.Translate("Void Payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc?section=void">@Business.Translate("Void Assign")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#Installment" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Installment
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="Installment" data-parent=".transactions-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Installment_setting/">@Business.Translate("Installment setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Installment_contract/Create?IsPay=true">@Business.Translate("Installment contract Payable")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Installment_contract/Create?IsPay=false">@Business.Translate("Installment contract Receviable")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_payment/Create?Installment=true">@Business.Translate("Receivable Installment payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_payment/Create?Installment=true">@Business.Translate("Payable Installment payment")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--#region Inventory  -->
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#Inventory" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Inventory
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="Inventory" data-parent=".transactions-accordion">
+
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_transfer_items/Transfer">@Business.Translate("Transfer")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_adjustment/Adjustment">@Business.Translate("Adjustment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/Stoking">@Business.Translate("Stoking")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#InvSalesTr" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Sales
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="InvSalesTr" data-parent=".transactions-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Invoice">@Business.Translate("Sales Invoice")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Return">@Business.Translate("Sales Return")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Invoice&Piece=true">@Business.Translate("Sales Invoice Piece")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Invoice&FullPay=true">@Business.Translate("Sales Invoice Full Payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Return&FullPay=true">@Business.Translate("Sales Return Full Payment")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#InvPurTr" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Purchase
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="InvPurTr" data-parent=".transactions-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=false&Doc_type=Invoice">@Business.Translate("Purchase Invoice")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=false&Doc_type=Return">@Business.Translate("Purchase Return")</a>
+                                            </li>
+                                            <!--#endregion -->
+                                            <!--Till Here-->
+                                            @*<li>
+            <a class="NoTrans " href="/Inventory/Inv_purchase_request/Create">@Business.Translate("Purchase Request")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_transfer_items/Create">@Business.Translate("Transfer Items")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_adjustment_items/Create">@Business.Translate("Adjustment Items")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_goods_reciept/Create">@Business.Translate("Goods Reciept")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_goods_out/Create">@Business.Translate("Goods Out")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_purchase/Create">@Business.Translate("Purchase")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_quotation_request/Create">@Business.Translate("Request for Quotation")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_quotation_receiving/Create">@Business.Translate("Quotation Receiving")</a>
+        </li>
+
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_po/Create">@Business.Translate("Po")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=false&Doc_type=Invoice">@Business.Translate("Receive Po")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Inv_receive_po/Create?Sales=false&Doc_type=Return">@Business.Translate("Receive Po Return")</a>
+        </li>
+                                            *@
+                                        @* Inventory</ul>
+                                    </li>*@
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ****** Setting Field ****** -->
+        <div class="setting-field">
+            <div class="setting-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Setting
+                    </div>
+                    @* <div class="card-header">
+                        <!-- Links -->
+                      <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#accounting-company">@Business.Translate("Company")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" aria-selected="true" href="#setting-branch">@Business.Translate("Branch")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" href="#setting-factory">@Business.Translate("Factory")</a>
+                                </li>
+                            </ul>
+                    </div>*@
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Accounting -->
+                            <div id="accounting-company" class="active tab-pane fade show container">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-account" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Account
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" id="setting-account" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/C_CreateAccount/CompanyAccount"> <i class=""></i>@Business.Translate("Company Create Account")</a></li>
+                                            <li> <a class="NoTrans " href="/BPC/RowSettings?RptType=BallanceSheet"> <i class=""></i>@Business.Translate("Balance Sheet Setting")</a></li>
+                                            <li> <a class="NoTrans " href="/BPC/RowSettings?RptType=PL"> <i class=""></i>@Business.Translate("PL Setting")</a></li>
+                                            <li> <a class="NoTrans " href="/BPC/RowSettings?RptType=CashFlow"> <i class=""></i>@Business.Translate("Cash Flow Setting")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-analytic" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Analytic
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" id="setting-analytic" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/C_CreateAnalyticAccounts/CompanyAnalyticAccounts"> <i class=""></i>@Business.Translate("Company Analytic Account")</a></li>
+                                            <li> <a class="NoTrans " href="/C_AnalyticAccountDistribution/CompanyAnalyticDistribution"> <i class=""></i>@Business.Translate("Create Analytic Company Distribution")</a></li>
+                                            <li> <a class="NoTrans " href="/C_AddDistToAccount/DistToCompAccount"> <i class=""></i>@Business.Translate("Add Distribution Account To Company")</a></li>
+                                            <li> <a class="NoTrans " href="/C_LinkAnalyticToAccount/CompanyLinkAnalyticToAccount"> <i class=""></i>@Business.Translate("Company Link Analytic To Account ID")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-cost" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Cost
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-cost">
+                                            <li> <a class="NoTrans " href="/C_CreateCostCenter/CompanyCostCenter"> <i class=""></i>@Business.Translate("Company Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CreateCostCenterAccounts/CompCCAccounts"> <i class=""></i>@Business.Translate("Create Cost Center Account")</a></li>
+                                            <li> <a class="NoTrans " href="/C_CreateMainCostCenter/CompMainCostCenter"> <i class=""></i>@Business.Translate("Create Main Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/C_UpdateMainCostCenter/CompUpdateGroupCC"> <i class=""></i>@Business.Translate("Update Main Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/C_AddCostAccountToAccount/ConnectCostCenterToAccount"> <i class=""></i>@Business.Translate("Add Cost Account To Company Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-fixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Assets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-fixedasets">
+                                            <li>@Html.ActionLink($"{Business.Translate("Assets_class")}", "Index", "Assets_class", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Assets_main")}", "Index", "Assets_main", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Assets")}", "Index", "Assets", new { area = "FixedAssets", Setting = "Edit" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Book")}", "Create", "Books", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Deprecation Setting")}", "Index", "Deprecation_Setting", new { area = "FixedAssets" }, new { })</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-checkbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-checkbook">
+                                            <li> <a class="NoTrans " href="/C_CheckBookSetting/CompanyCheckBook"> <i class=""></i>@Business.Translate("Company Checkbook Setting")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-payble" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Payable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-payble">
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Genral_setting/Edit">@Business.Translate("Genral setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Group_setting">@Business.Translate("Payable Group setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Creditor_setting">@Business.Translate("Vendore setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payment_term">@Business.Translate("Payment term")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Shipping_method">@Business.Translate("Shipping Method")</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-Receivable" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Receivable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Receivable">
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Genral_setting/Edit">@Business.Translate("Genral setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Group_setting">@Business.Translate("Receivable Group setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Creditor_setting">@Business.Translate("Customer setting")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Payment_term">@Business.Translate("Payment term")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Shipping_method">@Business.Translate("Shipping Method")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--#region Inventory  -->
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#setting-Inventory" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Inventory
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Inventory">
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_store_site/">@Business.Translate("Create New Site")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_item_group/">@Business.Translate("Item Group")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_item/">@Business.Translate("item")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_item?HasRecipe=true">@Business.Translate("item With Recipe")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_items_serial/">@Business.Translate("Item track Serial No")</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Inv_po_adjustment/Index">@Business.Translate("Po Item Adjust")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--#endregion -->
+                                </ul>
+                            </div>
+
+                            <!-- Branch Accounting -->
+                            <div id="setting-branch" class="tab-pane fade container">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Baccount" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Account
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Baccount" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/B_CreateAccount/BranchAccount"> <i class=""></i>@Business.Translate("Branch Create Account")</a></li>
+                                            <li> <a class="NoTrans " href="/B_LinkCDtoBA/CurrencyDefinitionToBranchAccount"> <i class=""></i>@Business.Translate("Link Currency Definition To Branch Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Banalytic" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Analytic
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Banalytic" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/B_CreateAnalyticAccounts/BranchAnalyticAccounts"> <i class=""></i>@Business.Translate("Branch Analytic Account")</a></li>
+                                            <li> <a class="NoTrans " href="/B_AnalyticAccountDistribution/BranchAnalyticDistribution"> <i class=""></i>@Business.Translate("Create Analytic Branch Distribution")</a></li>
+                                            <li> <a class="NoTrans " href="/B_AddDistToAccount/DistToBranchAccount"> <i class=""></i>@Business.Translate("Add Distribution Account To Branch Account")</a></li>
+                                            <li> <a class="NoTrans " href="/B_LinkAnalyticToAccount/BranchLinkAnalyticToAccount"> <i class=""></i>@Business.Translate("Branch Link Analytic To Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Bcost" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Cost
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Bcost" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/B_CreateCostCenter/BranchCostCenter"> <i class=""></i>@Business.Translate("Branch Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/B_CreateCostCenterAccounts/BranchCCAccounts"> <i class=""></i>@Business.Translate("Create Cost Center Account")</a></li>
+                                            <li> <a class="NoTrans " href="/B_CreateMainCostCenter/BranchMainCostCenter"> <i class=""></i>@Business.Translate("Create Main Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/B_UpdateMainCostCenter/BranchUpdateGroupCC"> <i class=""></i>@Business.Translate("Update Main Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/B_AddCostAccountToAccount/CostAccountToBranchAccount"> <i class=""></i>@Business.Translate("Add Cost Account To Branch Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                       <a class="" href="#setting-Bfixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Bfixedasets"></ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                       <a class="" href="#setting-Bcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Bcheckbook">
+                                            <li> <a class="NoTrans " href="/B_CheckBookSetting/BranchCheckBook"> <i class=""></i>@Business.Translate("Branch Checkbook Setting")</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Factory Accounting -->
+                            <div id="setting-factory" class="tab-pane fade container">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Faccount" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Account
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Faccount" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/F_CreateAccount/FactoryAccount"> <i class=""></i>@Business.Translate("Factory Create Account")</a></li>
+                                            <li> <a class="NoTrans " href="/F_LinkCDtoFA/CurrencyDefinitionToFactoryAccount"> <i class=""></i>@Business.Translate("Link Currency Definition To Factory Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Fanalytic" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Analytic
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Fanalytic" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/F_CreateAnalyticAccounts/FactoryAnalyticAccounts"> <i class=""></i>@Business.Translate("Factory Analytic Account")</a></li>
+                                            <li> <a class="NoTrans " href="/F_AnalyticAccountDistribution/FactoryAnalyticDistribution"> <i class=""></i>@Business.Translate("Create Analytic Factory Distribution")</a></li>
+                                            <li> <a class="NoTrans " href="/F_AddDistToAccount/DistToFactoryAccount"> <i class=""></i>@Business.Translate("Add Distribution Account To Factory Account")</a></li>
+                                            <li> <a class="NoTrans " href="/F_LinkAnalyticToAccount/FactoryLinkAnalyticToAccount"> <i class=""></i>@Business.Translate("Factory Link Analytic To Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Fcost" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Cost
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Fcost" data-parent=".setting-accordion">
+                                            <li> <a class="NoTrans " href="/F_CreateCostCenter/FactoryCostCenter"> <i class=""></i>@Business.Translate("Factory Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/F_CreateCostCenterAccounts/FactoryCCAccounts"> <i class=""></i>@Business.Translate("Create Cost Center Account")</a></li>
+                                            <li> <a class="NoTrans " href="/F_CreateMainCostCenter/FactoryMainCostCenter"> <i class=""></i>@Business.Translate("Create Main Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/F_UpdateMainCostCenter/FactoryUpdateGroupCC"> <i class=""></i>@Business.Translate("Update Main Cost Center")</a></li>
+                                            <li> <a class="NoTrans " href="/F_AddCostAccountToAccount/CostAccountToFactoryAccount"> <i class=""></i>@Business.Translate("Add Cost Account To Factory Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Ffixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Ffixedasets"></ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                       <a class="" href="#setting-Fcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Fcheckbook">
+                                            <li> <a class="NoTrans " href="/F_CheckBookSetting/FactoryCheckBook"> <i class=""></i>@Business.Translate("Factory Checkbook Setting")</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Inquiry Field ********** -->
+        <div class="inquiry-field">
+            <div class="inquiry-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Inquiry
+                    </div>
+                    @*<div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#inquiry-company">@Business.Translate("Company")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" aria-selected="true" href="#inquiry-branch">@Business.Translate("Branch")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" href="#inquiry-factory">@Business.Translate("Factory")</a>
+                                </li>
+                            </ul>
+                        </div>*@
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="inquiry-company" class="tab-pane active show fade container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#inquiry-accounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-accounting" data-parent=".inquiry-accordion">
+                                            <li> <a class="NoTrans " href="/Inquiry_ICCOA/CompanyChartOfAccounts"> <i class=""></i>@Business.Translate("Company Chart Of Accounts")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/AccountDetails"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Account Details")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountDetails"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Historical Account Details")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/AccountSummary"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Account Summary")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountSummary"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Historical Account Summary")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/TransactionDetails"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Details")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/BatchSecurity"> <i class=""></i>@Business.Translate("Inquiry OF Company Batches Security")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/AnalyticsRpt"> <i class=""></i>@Business.Translate("Inquiry OF Company Analytics Account")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/CostRpt"> <i class=""></i>@Business.Translate("Inquiry OF Company Cost Account")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#inquiry-fixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Assets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-fixedasets" data-parent=".inquiry-accordion">
+                                            <li>@Html.ActionLink($"{Business.Translate("Assets")}", "Index", "Assets", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Fixed assets renewal")}", "Index", "Fixed_assets_renewal", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Fixed assets disposel")}", "Index", "Fixed_assets_disposel", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Depreciation")}", "Index", "Deprecations", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Fixed assets revaluate")}", "Index", "Fixed_assets_revaluate", new { area = "FixedAssets", section = "Inquiry" }, new { })</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#inquiry-checkbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-checkbook" data-parent=".inquiry-accordion">
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookSetting/CompanyCB"> <i class=""></i>@Business.Translate("Inquiry OF Checkbook")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/Cash"> <i class=""></i>@Business.Translate("Inquiry OF Checkbook Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CashInquiry"> <i class=""></i>@Business.Translate("Cash Reciept/Withdraw Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CashVoidInquiry"> <i class=""></i>@Business.Translate("Cash Reciept/Withdraw Void Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/BankInquiry"> <i class=""></i>@Business.Translate("Bank Check-out/Received Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/BankVoidInquiry"> <i class=""></i>@Business.Translate("Bank Check-out/Received Void Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/Transfer"> <i class=""></i>@Business.Translate("Checkbook Transfer Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/TransferVoidInquiry"> <i class=""></i>@Business.Translate("Checkbook Transfer Void Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CheckInquiry"> <i class=""></i>@Business.Translate("Inquiry Of Check Transactions")</a></li>
+                                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CheckVoidInquiry"> <i class=""></i>@Business.Translate("Inquiry Of Check Void Transactions")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#Payable-Inquiry" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Payable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="Payable-Inquiry" data-parent=".transactions-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_transaction?section=Inquiry">@Business.Translate("Today Payable transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_payment?section=Inquiry">@Business.Translate("Today Payable payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Assign_payable_doc?section=Inquiry">@Business.Translate("Today Assign Doc")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Reports/VendoreBalance?section=Report">@Business.Translate("Vendor Payable Balance")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Reports/VendoreCurrentActivtiy?section=Report">@Business.Translate("Vendore Current Activtiy")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Reports/VendoreCurrentActivtiy?section=Report&LastYear=true">@Business.Translate("Vendore Last Activtiy")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Rpt/InstallmentRpt?Sec=Pay">@Business.Translate("Installment Inquiry")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Rpt/DelayRpt?Sec=Pay">@Business.Translate("Installment Delay Report")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#Receivable-Inquiry" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Receivable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="Receivable-Inquiry" data-parent=".transactions-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_transaction?section=Inquiry">@Business.Translate("Today Receivable transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_payment?section=Inquiry">@Business.Translate("Today Receivable payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc?section=Inquiry">@Business.Translate("Today Assign Doc")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Reports/VendoreBalance?section=Report">@Business.Translate("Customer  Balance")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Reports/VendoreCurrentActivtiy?section=Report">@Business.Translate("Customer Current Activtiy")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Reports/VendoreCurrentActivtiy?section=Report&LastYear=true">@Business.Translate("Customer Last Activtiy")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Rpt/InstallmentRpt?Sec=Rec">@Business.Translate("Installment Inquiry")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Installment/Rpt/DelayRpt?Sec=Rec">@Business.Translate("Installment Delay Report")</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <!--#region Inventory  -->
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+            <a class="" href="#InventoryInquery" data-toggle="collapse" role="link" aria-expanded="true">
+                Inventory
+                <i class="fa fa-chevron-right pull-right"></i>
+            </a>
+            <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="InventoryInquery" data-parent=".transactions-accordion">
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/PurchaseInvoice?Sales=false&GoodsRecipts=true">@Business.Translate("Goods Recipts")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/PurchaseInvoice?Sales=true&GoodsOut=true">@Business.Translate("Goods Out")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/CardRpt?Type=Item">@Business.Translate("Item Card")</a>
+                </li>
+
+                <li>
+                    <a class="NoTrans " href="/Inventory/Inv_transfer_items/Inquery">@Business.Translate("Transfer")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/AjustmentInquery">@Business.Translate("Adjustment Inquery")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/StockingInquery">@Business.Translate("Stocking Inquery")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/ItemStockingInquery">@Business.Translate("Item Stock Inquery")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/Purchase">@Business.Translate("Purchase")</a>
+                </li>
+                <li>
+                    <a class="NoTrans " href="/Inventory/Rpt/Sales">@Business.Translate("Sales")</a>
+                </li>
+            </ul>
+        </li>
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                    <a class="" href="#report-PurchaseInquery" data-toggle="collapse" role="link" aria-expanded="true">
+                                        Purchase
+                                        <i class="fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                    <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-PurchaseInquery" data-parent=".report-accordion">
+                                        <li>
+                                            <a class="NoTrans " href="/Inventory/Rpt/PurchaseInvoice?Sales=false">@Business.Translate("Purchase Invoice")</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                    <a class="" href="#report-SalesInquery" data-toggle="collapse" role="link" aria-expanded="true">
+                                        Sales
+                                        <i class="fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                    <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-SalesInquery" data-parent=".report-accordion">
+                                        <li>
+                                            <a class="NoTrans " href="/Inventory/Rpt/PurchaseInvoice?Sales=true">@Business.Translate("Sales Invoice")</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                                    <!--#endregion -->
+
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Report Field ********** -->
+        <div class="report-field">
+            <div class="report-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Reports
+                    </div>
+                    @*<div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#report-company">@Business.Translate("Company")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" aria-selected="true" href="#report-branch">@Business.Translate("Branch")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="NoTrans " class="nav-link" data-toggle="tab" role="tab" href="#report-factory">@Business.Translate("Factory")</a>
+                                </li>
+                            </ul>
+                        </div>*@
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="report-company" class="tab-pane active container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-accounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-accounting" data-parent=".report-accordion">
+                                            <li> <a class="NoTrans " href="/C_Reports/TrailBalance"> <i class=""></i>@Business.Translate("Trail Balance")</a></li>
+                                            <li> <a class="NoTrans " href="/C_Reports/AccountDetails"> <i class=""></i>@Business.Translate("Account Details")</a></li>
+                                            <li> <a class="NoTrans " href="/BPC/BalanceSheetReport?RptType=BallanceSheet"> <i class=""></i>@Business.Translate("Balance Sheet Report")</a></li>
+                                            <li> <a class="NoTrans " href="/BPC/BalanceSheetReport?RptType=PL"> <i class=""></i>@Business.Translate("PL Report")</a></li>
+                                            <li> <a class="NoTrans " href="/BPC/BalanceSheetReport?RptType=CashFlow"> <i class=""></i>@Business.Translate("Cash Flow Report")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-fixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-fixedasets" data-parent=".report-accordion">
+                                            <li>@Html.ActionLink($"{Business.Translate("Stoking_assets")}", "Create", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Stocking Report")}", "StockingReport", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+
+                                            <li>@Html.ActionLink($"{Business.Translate("Deprecation_record")}", "Index", "Deprecation_record", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Year report")}", "Year", "Reports", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Books Report")}", "Bookreport", "Books", new { area = "FixedAssets" }, new { })</li>
+
+
+
+                                            <li>@Html.ActionLink($"{Business.Translate("Delete Assets")}", "DeleteAssets", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Delete Assets Class")}", "DeleteAssetsClass", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Delete Assets Main")}", "DeleteAssetsMain", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Delete Renwal")}", "DeleteRenwal", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Delete disposel")}", "Deletedisposel", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                                            <li>@Html.ActionLink($"{Business.Translate("Delete Revaluate")}", "DeleteRevaluate", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+
+
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a class="" href="#report-checkbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-checkbook" data-parent=".report-accordion">
+                                            <li> <a class="NoTrans " href="/C_Reports/AvailableCash"> <i class=""></i>@Business.Translate("Available Cash")</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-Payable" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Payable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Payable" data-parent=".report-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_transaction?section=Report">@Business.Translate("Daily Payable transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Payable_payment?section=Report">@Business.Translate("Daily Payable payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Assign_payable_doc?section=Report">@Business.Translate("Daily Assign Doc")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Reports/AgingRpt">@Business.Translate("Aging Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Payable/Reports/ClasicAging">@Business.Translate("Clasic Aging Report")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-Receivable" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Receivable
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Receivable" data-parent=".report-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_transaction?section=Report">@Business.Translate("Daily Receivable transaction")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Receivable_payment?section=Report">@Business.Translate("Daily Receivable payment")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc?section=Report">@Business.Translate("Daily Assign Doc")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Reports/AgingRpt">@Business.Translate("Aging Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Receivable/Reports/ClasicAging">@Business.Translate("Clasic Aging Report")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-tax" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Tax
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-tax" data-parent=".report-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/TaxRpt/Purchase">@Business.Translate("Purchase Vat Tax Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/TaxRpt/Purchase?Tax=Sales">@Business.Translate("Sales Vat Tax Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/TaxRpt/WithHoldingTrans">@Business.Translate("With Holdeing Transaction")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--#region Inventory  -->
+
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-Inventory" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Inventory
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Inventory" data-parent=".report-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/StockRpt?Type=Item">@Business.Translate("Stock Report")</a>
+                                            </li>
+
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/ItemStockDetails">@Business.Translate("Item Stock Details")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/GrandProfitRpt">@Business.Translate("Grand Profit")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/GrandProfitRpt?IsGrandProfit=false">@Business.Translate("Grand Profit By Item")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/QtyAvaliable">@Business.Translate("Quantity Available")</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-Purchase" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Purchase
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Purchase" data-parent=".report-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=true&IsReturn=false">@Business.Translate("Purchase Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=true&IsReturn=true">@Business.Translate("Purchase Return Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=true&IsReturn=false">@Business.Translate("Monthly Purchase Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=true&IsReturn=true">@Business.Translate("Monthly Return Purchase Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=true&IsB=true">@Business.Translate("Vendore Balance Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=true&IsB=false">@Business.Translate("Vendore Purchase Report")</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a class="" href="#report-Sales" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Sales
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Sales" data-parent=".report-accordion">
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/GrandProfitRpt">@Business.Translate("Grand Profit")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/GrandProfitRpt?IsGrandProfit=false">@Business.Translate("Grand Profit By Item")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=false&IsReturn=false">@Business.Translate("Sales Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=false&IsReturn=true">@Business.Translate("Sales Return Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=false&IsReturn=false">@Business.Translate("Monthly Sales Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=false&IsReturn=true">@Business.Translate("Monthly Return Sales Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=false&IsB=true">@Business.Translate("Customer Balance Report")</a>
+                                            </li>
+                                            <li>
+                                                <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=false&IsB=false">@Business.Translate("Customer Sales Report")</a>
+                                            </li>
+                                            <!--#endregion -->
+                                            @*<li>
+            <a class="NoTrans " href="/Inventory/Rpt/StockRpt?Type=Item">@Business.Translate("Stock Report")</a>
+        </li>
+
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/ItemStockDetails">@Business.Translate("Item Stock Details")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/GrandProfitRpt">@Business.Translate("Grand Profit")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/QtyAvaliable">@Business.Translate("Quantity Available")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=false&IsReturn=false">@Business.Translate("Sales Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=false&IsReturn=true">@Business.Translate("Sales Return Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=false&IsReturn=false">@Business.Translate("Monthly Sales Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=false&IsReturn=true">@Business.Translate("Monthly Return Sales Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=false&IsB=true">@Business.Translate("Customer Balance Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=false&IsB=false">@Business.Translate("Customer Sales Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=true&IsReturn=false">@Business.Translate("Purchase Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/DailySalesRpt?IsPay=true&IsReturn=true">@Business.Translate("Purchase Return Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=true&IsReturn=false">@Business.Translate("Monthly Purchase Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/MonthlySalesRpt?IsPay=true&IsReturn=true">@Business.Translate("Monthly Return Purchase Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=true&IsB=true">@Business.Translate("Vendore Balance Report")</a>
+        </li>
+        <li>
+            <a class="NoTrans " href="/Inventory/Rpt/CustomerSalesRpt?IsPay=true&IsB=false">@Business.Translate("Vendore Purchase Report")</a>
+        </li>*@
+                                        @* Inventory</ul>
+                                    </li>*@
+                                </ul>
+                            </div>
+
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+@if (Business.GetLanguage() == FabulousDB.Models.Langs.Arabic.ToString())
+{
+<style>
+
+    .pull-right {
+        float: left;
+        transform: rotate(180deg);
+    }
+  
+</style>
+}
+

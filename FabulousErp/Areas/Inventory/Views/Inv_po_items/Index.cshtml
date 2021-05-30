@@ -1,0 +1,118 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_po_items>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Deduct.C_Taxcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inv_po.Currency_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Item_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Table_vat.C_Taxcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UOM.Unit_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vat.C_Taxcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unit_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount_system_currency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Net_amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Table_vat_amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vat_amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deduct_amount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deduct.C_Taxcode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inv_po.Currency_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Item.Item_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Table_vat.C_Taxcode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UOM.Unit_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vat.C_Taxcode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unit_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount_system_currency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Net_amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Table_vat_amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vat_amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deduct_amount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

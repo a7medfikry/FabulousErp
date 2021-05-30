@@ -1,0 +1,68 @@
+﻿@model List<FabulousModels.Tax.TaxTable>
+@{
+    Layout = null;
+}
+@*@if (Model.Any())
+{*@
+<table class="table table-bordered table-striped NoDataTable" id="TCT-taxTable" style="width:100%;">
+    <thead>
+        <tr>
+            @if (ViewBag.Print != true)
+            {
+                <th>@FabulousErp.BusController.Translate("Action")</th>
+            }
+            <th>@FabulousErp.BusController.Translate("Item Name")</th>
+            <th>@FabulousErp.BusController.Translate("UOM")</th>
+            <th>@FabulousErp.BusController.Translate("Quantity")</th>
+            <th>@FabulousErp.BusController.Translate("Unit Price")</th>
+            <th>@FabulousErp.BusController.Translate("Orginal Amount")</th>
+            <th>@FabulousErp.BusController.Translate("Total Amount")</th>
+            <th>@FabulousErp.BusController.Translate("Discount")</th>
+            <th>@FabulousErp.BusController.Translate("Net Amount")</th>
+            @*<th>T. Vat ID</th>
+                <th>T. Vat Amount</th>*@
+            @*<th class="hide">T.V Acc. ID</th>*@
+            @*<th>Vat ID</th>
+                <th>Vat Amount</th>*@
+            @*<th class="hide">V Acc. ID</th>*@
+            <th>@FabulousErp.BusController.Translate("Vat Amount")</th>
+            @if (ViewBag.Print != true)
+            {
+                <th>@FabulousErp.BusController.Translate("Deducte  Tax ID")</th>
+            }
+            <th>@FabulousErp.BusController.Translate("Deducte  Amount")</th>
+            @*<th class="hide">D.T Acc. ID</th>*@
+        </tr>
+    </thead>
+    <tbody id="TCT-taxTblBody" style="white-space:nowrap;">
+        @foreach (FabulousModels.Tax.TaxTable i in Model)
+        {
+            <tr>
+                @if (ViewBag.Print != true)
+                {
+                    <td>@i.Action</td>
+                }
+                <td>@i.Item_name </td>
+                <td>@i.UOM</td>
+                <td>@i.Quantity</td>
+                <td>@i.Unit_price.ToString(FabulousErp.Business.GetDecimalNumber()) </td>
+                <td>@(i.Orginal_amount)</td>
+                <td>@(i.Total_amount - i.Discount) </td>
+                <td>@i.Discount</td>
+                <td>@(i.Net_amount - i.Discount) </td>
+                <td>
+                    @if (i.Vat_amount.HasValue)
+                    {
+                        @i.Vat_amount.Value.ToString(FabulousErp.Business.GetDecimalNumber())
+                    }
+                </td>
+                @if (ViewBag.Print != true)
+                {
+                    <td>@i.Deducte_tax_id</td>
+                }
+                <td>@i.Deducte_amount.ToString(FabulousErp.Business.GetDecimalNumber())  </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*}*@

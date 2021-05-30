@@ -1,0 +1,439 @@
+﻿@model FabulousModels.ViewModels.Settings.Financial.GeneralSetting.C_B_F_Setup.CompanyInformation.Company_Collection
+
+@{
+    ViewBag.Title = "Company Information";
+    ViewBag.FormCode = "SCL";
+}
+<style>
+    .col-md-2, .col-md-3{
+        display: inline-block;
+    }
+</style>
+@using (Html.BeginForm("CompanyInformation", "MainCompany", FormMethod.Post, new { @id = "form", enctype = "multipart/form-data" }))
+{
+    <div class="container-fluid">
+        <!-- tabs -->
+        <ul class="nav nav-pills border-white" role="tablist">
+            <li class="nav-item pill-1 mr-1">
+                <a class="nav-link active" data-toggle="tab" href="#main-information" role="tab" aria-selected="true">Main Information <span class="badge badge-danger">1</span> </a>
+            </li>
+            <li class="nav-item pill-2 mr-1">
+                <a class="nav-link" data-toggle="tab" href="#address-information" role="tab" aria-selected="true" tabindex="10">Address Information <span class="badge badge-danger">2</span> </a>
+            </li>
+            <li class="nav-item pill-3 mr-1">
+                <a class="nav-link" data-toggle="tab" href="#legal-information" role="tab" aria-selected="true" tabindex="17">Legal Information <span class="badge badge-danger">3</span> </a>
+            </li>
+            <li class="nav-item pill-4">
+                <a class="nav-link" data-toggle="tab" href="#communication-information" role="tab" aria-selected="true" tabindex="38">Communication Information <span class="badge badge-danger">4</span> </a>
+            </li>
+        </ul>
+        <!-- tab panes -->
+        <div class="tab-content bg-white">
+            <div id="main-information" class="container tab-pane active p-3">
+                <div class="row mb-2">
+                    <label class="col-md-2"> Company ID : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Company_Main_Info.CompanyID, new { @id = "CompanyID", @maxlength = "50", @tabindex = "1" })
+                        <i class="fa fa-lock hide-normal" id="Lock"></i>
+                        <span id="CIDError"></span>
+                        <span id="ErrorInSearch" style="color:red"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" onclick="CSearchBtn()" class="btn btn-info btn-sm"><i class="fa fa-search"></i></button> <label id="BarValid" hidden> </label>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-center">
+                        <img id="ImageLogo" style="width:100px; height:100px;" />
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label class="col-md-2"> Company Logo : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Company_Main_Info.InputLogo, new { @type = "file", @id = "InputLogo", @name = "InputLogo", @tabindex = "2" })
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label class="col-md-2"> Company Name <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Company_Main_Info.CompanyName, new { @id = "CompanyName", @maxlength = "50", @tabindex = "3" })
+                        <span id="CNError"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label class="col-md-2"> Company Alies : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Company_Main_Info.CompanyAlies, new { @id = "CompanyAlies", @maxlength = "50", @tabindex = "4" })
+                        <span id="CAError"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label class="col-md-2"> Country Name : <span class="star">*</span> </label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.Company_Main_Info.CountryName, new List<SelectListItem>
+                                 {
+                                 new SelectListItem{Text = "Egypt" , Value = "Egypt" },
+                                 new SelectListItem{Text = "Saudi Arabia" , Value = "Saudi Arabia" },
+                                 new SelectListItem{Text = "United States" , Value = "United States" }
+                                 }, "-Choose-",new { @id = "CountryName" , @class= "dropdown-list", @tabindex = "5" })
+                        <span id="CONError"></span>
+                    </div>
+                    <label class="col-md-2"> Language : <span class="star">*</span> </label>
+
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.Company_Main_Info.Language, new List<SelectListItem>
+                                 {
+                                 new SelectListItem{Text = "Arabic" , Value = "Arabic" },
+                                 new SelectListItem{Text = "English" , Value = "English" },
+                                 new SelectListItem{Text = "French" , Value = "French" },
+                                 new SelectListItem{Text = "Germany" , Value = "Germany" }
+                                 }, "-Choose-", new { @id = "Language", @class = "dropdown-list", @tabindex = "6" })
+                        <span id="LError"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label class="col-md-2"> Currency : <span class="star">*</span> </label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.Company_Main_Info.Currency, new List<SelectListItem>
+                                 {
+                                 new SelectListItem{Text = "EGP" , Value = "EGP" },
+                                 new SelectListItem{Text = "USD" , Value = "USD" },
+                                 new SelectListItem{Text = "EUR" , Value = "EUR" },
+                                 new SelectListItem{Text = "SR" , Value = "SR" }
+                                 }, "-Choose-", new { @id = "Currency", @class = "dropdown-list", @tabindex = "7" })
+                        <i class="fa fa-lock hide-normal" id="Lock"></i>
+                        <span id="CuError"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label class="col-md-3"> Company Main Activity : <span class="star">*</span> </label>
+                    <div class="col-md-9">
+                        @Html.TextAreaFor(x => x.Company_Main_Info.CompanyMainActivity, new { @class = "textArea", @id = "CompanyMainActivity", @tabindex = "8" })
+                        <span id="ActivityError"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-3"> Active / Dis-Active : </label>
+                    <div class="col-md-5">
+                        @Html.CheckBoxFor(x => x.Company_Main_Info.Status, new { @id = "Status", @tabindex = "9" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="address-information" class="container tab-pane fade p-3">
+                <div class="row mb-3">
+                    <label class="col-md-2"> Street Name : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.StreetName, new { @id = "StreetName", @maxlength = "50", @tabindex = "11" })
+                        <span id="StreetNameError"></span>
+                    </div>
+                    <p>@Html.ValidationMessageFor(x => x.Address_Information.StreetName, null, new { style = "color:red", @id = "EStreetName" })</p>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-md-2"> Building Number : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.BuldingNo, new { @id = "BuldingNo", @maxlength = "50", @tabindex = "12" })
+                        <span id="BuildingNoError"></span>
+                    </div>
+                    <p>@Html.ValidationMessageFor(x => x.Address_Information.BuldingNo, null, new { style = "color:red", @id = "EBuldingNo" })</p>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-md-2"> Floor Number </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.FloorNo, new { @id = "FloorNo", @type = "number", @maxlength = "50" })
+                    </div>
+                    <p>@Html.ValidationMessageFor(x => x.Address_Information.FloorNo, null, new { style = "color:red", @id = "EFloorNo", @tabindex = "13" })</p>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-md-2"> Area : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.Area, new { @id = "Area", @maxlength = "50", @tabindex = "14" })
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-md-2"> City : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Address_Information.City, new { @id = "City", @maxlength = "50", @tabindex = "15" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-4"> Governorate / state : <span class="star">*</span> </label> <span id="GovError"></span>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Address_Information.Governorate, new { @id = "Governorate", @maxlength = "50", @tabindex = "16" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="legal-information" class="container tab-pane fade p-3">
+                <div class="row mb-2">
+                    <label class="col-md-2"> Company type : <span class="star">*</span> </label>
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(x => x.Company_Legal_Info.CompanyType, new List<SelectListItem>
+                                 {
+                                 new SelectListItem{Text = "Indevedual" , Value = "Indevedual" },
+                                 new SelectListItem{Text = "Solidarity Company" , Value = "Solidarity Company" },
+                                 new SelectListItem{Text = "Company of simple recommendation" , Value = "Company of simple recommendation" },
+                                 new SelectListItem{Text = "Joint Stock Company" , Value = "Joint Stock Company" },
+                                 new SelectListItem{Text = "Company shares recommendation" , Value = "Company shares recommendation" },
+                                 new SelectListItem{Text = "Limited liability Company" , Value = "Limited liability Company" }
+                                 }, "-Choose-", new { @id = "CompanyType" , @class= "dropdown-list", @tabindex = "18" })
+                        <span id="CTError"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-md-2"> Establish Date : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.EstablishDate, new { @id = "EstablishDate", @type = "date", @maxlength = "50", @tabindex = "19" })
+                    </div>
+                </div>
+
+                <div class="formrow mb-12">
+                    <div class="col-sm-4">
+                        <button type="button" onclick="DCommerical()" class="DownloadComm hide-normal"><span class="fa fa-download"></span></button>
+                    </div>
+                    <label class="col-md-2"> @Html.TextBoxFor(x => x.Company_Legal_Info.InputCommerical, new { @type = "file", @id = "InputCommerical", @name = "InputCommerical", @tabindex = "20" }) </label>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Commerical Register <span class="star">*</span> </label>
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.CommericalRegister, new { @id = "CommericalRegister", @class = "ccc col-md-5", @maxlength = "50", @tabindex = "21" })
+                        <span id="CRError"></span>
+                    </div>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-6  d-inline-block"> Commerical Office </label>
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.CommericalOffice, new { @id = "CommericalOffice", @tabindex = "22", @class = "col-md-5" })
+                    </div>
+                </div>
+
+                <div class="formrow mb-12">
+                    <div class="col-sm-4">
+                        <button type="button" onclick="DTax()" class="DownloadTax hide-normal"><span class="fa fa-download"></span></button>
+                    </div>
+                    <label class="col-md-2"> @Html.TextBoxFor(x => x.Company_Legal_Info.InputTax, new { @type = "file", @id = "InputTax", @name = "InputTax", @maxlength = "50", @tabindex = "23" }) </label>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-6"> Tax File Number <span class="star">*</span> </label>
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.TaxFileNo, new { @id = "TaxFileNo", @maxlength = "50", @tabindex = "24", @class = "col-md-5" })
+                        <span id="TFError"></span>
+                    </div>
+
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Tax Office </label>
+
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.TaxOffice, new { @id = "TaxOffice", @maxlength = "50", @tabindex = "25", @class = "col-md-5" })
+                    </div>
+                </div>
+
+                <div class="formrow mb-12">
+                    <div class="col-sm-4">
+                        <button type="button" onclick="DVat()" class="DownloadVat hide-normal"><span class="fa fa-download"></span></button>
+                    </div>
+                    <label class="col-md-2"> @Html.TextBoxFor(x => x.Company_Legal_Info.InputVat, new { @type = "file", @id = "InputVat", @name = "InputVat", @tabindex = "26" }) </label>
+
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-6"> Vat ID </label>
+
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.VatID, new { @id = "VatID", @maxlength = "50", @tabindex = "27", @class = "col-md-5" })
+                    </div>
+
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5">Tax Vat Office </label>
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.TaxVaOffice, new { @id = "TaxVaOffice", @maxlength = "50", @tabindex = "28", @class = "col-md-5" })
+                    </div>
+                </div>
+
+                <div class="formrow mb-12">
+                    <div class="col-sm-4">
+                        <button type="button" onclick="DImport()" class="DownloadImport hide-normal"><span class="fa fa-download"></span></button>
+                    </div>
+                    <label class="col-md-2"> @Html.TextBoxFor(x => x.Company_Legal_Info.InputImport, new { @type = "file", @id = "InputImport", @name = "InputImport", @tabindex = "29" }) </label>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Import ID </label>
+
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.ImporterID, new { @id = "ImporterID", @maxlength = "50", @tabindex = "30", @class = "col-md-5" })
+                    </div>
+
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Import Office </label>
+
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.ImportOffice, new { @id = "ImportOffice", @maxlength = "50", @tabindex = "31", @class = "col-md-5" })
+                    </div>
+                </div>
+
+                <div class="formrow mb-12">
+                    <div class="col-sm-4">
+                        <button type="button" onclick="DExport()" class="DownloadExport hide-normal"><span class="fa fa-download"></span></button>
+                    </div>
+                    <label class="col-md-2"> @Html.TextBoxFor(x => x.Company_Legal_Info.InputExport, new { @type = "file", @id = "InputExport", @name = "InputExport", @tabindex = "32" }) </label>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Export ID </label>
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.ExportID, new { @id = "ExportID", @maxlength = "50", @tabindex = "33", @class = "col-md-5" })
+                    </div>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Export Office </label>
+
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.ExportOffice, new { @id = "ExportOffice", @maxlength = "50", @tabindex = "34", @class = "col-md-5" })
+                    </div>
+                </div>
+
+                <div class="formrow mb-12">
+                    <div class="col-sm-4">
+                        <button type="button" onclick="DInsurance()" class="DownloadInsurance hide-normal"><span class="fa fa-download"></span></button>
+                    </div>
+                    <label class="col-md-2"> @Html.TextBoxFor(x => x.Company_Legal_Info.InputInsurance, new { @type = "file", @id = "InputInsurance", @name = "InputInsurance", @tabindex = "35" }) </label>
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Social Insurance ID </label>
+
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.SocialInsuranceID, new { @id = "SocialInsuranceID", @maxlength = "50", @tabindex = "36", @class = "col-md-5" })
+                    </div>
+
+                    <div class="col-md-4 d-inline-block">
+                        <label class="col-md-5"> Social Insurance Office </label>
+                        @Html.TextBoxFor(x => x.Company_Legal_Info.SocialInsuranceOffice, new { @id = "SocialInsuranceOffice", @maxlength = "50", @tabindex = "37", @class = "col-md-5" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="communication-information" class="container tab-pane fade p-3">
+                <div class="row">
+                    <div class="col-md-2" id="Code"> Code :  @Html.TextBoxFor(x => x.Communication_Info.International1, new { @id = "International1", @type = "number", @maxlength = "50", @tabindex = "39" }) @Html.ValidationMessageFor(x => x.Communication_Info.International1, null, new { style = "color:red", @id = "EInternational1" }) </div>
+                    <div class="col-md-3" id="Tele"> Telephone : @Html.TextBoxFor(x => x.Communication_Info.Telephone1, new { @id = "Telephone1", @type = "number", @maxlength = "50", @tabindex = "40" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone1, null, new { style = "color:red", @id = "ETelephone1" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX1, new { @id = "TelephoneEX1", @type = "number", @maxlength = "50", @tabindex = "41" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX1, null, new { style = "color:red", @id = "ETelephoneEX1" })</div>
+                    <div> <button type="button" id="Tbtn1" class="btn btn-default btn-sm" onclick="ShowT2()"> <span class="fa fa-plus"></span> </button> </div>
+                </div>
+
+                <div id="T2" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.International2, new { @id = "International2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International2, null, new { style = "color:red", @id = "EInternational2" })</div>
+                    <div class="col-md-3" id="Tele"> Telephone : @Html.TextBoxFor(x => x.Communication_Info.Telephone2, new { @id = "Telephone2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone2, null, new { style = "color:red", @id = "ETelephone2" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX2, new { @id = "TelephoneEX2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX2, null, new { style = "color:red", @id = "ETelephoneEX2" })</div>
+                    <div> <button type="button" id="Tbtn2" class="btn btn-default btn-sm" onclick="ShowT3()">  <span class="fa fa-plus"></span> </button> </div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT2()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+
+                <div id="T3" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.International3, new { @id = "International3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International3, null, new { style = "color:red", @id = "EInternational3" })</div>
+                    <div class="col-md-3" id="Tele"> Telephone : @Html.TextBoxFor(x => x.Communication_Info.Telephone3, new { @id = "Telephone3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone3, null, new { style = "color:red", @id = "ETelephone3" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX3, new { @id = "TelephoneEX3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX3, null, new { style = "color:red", @id = "ETelephoneEX3" })</div>
+                    <div> <button type="button" id="Tbtn3" class="btn btn-default btn-sm" onclick="ShowT4()">  <span class="fa fa-plus"></span> </button> </div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT3()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+
+                <div id="T4" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.International4, new { @id = "International4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International4, null, new { style = "color:red", @id = "EInternational4" })</div>
+                    <div class="col-md-3" id="Tele"> Telephone : @Html.TextBoxFor(x => x.Communication_Info.Telephone4, new { @id = "Telephone4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone4, null, new { style = "color:red", @id = "ETelephone4" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX4, new { @id = "TelephoneEX4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX4, null, new { style = "color:red", @id = "ETelephoneEX4" })</div>
+                    <div> <button type="button" id="Tbtn4" class="btn btn-default btn-sm" onclick="ShowT5()"> <span class="fa fa-plus"></span> </button> </div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT4()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+
+                <div id="T5" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.International5, new { @id = "International5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.International5, null, new { style = "color:red", @id = "EInternational5" })</div>
+                    <div class="col-md-3" id="Tele"> Telephone : @Html.TextBoxFor(x => x.Communication_Info.Telephone5, new { @id = "Telephone5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Telephone5, null, new { style = "color:red", @id = "ETelephone5" })</div>
+                    <div class="col-md-2" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.TelephoneEX5, new { @id = "TelephoneEX5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.TelephoneEX5, null, new { style = "color:red", @id = "ETelephoneEX5" })</div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveT5()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+                <hr class="bg-dark" />
+
+                <div class="row">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code1, new { @id = "Code1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code1, null, new { style = "color:red", @id = "ECode1" })</div>
+                    <div class="col-md-3" id="Fax"> Fax : @Html.TextBoxFor(x => x.Communication_Info.Fax1, new { @id = "Fax1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax1, null, new { style = "color:red", @id = "EFax1" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.FaxEX1, new { @id = "FaxEX1", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX1, null, new { style = "color:red", @id = "EFaxEX1" })</div>
+                    <div> <button type="button" class="btn btn-default btn-sm" id="Fbtn1" onclick="ShowF2()"> <span class="fa fa-plus"></span> </button> </div>
+                </div>
+
+
+                <div id="F2" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code2, new { @id = "Code2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code2, null, new { style = "color:red", @id = "ECode2" })</div>
+                    <div class="col-md-3" id="Fax"> Fax : @Html.TextBoxFor(x => x.Communication_Info.Fax2, new { @id = "Fax2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax2, null, new { style = "color:red", @id = "EFax2" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.FaxEX2, new { @id = "FaxEX2", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX2, null, new { style = "color:red", @id = "EFaxEX2" })</div>
+                    <div> <button type="button" class="btn btn-default btn-sm" id="Fbtn2" onclick="ShowF3()"> <span class="fa fa-plus"></span>  </button> </div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF2()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+
+                <div id="F3" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code3, new { @id = "Code3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code3, null, new { style = "color:red", @id = "ECode3" })</div>
+                    <div class="col-md-3" id="Fax"> Fax : @Html.TextBoxFor(x => x.Communication_Info.Fax3, new { @id = "Fax3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax3, null, new { style = "color:red", @id = "EFax3" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.FaxEX3, new { @id = "FaxEX3", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX3, null, new { style = "color:red", @id = "EFaxEX3" })</div>
+                    <div> <button type="button" class="btn btn-default btn-sm" id="Fbtn3" onclick="ShowF4()"> <span class="fa fa-plus"></span> </button> </div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF3()"> <span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+
+                <div id="F4" class="row hide-normal">
+                    <div class="col-md-2" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code4, new { @id = "Code4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code4, null, new { style = "color:red", @id = "ECode4" })</div>
+                    <div class="col-md-3" id="Fax"> Fax : @Html.TextBoxFor(x => x.Communication_Info.Fax4, new { @id = "Fax4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax4, null, new { style = "color:red", @id = "EFax4" })</div>
+                    <div class="col-md-2" id="Ext"> Ext. @Html.TextBoxFor(x => x.Communication_Info.FaxEX4, new { @id = "FaxEX4", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX4, null, new { style = "color:red", @id = "EFaxEX4" })</div>
+                    <div> <button type="button" class="btn btn-default btn-sm" id="Fbtn4" onclick="ShowF5()"> <span class="fa fa-plus"></span> </button> </div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF4()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+
+                <div id="F5" class="row hide-normal">
+                    <div class="col-md-2 d-inline-block" id="Code"> Code : @Html.TextBoxFor(x => x.Communication_Info.Code5, new { @id = "Code5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Code5, null, new { style = "color:red", @id = "ECode5" })</div>
+                    <div class="col-md-3 d-inline-block" id="Fax"> Fax : @Html.TextBoxFor(x => x.Communication_Info.Fax5, new { @id = "Fax5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.Fax5, null, new { style = "color:red", @id = "EFax5" })</div>
+                    <div class="col-md-2  d-inline-block" id="Ext"> Ext.  @Html.TextBoxFor(x => x.Communication_Info.FaxEX5, new { @id = "FaxEX5", @type = "number", @maxlength = "50" }) @Html.ValidationMessageFor(x => x.Communication_Info.FaxEX5, null, new { style = "color:red", @id = "EFaxEX5" })</div>
+                    <div> <button type="button" class="btn btn-default btn-sm" onclick="RemoveF5()"><span class="fa fa-minus"></span> </button> </div>
+                </div>
+
+                <hr class="bg-dark" />
+
+                <div class="row">
+                    <label class="col-md-2"> Web Site : </label>
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(x => x.Communication_Info.Website, new { @id = "Website", @placeholder = "(https://www.FabulousERP.com) for example" })
+                        <span id="WebsiteError"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cu-btn ml-3">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="CResetBtn()"> Clear </button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="CUpdateBtn()"> Update </button>
+                <button type="button" class="btn btn-success btn-sm" id="SaveBtn" onclick="CSaveButton()"> Save </button>
+                <span class="hide-normal" id="PrintSpan">
+                    <button type="button" class="btn btn-info" id="PrintBtn" onclick="CPrint()"> <span class="fa fa-print"></span> Print </button>
+                </span>
+            </div>
+
+            <div class="row p-4">
+                <label id="UpdateWithoutSearch2" class="hide-normal text-error"></label>
+                <label id="UpdateWithSearch" class="hide-normal text-success"></label>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<div>
+    @Html.Partial("_CompanyReport")
+</div>
+
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_ClearBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_CommunicationBtns.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_Downloads.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_Form.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_FormLoad.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_PrintBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_SearchBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_UpdateBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_Validation.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/F_ValFocusOut.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/C_B_F_Setup/MainCompany/C_SaveBtn.js")
+
+

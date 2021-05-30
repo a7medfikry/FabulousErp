@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Posting Setup";
+    ViewBag.FormCode = "SPS";
+}
+
+<div class="container-fluid">
+    <span class="text-danger font-weight-bold" id="SPS-Error"></span>
+    <div class="form-row">
+        <div class="col-md-3 mb-2">
+            <label class="col-form-label col-form-label-sm" for="SPS-CompanyID"> Company ID : </label>
+            @*@Html.DropDownList("SPS-CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "SPS-CompanyID", @class = "form-control form-control-sm" })*@
+            <input type="text" id="SPS-CompanyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="col-form-label col-form-label-sm" for="SPS-CompanyName"> Company Name : </label>
+            <input type="text" class="form-control form-control-sm" id="SPS-CompanyName" value="@ViewBag.CompanyName" disabled />
+        </div>
+        <div class="col-md-3 mb-2">
+            <label class="col-form-label col-form-label-sm" for="SPS-Module"> Module : </label>
+            @Html.DropDownList("Module", null, "-Choose-", new { @id = "SPS-Module", @class = "form-control form-control-sm" })
+            @*new List<SelectListItem>
+                {
+                new SelectListItem{Text = "Financial" , Value = "Financial" },
+                new SelectListItem{Text = "Purshacing" , Value = "Purshacing" },
+                new SelectListItem{Text = "Sales" , Value = "Sales" },
+                new SelectListItem{Text = "Inventory" , Value = "Inventory" },
+                }*@
+        </div>
+    </div>
+
+    <!-- Posting Setup options -->
+    <div class="form-row">
+        <div class="col-md-9">
+            <div class="card card-body">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="SPS-PostingType" class="text-dark"> Posting Type : </label>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-PToGL" name="SPS-PostingType" type="radio" class="custom-control-input" value="A1" />
+                            <label class="custom-control-label SPS-PostingTypelbl" for="SPS-PToGL">Posting to General Ladger</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-PThrowGL" name="SPS-PostingType" type="radio" class="custom-control-input" value="A2" />
+                            <label class="custom-control-label SPS-PostingTypelbl" for="SPS-PThrowGL">Posting throw General Ladger</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="SPS-EIPD" class="text-dark"> Edit Posting Date : </label>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-EIPDYes" name="SPS-EIPD" type="radio" class="custom-control-input" value="F1" />
+                            <label class="custom-control-label SPS-EIPDlbl" for="SPS-EIPDYes">Yes</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-EIPDNo" name="SPS-EIPD" type="radio" class="custom-control-input" value="F2" />
+                            <label class="custom-control-label SPS-EIPDlbl" for="SPS-EIPDNo">No</label>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label for="SPS-JournalEntryPer" class="text-dark">Journal Entry Per :</label>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-JEPTransaction" name="SPS-JournalEntryPer" type="radio" class="custom-control-input" value="B1" />
+                            <label class="custom-control-label SPS-JournalEntryPerlbl" for="SPS-JEPTransaction">Transaction</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-JEPBatch" name="SPS-JournalEntryPer" type="radio" class="custom-control-input" value="B2" />
+                            <label class="custom-control-label SPS-JournalEntryPerlbl" for="SPS-JEPBatch">Batch</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="SPS-PostingDataFrom" class="text-dark"> Posting Data From : </label>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-PDFTransaction" name="SPS-PostingDataFrom" type="radio" class="custom-control-input" value="D1" disabled="disabled" />
+                            <label class="custom-control-label SPS-PostingDataFromlbl" for="SPS-PDFTransaction">Transaction</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-PDFBatch" name="SPS-PostingDataFrom" type="radio" class="custom-control-input" value="D2" disabled="disabled" />
+                            <label class="custom-control-label SPS-PostingDataFromlbl" for="SPS-PDFBatch">Batch</label>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="SPS-IfExistingBatch" class="text-dark"> If Existing Batch : </label>
+                        <div class="custom-control custom-radio col-md-5">
+                            <input id="SPS-EBAppend" name="SPS-IfExistingBatch" type="radio" class="custom-control-input" value="E1" disabled="disabled" />
+                            <label class="custom-control-label SPS-IfExistingBatchlbl" for="SPS-EBAppend">Append</label>
+                        </div>
+
+                        <div class="custom-control custom-radio col-md-5">
+                            <input id="SPS-EBCreateNew" name="SPS-IfExistingBatch" type="radio" class="custom-control-input" value="E2" disabled="disabled" />
+                            <label class="custom-control-label SPS-IfExistingBatchlbl" for="SPS-EBCreateNew">Create New</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="SPS-Batch" class="text-dark"> Batch : </label>
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-AllowTPosting" name="SPS-Batch" type="radio" class="custom-control-input" value="C1" disabled="disabled" />
+                            <label class="custom-control-label SPS-Batchlbl" for="SPS-AllowTPosting">Allow Transaction posting</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input id="SPS-RequireBApproval" name="SPS-Batch" type="radio" class="custom-control-input" value="C2" disabled="disabled" />
+                            <label class="custom-control-label SPS-Batchlbl" for="SPS-RequireBApproval">Require Batch Approval</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-body p-2">
+                <button class="btn btn-success btn-sm mb-1" type="button" id="SPS-SavePSBtn">Save</button>
+                <button class="btn btn-primary btn-sm mb-1" type="button" id="SPS-UpdatePSBtn">Update</button>
+                <button class="btn btn-danger btn-sm" type="button" id="SPS-ResetBtn">Clear</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")
+

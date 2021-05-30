@@ -1,0 +1,72 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_receive_po>
+
+@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                Vendore
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doc_type)
+            </th>
+            <th>
+                Invoice Number
+            </th>
+            <th>
+                Store Id
+            </th>
+            <th>
+                Site Id
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @try
+                    {
+                        @Html.DisplayFor(modelItem => item.Payable.Vendor.Vendor_name)
+                    }
+                    catch
+                    {
+
+                    }
+                </td>
+                <td>
+                    @(item.Transaction_date?.ToShortDateString())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gr_num)
+                </td>
+                <td>
+                    @try
+                    {
+                        @item.Payable.Trans_doc_type.Counter
+                    }
+                    catch
+                    {
+                    }
+                </td>
+                <td>
+                    @item.Store.Store_name
+                </td>
+                <td>
+                    @item.Site.Site_name
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

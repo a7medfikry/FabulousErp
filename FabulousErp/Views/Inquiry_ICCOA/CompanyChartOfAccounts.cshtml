@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Company Chart Of Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "ICCOA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-2">
+        <label class="col-form-label col-form-label-sm"> Sort By : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("ICCOA-companySort", new List<SelectListItem>
+                                     {
+                                     new SelectListItem{Text = "Account ID" , Value = "1" },
+                                     new SelectListItem{Text = "Account Name" , Value = "2" },
+                                     },"-Choose-",new { @id = "ICCOA-companySort", @class= "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap" id="example">
+        <thead>
+            <tr>
+                <td> Account ID </td>
+                <td> Account Name </td>
+                <td> Account Type </td>
+                <td> Account Group </td>
+                <td> Posting Type </td>
+            </tr>
+        </thead>
+        <tbody id="ICCOA-companytbody"></tbody>
+    </table>
+    <button id="btnExport" class="btn btn-success btn-sm">Export To Excel <i class="fa fa-file-excel-o"></i> </button>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/ChartOfAccounts/Inquiry_ICOA.js")

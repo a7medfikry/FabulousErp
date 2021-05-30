@@ -1,0 +1,67 @@
+﻿@model FabulousDB.Models.Installment_setting
+
+@{
+    ViewBag.Title = "Details Installment setting";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h4>Installment_setting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Plan_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plan_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cash_advanced_percentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cash_advanced_percentage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Number_of_installment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number_of_installment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Installment_period)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Installment_period)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

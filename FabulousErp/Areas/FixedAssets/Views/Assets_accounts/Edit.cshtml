@@ -1,0 +1,108 @@
+﻿@model FabulousDB.Models.Assets_accounts
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("Edit", "Assets_accounts", new AjaxOptions { OnSuccess = "AccountsSuccess" }, new { id = "AccountForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Accounts</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Class_id, "Class id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Class_id, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Class_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cost_account, "Cost Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Cost_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Cost_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Deprecation_accumulated_account, "Accum. Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Deprecation_accumulated_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Deprecation_accumulated_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Deprcation, "Deprcation", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Deprcation, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Deprcation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Profit_account, "Profit Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Profit_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Profit_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Lose_account, "Lose Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Lose_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Lose_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Payable_account, "Payable Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Payable_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Payable_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Receivable_account, "Rec. Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Receivable_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Receivable_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Revaluation_account, "Reval. Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Revaluation_account, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Revaluation_account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Retirment, "Retirment", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Retirment, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Retirment, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Accrued, "Accrued", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Accrued, null, "", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Accrued, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}

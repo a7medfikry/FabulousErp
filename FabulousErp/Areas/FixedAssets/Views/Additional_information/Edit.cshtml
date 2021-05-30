@@ -1,0 +1,61 @@
+﻿@model FabulousDB.Models.Additional_information
+
+@{
+    Layout = null;
+}
+<section class="Additional_parent">
+
+    @using (Ajax.BeginForm("Edit", "Additional_information", new AjaxOptions { OnSuccess = "", HttpMethod = "POST" }, new { id = "" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            <div class="form-group hide">
+                @Html.LabelFor(model => model.Assets_id, "Assets_id", htmlAttributes: new { @class = "control-label col-md-2", id = "" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Assets_id, new { htmlAttributes = new { @class = "form-control Assets_id", id = "" } })
+                    @Html.ValidationMessageFor(model => model.Assets_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label class="control-label">Field_no</label>
+                    <div>
+                        @Html.Label("Field_no", new { @class = "control-label col-md-2 Field_no", id = "" })
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    @Html.LabelFor(model => model.Field_name, htmlAttributes: new { @class = "control-label col-md-2", id = "" })
+                    @Html.EditorFor(model => model.Field_name, new { htmlAttributes = new { @class = "form-control Field_name", id = "" } })
+                    @Html.ValidationMessageFor(model => model.Field_name, "", new { @class = "text-danger", id = "" })
+                </div>
+                <div>
+                    <button class="RemoveEditThisParent" data-id="@Model.Id">X</button>
+                </div>
+            </div>
+            <div class="form-group hide">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<script>
+    $(document).on("click", ".RemoveEditThisParent", function () {
+        var MyThis = $(this);
+        $.ajax({
+            url: "@Url.Action("Delete")",
+            method: "POST",
+            data: { id: MyThis.attr("data-id") },
+            success: function () {
+                MyThis.parents(".Additional_parent").remove();
+            },
+            beforeSend: function () {
+                MyThis.parents(".Additional_parent").remove();
+            }
+        })
+    })
+</script>

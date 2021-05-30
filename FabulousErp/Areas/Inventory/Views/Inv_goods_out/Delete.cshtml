@@ -1,0 +1,78 @@
+﻿@model FabulousDB.Models.Inv_goods_out
+
+@{
+    ViewBag.Title = "Goods Out";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Site.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Store.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Store.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gr_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gr_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendor_doc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendor_doc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Po_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Po_no)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-success" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

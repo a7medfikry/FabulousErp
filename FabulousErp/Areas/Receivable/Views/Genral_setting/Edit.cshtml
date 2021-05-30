@@ -1,0 +1,167 @@
+﻿@model List<FabulousErp.Receivable.Models.Receivable_genral_setting>
+
+@{
+    ViewBag.Title = "Genral Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int Count = 0;
+    string Checked = "";
+
+}
+
+<section class="forms">
+    @using (Ajax.BeginForm("Edit", "Genral_setting", new AjaxOptions { }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal DocNextNumber">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="col-sm-12">
+                @Html.Label("Doc_type", "Doc type", htmlAttributes: new { @class = "control-label clearfix" })
+
+            </div>
+
+            @foreach (Receivable_genral_setting i in Model)
+            {
+                <input name="genral_setting[@Count].Id" type="hidden" value="@i.Id" />
+
+                <div class="clearfix MyHeight">
+                    <div class="form-group">
+                        <div class="col-md-10 d-inline-block">
+                            <label class="WidthAuto">@i.Doc_type.ToString().Replace("_", " ")</label>
+                        </div>
+                        <div class="col-md-2 d-inline-block">
+                            @Html.CheckBox($"genral_setting[{Count}].Checked", i.Checked,new {@class="  v-middle" })
+                            @*<input type="checkbox" name="genral_setting[@Count].Checked" value="@i.Checked" />*@
+
+                            <input type="hidden" name="genral_setting[@Count].Doc_type" value="@i.Doc_type" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => i.Next_number, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="text" name="genral_setting[@Count].Next_number" value="@i.Next_number" class="form-control NextNumber" data-doc="@Convert.ToInt32(i.Doc_type)" />
+                        </div>
+                    </div>
+                </div>
+                Count++;
+            }
+
+
+            <div class="form-group hide">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+        <div>
+            <div>
+                @Ajax.ActionLink("Add New Aging", "Create", "Aging_period",new { }, new AjaxOptions { UpdateTargetId = "AgingSec", InsertionMode = InsertionMode.InsertAfter,OnSuccess="AgingSucc" },
+        new {@class="btn btn-info",id="AddNewAgingPeriod" })
+            </div>
+            @Html.Action("Edit", "Aging_period")
+            <section id="AgingSec"></section>
+            <div class="form-group text-center">
+                @foreach (var value in Business.GetEnumValues<Date_option>())
+                {
+                    if (ViewBag.Aging_date_option == value)
+                    {
+                        Checked = "checked='checked'";
+                    }
+                    else
+                    {
+                        Checked = "";
+                    }
+                    <input class="v-middle Date_option" data-val="true" data-val-required="The Date_option field is required."
+                           name="Date_option" type="radio" value="@value" @Checked>
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+                }
+            </div>
+        </div>
+    <div>
+        <h4>Password Option</h4>
+        @Html.Action("Edit", "Password_option")
+    </div>
+    <div>
+        @Html.Action("Edit", "Other_option")
+    </div>
+</section>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Save" id="SubmitAll" class="btn btn-success" />
+    </div>
+</div>
+<script>
+    $("#SubmitAll").click(function () {
+        var NextNumbers = [];
+        $(document).find(".DocNextNumber").find(".NextNumber").each(function () {
+            NextNumbers.push({
+                NextNumber: $(this).val(),
+                Doc_type: $(this).attr("data-doc")
+            })
+        })
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            url: "@Url.Action("CheckNextNumber")",
+            data: JSON.stringify(NextNumbers),
+            type: 'POST',
+            success: function (data) {
+                if (data.status == true) {
+                    SubmitAll();
+                } else {
+                    alert(data.msg)
+                }
+            }
+        })
+    })
+    function AgingSucc() {
+
+    }
+    function SubmitAll() {
+        var Valid = true;
+
+        $(document).find(".AgingCnt").each(function () {
+
+            var MainFrom = parseFloat($(this).find(".AgingFrom").val());
+            var MainTo = parseFloat($(this).find(".AgingTo").val());
+            if (MainFrom > MainTo) {
+                Valid = false;
+                Talert("Aging From" , MainFrom , " Is grater Than ", MainTo)
+            }
+            var ThisAging = $(this);
+            $(document).find(".AgingCnt").not(ThisAging).each(function () {
+                var ThisFrom = parseFloat($(this).find(".AgingFrom").val());
+                var ThisTo = parseFloat($(this).find(".AgingTo").val());
+                if ((MainFrom >= ThisFrom && MainFrom <= ThisTo)
+                    || (MainTo <= ThisFrom && MainTo >= ThisTo)) {
+                    Valid = false;
+                    Talert("Aging " , ThisFrom + " " + ThisTo , " Conflict Wiht Other Aging")
+                }
+            })
+        })
+        $.ajax({
+            url: "@Url.Action("AddAgingDate", "Genral_setting")?Agd=" + $(document).find(".Date_option:checked").val()
+        })
+        if (Valid) {
+            $(".forms").find("form").submit();
+            RedirectInt("/Receivable/Genral_setting/Edit");
+        }
+
+    }
+    $(function () {
+        if ($("#AgingSec").is(":empty")) {
+            $("#AddNewAgingPeriod").trigger("click");
+        }
+    })
+</script>
+<style>
+    .MyHeight{
+        height:30px;
+    }
+</style>

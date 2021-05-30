@@ -1,0 +1,161 @@
+﻿<script>
+    var Choose ="@FabulousErp.BusController.Translate("-Choose-")";
+</script>
+<div class="form-row mb-1 mt-3 validateTaxHeader">
+    <label class="col-md-1 col-form-label col-form-label-sm">Tax Type : <span class="star">*</span></label>
+    <div class="col-md-2">
+        @Html.DropDownList("TCT-taxType", new List<SelectListItem>
+                             {
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("1- General") , Value = "1" },
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("2- Tax Table") , Value = "2" }
+                             }, FabulousErp.BusController.Translate("-Choose-"),new { @id = "TCT-taxType", @class= "form-control form-control-sm clearTax" })
+    </div>
+    <label class="col-md-2 col-form-label col-form-label-sm taxTypeEffect">Tax Table Type : <span class="star">*</span></label>
+    <div class="col-md-2 taxTypeEffect">
+        @Html.DropDownList("TCT-taxTableType", new List<SelectListItem>
+                             {
+                             new SelectListItem{Text =FabulousErp.BusController.Translate("0- None") , Value = "0" },
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("1- Table First") , Value = "1" },
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("2- Table Second") , Value = "2" }
+                             }, FabulousErp.BusController.Translate("-Choose-"),new { @id = "TCT-taxTableType", @class= "form-control form-control-sm clearTax" })
+    </div>
+
+</div>
+
+<div class="form-row mb-1 validateTaxHeader">
+    @if (ViewBag.Tax == "Sales")
+                {
+        <label class="col-md-1 col-form-label col-form-label-sm">Item Code:<span class="star">*</span></label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm clearTax" id="TCT-itemCode" maxlength="50" />
+        </div>
+
+
+    }
+
+
+    <label class="col-md-1 col-form-label col-form-label-sm TransactionHide">Item Name:<span class="star">*</span></label>
+    <div class="col-md-2 TransactionHide">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-itemName" maxlength="50" />
+    </div>
+
+
+
+    <label class="col-md-1 col-form-label col-form-label-sm">Item Type : <span class="star">*</span></label>
+    <div class="col-md-2">
+        @Html.DropDownList("TCT-itemType", new List<SelectListItem>
+                             {
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("3- Material") , Value = "3" },
+                             new SelectListItem{Text =FabulousErp.BusController.Translate( "4- Service") , Value = "4" },
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("5- Equipment") , Value = "5" },
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("6- Parts of Equipment") , Value = "6" },
+                             new SelectListItem{Text = FabulousErp.BusController.Translate("7- Exemptions") , Value = "7" }
+                             }, FabulousErp.BusController.Translate("-Choose-"),new { @id = "TCT-itemType", @class= "form-control form-control-sm clearTax" })
+    </div>
+    @if (ViewBag.Tax == "Sales")
+        {
+        <label class="col-md-1 col-form-label col-form-label-sm"></label>
+        <div class="col-md-2">
+        </div>
+    }
+    <label class="col-md-2 col-form-label col-form-label-sm">Unit Of Measure : <span class="star">*</span></label>
+    <div class="col-md-2">
+        @Html.DropDownList("TCT-unitOfMeasure", ViewBag.UnitOfMeasure as SelectList, new { @class = "form-control" })
+        @*<input type="text" class="form-control form-control-sm clearTax" id="TCT-unitOfMeasure" maxlength="20" />*@
+    </div>
+</div>
+
+<div class="form-row mb-1 TransactionHide">
+    <label class="col-md-1 col-form-label col-form-label-sm">Quantity : <span class="star">*</span></label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-quantity" />
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm">Unit Price : <span class="star">*</span></label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-unitPrice" />
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm">Total Amount : <span class="star">*</span></label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-totalAmount" name="EffectiveInput" disabled />
+    </div>
+</div>
+
+<div class="form-row mb-1">
+    <label class="col-md-3 col-form-label col-form-label-sm hide">Total Amount by System Currency : </label>
+    <div class="col-md-3 hide">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-totalAmountbySC" name="EffectiveInput" disabled />
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm TransactionHide"> Discount : </label>
+    <div class="col-md-2 TransactionHide">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-discount" name="EffectiveInput" />
+    </div>
+    <span class="text-danger font-weight-bold" id="TCT-discountError"></span>
+
+    <label class="col-md-1 col-form-label col-form-label-sm">Net Amount</label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-netAmount" name="EffectiveInput" disabled />
+    </div>
+    <label class="col-md-1 col-form-label col-form-label-sm taxTypeEffect">Tbl. Vat ID:<span class="star">*</span></label>
+    <div class="col-md-2 validateTaxHeader taxTypeEffect">
+        @Html.DropDownList("EffectiveInput", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-tableVatID", @class = "form-control form-control-sm clearTax" })
+    </div>
+
+</div>
+
+
+
+<div class="form-row mb-1">
+    <label class="col-md-2 col-form-label col-form-label-sm taxTypeEffect hide">Table Vat Amount :</label>
+    <div class="col-md-2 validateTaxHeader hide">
+        <input type="text" class="form-control form-control-sm clearTax taxTypeEffect" id="TCT-tableVatAmount" name="EffectiveInput" />
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm taxTypeEffect hide">Total After Vat Table :</label>
+    <div class="col-md-2 taxTypeEffect hide">
+        <input type="text" class="form-control form-control-sm clearTax" id="TCT-totalAfterVatTable" name="EffectiveInput" disabled />
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm taxTableTypeEffect">Vat ID : <span class="star">*</span></label>
+    <div class="col-md-2 validateTaxHeader taxTableTypeEffect">
+        @Html.DropDownList("EffectiveInput", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-vatID", @class = "form-control form-control-sm clearTax" })
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm taxTableTypeEffect hide">Vat Amount</label>
+    <div class="col-md-2 validateTaxHeader taxTableTypeEffect hide">
+        <input type="text" class="form-control form-control-sm clearTax hide" id="TCT-vatAmount" name="EffectiveInput" />
+    </div>
+
+    <label class="col-md-1 col-form-label col-form-label-sm taxTableTypeEffect">Total Vat Amount</label>
+    <div class="col-md-2 validateTaxHeader taxTableTypeEffect">
+        <input type="text" class="form-control form-control-sm clearTax" id="TaxTotalvatAmount" name="EffectiveInput" />
+    </div>
+
+</div>
+
+<div class="form-row mb-1">
+    <label class="col-md-2 col-form-label col-form-label-sm">Deducte Tax Id:</label>
+    <div class="col-md-2">
+        @Html.DropDownList("TCT-decuttaTaxID", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-decuttaTaxID", @class = "form-control form-control-sm clearTax" })
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm">Deducte Amount :</label>
+    <div class="col-md-2">
+        <input type="text" id="TCT-dacuttaAmount" disabled class="form-control form-control-sm clearTax" />
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end" id="TaxAddRowDiv">
+        <button type="button" id="TCT-btnAddTaxDetails" class="btn btn-primary btn-sm mr-1" data-toggle="popover">Add</button>
+        <button type="button" id="TCT-btnUpdateTaxDetails" class="btn btn-primary btn-sm mr-1" disabled>Update</button>
+        <button type="button" id="TCT-btnCancelUpdateTaxDetails" class="btn btn-danger btn-sm" disabled>X</button>
+        <span class="hide-normal" id="TCT-taxDetailsUpdatedID"></span>
+    </div>
+</div>
+
+@Html.Action("TaxTable",new { PostingNumber= ViewBag.PostingNumber })
+<button class="btn btn-outline-primary btn-sm hide" id="DonePop" type="button">Done</button>
+<button class="btn btn-outline-primary btn-sm" id="TCT-doneTaxDetails" type="button">Done</button>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/TaxTransaction_Script.js")

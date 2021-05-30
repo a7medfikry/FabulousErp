@@ -1,0 +1,519 @@
+﻿@model FabulousDB.Models.Inv_po_item_transfer
+
+@{
+    ViewBag.Title = "Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+          MaskMoneyTxt(CompId, null)
+    })
+</script>
+
+<div class="form-horizontal">
+    <hr />
+    <form action="#" method="post" id="MainFrm">
+        @*<div class="form-group clearfix">
+                @Html.LabelFor(model => model.Site_transfer, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <label class="switch">
+                        <input type="checkbox" id="Site_transfer" name="Site_transfer" checked="">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>*@
+     
+        <div class="form-group">
+            @Html.LabelFor(model => model.From_store, htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.From_store, null, "", new { @class = "form-control Store1" })
+                @Html.ValidationMessageFor(model => model.From_store, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.From_site, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.From_site, null, "", new { @class = "form-control Site1" })
+                @Html.ValidationMessageFor(model => model.From_site, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transfer_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Transfer_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                @Html.ValidationMessageFor(model => model.From_site, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                <label class="control-label col-md-2">Transaction date</label>
+                <div class="col-md-10 Transaction_dateDiv">
+                    <input class="form-control" type="date" id="TCGE-JEDate" />
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.To_store, htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.To_store, null, "", new { @class = "form-control Store2" })
+                @Html.ValidationMessageFor(model => model.To_store, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.To_site, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.To_site, null, "", new { @class = "form-control Site2" })
+                @Html.ValidationMessageFor(model => model.To_site, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </form>
+
+    <div class="form-group Width60">
+        <label class="control-label col-md-2" style="width:20.5%;">Desc</label>
+        <div class="col-md-10">
+            <input class="form-control" id="Desc" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        @Html.LabelFor(model => model.Item_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Item_id, null, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Item_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label id="ItemName"></label>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Orginal_Qty, "Avaliable", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 Orginal_Qty">
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.UOM_id, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.UOM_id, null, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UOM_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Transfer_qty, "Transfer Qty", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Transfer_qty, "", new { @class = "form-control", type="number", min="0" })
+            @Html.ValidationMessageFor(model => model.Transfer_qty, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Unit Cost</label>
+        <div class="col-md-10">
+            <input id="UnitCost" class="maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Total</label>
+        <div class="col-md-10">
+            <label id="Total"></label>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button class="btn btn-primary" type="button" id="AddItem">Add Item</button>
+        </div>
+        @*<div class="form-group col-md-3 ">
+                <button class="btn btn-primary ToggleTransAction" type="button">Show Jv</button>
+            </div>*@
+    </div>
+</div>
+<div style="margin-top:20px;">
+    <table class="table NoDataTable">
+        <thead>
+            <tr>
+                @*<th>
+                        From Store
+                    </th>
+                    <th>
+                        From Site
+                    </th>
+                    <th>
+                        To Store
+                    </th>
+                    <th>
+                        To Site
+                    </th>*@
+                <th>
+                    Item Name
+                </th>
+              
+                <th>
+                    UOM
+                </th>
+
+                <th>
+                    Qty
+                </th>
+                <th>
+                    Unit Cost
+                </th>
+                <th>
+                    Total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" id="Transfer" value="Transfer" class="btn btn-success" />
+    </div>
+</div>
+@*<h4 id="TCGE-GlobalError"></h4>
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>*@
+<script>
+    $(function () {
+        $("#Transfer_date").val(new moment(new Date()).format('YYYY-MM-DD'))
+          if ("@ViewBag.AllowTransfer"== "false") {
+              ModelMsg("@Business.Translate("Transfer Is Not Allowed")", "", true, function () {
+                  Interval(function () {
+                      Redirect("/Home/Financial_Home");
+                  })
+            }, function () {
+                      Interval(function () { Redirect("/Home/Financial_Home") })
+            })
+        }
+        $("#Transfer_qty").attr("type", "number");
+    })
+    function ShowMsg(Btn) {
+        $(".DelBtn[date-id='" + Btn + "']").prev("form").remove();
+        $(".DelBtn[date-id='" + Btn + "']").remove();
+    }
+    $("#Transfer").click(function () {
+        var SNotValid = false;
+        if (!$("#Transfer_date").val()) {
+            NotValid($("#Transfer_date"))
+            SNotValid = true;
+        }
+        if (SNotValid) {
+            return;
+        }
+        InsertTransfer();
+        @*InsertTransactionData("@FabulousErp.Business.GetCompanyId()", "@FabulousErp.Business.PostingToOrThrow()"
+            , $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), "PoTrans", "@FabulousErp.Business.GetCompanyId()", "1", "1",
+            "POTrans", "PoTrans", "", "", InsertTransfer, null, null, function () {
+                InsertTransfer();
+                $("#TCGE-GlobalError").text("");
+            }, true);*@
+    })
+    function InsertTransfer() {
+        var TransData = [];
+        $("#Transfer").attr("disabled", "disabled");
+        $("#itemsBody").find("tr").each(function () {
+            TransData.push({
+                Item_id: $(this).find(".ItemId").attr("data-id"),
+                From_store_id: $(this).find(".FromStore").attr("data-fromstoreid"),
+                From_site_id: $(this).find(".FromStore").attr("data-fromstoreid"),
+                To_store_id: $(this).find(".ToStore").attr("data-ToStoreId"),
+                To_site_id: $(this).find(".ToSite").attr("data-ToSiteId"),
+                Transfer_qty: parseFloat($(this).find(".Qty").text()),
+                Orginal_Qty: $(this).find(".ItemId").attr("data-OrginalQty"),
+                Transaction_date: $("#TCGE-JEDate").val(),
+                Posting_date: $("#TCGE-PostingDate").val(),
+                Desc: $("#Desc").val(),
+                Main_po: $(this).find(".ItemId").attr("data-PoId"),
+                Transfer_date: $("#Transfer_date").val(),
+                UOM_id: $(this).find(".ItemId").attr("data-UOM"),
+                Unit_price: $(this).find(".UnitCost").attr("data-value"),
+                Total: GetMaskNumber($(this).find(".Total").text())
+            });
+        });
+
+        $.ajax({
+            url: "/Inventory/Inv_transfer_items/Transfer/",
+            data: { Items: TransData, Serial: GetSerials() },
+            method: "POST",
+            success: function (data) {
+                window.open(
+                    '/Inventory/Rpt/PoItemsPrint?PoId=' + data + "&IsPo=true&Doc_type=Invoice&IsSales=true",
+                    '_blank'
+                );
+                //$.each(data, function (k, i) {
+
+                //})
+                RunAfterAjax(function () {
+                    window.location.reload();
+                })
+            }
+        })
+    }
+</script>
+<script>
+    $("#Site_transfer").click(function () {
+        if ($(this).is(":checked")) {
+            $(".Site1").parents(".form-group").show();
+            $(".Site2").parents(".form-group").show();
+        } else {
+            $(".Site1").parents(".form-group").hide();
+            $(".Site2").parents(".form-group").hide();
+        }
+    })
+    $(document).on("change", ".Store1", function () {
+        if ($(this).val()) {
+            var SiteId = $(document).find("select.Site1");
+            $.ajax({
+                url: "/Inventory/Inv_store_site/GetSitesByStoreId?StoreId=" + $(this).val(),
+                method: "POST",
+                success: function (data) {
+                    $(SiteId).empty();
+                    $(SiteId).append("<option value=''></option>");
+                    $.each(data, function (k, i) {
+                        $(SiteId).append("<option value='" + i.Id + "'>" + i.Name + "</option>");
+                    })
+                }
+            })
+        }
+    
+
+    })
+    $(document).on("change", ".Store1,#From_site", function () {
+        $.ajax({
+            url: "/inventory/Inv_po/GetPoItems?StoreId=" + $(".Store1").val() + "&SiteId=" + $("#From_site").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+    })
+    $(document).on("change", ".Store2", function () {
+        if ($(this).val()) {
+            var SiteId = $(document).find("select.Site2");
+            $.ajax({
+                url: "/Inventory/Inv_store_site/GetSitesByStoreId?StoreId=" + $(this).val(),
+                method: "POST",
+                success: function (data) {
+                    $(SiteId).empty();
+                    $(SiteId).append("<option value=''></option>");
+                    $.each(data, function (k, i) {
+                        $(SiteId).append("<option value='" + i.Id + "'>" + i.Name + "</option>");
+                    })
+                }
+            })
+        }
+    })
+
+    $(document).on("change", ".Store2", function () {
+        if ($(this).val()) {
+            var SiteId = $(document).find("select.Site2");
+            $.ajax({
+                url: "/Inventory/Inv_store_site/GetSitesByStoreId?StoreId=" + $(this).val(),
+                method: "POST",
+                success: function (data) {
+                    $(SiteId).empty();
+                    $(SiteId).append("<option value=''></option>");
+                    $.each(data, function (k, i) {
+                        $(SiteId).append("<option value='" + i.Id + "'>" + i.Name + "</option>");
+                    })
+                }
+            })
+        }
+    })
+    UOMDropDown = true;
+
+    $(document).on("change", "#Item_id", function () {
+        var ItemId = $(this).val();
+        var PoId = $(this).find("option:selected").attr("data-PoId");
+        $.ajax({
+            url: "/Inventory/Inv_item/GetItemName?Item_id=" + $(this).val(),
+            success: function (data) {
+                $("#ItemName").text(data)
+            },
+            method: "POST"
+        });
+        $.ajax({
+            url: "/Inventory/Inv_receive_po_items/GetPoItemQty?ItemId=" + ItemId + "&Store=" + $("#From_store").val(),
+            method: "POST",
+            success: function (data) {
+                $(".Orginal_Qty").text(data);
+            }
+        });
+        UOMDropDown = true;
+    })
+    function SetItems(data) {
+        $("select#Item_id").empty();
+        $("select#Item_id").append("<option value=''></option>")
+
+        $.each(data, function (k, i) {
+            $("select#Item_id").append("<option value='" + i.Id + "' data-PoId='" + i.Po_id+"'>" + i.Item_id + "</option>")
+        })
+    }
+
+    $("#StoreSite").on("change", ".Store_id", function () {
+        if ($(this).val()) {
+            var SiteId = $(this).parents(".form-horizontal").find("select.Site_id");
+            $.ajax({
+                url: "@Url.Action("GetSitesByStoreId", "Inv_store_site")?StoreId=" + $(this).val(),
+                method: "POST",
+                success: function (data) {
+                    $(SiteId).append("<option value=''></option>");
+                    $.each(data, function (k, i) {
+                        $(SiteId).append("<option value='" + i.Id + "'>" + i.Name + "</option>");
+                    })
+                },
+                beforeSend: function () {
+                    $(SiteId).empty();
+                }
+            })
+        }
+    })
+
+    $("#Transfer_qty").change(function () {
+        $("#AddItem").attr("disabled", "disabled")
+        
+        var OrQty = parseFloat($(".Orginal_Qty").text());
+        var SelectdQty = 0;
+        $("#itemsBody").find("tr").each(function () {
+            if ($(this).find(".ItemId").attr("data-id") == $("#Item_id").val()
+                && $("#From_store").val() == $(this).find(".FromStore").attr("data-fromstoreid")) {
+                SelectdQty += parseFloat($(this).find(".Qty").text());
+            }
+        })
+        CalcItemDetils(false, $("#Item_id").val(), $("#From_store").val(), $("#Transfer_qty").val(),
+            $("#UOM_id").val(), null, $("#Transfer_qty"), $("#UnitCostMask"), null,
+            function (Q, C, E) {
+                var ThisEqQty = $("#Transfer_qty").val() * E;
+                $("#UnitCostMask").attr("data-value", RoundNumber(C / ThisEqQty))
+                $("#UnitCostMask").val(RoundNumber(C / GetMaskNumber($("#Transfer_qty").val())))
+                $("#Total").text(MaskThisMoney(C));
+                $("#Transfer_qty").attr("data-qty", ThisEqQty);
+            }, "@BusController.Translate("Not Enough Inventory")");
+        RunAfterAjax(function () {
+            $("#AddItem").removeAttr("disabled");
+        });
+        //if (OrQty < parseFloat($(this).val()) + SelectdQty) {
+        //    NotValid($(this));
+        //    $(this).val("");
+        //} else if ($("#From_store").val() != $("#To_store").val()) {
+
+        //}
+    })
+    $(document).on("click", "#AddItem", function () {
+        if (!$("#Transfer_qty").val()
+            || $("#Transfer_qty").val() == 0
+            
+        ) {
+            return;
+        }
+        if (!$("#UOM_id").val()) {
+            NotValid($("#UOM_id"));
+            return;
+        }
+        if ($("#itemsBody").find(".ItemId[data-id='" + $("#Item_id").val() + "']").length>0) {
+            $("#AddItem").after("<p class='text-danger'>@Business.Translate("Duplicate Item")</span>")
+            setTimeout(function () {
+                $("#AddItem").nextAll("p").fadeOut()
+            },2000)
+            return;
+        }
+        var BodyTmp = $("#BodyTmp").text()
+            .replace("{{FromStoreId}}", $("#From_store").val()).replace("{{FromStore}}", $("#From_store").find("option:selected").text())
+            .replace("{{FromSiteId}}", $("#From_site").val()).replace("{{FromSite}}", $("#From_site").find("option:selected").text())
+            .replace("{{ToStoreId}}", $("#To_store").val()).replace("{{ToStore}}", $("#To_store").find("option:selected").text())
+            .replace("{{ToSiteId}}", $("#To_site").val()).replace("{{ToSite}}", $("#To_site").find("option:selected").text())
+            .replace("{{ItemId}}", $("#Item_id").val()).replace("{{ItemName}}", $("#Item_id option:selected").text())
+            .replace("{{Qty}}", $("#Transfer_qty").val())
+            .replace("{{OQty}}", $(".Orginal_Qty").text())
+            .replace("{{PoId}}", $("#Item_id option:selected").attr("data-PoId"))
+            .replace("{{UnitCost}}", GetMaskNumber($("#UnitCostMask").val()))
+            .replace("{{Total}}", $("#Total").text())
+            .replace("{{UOM}}", $("#UOM_id").val())
+            .replace("{{TransQty}}",$("#Transfer_qty").attr("data-qty"))
+            .replace("{{UnitCostAttr}}", $("#UnitCostMask").attr("data-value"))
+            .replace("{{UOMTxt}}", $("#UOM_id").find("option:selected").text());
+
+        $("#itemsBody").append(BodyTmp);
+        CheckIfItemHasProp($("#Item_id").val(), $("#Transfer_qty").val(),$("#itemsBody").find("tr").last().index());
+        $("#Transfer_qty").val("");
+        $(".Orginal_Qty").text("");
+        $("#UnitCostMask").val("");
+        $("#UnitCostMask").attr("data-value");
+        $("#Total").text("");
+        $("#Item_id").val("");
+        $("#UOM_id").val("");
+        //$("#MainFrm").trigger("reset");
+    })
+    $("#UOM_id").change(function () {
+        $("#Transfer_qty").trigger("change")
+    })
+    $(document).on("click", ".DeleteItem", function () {
+        $(this).parents("tr").remove();
+    })
+    $(document).on("click", ".EditItem", function () {
+        $("#AddItem").attr("disabled", "disabled");
+        $(".DeleteItem").attr("disabled", "disabled");
+        $(".EditItem").attr("disabled", "disabled");
+        var Tr = $(this).parents("tr");
+        var Qty = parseFloat($(Tr).find(".Qty").text())
+        $("#Transfer_qty").val(Qty);
+        $("#Item_id").val($(Tr).find(".ItemId").attr("data-id")).trigger("change");
+        var UOM = $(Tr).find(".ItemId").attr("data-UOM");
+        RunAfterAjax(function () {
+            $(".DeleteItem").removeAttr("disabled");
+            $(".EditItem").removeAttr("disabled");
+            $("#UOM_id").val(UOM);
+            $("#Transfer_qty").trigger("change");
+            $(Tr).find(".DeleteItem").trigger("click");
+            //$(Tr).find(".UOMTxt").html($("#UOM_id").clone());
+            //$(Tr).find(".UOMTxt").find("#UOM_id").attr("style", "width:100px;margin:auto;");;
+        })
+    //    $(Tr).find(".Qty").html("<input type='number' class='QtyInput' style='width:90px;' value='" + Qty+"'>")
+    })
+</script>
+
+<script id="BodyTmp" type="text/html">
+    <tr>
+        <td class="FromStore hide" data-FromStoreId="{{FromStoreId}}">
+            {{FromStore}}
+        </td>
+        <td class="FromSite hide" data-FromSiteId="{{FromSiteId}}">
+            {{FromSite}}
+        </td>
+        <td class="ToStore hide" data-ToStoreId="{{ToStoreId}}">
+            {{ToStore}}
+        </td>
+        <td class="ToSite hide" data-ToSiteId="{{ToSiteId}}">
+            {{ToSite}}
+        </td>
+        <td class="ItemId" data-transferQty="{{TransQty}}" data-id="{{ItemId}}" data-PoId="{{PoId}}" data-OrginalQty="{{OQty}}" data-UOM="{{UOM}}">
+            {{ItemName}}
+        </td>
+        <td class="UOMTxt">
+            {{UOMTxt}}
+        </td>
+        <td class="Qty">
+            {{Qty}}
+        </td>
+        <td class="UnitCost" data-value="{{UnitCostAttr}}">
+            {{UnitCost}}
+        </td>
+        <td class="Total">
+            {{Total}}
+        </td>
+        <td class="ItemSerials hide">
+        </td>
+        <td>
+            <button class="btn btn-secondary btn-sm mr-1 EditItem" ><span class="fa fa-edit"></span></button>
+            <button class="btn btn-danger btn-sm DeleteItem" > <span class="fa fa-trash-o"></span></button>
+        </td>
+    </tr>
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

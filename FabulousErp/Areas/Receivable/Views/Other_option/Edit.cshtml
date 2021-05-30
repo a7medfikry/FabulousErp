@@ -1,0 +1,54 @@
+﻿@model List<FabulousErp.Receivable.Models.Receivable_other_option>
+
+@{
+    Layout = null;
+    int Count = 0;
+}
+
+<h4>Other_option</h4>
+
+@using (Ajax.BeginForm("Edit", "Other_option", new AjaxOptions { }))
+{
+    @Html.AntiForgeryToken()
+
+    foreach (Receivable_other_option i in Model)
+    {
+        <div class="form-horizontal clearfix MyHeight">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input value="@i.Id" type="hidden" name="other_option[@Count].Id" />
+
+            <div class="form-group" style="width:35%;">
+                <div class="col-md-12">
+                    @{
+                        Other_option_enum o = i.Option;
+                        var d = o.GetAttribute<DisplayAttribute>();
+                    }
+                    <label class="WidthAuto">
+                        @d.Name
+                    </label>
+                    <input value="@i.Option" type="hidden" name="other_option[@Count].Option" />
+                    @Html.ValidationMessageFor(model => i.Option, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.CheckBox($"other_option[{Count}].Checked", i.Checked, new { @class = "OtherOptionCheked v-middle" })
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group hide">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+            @{Count++;}
+        </div>
+    }
+
+}
+

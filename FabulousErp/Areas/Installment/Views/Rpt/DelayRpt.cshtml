@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Installment Delay Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("DelayRptRes", new AjaxOptions { OnBegin = "EmptyRes", UpdateTargetId = "Res" }))
+{
+    <div class="form-group" id="VendoreDiv">
+        <div class="col-md-10">
+            <input type="radio" value="all" class="type v-bottom" /><span> All</span>
+        </div>
+    </div>
+    <div class="form-group" id="VendoreDiv">
+        <div class="col-md-10">
+            <input type="radio" value="FromTo" class="type v-bottom" /><span> Date</span>
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label class="control-label col-md-2">From</label>
+        <div class="col-md-10">
+            <input type="date" class="form-control" name="From" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">To</label>
+        <div class="col-md-10">
+            <input type="date" class="form-control" name="To" />
+        </div>
+    </div>
+    <input name="IsPay" value="@ViewBag.IsPay.ToString().ToLower()" type="hidden"/>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<div id="Res">
+
+</div>
+<script>
+    function EmptyRes() {
+        $("#Res").empty();
+    }
+    $("input[type='radio']").click(function () {
+        if ($(this).val() == "all") {
+            $("input[type='date']").attr("disabled", "disabled")
+        } else {
+            $("input[type='date']").removeAttr("disabled");
+        }
+    })
+</script>

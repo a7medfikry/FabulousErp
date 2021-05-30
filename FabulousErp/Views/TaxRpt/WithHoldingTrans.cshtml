@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "WithHoldingTrans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>WithHolding Transtion</h2>
+<a class="btn btn-info" onclick="ToMyExcel()">Export To Excel</a>
+
+@using (Ajax.BeginForm("WithHoldingTransRes", "TaxRpt", new AjaxOptions { UpdateTargetId = "Tbl" }, new { id = "" }))
+{
+    @Html.DropDownList("Year", ViewBag.Year as SelectList, new { @class = "form-control d-inline-block" })
+    @Html.DropDownList("Period", ViewBag.Period as SelectList, "All", new { @class = "form-control d-inline-block" })
+    <button class="btn btn-success" type="submit">Search</button>
+}
+<div id="Tbl" style="overflow:auto;">
+
+</div>
+<script>
+    function ToMyExcel() {
+        ExportToExcel('WithHolding', null, false, function () {
+            $("#Tbl").find(".hide").addClass("IsHide");
+            $(".TdDocType").each(function () {
+                $(this).text($(this).attr("data-value"))
+            })
+            $("#Tbl").find(".IsHide").removeClass("hide");
+        }, function () {
+            $("#Tbl").find(".IsHide").addClass("hide");
+            $(".TdDocType").each(function () {
+                $(this).text($(this).attr("data-text"))
+            })
+        })
+    }
+</script>

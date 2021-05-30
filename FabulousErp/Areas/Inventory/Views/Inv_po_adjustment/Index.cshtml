@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-group">
+    @using (Ajax.BeginForm("GetReceivePoItems", "Inv_receive_po_items", new AjaxOptions { UpdateTargetId = "ReceivePoItems", OnBegin = "Empty", OnSuccess = "AddBtn" }))
+    {
+        <label class="control-label col-md-2">Po</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Po", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+        </div>
+        <div class="col-md-10">
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+    }
+</div>
+<section id="ReceivePoItems">
+</section>
+<section style="margin-top:40px;" class="hide">
+    <div class="form-group">
+        <label class="control-label col-md-2"> Net Amount </label>
+        <div class="col-md-10">
+            <input id="TNetAmount" name="TNetAmount" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Trade Discount </label>
+        <div class="col-md-10">
+            <input id="TTradeDiscount" name="TTradeDiscount" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Tax </label>
+        <div class="col-md-10">
+            <input id="TTax" name="TTax" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Fright </label>
+        <div class="col-md-10">
+            <input id="TFright" name="TFright" class="form-control maskmoney" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Total </label>
+        <div class="col-md-10">
+            <input id="TTotal" name="TTotal" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+</section>
+<section id="PoRecItems">
+    @*@Html.Action("Create", "Inv_receive_po_items", new { Sales = ViewBag.Sales })*@
+    <label id="ShowError" class="col-sm-12 text-danger"></label>
+</section>
+<div class="form-group col-md-3 ">
+    <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+</div>
+<h4 id="TCGE-GlobalError"></h4>
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(function () {
+        MaskMoneyTxt("@FabulousErp.Business.GetCompanyId()", null, "EGP");
+    })
+    function Empty() {
+        $("#ReceivePoItems").empty();
+        $.ajax({
+            url: "/Inventory/Inv_receive_po/GetPoJvNumber?Po=" + $("#Po").val(),
+            method: "POST",
+            success: function (data) {
+                EmptyGlTransaction();
+               // GetJvTransaction(data, "@FabulousErp.Business.GetCompanyId()",null);
+                GetJvTransactionEdit(data, "@FabulousErp.Business.GetCompanyId()",null,false);
+
+            }
+        })
+    }
+    function AddBtn() {
+        $("#ReceivePoItems").find("#itemsBody").find("tr").each(function () {
+            var PoId = $(this).attr("data-id")
+            $(this).append('<button data-id="' + PoId + '" class="btn btn-secondary btn-sm mr-1 EditPoItem" ><span class="fa fa-edit"></span></button>')
+            $(this).append('<button class= "btn btn-danger btn-sm DeletePoItem"  data-id="' + PoId + '"> <span class="fa fa-trash-o"></span></button>')
+        })
+        ReTranslate();
+    }
+    $(document).on("click", ".AdjustQty", function () {
+        $.ajax({
+            url: "/Inventory/Inv_receive_po_items/AdjustPoItem?PoId=" + $(this).attr("data-id") + "&NewQty=" + $(this).parents("tr").find(".Qty").val(),
+            method: "POST",
+            success: function (data) {
+                ModelMsg("Updated", "Updated", true);
+            }
+        })
+    })
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/PoRecive.js")
+
+<section class="hide">
+    @Html.Action("MainTax", "C_TaxTransaction", new { area = "" })
+    <input id="TCT-taxGroupID" value="1" type="hidden" />
+    <input id="TaxTable" type="hidden" />
+    <input id="AllowTaxDuple" value="true" />
+</section>

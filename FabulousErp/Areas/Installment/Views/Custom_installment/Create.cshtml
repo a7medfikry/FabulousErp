@@ -1,0 +1,46 @@
+﻿@model FabulousDB.Models.Custom_installment
+
+@{
+    ViewBag.Title = "Create Custom installment";
+
+    Layout = null; //"~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("Create",new AjaxOptions { }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Custom_no, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Custom_no, new { htmlAttributes = new { @class = "form-control", id = "" } })
+                @Html.ValidationMessageFor(model => model.Custom_no, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Percetage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Percetage, new { htmlAttributes = new { @class = "form-control", id = "" } })
+                @Html.ValidationMessageFor(model => model.Percetage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Installment_setting_id, "Installment setting", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Installment_setting_id, new { htmlAttributes = new { @class = "form-control Installment_setting_id",id="" } })
+
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default SubmitCustomSetting" />
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Add Dist. Accounts To Branch Account";
+    ViewBag.FormCode = "SDATBA";
+}
+
+<div class="container-fluid">
+    <span id="AccountChartID" class="hide-normal"></span>
+    <span id="GlobalError" class="text-error"></span>
+
+    <div class="form-row mb-1">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "BranchID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="BranchName" disabled />
+            </div>
+        }
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Account ID : <i class="star">*</i> </label>
+        <div class="col-md-2">
+            @Html.DropDownList("AccountID", new SelectList(""), "-Choose-", new { @id = "AccountID", @class = "form-control form-control-sm" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Account Name : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="AccountName" disabled />
+        </div>
+
+        <label class="col-form-label col-form-label-sm col-md-2"> Analytic Account ID : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="AnalyticAccountID" disabled />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Dist. Account ID </label>
+        <div class="col-md-2">
+            @Html.DropDownList("DistAccountID", new SelectList(""), "-Choose-", new { @id = "DistAccountID", @class = "form-control form-control-sm" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Dist. Account Name : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="DistAccountName" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Percentage : </label>
+        <div class="col-md-2">
+            @Html.TextBox("Percentage", null, new { @class = "form-control form-control-sm", @id = "Percentage", @maxlength = "3", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" })
+        </div>
+    </div>
+
+    <div class="row mb-1">
+        <div class="col-12">
+            <button type="button" class="btn btn-primary btn-sm" id="AddDistAccountBtn">Add</button>
+            <label id="AddError" class="text-error"></label>
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered" id="DistAccountTbl">
+        <thead>
+            <tr>
+                <th>Dist. Account ID</th>
+                <th>Dist. Account Name</th>
+                <th>percentage %</th>
+                <th>Action (Delete)</th>
+            </tr>
+        </thead>
+        <tbody id="DistAccountTblBody"></tbody>
+    </table>
+
+    <!-- Pop-up Modal -->
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="popUpHearder">Delete Account Distribution</h4>
+                    <a href="#" class="close" data-dismiss="modal"> <i class="fa fa-window-close"></i> </a>
+                    <label id="AccountDistributionID" class="hide-normal"></label>
+                </div>
+                <div class="modal-body">
+                    <p id="popUpContent"> Are You Sure? You Want To Delete This Account Distribution..!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CancelDelete" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="CompDeletebtn" class="btn btn-danger btn-sm" onclick="CompConfirmDelete()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts Here!! -->
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Branch/B_Account/B_AddDistToAccount/BranchAccountAddDist.js")

@@ -1,0 +1,98 @@
+﻿@model List<Receivable.Controllers.AgingClasic>
+@{
+    Layout = null;
+    decimal Balance = 0;
+    decimal FirstBalance = 0;
+    decimal SecondBalance = 0;
+}
+    <table style="width:100%;">
+        <thead>
+            <tr>
+                <th>Jv Number</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Doc Type</th>
+                <th>Doc Num</th>
+                <th>Currency</th>
+                <th>Oringal Amount</th>
+                <th>Rate</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Receivable.Controllers.AgingClasic i in Model.OrderByDescending(x => x.IsFirst).ThenBy(x => x.Posting_date))
+            {
+                <tr>
+                    <td>
+                        @i.JVNo
+                    </td>
+                    <td>
+                        @i.Posting_date.ToShortDateString()
+                    </td>
+                    <td>
+                        @i.Desc
+                    </td>
+                    <td>
+                        @i.Doc_type
+                    </td>
+                    <td>
+                        @i.Doc_num
+                    </td>
+                    <td>
+                        @i.Currency
+                    </td>
+                    <td>
+                        @i.Orginal_amount.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Rate.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Debit.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Credit.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+
+                        @if (i.IsFirst)
+                        {
+                            @i.Balance.ToString(FabulousErp.Business.GetDecimalNumber())
+                            FirstBalance= SecondBalance = i.Balance;
+                        }
+                        else
+                        {
+                            Balance += i.Debit - i.Credit+ SecondBalance;
+                            SecondBalance = 0;
+                            @Balance.ToString(FabulousErp.Business.GetDecimalNumber())
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        <tr style="font-weight:bold;">
+            <td colspan="8">
+                Total
+            </td>
+            <td>
+                @Model.Sum(x => x.Debit).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+            <td>
+                @Model.Sum(x => x.Credit).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+            <td>
+                @if (!Model.Any())
+                {
+                    @FirstBalance.ToString(FabulousErp.Business.GetDecimalNumber())
+                }
+                else
+                {
+                    @((Model.Sum(x => x.Debit) - Model.Sum(x => x.Credit)).ToString(FabulousErp.Business.GetDecimalNumber()))
+                }
+            </td>
+        </tr>
+    </table>

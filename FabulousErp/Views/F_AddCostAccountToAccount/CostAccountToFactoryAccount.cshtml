@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Add Cost Accounts To Factory Account";
+    ViewBag.FormCode = "SCATFA";
+}
+<div class="container-fluid">
+    <span id="Type" class="hide-normal"></span>
+    <span id="GlobalError" class="text-error"></span>
+    <span id="AccountChartID" class="hide-normal"></span>
+
+    <div class="form-row mb-1">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "FactoryID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="FactoryName" disabled />
+            </div>
+        }
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Account ID : <i class="star">*</i> </label>
+            @Html.DropDownList("AccountID", new SelectList(""), "-Choose-", new { @id = "AccountID", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-6">
+            <label class="col-form-label col-form-label-sm"> Account Name : </label>
+            <input type="text" class="form-control form-control-sm" id="AccountName" disabled />
+        </div>
+        <div class="col-md-3">
+            <div id="CC" class="hide-normal">
+                <label class="col-form-label col-form-label-sm"> Cost Center ID : </label>
+                <input type="text" class="form-control form-control-sm" id="CostCenterID" disabled />
+            </div>
+            <div id="MCC" class="hide-normal">
+                <label class="col-form-label col-form-label-sm"> Main Cost Center ID : </label>
+                <input type="text" class="form-control form-control-sm" id="MainCostCenterID" disabled />
+            </div>
+        </div>
+    </div>
+
+    <!-- Cost Center Area -->
+    <div id="TypeCostCenter" class="hide-normal">
+        <div class="form-row mb-1">
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Cost Account ID : </label>
+                @Html.DropDownList("CostAccountID", new SelectList(""), "-Choose-", new { @id = "CostAccountID", @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-6">
+                <label class="col-form-label col-form-label-sm"> Cost Account Name : </label>
+                <input type="text" class="form-control form-control-sm" id="CostAccountName" disabled />
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Percentage % : </label>
+                @Html.TextBox("Percentage", null, new { @class = "form-control form-control-sm", @id = "Percentage", @maxlength = "3", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary btn-sm" id="AddCCAccountbtn">Add</button>
+                <span id="AddCCAccountbtnError" class="text-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Cost Center -->
+    <div id="TypeMainCostCenter" class="hide-normal">
+        <div class="form-row">
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Cost Center ID :</label>
+                @Html.DropDownList("CostCenterIDFromMain", new SelectList(""), "-Choose-", new { @id = "CostCenterIDFromMain", @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-6">
+                <label class="col-form-label col-form-label-sm"> Cost Center Name : </label>
+                <input type="text" class="form-control form-control-sm" id="CostCenterNameFromMain" disabled />
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Percentage % : </label>
+                <input type="text" class="form-control form-control-sm" id="PercentageCostCenterID" disabled />
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Cost Account ID : </label>
+                @Html.DropDownList("CostAccountIDFromMain", new SelectList(""), "-Choose-", new { @id = "CostAccountIDFromMain", @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-6">
+                <label class="col-form-label col-form-label-sm"> Cost Account Name : </label>
+                <input type="text" class="form-control form-control-sm" id="CostAccountNameFromMain" disabled />
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Percentage % : <i class="star">*</i> </label>
+                @Html.TextBox("PercentageFromMain", null, new { @class = "form-control form-control-sm", @id = "PercentageFromMain", @maxlength = "3", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" })
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary btn-sm" id="AddMainCCAccountbtn">Add</button>
+            <span id="AddMainCCAccountbtnError" class="text-error"></span>
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap hide-normal" id="CostAccountTbl">
+        <thead>
+            <tr>
+                <th>Cost Account ID</th>
+                <th>Cost Account Name</th>
+                <th>percentage %</th>
+                <th>Action (Delete)</th>
+            </tr>
+        </thead>
+        <tbody id="CostAccountTblBody"></tbody>
+    </table>
+
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="popUpHearder">Delete Account Distribution</h4>
+                    <a href="#" class="close" data-dismiss="modal"> <i class="fa fa-window-close"></i> </a>
+                    <label id="CostCenterAccountID" class="hide-normal"></label>
+                </div>
+                <div class="modal-body">
+                    <p id="popUpContent"> Are You Sure? You Want To Delete This Account Distribution..!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CancelDelete" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="CompDeletebtn" class="btn btn-danger btn-sm" onclick="CompConfirmDelete()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Scripts Here !! -->
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_Account/F_AddCostAccountToAccount/FactoryAccountAddCostCenter.js")

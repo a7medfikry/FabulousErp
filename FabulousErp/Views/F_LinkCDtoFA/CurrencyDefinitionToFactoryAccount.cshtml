@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Link Currency Definition To Factory Account";
+    ViewBag.FormCode = "CDTFA";
+}
+<div class="container-fluid">
+    <span id="CDTFA-AccessError" class="text-danger"></span>
+
+    <div class="form-row mb-1">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <div class="col-md-2">
+                <label> Factory ID : <i class="star">*</i> </label>
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("CDTFA-FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "CDTFA-FactoryID", @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-2">
+                <label for="FactoryName"> Factory Name : </label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="CDTFA-FactoryName" class="form-control form-control-sm" disabled />
+            </div>
+        }
+    
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-2">
+            <label> Currency : <span class="star">*</span> </label>
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("CDTFA-AccountCurrencyID", ViewBag.CurrencyList as SelectList, "-Choose-", new { @id = "CDTFA-AccountCurrencyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+        </div>
+        <div class="col-md-2">
+            <label> Currency Name : </label>
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("CDTFA-AccountCurrencyName", null, new { @id = "CDTFA-AccountCurrencyName", @disabled = "disabled", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-2">
+            <label> Profit Account ID : <i class="star">*</i> </label>
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("CDTFA-AccountID", new SelectList(""), "-Choose-", new { @id = "CDTFA-AccountID", @class = "form-control form-control-sm CDTFA-rAccountID" })
+        </div>
+        <div class="col-md-2">
+            <label> Account Name : </label>
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("CDTFA-AccountName", null, new { @id = "CDTFA-AccountName", @disabled = "disabled", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-2">
+            <label> Loss Account ID : <i class="star">*</i> </label>
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("CDTFA-AccountID2", new SelectList(""), "-Choose-", new { @id = "CDTFA-AccountID2", @class = "form-control form-control-sm CDTFA-rAccountID" })
+        </div>
+        <div class="col-md-2">
+            <label> Account Name : </label>
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("CDTFA-AccountName2", null, new { @id = "CDTFA-AccountName2", @disabled = "disabled", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="CDTFA-AddAccToCurr" class="btn btn-primary btn-sm btn-block"> Save </button>
+            <button type="button" id="CDTFA-UpdateAccToCurr" class="btn btn-primary btn-sm btn-block hide-normal"> Update </button>
+        </div>
+    </div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_Account/AddCurrencyDeToFAccount.js")

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<FabulousModels.ViewModels.IDR>
+
+@{
+    ViewBag.Title = "Installment Delay Report";
+    Layout = null;
+}
+
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th>
+                    @if (ViewBag.IsPay)
+                    {
+                      <span>  Vedore Name</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayNameFor(model => model.Customer_name)
+                    }
+                </th>
+                <th>
+                    Late
+                </th>
+                <th>
+                    Late amount
+                </th>
+                <th>
+                    Collected
+                </th>
+                <th>
+                    Collected amount
+                </th>
+                <th>
+                    UnDue
+                </th>
+                <th>
+                    UnDue amount
+                </th>
+                <th>
+                    @if (ViewBag.IsPay)
+                    {
+                    <span>  Vedore phone</span>
+                    }
+                    else
+                    {
+                      <span>  Customer phone</span>
+                    }
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.GroupBy(x=>x.Customer_name).Select(x=>x.FirstOrDefault()))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Late_installment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Late_installment_amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Collected_installment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Collected_installment_amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnDue_installment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnDue_installment_amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer_phone)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>

@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "Factory User Forms Access";
+    ViewBag.FormCode = "SFUAP";
+}
+
+<div class="container-fluid">
+    <section>
+        @Html.Partial("FormsAccessHeader")
+    </section>
+
+    <div class="hide-normal mt-2" id="FormsTable">
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#SettingForms" role="tab" aria-selected="true"> Setting Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#InquiryForms" role="tab" aria-selected="true"> Inquiry Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#TransactionForms" role="tab" aria-selected="true"> Transaction Forms </a>
+            </li>
+        </ul>
+
+        <div class="tab-content bg-light">
+
+            <div id="SettingForms" class=" tab-pane container-fluid p-3 active fade show" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-18 font-weight-bold">Setting Forms @Html.CheckBox("CheckAllSetting", false, new { @id = "CheckAllSetting" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>SFAA</td>
+                            <td>Factory Analytic Accounts</td>
+                            <td>@Html.CheckBox("SFAA", false, new { @id = "SFAA", @class = "S CB", @value = "SFAA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SFCC</td>
+                            <td>Factory Cost Center</td>
+                            <td>@Html.CheckBox("SFCC", false, new { @id = "SFCC", @class = "S CB", @value = "SFCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>SFAAD</td>
+                            <td>Create Factory Analytic Account Distribution</td>
+                            <td>@Html.CheckBox("SFAAD", false, new { @id = "SFAAD", @class = "S CB", @value = "SFAAD" })</td>
+                        </tr>
+                        <tr>
+                            <td>SFMCC</td>
+                            <td>Create Factory Main Cost Center</td>
+                            <td>@Html.CheckBox("SFMCC", false, new { @id = "SFMCC", @class = "S CB", @value = "SFMCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>SUFMCC</td>
+                            <td>Update Factory Main Cost Center</td>
+                            <td>@Html.CheckBox("SUFMCC", false, new { @id = "SUFMCC", @class = "S CB", @value = "SUFMCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>SFCCA</td>
+                            <td>Create Factory Cost Center Accounts</td>
+                            <td>@Html.CheckBox("SFCCA", false, new { @id = "SFCCA", @class = "S CB", @value = "SFCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SFCA</td>
+                            <td>Factory Create Account</td>
+                            <td>@Html.CheckBox("SFCA", false, new { @id = "SFCA", @class = "S CB", @value = "SFCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SDATFA</td>
+                            <td>Add Dist. Accounts To Factory Account</td>
+                            <td>@Html.CheckBox("SDATFA", false, new { @id = "SDATFA", @class = "S CB", @value = "SDATFA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SCATFA</td>
+                            <td>Add Cost Accounts To Factory Account</td>
+                            <td>@Html.CheckBox("SCATFA", false, new { @id = "SCATFA", @class = "S CB", @value = "SCATFA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SFCB</td>
+                            <td>Factory CheckBook Setting</td>
+                            <td>@Html.CheckBox("SFCB", false, new { @id = "SFCB", @class = "S CB", @value = "SFCB" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">CDTFA</td>
+                            <td width="60%">Link Currency Definition To Factory Account</td>
+                            <td width="20%">@Html.CheckBox("CDTFA", false, new { @id = "CDTFA", @class = "S CB", @value = "CDTFA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SFLAA</td>
+                            <td width="60%">Factory Link Analytic To Account</td>
+                            <td width="20%">@Html.CheckBox("SFLAA", false, new { @id = "SFLAA", @class = "S CB", @value = "SFLAA" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div id="InquiryForms" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-18 font-weight-bold">Inquiry Forms @Html.CheckBox("CheckAllInquiry", false, new { @id = "CheckAllInquiry" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>IFAA</td>
+                            <td>List Of Factory Analytic Account</td>
+                            <td>@Html.CheckBox("IFAA", false, new { @id = "IFAA", @class = "I CB", @value = "IFAA" })</td>
+                        </tr>
+                        <tr>
+                            <td>IFCC</td>
+                            <td>List Of Factory Cost Center</td>
+                            <td>@Html.CheckBox("IFCC", false, new { @id = "IFCC", @class = "I CB", @value = "IFCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>IFADA</td>
+                            <td>List Of Factory Analytic Distribution</td>
+                            <td>@Html.CheckBox("IFADA", false, new { @id = "IFADA", @class = "I CB", @value = "IFADA" })</td>
+                        </tr>
+                        <tr>
+                            <td>IFCCA</td>
+                            <td>List Of Factory Cost Center Accounts</td>
+                            <td>@Html.CheckBox("IFCCA", false, new { @id = "IFCCA", @class = "I CB", @value = "IFCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>IFT</td>
+                            <td>Factory Tax</td>
+                            <td>@Html.CheckBox("IFT", false, new { @id = "IFT", @class = "I CB", @value = "IFT" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div id="TransactionForms" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-18 font-weight-bold">Transaction Forms @Html.CheckBox("CheckAllTransaction", false, new { @id = "CheckAllTransaction" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>TFCB</td>
+                            <td>Factory Create Batch</td>
+                            <td>@Html.CheckBox("TFCB", false, new { @id = "TFCB", @class = "T CB", @value = "TFCB" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Table Area End -->
+
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Copy Access From Another User</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4 id="ModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="form-group">
+                            User ID :
+                            @Html.DropDownList("TargetUserID", new SelectList(""), "-Choose-", new { @id = "TargetUserID", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            User Name :
+                            <label id="TargetUserName"></label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="ConfirmCopy()">Copy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="SaveBtn" class="hide-normal">
+        <button type="button" class="btn btn-success btn-sm" onclick="Savebtn()">Save</button>
+        <label id="SavedSuccess" style="color:green"></label>
+    </div>
+
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/SaveBtnAccess.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/HandleRB.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/UserCopyAccess.js")

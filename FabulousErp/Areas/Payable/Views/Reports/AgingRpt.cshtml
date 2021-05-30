@@ -1,0 +1,154 @@
+﻿@{ 
+    ViewBag.Title = "Aging Report";
+}
+<section>
+    <button onclick="PrintThis('Tbl', false, true, null, null, '', false, true);" class="btn btn-primary">Print</button>
+    <button class="btn btn-info" onclick="ExportToExcel('Aging Report')">Export To Excel</button>
+
+    <div class=" MarginB5 d-inline-block">
+        <input type="radio" name="DetailsSumary" value="Details" class="v-middle" checked="checked" />
+        <label class="v-middle MarginB1">Details</label>
+
+        <input type="radio" name="DetailsSumary" value="Sammery" class="v-middle" />
+        <label class="v-middle MarginB1">Summary</label>
+    </div>
+    <div class=" MarginB5  d-inline-block" style="width:50%;padding-left:30px;padding-right:30px;">
+        <div style="width:100%;">
+            <label class=" clearfix MarginR20">Report By</label>
+            <input type="radio" name="SortBy" value="Vendor" class="v-middle CV" checked="checked" />
+            <label class="v-middle MarginB1 ">Vendor ID</label>
+
+            <input type="radio" name="SortBy" value="Class" class="v-middle CV" />
+            <label class="v-middle MarginB1 ">Class ID</label>
+        </div>
+    </div>
+    <div class="VendoreDiv MarginB5 clearfix" style="width:100%;">
+        <label class=" clearfix MarginR20">Vendor ID</label>
+
+
+        <label class=" clearfix">From</label>
+        <div class="col-sm-3">
+            @Html.DropDownList("VendoreFrom", ViewBag.Creditor as SelectList, "", new { @class = "form-control d-inline-block" })
+        </div>
+
+        <label class=" clearfix">To</label>
+        <div class="col-sm-3">
+            @Html.DropDownList("VendoreTo", ViewBag.Creditor as SelectList, "", new { @class = "form-control d-inline-block" })
+        </div>
+
+    </div>
+        <div class=" MarginB5 clearfix ClassDiv" style="width:100%;">
+            <label class=" clearfix MarginR20">Class ID</label>
+            <label class=" clearfix">From</label>
+            @Html.DropDownList("ClassFrom", ViewBag.Class as SelectList, "", new { @class = "form-control d-inline-block" })
+
+            <label class=" clearfix">To</label>
+            @Html.DropDownList("ClassTo", ViewBag.Class as SelectList, "", new { @class = "form-control d-inline-block" })
+        </div>
+        <div class=" MarginB5 clearfix" style="width:100%;">
+            <div style="width:100%;">
+                <label class=" clearfix MarginR20">Aging</label>
+                <input type="radio" name="Aging" value="Vendor" class="v-middle" checked="checked" />
+                <label class="v-middle MarginB1 MarginR20">All</label>
+
+                <label class="v-middle MarginB1 MarginR20 ">Start Date</label>
+                <input type="date" class="form-control d-inline-block" id="From" />
+                <label class="v-middle MarginB1 MarginR20">End Date</label>
+                <input type="date" class="form-control d-inline-block" id="To" />
+
+            </div>
+        </div>
+        <div class=" MarginB5 clearfix" style="width:100%;">
+            <div>
+                <label class=" clearfix MarginR20">Include</label>
+
+                <input type="checkbox" name="Include" value="Zero" class="v-middle" />
+                <label class="v-middle MarginB1">Zero Balance</label>
+
+                <input type="checkbox" name="Include" value="Debit" class="v-middle" />
+                <label class="v-middle MarginB1">Debit Balance</label>
+
+                <input type="checkbox" name="Include" value="UnPosted" class="v-middle" />
+                <label class="v-middle MarginB1">UnPosted Transaction</label>
+
+                <input type="checkbox" name="Include" value="Fully" class="v-middle" />
+                <label class="v-middle MarginB1">Fully Assigned</label>
+
+                <input type="checkbox" name="Include" value="MultiCurrency" class="v-middle" />
+                <label class="v-middle MarginB1">MultiCurrency Info</label>
+            </div>
+        </div>
+
+        <div class=" MarginB5 clearfix CurrencyDiv" style="width:100%;display:none;">
+            <select class="MultiDev form-control d-inline-block">
+                <option value="multiple">multiple</option>
+                <option value="divide">divide</option>
+            </select>
+            <label class=" MarginB1">Currency</label>
+            @Html.DropDownList("Currency", ViewBag.Currency as SelectList, "", new { @class = "form-control d-inline-block OCurrencyId" })
+            <label class="MarginB1">Rate</label>
+
+            <input class="CurrancyRate" type="number" step="0.01" />
+        </div>
+</section>
+<div>
+    <button id="Search" class="btn btn-success MarginB5">Search</button>
+</div>
+<section id="Tbl">
+</section>
+<script>
+    function ThisPrint() {
+        var Ids = [];
+        var Heads = [];
+        $("#Tbl").find("table:visible").each(function () {
+            Ids.push($(this).attr("id"));
+            Heads.push($(this).prev("h2").text())
+        })
+        tablesToExcel(Ids, ['First'], Heads, 'AgingReport.xls')
+    }
+    $("input[value='MultiCurrency']").on("click", function () {
+        if ($(this).is(":checked")) {
+            $(".CurrencyDiv").show();
+        } else {
+            $(".CurrencyDiv").hide();
+
+        }
+    })
+    $(document).on("click", ".CV", function () {
+        if ($(document).find(".CV:checked").val() == "Vendor") {
+            $(".ClassDiv").hide();
+            $(".VendoreDiv").show();
+        } else if ($(document).find(".CV:checked").val() == "Class"){
+            $(".ClassDiv").show();
+            $(".VendoreDiv").hide();
+        }
+    })
+    $(function () {
+        $(".CV[value='Vendor']").click();
+    })
+
+    $("#Search").click(function () {
+        var Include = [];
+        $("input[name='Include']:checked").each(function () {
+            Include.push({ Include: $(this).val() })
+        });
+        
+        var IncludeParm = QueryStringSerialize(Include);
+        $.ajax({
+            url: "@Url.Action("AgingRptTbl")?DetailsSumary=" + $("input[name=DetailsSumary]:checked").val() + "&SortBy=" + $("input[name=SortBy]:checked").val()
+            +"&From="+$("#From").val() + "&To=" + $("#To").val() 
+            +"&"+IncludeParm+"&VendoreFrom=" + $("#VendoreFrom").find("option:selected").val() 
+                + "&VendoreTo=" + $("#VendoreTo").find("option:selected").val() + "&ClassFrom=" + $("#ClassFrom option:selected").val()
+                + "&ClassTo=" + $("#ClassTo option:selected").val() + "&MultiDev=" + $(".MultiDev").find("option:selected").val()
+                + "&OCurrencyId=" + $(".OCurrencyId option:selected").val() + "&ORate=" + $(".CurrancyRate").val(),
+            contentType: "html",
+            beforeSend: function () {
+                $("#Tbl").empty();
+            },
+            success: function (data) {
+                $("#Tbl").html(data)
+                ReTranslate();
+            }
+        })
+    })
+</script>

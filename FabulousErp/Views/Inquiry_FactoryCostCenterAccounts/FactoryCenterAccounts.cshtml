@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "List of Factory Cost Center Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IFCCA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <span class="col-md-12 text-error" id="IBCCA-errors"></span>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "IFCCA-FactoryID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="IFCCA-factoryname" disabled />
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("BranchAnalyticID", new SelectList(""), "-Choose-", new { @id = "IFCCA-FactoryCostID", @class = "form-control form-control-sm", @disabled = "disabled" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="IFCCA-costname" disabled />
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="30%"> Cost Account ID </th>
+                <th width="70%"> Cost Account Name </th>
+            </tr>
+        </thead>
+        <tbody id="IFCCA-append-data"></tbody>
+    </table>
+</div>
+
+
+
+
+<!-- Scripts here -->
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/Financial-Accounting.js")
+
+
+
+
+

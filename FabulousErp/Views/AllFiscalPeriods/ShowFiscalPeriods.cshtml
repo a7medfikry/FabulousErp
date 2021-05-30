@@ -1,0 +1,85 @@
+﻿@model FabulousModels.ViewModels.Settings.Financial.GeneralSetting.FiscalPeriods.FiscalDefandPeriods
+@{
+    ViewBag.Title = "Show Fiscal Periods";
+    ViewBag.FormCode = "ISFP";
+}
+
+@using (Html.BeginForm("ShowFiscalPeriods", " AllFiscalPeriods", FormMethod.Post, new { id = "Form1" }))
+{
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <label class="col-md-3 col-form-label col-form-label-sm"> Search By Fiscal Name: </label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(x => x.FiscalDefinition_Table.Fiscal_Year_ID, ViewBag.CodeList as SelectList, "select", new { id = "text", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped display nowrap" id="myTable">
+            <caption> Fiscal Year Periods </caption>
+            <thead>
+                <tr>
+                    <td> Fiscal Year Name </td>
+                    <td> Period Number </td>
+                    <td> Period Start Date </td>
+                    <td> Period End Date </td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Fiscal_Year_List.Count; i++)
+                {
+                    <tr class="Search">
+                        <td>
+                            @Html.HiddenFor(x => Model.Fiscal_Year_List[i].ID)
+                            @Html.TextBoxFor(x => Model.Fiscal_Year_List[i].Fiscal_Year_Name, new { @disabled = "disabled", @class = "form-control form-control-sm" })
+                        </td>
+                        <td> @Html.TextBoxFor(x => Model.Fiscal_Year_List[i].Period_No, new { @disabled = "disabled" , @class = "form-control form-control-sm" })</td>
+                        <td> @Html.EditorFor(x => Model.Fiscal_Year_List[i].Period_Start_Date, new { htmlAttributes = new { @class = "form-control form-control-sm", @type = "date", @disabled = "disabled" } })</td>
+                        <td> @Html.EditorFor(x => Model.Fiscal_Year_List[i].Period_End_Date, new { htmlAttributes = new { @class = "form-control form-control-sm", @type = "date", @disabled = "disabled" } })</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot class="text-center fs-14 font-italic">
+                <tr>
+                    <th> Empty </th>
+                    <th> Empty </th>
+                    <th> Empty </th>
+                    <th> Empty </th>
+                </tr>
+            </tfoot>
+        </table>
+        <table class="table table-bordered table-striped display nowrap" id="myTable">
+            <caption> Fiscal Year Adjustment Period </caption>
+            <thead>
+                <tr>
+                    <td> Fiscal Year Name </td>
+                    <td> Period Number </td>
+                    <td> Period Date </td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Fiscal_Adjustment_List.Count; i++)
+                {
+                <tr class="Search">
+                    <td>
+                        @Html.HiddenFor(x => Model.Fiscal_Adjustment_List[i].ID)
+                        @Html.TextBoxFor(x => Model.Fiscal_Adjustment_List[i].Fiscal_Year_Name, new { @disabled = "disabled", @class = "form-control form-control-sm" })
+                    </td>
+                    <td> @Html.TextBoxFor(x => Model.Fiscal_Adjustment_List[i].Period_No, new { @disabled = "disabled", @class = "form-control form-control-sm" })</td>
+                    <td> @Html.EditorFor(x => Model.Fiscal_Adjustment_List[i].Period_Start_Date, new { htmlAttributes = new { @class = "form-control form-control-sm", @type = "date", @disabled = "disabled" } })</td>
+                </tr>
+                }
+            </tbody>
+            <tfoot class="text-center fs-14 font-italic">
+                <tr>
+                    <th> Empty </th>
+                    <th> Empty </th>
+                    <th> Empty </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+}
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/FiscalPeriods/ShowFiscalPeriods/Search.js")
+

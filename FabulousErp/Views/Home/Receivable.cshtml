@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset class="container-fluid home-page">
+    <!-- Transactions Field -->
+    <div class="transactions-field">
+        <div class="transactions-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Transactions
+                </div>
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        @*<li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-itPayem">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>*@
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="transactions-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                              
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                 
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="Receivable" data-parent=".transactions-accordion">
+
+                                        <li>
+                                            <a href="/Receivable/Receivable_transaction/Create">Receivable transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Receivable_payment/Create">Receivable payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Assign_Receivable_doc/Create">Assign Receivable Doc</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Receivable_transaction?section=void">Void Receivable Transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Receivable_payment?section=void">Void Payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Assign_Receivable_doc?section=void">Void Assign</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                               
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ****** Setting Field ****** -->
+    <div class="setting-field">
+        <div class="setting-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Setting
+                </div>
+                <div class="card-header">
+                   
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Accounting -->
+                        <div id="accounting-company" class="active tab-pane fade show container">
+                            <ul class="list-unstyled p-1">
+                              
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                    <a  data-toggle="" role="link" aria-expanded="true">
+                                        Receivable
+                                        <i class="fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                    <ul class=" list-group list-unstyled" data-toggle="" data-parent=".setting-accordion" id="setting-Receivable">
+                                        <li>
+                                            <a href="/Receivable/Genral_setting/Edit">Genral setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Group_setting">Receivable Group setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Creditor_setting">Customer setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Payment_term">Payment term</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Shipping_method">Shipping Method</a>
+                                        </li>
+                                    </ul>
+                                </li>
+     
+                             
+                            </ul>
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Inquiry Field ********** -->
+    <div class="inquiry-field">
+        <div class="inquiry-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Inquiry
+                </div>
+              
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="inquiry-company" class="tab-pane active show fade container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                    <a  data-toggle="" role="link" aria-expanded="true">
+                                        Receivable
+                                        <i class="fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="Receivable-Inquiry" data-parent=".transactions-accordion">
+                                        <li>
+                                            <a href="/Receivable/Receivable_transaction?section=Inquiry">Today Receivable transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Receivable_payment?section=Inquiry">Today Receivable payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Assign_Receivable_doc?section=Inquiry">Today Assign Doc</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Reports/VendoreBalance?section=Report">Customer  Balance</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Reports/VendoreCurrentActivtiy?section=Report">Customer Current Activtiy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Reports/VendoreCurrentActivtiy?section=Report&LastYear=true">Customer Last Activtiy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Installment/Rpt/InstallmentRpt?Sec=Rec">Installment Inquiry</a>
+                                        </li>
+                                    </ul>
+                                </li>
+       
+                           
+                            </ul>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Report Field ********** -->
+    <div class="report-field">
+        <div class="report-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Reports
+                </div>
+             
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="report-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                   
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="report-Receivable" data-parent=".report-accordion">
+                                        <li>
+                                            <a href="/Receivable/Receivable_transaction?section=Report">Daily Receivable transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Receivable_payment?section=Report">Daily Receivable payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Assign_Receivable_doc?section=Report">Daily Assign Doc</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Reports/AgingRpt">Aging Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Receivable/Reports/ClasicAging">Clasic Aging Report</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                          
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

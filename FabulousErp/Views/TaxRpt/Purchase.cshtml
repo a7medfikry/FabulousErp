@@ -1,0 +1,46 @@
+﻿@model List<FabulousErp.Tax.Purches_tax_rpt>
+@{
+    if (Request["Tax"] != "Sales")
+    {
+        ViewBag.Title = "Purchase Vat";
+    }
+    else
+    {
+        ViewBag.Title = "Sales";
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Ajax.BeginForm("PurchaseRes", "Tax", new AjaxOptions { UpdateTargetId = "Tbl"}, new { id = "" }))
+{
+    @Html.DropDownList("Year", ViewBag.Year as SelectList, new { @class = "form-control d-inline-block" })
+
+    @Html.DropDownList("Month", ViewBag.Monthes as SelectList, "All", new { @class = "form-control d-inline-block" })
+    <input name="Type" type="hidden" value="@ViewBag.Type" />
+    <button class="btn btn-success" type="submit">Search</button>
+}
+
+<a class="btn btn-info" onclick="ToMyCSV()">Export To Excel</a>
+
+<div style="overflow:auto;" id="Tbl">
+
+</div>
+<script>
+    
+    function ToMyCSV() {
+        ExportToExcel("الضرائب", null, false, function () {
+            $("#Tbl").find(".hide").addClass("IsHide");
+            $(".TdDocType").each(function () {
+                $(this).text($(this).attr("data-value"))
+            })
+            $("#Tbl").find(".IsHide").removeClass("hide");
+            $("#Tbl").find(".Total").addClass("hide");
+        }, function () {
+            $("#Tbl").find(".IsHide").addClass("hide");
+            $(".TdDocType").each(function () {
+                $(this).text($(this).attr("data-text"))
+            })
+            $("#Tbl").find(".Total").removeClass("hide");
+        });
+    }
+</script>
+

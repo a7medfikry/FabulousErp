@@ -1,0 +1,295 @@
+﻿@model FabulousModels.ViewModels.Settings.Financial.GeneralSetting.UserAccount.User_Profile_Info
+@{
+    ViewBag.Title = "Account Information";
+}
+<style>
+    .body-header {
+        display: none;
+    }
+</style>
+@using (Html.BeginForm("AccountInfo", "AccountProfileInfo", FormMethod.Post, new { id = "Form1", enctype = "multipart/form-data" }))
+{
+    <div class="container accountprofile">
+        <div class="row">
+            <div class="col-md col-md-3">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="d-flex justify-content-center">
+                                <img id="ImagePp" src="~/_Content/Pictures/profile.png" />
+                            </div>
+                            <div class="mt-2 d-flex justify-content-center">
+                                <button type="button" class="btn btn-danger btn-sm" id="PUUpdateProfilePic">Update Profile Picture</button>
+                            </div>
+                        </div>
+                        <div class="row mb-2 bg-light100">
+                            <label class="col-md-12"> User Name : </label>
+                            <label class="col-md-12 text-danger" id="UserName"></label>
+                        </div>
+
+                        <div class="row mb-2 bg-light100">
+                            <label class="col-md-12"> Date of user creation : </label>
+                            <label class="col-md-12 text-danger" id="DateOfCreation"></label>
+                        </div>
+
+                        <div class="row mb-2 bg-light100">
+                            <label class="col-md-12"> Password last change : </label>
+                            <label class="col-md-12 text-danger" id="PassLastChangeDate"></label>
+                        </div>
+                        <div class="row mb-2 bg-light100">
+                            <label class="col-md-12"> Member of group : </label>
+                            <label class="col-md-12 text-danger" id="GroupNumber"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <!--personal-Information Title-->
+                        <div class="accountprofile-title">
+                            <h6> <i class="fa fa-user-times"></i> Personal Information <label class="text-error">@ViewBag.Message</label> </h6>
+                            <div class="accountprofile-line"></div>
+                        </div>
+                        <!--Personal-Information Content-->
+                        <div class="personalinfo-content mt-3">
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label> Title : <span class="star">*</span> </label>
+                                    @Html.DropDownListFor(x => x.TitlePER, new List<SelectListItem>
+                                                        {
+                                                        new SelectListItem{Text = "Mr." , Value = "Mr." },
+                                                        new SelectListItem{Text = "Mrs." , Value = "Mrs." },
+                                                        new SelectListItem{Text = "Ms." , Value = "Ms." },
+                                                        new SelectListItem{Text = "Miss." , Value = "Miss." }
+                                                        }, "-Choose-", new { @id = "TitlePER" , @class= "dropdown-list" })
+                                    @Html.ValidationMessageFor(x => x.TitlePER, null, new { @id = "ErrorTitlePER", @class = "Error" })
+                                </div>
+                                <div class="col-md-9">
+                                    <label> National / Passport ID : <span class="star">*</span> </label> <label>@Html.ValidationMessageFor(x => x.NationalORPassportIDPER, null, new { @id = "ErrorNationalORPassportIDPER", @class = "Error" })</label>
+                                    @Html.TextBoxFor(x => x.NationalORPassportIDPER, null, new { @id = "NationalORPassportIDPER", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-4">
+                                    <label> First Name : <span class="star">*</span> </label>
+                                    @Html.TextBoxFor(x => x.FirstNamePER, null, new { @id = "FirstNamePER", @maxlength = "30", @onkeydown = "LetterOnly(event);" })
+                                    @Html.ValidationMessageFor(x => x.FirstNamePER, null, new { @id = "ErrorFirstNamePER", @class = "Error" })
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Last Name : <span class="star">*</span> </label>
+                                    @Html.TextBoxFor(x => x.LastNamePER, null, new { @id = "LastNamePER", @maxlength = "30", @onkeydown = "LetterOnly(event);" })
+                                    @Html.ValidationMessageFor(x => x.LastNamePER, null, new { @id = "ErrorLastNamePER", @class = "Error" })
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Family Name : <span class="star">*</span> </label>
+                                    @Html.TextBoxFor(x => x.FamilyNamePER, null, new { @id = "FamilyNamePER", @maxlength = "30", @onkeydown = "LetterOnly(event);" })
+                                    @Html.ValidationMessageFor(x => x.FamilyNamePER, null, new { @id = "ErrorFamilyNamePER", @class = "Error" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label> Building Num . <span class="star">*</span> </label>
+                                    @Html.TextBoxFor(x => x.BuldingNoPER, null, new { @id = "BuldingNoPER", @maxlength = "30" })
+                                    @Html.ValidationMessageFor(x => x.BuldingNoPER, null, new { @id = "ErrorBuldingNoPER", @class = "Error" })
+                                </div>
+
+                                <div class="col-md-9">
+                                    <label> Street Name <span class="star">*</span> </label>
+                                    @Html.TextBoxFor(x => x.StreetPER, null, new { @id = "StreetPER", @maxlength = "50" })
+                                    @Html.ValidationMessageFor(x => x.StreetPER, null, new { @id = "ErrorStreetPER", @class = "Error" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3">
+                                    Avenue <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.AvenuePER, null, new { @id = "ErrorAvenuePER", @class = "Error" })
+                                </label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(x => x.AvenuePER, null, new { @id = "AvenuePER", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3">
+                                    State <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.StatePER, null, new { @id = "ErrorStatePER", @class = "Error" })
+                                </label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(x => x.StatePER, null, new { @id = "StatePER", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3">
+                                    City <span class="star">*</span>
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.CityPER, null, new { @id = "CityPER", @maxlength = "50" })
+                                </div>
+
+                                <label class="col-md-3">
+                                    Country <span class="star">*</span>
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.CountryPER, null, new { @id = "CountryPER", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3"> Home Phone </label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(x => x.HomePhonePER, null, new { @id = "HomePhonePER", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label class="col-md-3">
+                                    Mobile Phone : <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.MobilePhonePER, null, new { @id = "ErrorMobilePhonePER", @class = "Error" })
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.MobilePhonePER, null, new { @id = "MobilePhonePER", @maxlength = "50" })
+                                </div>
+
+                                <label class="col-md-3"> Other Mobile : </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.OthMobilePhonePER, null, new { @id = "OthMobilePhonePER", @maxlength = "50" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Function Title -->
+                        <div class="accountprofile-title">
+                            <h6> <i class="fa fa-info-circle"></i> Function <label class="text-error">@ViewBag.Message</label> </h6>
+                            <div class="accountprofile-line"></div>
+                        </div>
+                        <!-- Function Content -->
+                        <div class="function-content mt-3">
+                            <div class="row mb-1">
+                                <label class="col-md-3">
+                                    Position : <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.PositionFUN, null, new { @id = "ErrorPositionFUN", @class = "Error" })
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.PositionFUN, null, new { @id = "PositionFUN", @maxlength = "50" })
+                                </div>
+
+                                <label class="col-md-3">
+                                    Department : <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.DepartmentFUN, null, new { @id = "ErrorDepartmentFUN", @class = "Error" })
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.DepartmentFUN, null, new { @id = "DepartmentFUN", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3">
+                                    Room Number <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.RoomNumFUN, null, new { @id = "ErrorRoomNumFUN", @class = "Error" })
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.RoomNumFUN, null, new { @id = "RoomNumFUN", @maxlength = "30" })
+                                </div>
+
+                                <label class="col-md-3">
+                                    Floor Number <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.FloorFUN, null, new { @id = "ErrorFloorFUN", @class = "Error" })
+                                </label>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(x => x.FloorFUN, null, new { @id = "FloorFUN", @maxlength = "30" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3">
+                                    Building Num . <span class="star">*</span>
+                                    @Html.ValidationMessageFor(x => x.BuildingFUN, null, new { @id = "ErrorBuildingFUN", @class = "Error" })
+                                </label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(x => x.BuildingFUN, null, new { @id = "BuildingFUN", @maxlength = "30" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3"> Tele. Number </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(x => x.TelephoneNumFUN, null, new { @id = "TelephoneNumFUN", @maxlength = "30" })
+                                </div>
+
+                                <label class="col-md-3"> Extention : </label>
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(x => x.TEXtentionFUN, null, new { @id = "TEXtentionFUN", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3"> Fax Number : </label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(x => x.FaxNumFUN, null, new { @id = "FaxNumFUN", @maxlength = "50" })
+                                </div>
+
+                                <label class="col-md-3"> Extention : </label>
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(x => x.FExtentionFUN, null, new { @id = "FExtentionFUN", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <label class="col-md-3"> Mobile Phone : </label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(x => x.MobilePhoneFUN, null, new { @id = "MobilePhoneFUN", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-md-3"> Email Address : </label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(x => x.EmailFUN, null, new { @id = "EmailFUN", @placeholder = "fabulous@gmail.com for example", @maxlength = "50" })
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-primary" id="InfoUpdateBtn"> Update Profile </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Profile Picture pop-up Modal -->
+        <div class="modal fade" id="EditProfilePicturePU">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4> Update Your Profile Picture </h4>
+                        <button type="button" class="close" style="outline:none;" data-dismiss="modal"> <i class="fa fa-window-close"></i> </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group profile-picture">
+                            <div class="d-flex justify-content-center">
+                                <img id="UpdateImagePp" style="width:150px;height:200px;" />
+                            </div>
+                            <div class="mt-2">
+                                @Html.TextBoxFor(x => x.InputPersonalImg, new { @type = "file", @id = "InputPersonalImg", @name = "InputPersonalImg" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" class="btn btn-block btn-danger" id="UpdatePP">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/AccountProfileInfo/GetAccountInfo.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/AccountProfileInfo/SaveAccountInfo.js")

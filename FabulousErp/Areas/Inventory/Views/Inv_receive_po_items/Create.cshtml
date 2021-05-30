@@ -1,0 +1,288 @@
+﻿@model FabulousDB.Models.Inv_receive_po_items
+
+@{
+    Layout = null;
+    string UnitPrice = "Unit Price";
+}
+<style>
+    .col-sm-2 {
+        padding: 0px;
+        margin: 0px;
+        display: inline-block;
+    }
+</style>
+@using (Ajax.BeginForm(new AjaxOptions { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <section class="col-sm-12" style="margin-bottom:40px;">
+            <div class="col-sm-2-5">
+                @Html.LabelFor(model => model.Site_id, "Site", htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12 NoPadding">
+                    @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id", id = "Site_idDown", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Site_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-2-5">
+                @Html.LabelFor(model => model.Item_id, "Item_id", htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12 NoPadding">
+                    @Html.DropDownList("Item_id", null, "", htmlAttributes: new { @class = "form-control selectpicker", data_live_search = "true" })
+                    @Html.ValidationMessageFor(model => model.Item_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @if (ViewBag.Sales == false)
+            {
+                <div class="col-sm-2-5">
+
+                    <label class="col-md-12" for="ItemName">Item Name</label>
+                    <div class="col-md-12 NoPadding">
+                        <label id="ItemName"></label>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-2-5">
+                    <label class="col-md-12" for="ItemName">Item Name</label>
+                    <div class="col-md-12 NoPadding">
+                        <input id="ItemName" class="form-control" />
+                    </div>
+                </div>
+            }
+            <div class="col-sm-2-5">
+                @Html.LabelFor(model => model.UOM_id, "UOM_id", htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12 NoPadding">
+                    @Html.DropDownList("UOM_id", null, "", htmlAttributes: new { @class = "form-control selectpicker", data_live_search = "true" })
+                    @Html.ValidationMessageFor(model => model.UOM_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-2-5">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12 NoPadding">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0" ,@tabindex="5"} })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            @if (ViewBag.Sales == true ||
+                 ViewBag.Sales != true && Request["Doc_type"].ToString() == FabulousDB.Models.Doc_type.Return.ToString())
+            {
+                <div class="col-sm-2-5 @ViewBag.ShowCostPrice">
+                    @Html.LabelFor(model => model.Cost_price, htmlAttributes: new { @class = "col-md-12" })
+                    <div class="col-md-12 NoPadding">
+                        @Html.EditorFor(model => model.Cost_price, "Cost", new { htmlAttributes = new { @class = "form-control maskmoney", @tabindex = "6" } })
+                        @Html.ValidationMessageFor(model => model.Cost_price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            <div class="col-sm-2-5">
+                @Html.LabelFor(model => model.Unit_price, $"{UnitPrice}", htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12 NoPadding">
+                    @Html.EditorFor(model => model.Unit_price, new { htmlAttributes = new { @class = "form-control maskmoney", @tabindex = "7" } })
+                    @Html.ValidationMessageFor(model => model.Unit_price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-2-5">
+                @Html.LabelFor(model => model.Total, htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12 NoPadding">
+                    @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control maskmoney", @disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-2-5 hide ShowOnEdit FShTax SHTax hide" >
+                @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12 NoPadding">
+                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                </div>
+            </div>
+            <div class="col-sm-2-5 hide">
+                <div class="col-md-12 NoPadding">
+                </div>
+                <input type="hidden" id="FrightMask" class="maskmoney" />
+            </div>
+            <div class="col-sm-2-5 hide ShowOnEdit FShTax SHTax hide" >
+                @Html.LabelFor(model => model.Vat_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12 NoPadding">
+                    @Html.EditorFor(model => model.Vat_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Vat_amount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-2-5 hide ShowOnEdit FShTax SHTax hide" >
+                @Html.LabelFor(model => model.Table_vat_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12 NoPadding">
+
+                    @Html.EditorFor(model => model.Table_vat_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                    @Html.ValidationMessageFor(model => model.Table_vat_amount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-2-5 hide ShowOnEdit FShTax SHTax hide" >
+                @Html.LabelFor(model => model.Deduct_amount, htmlAttributes: new { @class = "control-label col-md-2"})
+                <div class="col-md-12 NoPadding">
+                    @Html.EditorFor(model => model.Deduct_amount, new { htmlAttributes = new { @class = "form-control maskmoney"} })
+                    @Html.ValidationMessageFor(model => model.Deduct_amount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-2-5">
+                <button id="AddNewItem" class="btn btn-secondary" type="button">Add Item</button>
+            </div>
+            <input name="FrmPoItem" id="FrmPoItem" class="hide" />
+        </section>
+
+
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Amount_system_currency, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount_system_currency, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount_system_currency, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Net_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Net_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Net_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Table_vat_id, "Table_vat_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Table_vat_id" name="Table_vat_id" class="form-control">
+                    <option></option>
+                    @foreach (FabulousModels.DTOModels.Settings.Financial.GeneralSettings.Tax.
+                        TaxCodeByGroup_DTO i in ViewBag.Table_vat_id as List<FabulousModels.DTOModels.Settings.Financial.GeneralSettings.Tax.TaxCodeByGroup_DTO>)
+                    {
+                        <option value="@i.CT_ID" data-value="@i.C_Taxpercentage">@i.C_Taxcode</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Table_vat_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Table_vat_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.EditorFor(model => model.Table_vat_amount, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                @Html.ValidationMessageFor(model => model.Table_vat_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Vat_id, "Vat_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Vat_id" name="Vat_id" class="form-control">
+                    <option></option>
+                    @foreach (FabulousModels.DTOModels.Settings.Financial.GeneralSettings.Tax.
+                        TaxCodeByGroup_DTO i in ViewBag.Vat_id as List<FabulousModels.DTOModels.Settings.Financial.GeneralSettings.Tax.TaxCodeByGroup_DTO>)
+                    {
+                        <option value="@i.CT_ID" data-value="@i.C_Taxpercentage">@i.C_Taxcode</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Vat_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Deduct_id, "Deduct_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Deduct_id" name="Deduct_id" class="form-control">
+                    <option></option>
+                    @foreach (FabulousModels.DTOModels.Settings.Financial.GeneralSettings.Tax.
+                        TaxCodeByGroup_DTO i in ViewBag.Deduct_id as List<FabulousModels.DTOModels.Settings.Financial.GeneralSettings.Tax.TaxCodeByGroup_DTO>)
+                    {
+                        <option value="@i.CT_ID" data-value="@i.C_Taxpercentage">@i.C_Taxcode</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Deduct_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="reset" id="reset" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+</script>
+<script>
+    $(function(){
+        RefreshSelcetPicker($("#Item_id"));
+        RefreshSelcetPicker($("#UOM_id"));
+    })
+    $(document).on("change", "#Quantity,#Unit_priceMask", function () {
+        $("#TotalMask").val(RoundNumber((parseFloat($("#Quantity").val()) * GetMaskNumber($("#Unit_priceMask").val())))).trigger('mask.maskMoney').trigger("change");
+    });
+    $(document).on("change", "#DiscountMask", function () {
+        $("#Net_amountMask").val(GetMaskNumber($("#TotalMask").val()) - GetMaskNumber($("#DiscountMask").val())).trigger('mask.maskMoney').trigger("change");
+    });
+    $("#Table_vat_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Table_vat_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    });
+    $("#Vat_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Vat_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    })
+    $("#Deduct_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Deduct_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    })
+    $("#Site_id").change(function () {
+        $("#Site_idDown").val($(this).val())
+        $("#Site_idDown").trigger("change");
+    })
+    $("#Site_idDown").change(function () {
+        $.ajax({
+            url: "/inventory/Inv_item/GetSiteItems?SiteId=" + $("#Site_idDown").val() + "&ST=" + $("input[name='ItemSearch']:checked").val(),
+            method: "POST",
+            success: function (data) {
+                FillItemDrop(data);
+            }
+        })
+
+        //if ($("#Doc_type").val() == Doc_type.Invoice
+        //    || ($("#Doc_type").val() == Doc_type.Return && getParameterByName("Sales")=="false")) {
+          
+        //}
+    })
+    function FillItemDrop(data, CallBack = null) {
+        $("select#Item_id").empty();
+        $("select#Item_id").append("<option value=''></option>")
+
+        $.each(data, function (k, i) {
+            $("select#Item_id").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+        })
+
+        if (CallBack != null) {
+            CallBack();
+        }
+    }
+    
+</script>

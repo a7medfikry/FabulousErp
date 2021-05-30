@@ -1,0 +1,294 @@
+﻿@model FabulousDB.Models.Deprecation
+@using FixedAssets.Business;
+
+@{
+    ViewBag.Title = "Create Depr.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Action("SetCommenViewBagView", "Business", new { area = "" })
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@using (Ajax.BeginForm("Create", "Deprecations", new { }, new AjaxOptions { OnSuccess = "SubmitOther" }, new { Id = "MainForm" }))
+{
+    <div class="form-horizontal">
+        <h6 id="TCGE-GlobalError" class="text-danger"></h6>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Deprecation_no, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Deprecation_no, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Deprecation_no, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction_date, "Transaction date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+
+
+                @Html.ValidationMessageFor(model => model.Transaction_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deprecation_date, "Depr. date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Deprecation_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                @Html.ValidationMessageFor(model => model.Deprecation_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Year", "Year", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Year", ViewBag.Year as SelectList, "", htmlAttributes: new { @class = "form-control YearList" })
+            </div>
+        </div>
+        @if (ViewBag.Type == (int)FabulousDB.Models.Deprecation_calcualtion.Periodic)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Period, "Period", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Period_id", null, "", htmlAttributes: new { @class = "form-control PeriodMonthList" })
+                    @Html.ValidationMessageFor(model => model.Period, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        else if (ViewBag.Type == (int)FabulousDB.Models.Deprecation_calcualtion.Monthly)
+        {
+            <div class="form-group">
+                @Html.Label("Month", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MonthNumber", ViewBag.Month as SelectList, "", htmlAttributes: new { @class = "form-control PeriodMonthList" })
+                    @Html.ValidationMessageFor(model => model.Period, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+
+        <div class="hide">
+
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Acquisition_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Acquisition_cost, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Acquisition_cost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Depreciation_accumulated, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Depreciation_accumulated, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Depreciation_accumulated, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Adjustment_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Adjustment_cost, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Adjustment_cost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Deprecation_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Deprecation_rate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Deprecation_rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Depreication_cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Depreication_cost, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Depreication_cost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Special_depreication, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Special_depreication, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Special_depreication, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-offset-2 hide">
+            <input type="radio" name="DepreicationType" class="DepreicationType" value="1" checked="checked" /> Depreication on All Assets
+            <input type="radio" name="DepreicationType" class="DepreicationType" value="2" /> Depreication on Spasific Assets
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="FirstForm" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<section id="MyAssetsDiv" style="display:none;">
+    <section>
+        <h4>Depreication assets</h4>
+        <hr />
+        <div id="AssetsIdSection"></div>
+    </section>
+    <section>
+        <h4>Depreication assets class</h4>
+        <hr />
+        <div id="AssetsClassSection"></div>
+    </section>
+    @Ajax.ActionLink("Add New Assets", "Create", "Depreication_assets_id_connection", "", new AjaxOptions { UpdateTargetId = "AssetsIdSection", InsertionMode = InsertionMode.InsertAfter }, new { @class = "btn btn-primary" })
+    @Ajax.ActionLink("Add New Assets Class", "Create", "Depreication_assets_connection", "", new AjaxOptions { UpdateTargetId = "AssetsClassSection", InsertionMode = InsertionMode.InsertAfter }, new { @class = "btn btn-primary" })
+</section>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" id="Create" class="btn btn-success" />
+    </div>
+</div>
+<script>
+    $("#Create").click(function () {
+        // $("#FirstForm").trigger("click")
+        $("#MainForm").validate()
+        if ($("#MainForm").valid()) {
+             $.ajax({
+                 url: "@Url.Action("GetAssetWithNumberOfUnit", "Assets")?TransactionDate=" + $("#Transaction_date").val(),
+                success: function (html) {
+                    if (isNaN(html)) {
+                        FixedAssetsModel(html, false)
+                    } else {
+                        CalcFixedAssetSave();
+                    }
+                },
+                beforeSend: function () {
+                    FixedAssetsModel("<h4>Please Wait</h4>", true)
+                }
+            })
+        }
+
+    })
+    $(document).on("click", ".FixedAssetSave", function () {
+        CalcFixedAssetSave();
+    });
+    $(".PeriodMonthList,.YearList").change(function () {
+        if ($(".PeriodMonthList").val() && $(".YearList").val()) {
+            var Month;
+            if ($("#MonthNumber").val()) {
+                Month = $("#MonthNumber").val();
+            } else {
+                Month = $("#Period_id").find("option:selected").attr("data-month");
+            }
+            $("#Transaction_date").val(moment("" + $("#Year").val() + "-" + GetTwoDigit(Month) + "-01").add(1, 'months').subtract(1,'day').format("YYYY-MM-DD"));
+            $("#Transaction_date").trigger("change")
+        }
+    })
+   function CalcFixedAssetSave() {
+        var NumOfDipUnit = [];
+        var MyAsses = [];
+        var MyAssesClass = [];
+
+        var MyModal = $(document).find("#FixedAssetsModal").find(".modal-body").find("tr").not(".Head").each(function () {
+            NumOfDipUnit.push({ Asset_id: $(this).find(".Deprecation_unit").attr("data-id"), Deprecation_unit: $(this).find(".Deprecation_unit").val() });
+        })
+        $("#AssetsIdSection").find("select").each(function () {
+            MyAsses.push($(this).find("option:selected").val())
+        })
+        $("#AssetsClassSection").find("select").each(function () {
+            MyAssesClass.push($(this).find("option:selected").val())
+       })
+       var Period_id=0;
+       var MonthNumber=0;
+       if ($("#Period_id").length > 0) {
+           Period_id = $("#Period_id option:selected").val();
+       } else if ($("#MonthNumber").length) {
+           MonthNumber = $("#MonthNumber option:selected").val();
+       }
+       $("#MainForm").validate()
+       if ($("#MainForm").valid()) {
+ $.ajax({
+            url: "@Url.Action("Create")",
+            method: "POST",
+            data:{
+                deprecation: $("#MainForm").serializeObject(), NumberOfUnits: NumOfDipUnit,
+                Assets: MyAsses, DepreicationType: $(".DepreicationType:checked").val(), Assets_class: MyAssesClass
+                , Period_id: Period_id, MonthNumber: MonthNumber, Transaction_date: $("#Transaction_date").val(),
+                Deprecation_date: $("#Deprecation_date").val(), Year: $("#Year").val()
+            },
+            success: function (data) {
+                window.location.href = "/FixedAssets/Deprecation_record?DeprecationId=" + data;
+            }
+        })
+       }
+
+    }
+    function SubmitOther(Id) {
+        //$("#AssetsIdSection").find(".Deprecation_id").val(Id);
+        //$("#AssetsClassSection").find(".Deprecation_id").val(Id);
+        //$("#AssetsIdSection").find("form").submit();
+        //$("#AssetsClassSection").find("form").submit();
+
+        RedirectInt("/FixedAssets/Deprecation_record?DeprecationId="+Id);
+    }
+    $(".DepreicationType").change(function () {
+        if ($(this).val() == 1) {
+            $("#AssetsIdSection").empty();
+            $("#AssetsClassSection").empty();
+            $("#MyAssetsDiv").hide();
+        } else {
+            $("#MyAssetsDiv").show();
+        }
+    })
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index",new {section ="Inquiry" })
+</div>
+<script>
+    $("#Transaction_date").change(function () {
+        CheckPostingDateInPeriods($(this).val(), function (Check) {
+            if (!Check) {
+                $("#Transaction_date").val("");
+            }
+            $("#Deprecation_date").val($("#Transaction_date").val());
+            $("#TCGE-GlobalError").val();
+        })
+    })
+    $("#Year").change(function () {
+        $.ajax({
+            url: "/FixedAssets/Deprecations/GetNewPeriodMonth?TransactionDate=" + $("#Year").val() + "-01-01",
+            method: "post",
+            beforeSend: function () {
+                $(".PeriodMonthList").empty();
+            },
+            success: function (data) {
+                $(".PeriodMonthList").append("<option></option>");
+                $.each(data, function (k, i) {
+                    $(".PeriodMonthList").append("<option value='" + i.value + "' data-month=" + i.Month+">" + i.text + "</option>")
+                })
+            }
+        })
+    })
+</script>
+<div id="FixedAssetsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default FixedAssetSave">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model FabulousDB.Models.Custom_installment
+
+@{
+    ViewBag.Title = "Details Custom installment";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h4>Custom_installment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Installment_setting.Plan_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Installment_setting.Plan_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Custom_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Custom_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Percetage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Percetage)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

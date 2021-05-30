@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Company Analytic Account Distribution";
+    ViewBag.FormCode = "SCAAD";
+}
+<div class="container-fluid">
+    <!--Global Error-->
+    <div class="mb-2">
+        <span class="text-error" id="AccessError"></span>
+    </div>
+
+    <div class="form-row mb-1 hide">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : <i class="star">*</i> </label>
+        <div class="col-md-2">
+            @*@Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class = "form-control form-control-sm", @tabindex = "1" })*@
+            <input type="text" id="CompanyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="CompanyName" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <div id="CompAnalytic">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID : <i class="star">*</i> </label>
+            <div class="col-md-2 NoTrans">
+                @Html.DropDownList("CompAnalyticID", new SelectList(""),FabulousErp.BusController.Translate("-Choose-"), new { @id = "CompAnalyticID", @class = "form-control form-control-sm", @tabindex = "2" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="CompAnalyticName" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div id="DistributionInputs">
+        <span class="text-error" id="GlobalError"></span>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Distribution ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.TextBox("DistributionID", null, new { @id = "DistributionID", @maxlength = "20", @tabindex = "3", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Distribution Name : <i class="star">*</i> </label>
+            <div class="col-md-6">
+                @Html.TextBox("DistributionName", null, new { @id = "DistributionName", @maxlength = "100", @tabindex = "4", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-sm hide-normal" id="AddDistributionCompBtn" tabindex="5"> Add </button>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th>@FabulousErp.BusController.Translate("Account Distribution ID")</th>
+                <th>@FabulousErp.BusController.Translate("Account Distribution Name")</th>
+                <th>@FabulousErp.BusController.Translate("Action")</th>
+            </tr>
+        </thead>
+        <tbody id="AccountDistributionTbl"></tbody>
+    </table>
+    <!-- Table Area End -->
+
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="popUpHearder">@FabulousErp.BusController.Translate("Delete Account Distribution")</h4>
+                    <a href="#" class="close" data-dismiss="modal"> <i class="fa fa-window-close"></i> </a>
+                    <label id="AccountDistributionID" class="hide-normal"></label>
+                </div>
+                <div class="modal-body">
+                    <p id="popUpContent">@FabulousErp.BusController.Translate("Are You Sure? You Want To Delete This Account Distribution")..!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CancelDelete" class="btn btn-primary btn-sm" data-dismiss="modal">@FabulousErp.BusController.Translate("Cancel")</button>
+                    <button type="button" id="CompDeletebtn" class="btn btn-danger btn-sm" onclick="CompConfirmDelete()">@FabulousErp.BusController.Translate("Confirm")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Company/C_Analytic/C_AnalyticAccountDistribution/AddCompanyDistribution.js?1")

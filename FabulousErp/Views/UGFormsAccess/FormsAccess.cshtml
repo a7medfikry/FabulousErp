@@ -1,0 +1,606 @@
+﻿@{
+    ViewBag.Title = "Company User Forms Access";
+    ViewBag.FormCode = "SUAP";
+}
+<div class="container-fluid">
+
+    <section>
+        @Html.Partial("FormsAccessHeader")
+    </section>
+
+    <!-- Table Area Sart -->
+    <div class="hide-normal mt-2" id="FormsTable">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#SettingForms" role="tab" aria-selected="true"> Setting Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#InquiryForms" role="tab" aria-selected="true"> Inquiry Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#TransactionForms" role="tab" aria-selected="true"> Transaction Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#FixedAssetsForm" role="tab" aria-selected="true"> Fixed Assets Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#PayableForm" role="tab" aria-selected="true"> Payable Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#ReceivableForm" role="tab" aria-selected="true"> Receivable Forms </a>
+            </li>
+
+        </ul>
+
+        <div class="tab-content bg-light">
+
+
+            <div id="SettingForms" class=" tab-pane container-fluid p-3 active fade show" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-18 font-weight-bold">Setting Forms @Html.CheckBox("CheckAllSetting", false, new { @id = "CheckAllSetting" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCL</td>
+                            <td width="60%">New Company</td>
+                            <td width="20%">@Html.CheckBox("SCL", false, new { @id = "SCL", @class = "S CB", @value = "SCL" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCBI</td>
+                            <td width="60%">New Branch</td>
+                            <td width="20%">@Html.CheckBox("SCBI", false, new { @id = "SCBI", @class = "S CB", @value = "SCBI" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCPI</td>
+                            <td width="60%">New Factory</td>
+                            <td width="20%">@Html.CheckBox("SCPI", false, new { @id = "SCPI", @class = "S CB", @value = "SCPI" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SFYD</td>
+                            <td width="60%">fiscal Year Definition</td>
+                            <td width="20%">@Html.CheckBox("SFYD", false, new { @id = "SFYD", @class = "S CB", @value = "SFYD" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCNY</td>
+                            <td width="60%">New Fiscal Year</td>
+                            <td width="20%">@Html.CheckBox("SCNY", false, new { @id = "SCNY", @class = "S CB", @value = "SCNY" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCFY</td>
+                            <td width="60%">Assign Fiscal Year To Company</td>
+                            <td width="20%">@Html.CheckBox("SCFY", false, new { @id = "SCFY", @class = "S CB", @value = "SCFY" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCY</td>
+                            <td width="60%">Close Fiscal Year</td>
+                            <td width="20%">@Html.CheckBox("SCY", false, new { @id = "SCY", @class = "S CB", @value = "SCY" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SOCP</td>
+                            <td width="60%">Open / Close Periods</td>
+                            <td width="20%">@Html.CheckBox("SOCP", false, new { @id = "SOCP", @class = "S CB", @value = "SOCP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCNA</td>
+                            <td width="60%">Creat User</td>
+                            <td width="20%">@Html.CheckBox("SCNA", false, new { @id = "SCNA", @class = "S CB", @value = "SCNA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCNG</td>
+                            <td width="60%">Create Group of User</td>
+                            <td width="20%">@Html.CheckBox("SCNG", false, new { @id = "SCNG", @class = "S CB", @value = "SCNG" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUAP</td>
+                            <td width="60%">Company User Form Access (Current Form)</td>
+                            <td width="20%">@Html.CheckBox("SUAP", false, new { @id = "SUAP", @class = "S CB", @value = "SUAP" })</td>
+                        </tr>
+
+                        <tr>
+                            <td width="20%">SBUAP</td>
+                            <td width="60%">Branch User Form Access</td>
+                            <td width="20%">@Html.CheckBox("SBUAP", false, new { @id = "SBUAP", @class = "S CB", @value = "SBUAP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SFUAP</td>
+                            <td width="60%">Factory User Form Access</td>
+                            <td width="20%">@Html.CheckBox("SFUAP", false, new { @id = "SFUAP", @class = "S CB", @value = "SFUAP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUACP</td>
+                            <td width="60%">Company Access</td>
+                            <td width="20%">@Html.CheckBox("SUACP", false, new { @id = "SUACP", @class = "S CB", @value = "SUACP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUABP</td>
+                            <td width="60%">Branch Access</td>
+                            <td width="20%">@Html.CheckBox("SUABP", false, new { @id = "SUABP", @class = "S CB", @value = "SUABP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUAFP</td>
+                            <td width="60%">Factory Access</td>
+                            <td width="20%">@Html.CheckBox("SUAFP", false, new { @id = "SUAFP", @class = "S CB", @value = "SUAFP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SLOU</td>
+                            <td width="60%">Manage Users</td>
+                            <td width="20%">@Html.CheckBox("SLOU", false, new { @id = "SLOU", @class = "S CB", @value = "SLOU" })</td>
+                        </tr>
+
+                        <tr>
+                            <td width="20%">SLOG</td>
+                            <td width="60%">Manage Group of Users</td>
+                            <td width="20%">@Html.CheckBox("SLOG", false, new { @id = "SLOG", @class = "S CB", @value = "SLOG" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SAGI</td>
+                            <td width="60%">Add User To Group</td>
+                            <td width="20%">@Html.CheckBox("SAGI", false, new { @id = "SAGI", @class = "S CB", @value = "SAGI" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCD</td>
+                            <td width="60%">Currencies Definition</td>
+                            <td width="20%">@Html.CheckBox("SCD", false, new { @id = "SCD", @class = "S CB", @value = "SCD" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCF</td>
+                            <td width="60%">Formate Setting</td>
+                            <td width="20%">@Html.CheckBox("SCF", false, new { @id = "SCF", @class = "S CB", @value = "SCF" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCET</td>
+                            <td width="60%">Exchange Currencies</td>
+                            <td width="20%">@Html.CheckBox("SCET", false, new { @id = "SCET", @class = "S CB", @value = "SCET" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUETR</td>
+                            <td width="60%">User Edit Transaction Rate</td>
+                            <td width="20%">@Html.CheckBox("SUETR", false, new { @id = "SUETR", @class = "S CB", @value = "SUETR" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCCOA</td>
+                            <td width="60%">Chart Of Account</td>
+                            <td width="20%">@Html.CheckBox("SCCOA", false, new { @id = "SCCOA", @class = "S CB", @value = "SCCOA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SACTC</td>
+                            <td width="60%">Add Chart of Account To Company</td>
+                            <td width="20%">@Html.CheckBox("SACTC", false, new { @id = "SACTC", @class = "S CB", @value = "SACTC" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCAG</td>
+                            <td width="60%">Create Account Group</td>
+                            <td width="20%">@Html.CheckBox("SCAG", false, new { @id = "SCAG", @class = "S CB", @value = "SCAG" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCAA</td>
+                            <td width="60%">Company Analytic Accounts</td>
+                            <td width="20%">@Html.CheckBox("SCAA", false, new { @id = "SCAA", @class = "S CB", @value = "SCAA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCAAD</td>
+                            <td width="60%">Create Company Analytic Distribution</td>
+                            <td width="20%">@Html.CheckBox("SCAAD", false, new { @id = "SCAAD", @class = "S CB", @value = "SCAAD" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCCC</td>
+                            <td width="60%">Create Company Cost Center</td>
+                            <td width="20%">@Html.CheckBox("SCCC", false, new { @id = "SCCC", @class = "S CB", @value = "SCCC" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCCCA</td>
+                            <td width="60%">Create Company Cost Center Accounts</td>
+                            <td width="20%">@Html.CheckBox("SCCCA", false, new { @id = "SCCCA", @class = "S CB", @value = "SCCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCMCC</td>
+                            <td width="60%">Create Company Main Cost Center</td>
+                            <td width="20%">@Html.CheckBox("SCMCC", false, new { @id = "SCMCC", @class = "S CB", @value = "SCMCC" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUMCC</td>
+                            <td width="60%">Update Company Main Cost Center</td>
+                            <td width="20%">@Html.CheckBox("SUMCC", false, new { @id = "SUMCC", @class = "S CB", @value = "SUMCC" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCCA</td>
+                            <td width="60%">Company Create Account</td>
+                            <td width="20%">@Html.CheckBox("SCCA", false, new { @id = "SCCA", @class = "S CB", @value = "SCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SDATCA</td>
+                            <td width="60%">Add Dist. Accounts To Company Account</td>
+                            <td width="20%">@Html.CheckBox("SDATCA", false, new { @id = "SDATCA", @class = "S CB", @value = "SDATCA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCATCA</td>
+                            <td width="60%">Add Cost Accounts To Company Account</td>
+                            <td width="20%">@Html.CheckBox("SCATCA", false, new { @id = "SCATCA", @class = "S CB", @value = "SCATCA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SUP</td>
+                            <td width="60%">User Post</td>
+                            <td width="20%">@Html.CheckBox("SUP", false, new { @id = "SUP", @class = "S CB", @value = "SUP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SPS</td>
+                            <td width="60%">Posting Setup</td>
+                            <td width="20%">@Html.CheckBox("SPS", false, new { @id = "SPS", @class = "S CB", @value = "SPS" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SPD</td>
+                            <td width="60%">Print Document</td>
+                            <td width="20%">@Html.CheckBox("SPD", false, new { @id = "SPD", @class = "S CB", @value = "SPD" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">STA</td>
+                            <td width="60%">Tax Setting</td>
+                            <td width="20%">@Html.CheckBox("STA", false, new { @id = "STA", @class = "S CB", @value = "STA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SCCB</td>
+                            <td width="60%">Company CheckBook Setting</td>
+                            <td width="20%">@Html.CheckBox("SCCB", false, new { @id = "SCCB", @class = "S CB", @value = "SCCB" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div id="InquiryForms" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-18 font-weight-bold">Inquiry Forms @Html.CheckBox("CheckAllInquiry", false, new { @id = "CheckAllInquiry" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ILOU</td>
+                            <td width="60%">List Of User</td>
+                            <td width="20%">@Html.CheckBox("ILOU", false, new { @id = "ILOU", @class = "I CB", @value = "ILOU" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ICI</td>
+                            <td width="60%">Company Information</td>
+                            <td width="205">@Html.CheckBox("ICI", false, new { @id = "ICI", @class = "I CB", @value = "ICI" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">IUP</td>
+                            <td width="60%">User Profile</td>
+                            <td width="20%">@Html.CheckBox("IUP", false, new { @id = "IUP", @class = "I CB", @value = "IUP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ISFP</td>
+                            <td width="60%">Show Fiscal Periods</td>
+                            <td width="20%">@Html.CheckBox("ISFP", false, new { @id = "ISFP", @class = "I CB", @value = "ISFP" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ILCOA</td>
+                            <td width="60%">List Chart of Account</td>
+                            <td width="20%">@Html.CheckBox("ILCOA", false, new { @id = "ILCOA", @class = "I CB", @value = "ILCOA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">IUFA</td>
+                            <td width="60%">List of User Forms Access</td>
+                            <td width="20%">@Html.CheckBox("IUFA", false, new { @id = "IUFA", @class = "I CB", @value = "IUFA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ICA</td>
+                            <td width="60%">List of Company Access</td>
+                            <td width="20%">@Html.CheckBox("ICA", false, new { @id = "ICA", @class = "I CB", @value = "ICA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">IBA</td>
+                            <td width="60%">List of Branch Access</td>
+                            <td width="20%">@Html.CheckBox("IBA", false, new { @id = "IBA", @class = "I CB", @value = "IBA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">IFA</td>
+                            <td width="60%">List of Factory Access</td>
+                            <td width="20%">@Html.CheckBox("IFA", false, new { @id = "IFA", @class = "I CB", @value = "IFA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">IGA</td>
+                            <td width="60%">List of Group Access</td>
+                            <td width="20%">@Html.CheckBox("IGA", false, new { @id = "IGA", @class = "I CB", @value = "IGA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ICAA</td>
+                            <td width="60%">List Of Company Analytic Account</td>
+                            <td width="20%">@Html.CheckBox("ICAA", false, new { @id = "ICAA", @class = "I CB", @value = "ICAA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ICCC</td>
+                            <td width="60%">List Of Company Cost Center</td>
+                            <td width="20%">@Html.CheckBox("ICCC", false, new { @id = "ICCC", @class = "I CB", @value = "ICCC" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">ILOC</td>
+                            <td width="60%">List Of Currencies</td>
+                            <td width="20%">@Html.CheckBox("ILOC", false, new { @id = "ILOC", @class = "I CB", @value = "ILOC" })</td>
+                        </tr>
+                        <tr>
+                            <td>ICADA</td>
+                            <td>List of Company Analytic Distribution</td>
+                            <td>@Html.CheckBox("ICADA", false, new { @id = "ICADA", @class = "I CB", @value = "ICADA" })</td>
+                        </tr>
+                        <tr>
+                            <td>ICCCA</td>
+                            <td>List of Company Cost Center Accounts</td>
+                            <td>@Html.CheckBox("ICCCA", false, new { @id = "ICCCA", @class = "I CB", @value = "ICCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>ITS</td>
+                            <td>Tax Schedule</td>
+                            <td>@Html.CheckBox("ITS", false, new { @id = "ITS", @class = "I CB", @value = "ITS" })</td>
+                        </tr>
+                        <tr>
+                            <td>ICT</td>
+                            <td>Company Tax</td>
+                            <td>@Html.CheckBox("ICT", false, new { @id = "ICT", @class = "I CB", @value = "ICT" })</td>
+                        </tr>
+                        <tr>
+                            <td>ICCBS</td>
+                            <td>Inquiry Company Checkbook Setting</td>
+                            <td>@Html.CheckBox("ICCBS", false, new { @id = "ICCBS", @class = "I CB", @value = "ICCBS" })</td>
+                        </tr>
+                        <tr>
+                            <td>ICBT</td>
+                            <td>Checkbook Cash & Bank Transactions</td>
+                            <td>@Html.CheckBox("ICBT", false, new { @id = "ICBT", @class = "I CB", @value = "ICBT" })</td>
+                        </tr>
+                        <tr>
+                            <td>IADI</td>
+                            <td>Account Details Inquiry</td>
+                            <td>@Html.CheckBox("IADI", false, new { @id = "IADI", @class = "I CB", @value = "IADI" })</td>
+                        </tr>
+                        <tr>
+                            <td>IHADI</td>
+                            <td>Historical Account Details Inquiry</td>
+                            <td>@Html.CheckBox("IHADI", false, new { @id = "IHADI", @class = "I CB", @value = "IHADI" })</td>
+                        </tr>
+                        <tr>
+                            <td>IASI</td>
+                            <td>Account Summary Inquiry</td>
+                            <td>@Html.CheckBox("IASI", false, new { @id = "IASI", @class = "I CB", @value = "IASI" })</td>
+                        </tr>
+                        <tr>
+                            <td>IHASI</td>
+                            <td>Historical Account Summary Inquiry</td>
+                            <td>@Html.CheckBox("IHASI", false, new { @id = "IHASI", @class = "I CB", @value = "IHASI" })</td>
+                        </tr>
+                        <tr>
+                            <td>ITDI</td>
+                            <td>Transaction Details Inquiry</td>
+                            <td>@Html.CheckBox("ITDI", false, new { @id = "ITDI", @class = "I CB", @value = "ITDI" })</td>
+                        </tr>
+                        <tr>
+                            <td>ICBSI</td>
+                            <td>Company Batch Security Inquiry</td>
+                            <td>@Html.CheckBox("ICBSI", false, new { @id = "ICBSI", @class = "I CB", @value = "ICBSI" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div id="TransactionForms" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-18 font-weight-bold">Transaction Forms @Html.CheckBox("CheckAllTransaction", false, new { @id = "CheckAllTransaction" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>TCCB</td>
+                            <td>Company Create Batch</td>
+                            <td>@Html.CheckBox("TCCB", false, new { @id = "TCCB", @class = "T CB", @value = "TCCB" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCGE</td>
+                            <td>Company General Entry Transaction</td>
+                            <td>@Html.CheckBox("TCGE", false, new { @id = "TCGE", @class = "T CB", @value = "TCGE" })</td>
+                        </tr>
+                        <tr>
+                            <td>TBR</td>
+                            <td>Bank Reconsile</td>
+                            <td>@Html.CheckBox("TBR", false, new { @id = "TBR", @class = "T CB", @value = "TBR" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCBC</td>
+                            <td>Company Bank Check Out</td>
+                            <td>@Html.CheckBox("TCBC", false, new { @id = "TCBC", @class = "T CB", @value = "TCBC" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCBR</td>
+                            <td>Company Bank Check Received</td>
+                            <td>@Html.CheckBox("TCBR", false, new { @id = "TCBR", @class = "T CB", @value = "TCBR" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCCR</td>
+                            <td>Company Cash Reciept</td>
+                            <td>@Html.CheckBox("TCCR", false, new { @id = "TCCR", @class = "T CB", @value = "TCCR" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCCW</td>
+                            <td>Company Cash Withdraw</td>
+                            <td>@Html.CheckBox("TCCW", false, new { @id = "TCCW", @class = "T CB", @value = "TCCW" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCBT</td>
+                            <td>Checkbook Transfer</td>
+                            <td>@Html.CheckBox("TCBT", false, new { @id = "TCBT", @class = "T CB", @value = "TCBT" })</td>
+                        </tr>
+                        <tr>
+                            <td>TCBR</td>
+                            <td>Checkbook Revaluate</td>
+                            <td>@Html.CheckBox("TCBR", false, new { @id = "TCBR", @class = "T CB", @value = "TCBR" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div id="FixedAssetsForm" class="  tab-pane container-fluid p-3 fade" role="tabpanel">
+                <div></div>
+
+                <table class="table table-bordered table-striped display nowrap" id="fixed-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="PayableForm" class="  tab-pane container-fluid p-3 fade" role="tabpanel">
+                <div></div>
+
+                <table class="table table-bordered table-striped display nowrap" id="fixed-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="ReceivableForm" class="  tab-pane container-fluid p-3 fade" role="tabpanel">
+                <div></div>
+
+                <table class="table table-bordered table-striped display nowrap" id="fixed-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Copy Access From Another User</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4 id="ModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="form-group">
+                            User ID :
+                            @Html.DropDownList("TargetUserID", new SelectList(""), "-Choose-", new { @id = "TargetUserID", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            User Name :
+                            <label id="TargetUserName"></label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="ConfirmCopy()">Copy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#UserID").change(function () {
+        var UserId = $(this).find("option:selected").val();
+        $.ajax({
+            url: "/UGFormsAccess/GetPagesWithUserAcess",
+            dataType: "html",
+            data: { UserId: UserId, Sec:"Fixed"},
+            success: function (data) {
+                $("#FixedAssetsForm").html(data)
+            }
+        })
+        $.ajax({
+            url: "/UGFormsAccess/GetPagesWithUserAcess",
+            dataType: "html",
+            data: { UserId: UserId, Sec:"Payable"},
+            success: function (data) {
+                $("#PayableForm").html(data)
+            }
+        })
+        $.ajax({
+            url: "/UGFormsAccess/GetPagesWithUserAcess",
+            dataType: "html",
+            data: { UserId: UserId, Sec:"Receivable"},
+            success: function (data) {
+                $("#ReceivableForm").html(data)
+            }
+        })
+    });
+    function IntervalText(data) {
+        if ($.active > 0) {
+            IntervalText(data)
+        } else {
+            if (data) {
+                $("#SavedSuccess").text("Saved Successfully")
+            }
+        }
+    }
+    $(document).on("click", ".CheckAccess", function () {
+        if ($(this).is(":checked")) {
+            $(this).parents("table").find(".PageAccess").each(function () {
+                if (!$(this).attr("checked")) {
+                    $(this).attr("checked","checked");
+                }
+            })
+        } else {
+            $(this).parents("table").find(".PageAccess").each(function () {
+                if ($(this).attr("checked")) {
+                    $(this).removeAttr("checked");
+                }
+            })
+        }
+    })
+</script>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/SaveBtnAccess.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/HandleRB.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/UserCopyAccess.js")

@@ -1,0 +1,95 @@
+﻿
+@media print {
+    /*--------- Remove All Default CSS ------- */
+    .menu_area, .favourites-navbar, .body-header, .no-print, .scroll-to-top {
+        display: none;
+    }
+
+    #content-wrapper {
+        padding: 0;
+    }
+
+    #wrapper.toggled #content-wrapper {
+        padding-left: 0;
+    }
+
+    #wrapper.toggled footer.sticky-footer {
+        width: 100%;
+    }
+
+    footer.sticky-footer {
+        width: 100%;
+    }
+
+    @page {
+        margin:0;
+    }
+ 
+
+    /*----------- Style Print-Sheet CSS ----------*/
+    header {
+        padding: 10px;
+        border-bottom: 2px solid;
+        margin-bottom: 20px;
+    }
+
+        header .header-brand {
+            font-size: 80px;
+            font-family: 'Agency FB';
+        }
+
+        header .header-logo {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+            header .header-logo img {
+                width: 110px;
+                height: 110px;
+            }
+
+    footer {
+        padding: 10px;
+        border-top: 2px solid;
+    }
+    /*----------- Style Branch-Report CSS ----------*/
+    .report-form {
+        display: contents;
+        height: auto;
+        width: auto;
+    }
+
+        .report-form header {
+            border-bottom: 2px solid #808080;
+            height: 120px;
+        }
+
+            .report-form header .report-header {
+                margin-left: 2%;
+            }
+
+                .report-form header .report-header img {
+                    float: right;
+                    padding-right: 20px;
+                    display: block;
+                }
+
+        .report-form .report-content .report-title {
+            border-bottom: 2px solid #efefef;
+            border-radius: 10px;
+        }
+
+        .report-form .report-content {
+            padding-top: 30px;
+        }
+
+            .report-form .report-content h3 {
+                text-align: center;
+            }
+
+            .report-form .report-content .main-information, .address-information, .legal-information, .communication-information {
+                background: #efefef;
+                border-radius: 10px;
+                padding: 30px;
+            }
+}

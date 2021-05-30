@@ -1,0 +1,238 @@
+﻿@model FabulousDB.Models.Fixed_assets_renewal
+
+@{
+    ViewBag.Title = "Create Renwal";
+    if (ViewBag.IsPartial != true)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = null;
+    }
+}
+<style>
+    #Renewal_amountTrans {
+        width: 0;
+        height: 0;
+        border: none;
+    }
+</style>
+@using (Ajax.BeginForm($"{ViewBag.Action}", "Fixed_assets_renewal", new { }, new AjaxOptions { OnSuccess = "RenewalSucc" }, new { id = "MainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Renewal_no, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Renewal_no, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Renewal_no, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="hide">
+            @Html.EditorFor(model => model.Renwal_date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Gl_transaction_id, new { htmlAttributes = new { @class = "form-control" } })
+
+        </div>
+        <div class="form-group">
+            @Html.Label("date", "Transaction Date", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="ChangeWithTransactionDate" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("date", "Posting Date", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="ChangeWithPostingDate" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Assets_id, "Assets_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Assets_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Assets_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group Width60">
+            @Html.LabelFor(model => model.Descroption, "Description", htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+            <div class="col-md-10 MyDiv">
+                @Html.EditorFor(model => model.Descroption, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descroption, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Renewal_amount, "Renew. amount", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    decimal? ThisVal = Model.Renewal_amount;
+                }
+                @Html.Editor("Renewal_amountTransaction", new { htmlAttributes = new { @class = "form-control", id = "Renewal_amount", @Value = $"{ThisVal}" }, @min = "1", required = "required" })
+                @Html.EditorFor(model => model.Renewal_amount, new { htmlAttributes = new { @class = "form-control hide", id = "Renewal_amountTrans" } })
+                @Html.ValidationMessageFor(model => model.Renewal_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Currency id</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.Currency_id, null, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Use_life, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Use_life, new { htmlAttributes = new { @class = "form-control" } })
+
+                @*@Html.TextBoxFor(m => m.Use_life, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })*@
+                @Html.ValidationMessageFor(model => model.Use_life, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Deprecation_rate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Deprecation_rate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Deprecation_rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="RenwalForm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-success" id="Create" />
+    </div>
+</div>
+<input class="CreditAccount" style="display:none;" />
+<input class="DebitAccount" style="display:none;" />
+
+<script>
+    $("#Descroption").change(function () {
+        $("#TCGE-Reference").val($(this).val())
+    })
+    $(function () {
+        $("#TCGE-BtnPUNewBatch").parents("label").first().remove();
+        $("#TCGE-BatchID").parent("div").remove();
+        $("#TCGE-CurrencyID").parents(".form-row").hide();
+        $("#Currency_id").trigger("change")
+        $("#collapseFirst").hide();
+        $("#ChangeWithTransactionDate").replaceWith($("#TCGE-JEDate"))
+        $("#ChangeWithPostingDate").replaceWith($("#TCGE-PostingDate"))
+    })
+    $("#Currency_id").change(function () {
+        $("#TCGE-CurrencyID").val($("#Currency_id option:selected").val())
+        $("#TCGE-CurrencyID").trigger("change")
+    })
+    $("#Create").click(function () {
+        var BatchId = "";
+        var BostingToORThrow = @ViewBag.PostingToOrThrow;
+
+        ValidateAll(function () {
+            $("#MainForm").validate();
+            if ($("#MainForm").valid()) {
+                InsertTransactionData($("#TCGE-CompanyID").text(), BostingToORThrow, $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), $("#TCGE-CurrencyID").val(), $("#TCGE-SystemRate").val(), $("#TCGE-TransactionRate").val(), "FIXRenw", "FIXRenw", BatchId, "",
+                    function (TransactionId) {
+                        InsertCallBack(TransactionId)
+                    }, null, null, null, true)
+            }
+        });
+
+
+
+    })
+    function InsertCallBack(TransactionId) {
+        $("#Renwal_date").val($("#TCGE-PostingDate").val())
+        $("#Gl_transaction_id").val(TransactionId);
+        $("#RenwalForm").trigger("click");
+    }
+    function CheckSettings() {
+        if (!$(".CreditAccount").val() || !$(".DebitAccount").val()) {
+            Talert("No Accounts Are Found For That Assets Class")
+            return false;
+        }
+    }
+    $(document).on("focusout", "#TCGE-JEDate",function () {
+        $("#TCGE-CurrencyID").val($("#Currency_id option:selected").val())
+        $("#TCGE-CurrencyID").trigger("change")
+    })
+    $(document).on("focusout", "#Renewal_amount", function () {
+        if (!$(this).val()) {
+            $("#Renewal_amountTrans").val("")
+            $("#Renewal_amountTrans").focusin()
+            $("#Renewal_amountTrans").focusout()
+        }
+    })
+    $(document).on("change focusout", "#Renewal_amount,#TCGE-JEDate,#Assets_id,select", function () {
+
+        if ($("#Assets_id").val() && $("#TCGE-CurrencyID").val()) {
+            var Url = "@Url.Action("GetDebitCreditAccountByAssetsId", "Assets_class")" + "?AssetsId=" + $("#Assets_id").val();
+            GetAccountsAndExchangeRate(Url, $("#Renewal_amount").val(), $("#TCGE-JEDate").val(), "Assets_class_id", true, null, function () {
+                $("#Currency_id").val("");
+                $("#TCGE-CurrencyID").val("");
+            }, function (Amount) {
+                $("#Renewal_amountTrans").val(Amount)
+                $("#Renewal_amountTrans").focusin();
+                $("#Renewal_amountTrans").focusout();
+            })
+        }
+    })
+    function RenewalSucc(Id) {
+        window.open("/FixedAssets/Fixed_assets_renewal/Details/" + Id+"?Print=true","_blank")
+        window.location.reload();
+    }
+</script>
+<section id="JVSecCont">
+    <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @{Html.RenderAction("GetBatchHeader", "C_GeneralEntryTransaction", new { TCS_JENum = true, area = "" });}
+
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+
+<!-- Pop-up Modal For System-Rates -->
+<div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Choose The System Rate </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index", new { id = Model.Id, section = "Inquiry" })
+
+</div>
+<script>
+$("#Currency_id").change(function () {
+            TransactionRateStatus("@FabulousErp.Business.FinancialForms.FixedAssets_Renewal")
+})
+</script>
+ <style>
+     #JVSecCont {
+         width: 15%;
+     }
+ </style>

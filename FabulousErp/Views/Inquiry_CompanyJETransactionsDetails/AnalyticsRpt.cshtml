@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "AnalyticsRpt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Analytics Rpt</h2>
+
+
+<section>
+    @Html.Action("AnalyticsRptSearchHeader")
+</section>
+<div>
+</div>
+
+<div class="col-md-4 mb-2">
+    @Ajax.ActionLink("Search", "AnalyticsRptSearchBody",
+    new { DistId = "0", Year = "0", IsAll = false, Start = "", End = "" },
+    new AjaxOptions
+    {
+        UpdateTargetId= "AnaylticBody",
+        OnBegin="validate"
+    },new { @id= "AnaylticSearch", @class = "btn btn-primary btn-sm fa fa-search" })
+    <button onclick="tablesToExcel('AnaylticBody','Anayltic')" class="btn btn-info">Export To Excel</button>
+    <button onclick="JustPrintThis('AnaylticBody')" class="btn btn-secondary">Print</button>
+
+</div>
+<section id="AnaylticBody"></section>
+
+<script>
+   
+    function validate() {
+        valid = true;
+        //if (!$("#IADI-AnaylticDis").val()) {
+        //    NotValid($("#IADI-AnaylticDis"))
+        //    valid = false;
+        //}
+        if (!$("#IADI-Year").val()) {
+            NotValid($("#IADI-Year"))
+            valid = false;
+        }
+        if (!valid) {
+            return false;
+        } else {
+            $("#AnaylticBody").empty();
+            return true;
+        }
+    }
+    $("#IADI-AnaylticDis").change(function () {
+        $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "DistId", $("#IADI-AnaylticDis").val()))
+    })
+    $("#IADI-AnalyticsGroup").change(function () {
+        $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "MainAccId", $("#IADI-AnalyticsGroup").val()) )
+    })
+    $("#IADI-Year").change(function () {
+        $("input[type='radio'][name='date']").trigger("change")
+        $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "Year", $("#IADI-Year").find("option:selected").text()) )
+    })
+    $("input[type='radio'][name='date']").change(function () {
+        if ($("#IADI-fromDate").is(":checked")) {
+            $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "IsAll", "false"));
+        } else {
+            $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "IsAll", "true"))
+        }
+    })
+    $("#IADI-startDate").change(function () {
+        $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "Start", $("#IADI-startDate").val()))
+    })
+    $("#IADI-endDate").change(function () {
+        $("#AnaylticSearch").attr("href", updateQueryStringParameter($("#AnaylticSearch").attr("href"), "End", $("#IADI-endDate").val()))
+    })
+</script>

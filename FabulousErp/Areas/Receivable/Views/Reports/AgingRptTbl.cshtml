@@ -1,0 +1,288 @@
+﻿@model List<Receivable.Controllers.AgingRpt>
+@{
+    Layout = null;
+    DBContext db = new DBContext();
+    string Hide = "";
+    string UnHide = "hide";
+    if (ViewBag.DetailsSumary == "Sammery")
+    {
+        Hide = "hide";
+        UnHide = "";
+    }
+    int Count = 1;
+    bool Other = false;
+    int? PrevTrx = 0;
+    string Error = "";
+    try
+    {
+        Error = TempData["Error"].ToString();
+    }
+    catch { }
+}
+    <section style="overflow:auto;width:100%;">
+        @if (!Model.Any())
+        {
+            if (!string.IsNullOrEmpty(Error))
+            {
+                <h2 class="text-center">@Error</h2>
+            }
+            else
+            {
+                <h2 class="text-center">No Data Found</h2>
+            }
+        }
+        else
+        {
+            foreach (List<Receivable.Controllers.AgingRpt> V in Model.GroupBy(x => x.VendoreId).Select(x => x.ToList()))
+            {
+                List<Receivable.Controllers.AgingSum> ASum = new List<Receivable.Controllers.AgingSum>();
+
+                try
+                {
+                    <h2 class="@Hide">@db.Receivable_vendore_settings.Find(V.FirstOrDefault().VendoreId).Vendor_name</h2>
+                }
+                catch
+                { }
+                <table style="width:100%;" id="@Count" class="@Hide table Print ReorderTable">
+                    <tr>
+                        <th>
+                            Transaction No.
+                        </th>
+
+                        <th>
+                            Doc. Number
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Doc. Date
+                        </th>
+                        <th>
+                            Due Date
+                        </th>
+                        <th>
+                            Orginal Amount
+                        </th>
+                        <th>
+                            Currency
+                        </th>
+                        <th>
+                            Rate
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+
+                        @foreach (Receivable_aging_period i in ViewBag.AgingNames as List<Receivable_aging_period>)
+                        {
+                            <th>
+                                @i.Name
+                            </th>
+                        }
+                    </tr>
+                    @foreach (Receivable.Controllers.AgingRpt i in V.OrderBy(x => x.DocDate).ThenBy(x => x.Transaction_id).ThenBy(x => x.Type))
+                    {
+                        if (PrevTrx == i.Transaction_id && PrevTrx != 0)
+                        {
+                            Other = false;
+                        }
+                        else
+                        {
+                            Other = true;
+                        }
+                        <tr class="MyRow" data-id="@i.Transaction_id">
+                            <td>
+                                @i.TransactionNo
+                            </td>
+                            <td>
+                                @i.DocNum
+                            </td>
+                            <td>
+                                @i.Type
+                            </td>
+                            <td>
+                                @i.DocDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @if (i.DueDate.HasValue)
+                                {
+                                    @i.DueDate.Value.ToShortDateString()
+                                }
+                            </td>
+                            <td>
+                                @i.OrginalAmount.ToString(FabulousErp.Business.GetDecimalNumber())
+                            </td>
+                            <td>
+                                @i.Currency
+                            </td>
+                            <td>
+                                @i.Rate.ToString(FabulousErp.Business.GetDecimalNumber())
+                            </td>
+                            <td>
+                                @i.Amount.ToString(FabulousErp.Business.GetDecimalNumber())
+                            </td>
+
+
+                            @foreach (Receivable_aging_period A in ViewBag.AgingNames as List<Receivable_aging_period>)
+                            {
+                                try
+                                {
+                                    <td>
+
+
+                                        @if (
+                 (i.AgingAmount.Where(x => x.Id != 0).FirstOrDefault(x => x.Id == A.Id).Amount
+                 - i.AssignAmount) != 0
+                 &&
+                 (i.Type != Doc_type.Invoice.ToString() || i.Type != Doc_type.Debit_Memo.ToString()))
+                                        {
+
+                                            @i.AgingAmount.Where(x => x.Id == A.Id).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+
+                                            ASum.Add(new Receivable.Controllers.AgingSum
+                                            {
+                                                Id = A.Id,
+                                                Amount = (i.AgingAmount.Sum(x => x.Amount))//- i.AssignAmount
+                                            });
+
+                                        }
+
+
+                                    </td>
+                                }
+                                catch
+                                {
+
+                                }
+
+                            }
+                            @{PrevTrx = i.Transaction_id;
+                            }
+
+                        </tr>
+
+                    }
+                    <tr style="margin-top:20px;background:transparent;" class="spacer">
+                        <td colspan="8" style="text-align:right;">
+                            <span style="text-align:right;">
+                                Total
+                            </span>
+                        </td>
+                        <td>
+                            @V.Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                        @foreach (Receivable_aging_period T in ViewBag.AgingNames as List<Receivable_aging_period>)
+                        {
+
+                            <td>
+                                @try
+                                {
+                                    @ASum.Where(x => x.Id == T.Id).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                                }
+                                catch
+                                {
+                                    @Html.Raw("0.00")
+                                }
+                            </td>
+                        }
+                        @*@foreach (Aging_period T in ViewBag.AgingNames as List<Aging_period>)
+                        {
+
+                            <td>
+                                @try
+                                {
+                                  @V.SelectMany(x => x.AgingAmount).Where(x => x.Id == T.Id).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                                }
+                                catch
+                                {
+                                  @Html.Raw("0.00")
+                                }
+                            </td>
+                        }*@
+                    </tr>
+
+                </table>
+
+                Count++;
+            }
+            <table class="@UnHide table Print" id="@Count" style="width:100%;">
+                <tr>
+                    <th>
+                        Vendore
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    @foreach (Receivable_aging_period i in ViewBag.AgingNames as List<Receivable_aging_period>)
+                    {
+                        <th>
+                            @i.Name
+                        </th>
+                    }
+                </tr>
+                @foreach (List<Receivable.Controllers.AgingRpt> V in Model.GroupBy(x => x.VendoreId).Select(x => x.ToList()))
+                {
+                    <tr>
+                        <td>
+                            @db.Receivable_vendore_settings.Find(V.FirstOrDefault().VendoreId).Vendor_name
+                        </td>
+                        <td>
+                            @V.Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                        @foreach (Receivable_aging_period T in ViewBag.AgingNames as List<Receivable_aging_period>)
+                        {
+
+                            <td>
+                                @try
+                                {
+                                    @V.SelectMany(x => x.AgingAmount).Where(x => x.Id == T.Id).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                                }
+                                catch
+                                {
+                                    @Html.Raw("0.00")
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+
+            </table>
+        }
+
+    </section>
+<script>
+    $(function () {
+        $('.ReorderTable').each(function () {
+            var $table = $(this);
+
+
+            var rows = $table.find('tr').get();
+            rows.sort(function (a, b) {
+                var keyA = $(a).attr('data-id');
+                var keyB = $(b).attr('data-id');
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
+                return 0;
+            });
+            $.each(rows, function (index, row) {
+                $table.children('tbody').append(row);
+            });
+        })
+
+
+        $(".MyRow").each(function () {
+            var ThisId = $(this).attr("data-id");
+            var PrvId = $(this).prev(".MyRow");
+            if ($(this).attr("data-id") != $(this).prev(".MyRow").attr("data-id")) {
+                $(this).before("<tr style='background: transparent;height:20px;'><td colspan='13' background='transparent'></td></tr>")
+            } else {
+                console.log("No")
+            }
+
+
+
+        })
+    })
+</script>

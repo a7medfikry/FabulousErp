@@ -1,0 +1,78 @@
+﻿
+@{
+    string CusVendoreTxt = "";
+    string From, To;
+    if (!ViewBag.IsPay)
+    {
+        From = "Customer From";
+        To = "Customer To";
+        if (Convert.ToBoolean(Request["IsB"]))
+        {
+            ViewBag.Title = "Customer Sales Balance";
+
+        }
+        else
+        {
+            ViewBag.Title = "Customer Sales";
+        }
+        CusVendoreTxt = "Customer";
+    }
+    else
+    {
+        From = "Vendore From";
+        To = "Vendore To";
+
+        if (Convert.ToBoolean(Request["IsB"]))
+        {
+            ViewBag.Title = "Vendore Purchase Balance";
+        }
+        else
+        {
+            ViewBag.Title = "Vendore Purchase";
+        }
+        CusVendoreTxt = "Vendore";
+
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("CustomerSalesRes", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes" }))
+{
+    <input name="IsPay" value="@Request["IsPay"]" type="hidden" />
+    <input name="IsB" value="@Request["IsB"]" type="hidden" />
+    <div class="form-group  col-sm-12">
+        <label class="col-md-4">@From</label>
+        <div class="col-md-10">
+            @Html.DropDownList("CusVendFrom", null, new { name = " form-control", required = "required" })
+        </div>
+    </div>
+    <div class="form-group   col-sm-12">
+        <label class="col-md-4">@To</label>
+        <div class="col-md-10">
+            @Html.DropDownList("CusVendTo", null, new { name = " form-control", required = "required" })
+        </div>
+    </div>
+    if (!ViewBag.IsB)
+    {
+        <br />
+        <div class="form-group  ">
+            <label class="col-md-4">Start Date</label>
+            <div class="col-md-10">
+                <input class="v-middle form-control" name="Start" type="date" />
+            </div>
+        </div>
+        <div class="form-group  ">
+            <label class="col-md-4">End Date</label>
+            <div class="col-md-10">
+                <input class="v-middle form-control" name="End" type="date" />
+            </div>
+        </div>
+    }
+    <div class="form-group  col-sm-12">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

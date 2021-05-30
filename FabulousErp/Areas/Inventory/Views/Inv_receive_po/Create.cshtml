@@ -1,0 +1,1955 @@
+﻿@model FabulousDB.Models.Inv_receive_po
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string VendoreId = "";
+    string VendoreLbl = "";
+    string CurrencyId = "";
+    string GRGO = "";
+
+    FabulousDB.Models.Inv_sales_GS SalesGs = ViewBag.SalesGs as FabulousDB.Models.Inv_sales_GS;
+    <script>
+        var CurrIso = "@Business.GetCompCurrIso()";
+        var NotEnoughInv = "@BusController.Translate("Not Enough Inventory")";
+        var ItemDHS = "@Business.Translate("This Item Doesn't Have Seriales")";
+        var HasTax = @(ViewBag.HasTax.ToString().ToLower());
+        $(function () {
+            UOMDropDown = true;
+            $("#ReplaceWithRateField").replaceWith($("#JVSecCont").find("#TCCR-rateField"))
+            $("#TCGE-SystemRate").attr("name", "System_rate")
+            $("#TCGE-TransactionRate").attr("name", "Transaction_rate")
+        })
+    </script>
+    if (ViewBag.Sales == false)
+    {
+        if (Request["Doc_type"] == FabulousDB.Models.Doc_type.Return.ToString())
+        {
+            ViewBag.PageKey = "InvPrR";
+            ViewBag.Title = "Receive Return Po";
+
+        }
+        else
+        {
+            ViewBag.PageKey = "InvPr";
+            ViewBag.Title = "Receive Po";
+
+        }
+        VendoreId = "Vendor_idTrans";
+        VendoreLbl = "Vendor id";
+        GRGO = "Invoice No";
+        CurrencyId = "Currency_idTrans";
+        <text>
+            <script>
+                var AllowEditUP = false;
+                var CurrencyId = "Currency_idTrans";
+            </script>
+        </text>
+    }
+    else
+    {
+
+        GRGO = "Invoice No";
+
+        if (Request["Doc_type"] == FabulousDB.Models.Doc_type.Return.ToString())
+        {
+            ViewBag.PageKey = "InvSaleR";
+            ViewBag.Title = "Sales Return invoice";
+        }
+        else
+        {
+            if (Request["Piece"] == "true")
+            {
+                ViewBag.PageKey = "InvSalePi";
+                ViewBag.Title = "Sales Invoice Piece";
+            }
+            else if (Request["FullPay"] == "true")
+            {
+                ViewBag.PageKey = "InvSaleFP";
+                ViewBag.Title = "Sales Invoice Full Payment";
+            }
+            else
+            {
+                ViewBag.PageKey = "InvSale";
+                ViewBag.Title = "Sales Invoice";
+            }
+
+        }
+        VendoreId = "Vendor_id";
+        VendoreLbl = "Customer id";
+        CurrencyId = "Currency_id";
+        <text>
+            <script>
+                var AllowEditUP = "@SalesGs.Allow_edit_sales_price.ToString().ToLower()";
+                var AllowPriceLowerCost = "@SalesGs.Allow_price_lower_cost.ToString().ToLower()";
+                var ExcedPriceList = "@SalesGs.Override_price_in_price_list.ToString().ToLower()";
+                var CurrencyId = "Currency_id";
+            </script>
+        </text>
+    }
+}
+<style>
+    .Width9 {
+        width: 9%;
+    }
+</style>
+<script>
+    $(document).on("change", "#@CurrencyId,#TCGE-PostingDate",function () {
+        GetCurrencyRates($("#@CurrencyId").val(), $("#TCGE-PostingDate").val())
+         MaskMoneyTxt($("#@CurrencyId").val(), null, $("#@CurrencyId").find("option:selected").text())
+    })
+    $(function () {
+        //$("#@CurrencyId").find("option").last().attr("selected","selected");
+        $("#@CurrencyId").trigger("change");
+
+        $("#Transaction_date").replaceWith($("#JVSecCont").find("#TCGE-JEDate"));
+        $("#TCGE-JEDate").attr("name", "Transaction_date");
+        $("#TCGE-JEDate").val("")
+        $("#TransDiv").find("#Posting_date").replaceWith($("#JVSecCont").find("#TCGE-PostingDate"));
+        $("#TransDiv").find("#TCGE-PostingDate").attr("name", "Posting_date")
+
+        $("#TransDiv").find("#TCGE-PostingDate").val()
+
+        if (getParameterByName("Doc_type") == Object.keys(Doc_type)[0]) {
+            $("#Doc_type").val(Doc_type.Invoice);
+        } else if (getParameterByName("Doc_type") == Object.keys(Doc_type)[1]) {
+            $("#Doc_type").val(Doc_type.Return);
+        } else {
+            window.location.href = "/";
+        }
+        $("#Doc_type").trigger("change");
+
+    })
+</script>
+
+
+@using (Ajax.BeginForm("Create", new { }, new AjaxOptions { OnSuccess = "SubmitItems" }, new { id = "FirstForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group hide">
+            <div class="col-md-10">
+                <input id="Doc_type" name="Doc_type" type="hidden" />
+                @Html.DropDownList("Doc_type", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(model => model.Doc_type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.PO_id, "PO", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PO_id", null, "", htmlAttributes: new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.PO_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Store_id, "Store Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control Store_id", required = "required" })
+                @Html.ValidationMessageFor(model => model.Store_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Site_id, "Site Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id", required = "required" })
+                @Html.ValidationMessageFor(model => model.Site_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 Transaction_dateDiv">
+                @Html.TextBoxFor(m => m.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "TCGE-JEDate", required = "required" })
+
+                @Html.ValidationMessageFor(model => model.Transaction_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Posting_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 Posting_dateDiv">
+                @Html.TextBoxFor(m => m.Posting_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "TCGE-PostingDate", required = "required" })
+
+                @Html.ValidationMessageFor(model => model.Posting_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control", id = $"{CurrencyId}", required = "required" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <section class="col-sm-12">
+            <section id="ReplaceWithRateField"></section>
+        </section>
+        @if (ViewBag.Sales == false)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Doc_date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Doc_date, new { htmlAttributes = new { @class = "form-control", type = "date", value = $"{DateTime.Now.ToString("yyyy-MM-dd")}" } })
+                    @Html.ValidationMessageFor(model => model.Doc_date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Due_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Due_date, new { htmlAttributes = new { @class = "form-control", type = "date", value = $"{DateTime.Now.ToString("yyyy-MM-dd")}" } })
+                @Html.ValidationMessageFor(model => model.Due_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (ViewBag.Sales == false)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Vendore_doc_number, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Vendore_doc_number, new { htmlAttributes = new { @class = "form-control", id = "VDocument_number", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Vendore_doc_number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        @if (!ViewBag.FullPay)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Vendore_id, $"{VendoreLbl}", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Vendore_id", null, "", htmlAttributes: new { @class = "form-control MyVendore selectpicker", required = "required", id = $"{VendoreId}", data_live_search = "true" })
+                    @Html.ValidationMessageFor(model => model.Vendore_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.Label("VendorNamelbl", " ", htmlAttributes: new { @class = "col-md-12", id = "VendorNamelbl" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment_terms_id, "Payment Terms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Payment_terms_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Payment_terms_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group Width60">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Desc, new { htmlAttributes = new { @class = "form-control Desc" } })
+                @Html.ValidationMessageFor(model => model.Desc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shipping_method_id, "Ship. Method", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Shipping_method_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Shipping_method_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Profit_user_id, "Profitable User", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Profit_user_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Profit_user_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (ViewBag.FullPay)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Checkbook_id, "Checkbook", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Checkbook_id", null, "", htmlAttributes: new { @class = "form-control selectpicker", required = "required", data_live_search = "true" })
+                    @Html.ValidationMessageFor(model => model.Checkbook_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        @if (
+            Request["Sales"] == "true"
+            //&&
+            //Request["Doc_type"] == FabulousDB.Models.Doc_type.Invoice.ToString()
+            )
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price_lvl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Price_lvl, htmlAttributes: new { @class = "form-control Trans", @tabindex = "15" })
+                    @Html.ValidationMessageFor(model => model.Price_lvl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        @if (Request["Piece"] == "true")
+        {
+            <div class="form-group">
+                <label class="control-label col-md-2">Customer Balance</label>
+                <div class="col-md-10">
+                    <label class="col-md-12" id="CB"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">New Balance</label>
+                <div class="col-md-10">
+                    <label class="col-md-12" id="CBTI"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Payment</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Payamnet, new { htmlAttributes = new { @class = "form-control maskmoney" } })
+                </div>
+            </div>
+        }
+
+        @if (!ViewBag.FullPay)
+        {
+            <div class="form-group GrDiv" id="GrDiv" style="display:none;">
+                <label class="control-label col-md-2">@GRGO</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("GNums", null, "", htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+        }
+
+        @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control hide FormTotal" } })
+
+        <input name="Net_amount" id="FNet_amount" type="hidden" />
+        <input name="Posting_number" id="FPostringNumber" type="hidden" />
+        <input name="Tax" id="FTax" type="hidden" />
+        <input name="Discount" id="FDiscount" type="hidden" />
+        <input name="TblPoItem" id="TblPoItem" type="hidden" />
+        <input name="Piece" id="Piece" type="hidden" />
+        <input name="Profit_user_id" id="MainFormProfit_user_id" type="hidden" />
+        <input name="FullPay" id="FullPay" type="hidden" value="@(ViewBag.FullPay.ToString().ToLower())" />
+        @if (ViewBag.Sales == true)
+        {
+            <input name="Sales" value="true" type="hidden" />
+        }
+        <input name="Po_inv" id="Po_inv" type="hidden" />
+
+        @Html.EditorFor(model => model.Journal_number, new { htmlAttributes = new { @class = "form-control hide" } })
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="SubmitFirst" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<section id="PoRecItems" style="height: 105px;">
+    @Html.Action("Create", "Inv_receive_po_items", new { Sales = ViewBag.Sales })
+    <label id="ShowError" class="col-sm-12 text-danger d-inline-block"> </label>
+</section>
+
+<section class="clearfix col-sm-12" style="margin-bottom:20px;">
+    <div class="col-sm-12 d-inline-block">
+        <div class="col-md-3 d-inline-block">
+            <button id="InvCreate" class="btn btn-success">Create</button>
+        </div>
+        <div class="form-group col-md-3 ">
+            <button class="btn btn-primary ToggleTransAction @ViewBag.ShowJv">Show Jv</button>
+        </div>
+        <div class="form-group WAuto">
+            <input id="CalcTotalDis" class="v-middle" type="checkbox" />
+            <label class="label-info">Calc Total Discount</label>
+        </div>
+        <div class="form-group WAuto">
+            <input id="ShowTax" class="v-middle" type="checkbox" />
+            <label class="label-info">Show Tax</label>
+        </div>
+    </div>
+
+</section>
+
+
+
+<section id="Items">
+    <input id="ItemsList" type="hidden" />
+    <table style="width:100%;" class="table table-bordered table-striped NoDataTable" id="ItemTbl">
+        <thead>
+            <tr>
+                <th class="hide">Item Id</th>
+                <th>@FabulousErp.BusController.Translate("Item Name")</th>
+                <th style="width: 7%;">@FabulousErp.BusController.Translate("UOM")</th>
+                <th style="width: 7%;">@FabulousErp.BusController.Translate("QTY")</th>
+                <th class="Width9">@FabulousErp.BusController.Translate("Unit Price")</th>
+                @if (Request["Sales"] == "true"
+                    || (Request["Sales"] == "false" && Request["Doc_type"].ToString() == FabulousDB.Models.Doc_type.Return.ToString()))
+                {
+                    <th class="Width9 @ViewBag.ShowCostPrice ">@FabulousErp.BusController.Translate("Cost")</th>
+                }
+                <th class="Width9">@FabulousErp.BusController.Translate("Total")</th>
+                <th class="Width9 SHTax hide">@FabulousErp.BusController.Translate("Discount")</th>
+                <th class="Width9 SHTax hide">@FabulousErp.BusController.Translate("Vat")</th>
+                <th class="Width9 SHTax hide">@FabulousErp.BusController.Translate("Table Vat")</th>
+                <th class="Width9 SHTax hide">@FabulousErp.BusController.Translate("Deduct")</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+    </table>
+</section>
+
+<section style="margin-top:40px;">
+    <div class="form-group">
+        <label class="control-label col-md-2"> Net Amount </label>
+        <div class="col-md-10">
+            <input id="TNetAmount" name="TNetAmount" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Trade Discount </label>
+        <div class="col-md-10">
+            <input id="TTradeDiscount" name="TTradeDiscount" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Tax </label>
+        <div class="col-md-10">
+            <input id="TTax" name="TTax" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Fright </label>
+        <div class="col-md-10">
+            <input id="TFright" name="TFright" class="form-control maskmoney" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Total </label>
+        <div class="col-md-10">
+            <input id="TTotal" name="TTotal" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+</section>
+<h4 id="TCGE-GlobalError"></h4>
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script>
+    var All = [];
+    var ListOfItems = [];
+    $(document).on("click", "#AddNewItem", function () {
+        $("#ShowError").text("");
+        $("#FirstForm").validate();
+        if (
+            $("#Cost_priceMask").length>0
+            //getParameterByName("Sales") == "true" && $("#Doc_type").val() == Doc_type.Invoice
+        ) {
+            if (GetMaskNumber($("#Cost_priceMask").val()) == 0) {
+                $("#Quantity").trigger("focusout")
+                return;
+            }
+        }
+        //if (getParameterByName("Sales") == "false" && $("#Doc_type").val() == Doc_type.Invoice)
+        {
+            if (GetMaskNumber($("#Unit_priceMask").val()) == 0) {
+                NotValid($("#Unit_priceMask"));
+                return;
+            }
+        }
+
+        if (getParameterByName("Sales") == "true" && $("#Doc_type").val() == Doc_type.Return) {
+            if (GetMaskNumber($("#Cost_priceMask").val()) == 0) {
+                NotValid($("#Cost_priceMask"));
+                return;
+            }
+            if (GetMaskNumber($("#Unit_priceMask").val()) == 0) {
+                NotValid($("#Unit_priceMask"));
+                return;
+            }
+        }
+
+        if (!$("#FirstForm").valid()) {
+            return;
+        }
+        if (getParameterByName("Piece") == "true") {
+            if (!$("#Profit_user_id").val()) {
+                NotValid($("#Profit_user_id"))
+                return;
+            }
+        }
+        var obj = $("#PoRecItems").find("form").serializeToJSON({
+            // convert "true" and "false" to booleans true / false
+            parseBooleans: true,
+            parseFloat: {
+                // auto detect NaN value and changes the value to zero
+                nanToZero: true,
+            }
+        });
+
+        var ItemName = "";
+        if (getParameterByName("Sales") != "true") {
+            ItemName = $("#PoRecItems").find("form").find("#ItemName").text()
+        } else {
+            ItemName = $("#PoRecItems").find("form").find("#ItemName").val()
+        }
+        obj.Item_name = ItemName;
+        if (ItemName == "") {
+            NotValid($("#PoRecItems").find("form").find("#ItemName"));
+            return;
+        }
+        if (!$("#UOM_id").val()) {
+            NotValid($("#UOM_id"));
+            return;
+        }
+        //obj.UOM_id = $("#UOM_id").val();
+        obj.UOMName = $("#PoRecItems").find("form").find("#UOM_id").find("option:selected").text();
+        var Exist = false;
+        $("#itemsBody").find("tr").each(function () {
+            if ($(this).find(".ItemId").text() == obj.Item_id) {
+                Exist = true;
+            }
+        })
+        if (Exist) {
+            $("#ShowError").text("@Business.Translate("This Item Already Exist You Can't Duplicate it")");
+            $("#AddNewItem").removeAttr("disabled")
+            return;
+        }
+        if (!$("#Item_id").val()) {
+            $("#ShowError").text("@Business.Translate("You Should Choose Item")");
+            $("#AddNewItem").removeAttr("disabled")
+            return;
+        }
+        if (obj.Quantity !="") {
+            //$("#AddNewItem").attr("disabled", "disabled")
+            //$("#Item_id").attr("disabled", "disabled")
+            $("#InvCreate").attr("disabled", "disabled");
+
+            $("#PoRecItems").find("form").find("#reset").trigger("click");
+            $("#PoRecItems").find("form").find("#ItemName").text("");
+            $("#PoRecItems").find("form").find("#UOM_id").val("");
+            RefreshSelcetPicker($("#Item_id"))
+            var Discount = 0;
+            if (GetMaskNumber($("#TTradeDiscountMask").val()) > 0 && $("#CalcTotalDis").is(":checked")) {
+                Discount = GetMaskNumber($("#TTradeDiscountMask").val());
+                $("#TTradeDiscountMask").val(0);
+                $("#TTradeDiscountMask").trigger("focusout")
+                $("#TTradeDiscountMask").attr("disabled", "disabled")
+            }
+
+            ListOfItems.push(obj);
+
+
+
+
+
+
+            if (!obj.Cost_priceMask) {
+                obj.Cost_priceMask = 0;
+            }
+
+            var Hide = "";
+            if (getParameterByName("Sales") != "true"
+                && $("#Doc_type").val() == Doc_type.Invoice) {
+                Hide = "hide";
+            }
+            $("#itemsBody").append("<tr data-itemId='" + obj.Item_id +"'>" +
+                "<td class='ItemId hide' data-hasProp='true'>" + obj.Item_id + "</td > " +
+                "<td class='ItemName'>" + ItemName + "</td>" +
+                "<td data-id='" + obj.UOM_id + "' class='UOM'>" + obj.UOMName  + "</td>" +
+                "<td class='ItemQty'>" + obj.Quantity + "</td>" +
+                "<td class='ItemPriceMask'>" + MaskThisMoney(obj.Unit_priceMask) + "</td>" +
+                "<td class='CostPrice " + Hide + " @ViewBag.ShowCostPrice'>" + MaskThisMoney(obj.Cost_priceMask) + "</td>" +
+                "<td class='BodyTotal'>" + MaskThisMoney(obj.TotalMask) + "</td>" +
+                "<td class='BodyDiscount SHTax hide'>" + MaskThisMoney(obj.DiscountMask) + "</td>" +
+                "<td @*data-tax-accId='" + data.VatAccId + "' data-tax-id='" + data.Vat_id + "' data-tax-per='" + data.VatPer + "'*@ class='BodyVat SHTax hide'></td>" +
+                "<td @*data-tax-accId='" + data.TblVatAccId + "' data-tax-id='" + data.Tbl_vat_Id + "'  data-tax-per='" + data.TblVatPer + "'*@ class='BodyTableVat SHTax hide'></td>" +
+                "<td @*data-tax-accId='" + data.DedAccId + "' data-tax-id='" + data.DeductId + "' data-tax-per='" + data.DeductPer + "'*@ class='BodyDeduct SHTax hide'></td>" +
+                "<td style='width: 7%;'>" +
+                '<button class="btn btn-warning btn-sm mr-1 SerialsPoBtn" disabled="disabled">S</button>' +
+                '<button class="btn btn-secondary btn-sm mr-1 EditPoItem" disabled="disabled"><span class="fa fa-edit"></span></button>' +
+                '<button class= "btn btn-danger btn-sm DeletePoItem" disabled="disabled"> <span class="fa fa-trash-o"></span></button>' +
+                "</td>" +
+                "<td class='PoItem hide'>" + obj.FrmPoItem + "</td>" +
+                "<td class='ItemSite hide'>" + $("#Site_idDown").val() + "</td>" +
+                "<td class='BodyFright hide' data-acidrow='0'>" + MaskThisMoney(obj.FrightMask) + "</td>" +
+                "<td class='ItemSerials hide'></td>" +
+                "</tr>");
+
+            $("#itemsBody").find("tr").last().find(".Item_code").text($("#Item_id").val());
+
+
+
+            if (getParameterByName("Sales") != "true") {
+                $("#TCT-taxTblBody").find(".Vendor_name").text($("#Vendor_idTrans").val())
+            } else {
+                $("#TCT-taxTblBody").find(".Vendor_name").text($("#Vendor_id").val())
+            }
+            CalcTTable();
+
+            RunAfterAjax(function () {
+                $("#TCGE-JEDate").removeAttr("disabled")
+                $("#TCGE-PostingDate").removeAttr("disabled")
+
+                $("#Site_idDown").val($("#Site_id").val())
+                if (Discount > 0) {
+                    $("#TTradeDiscountMask").val(Discount).trigger('mask.maskMoney').trigger("change").trigger("focusout");
+                    if ($("#CalcTotalDis").is(":checked")) {
+                        $("#TTradeDiscountMask").removeAttr("disabled")
+                    }
+                }
+                $("#InvCreate").removeAttr("disabled");
+
+                  //  $("#AddNewItem").removeAttr("disabled");
+                  //  $("#Item_id").removeAttr("disabled");
+                $(".EditPoItem").removeAttr("disabled")
+                if ($("#itemsBody").find("tr").last().attr("data-hasprop") == "true") {
+                    $(".SerialsPoBtn").removeAttr("disabled")
+                }
+                $(".DeletePoItem").removeAttr("disabled")
+
+                CalcTTable();
+            })
+
+
+            //if ($("#CalcTotalDis").is(":checked")) {
+            //    $("#TTradeDiscountMask").trigger("focusout")
+            //}
+
+            if (getParameterByName("Piece") == "true") {
+                RunAfterAjax(function () {
+                    CalcNewBalance();
+                    $("#PayamnetMask").trigger("focusout")
+                })
+            }
+
+
+            if ($("#Doc_type").val() == Doc_type.Invoice) {
+                CheckIfItemHasProp(obj.Item_id, obj.Quantity, $("#itemsBody").find("tr").last().index())
+                RunAfterAjax(function () {
+                    $("#TTradeDiscountMask").trigger("focusout");
+                    $("#TFrightMask").trigger("focusout");
+                })
+            } else {
+                CheckJustIfItemHasProp(obj.Item_id, $("#itemsBody").find("tr").last().index());
+                if (!CalcFrigtDiscountCaled) {
+                    CalcFrightAndDiscount();
+                }
+            }
+
+            if (HasTax) {
+                $.ajax({
+                    url: "/Inventory/Inv_item/GetTaxIds?ItemId=" + obj.Item_id + "&PorS=" + $("#TCT-taxGroupID").val(),
+                    method: "POST",
+                    success: function (data) {
+                        $("#TCT-taxType").val(data.Tax_type_id)
+
+                        $("#TCT-taxTableType").val(2)//data.Tax_table_type_id
+                        $("#TCT-taxTableType").trigger("change")
+
+                        $("#TCT-taxTblBody").find("tr").each(function () {
+
+                        })
+                        if (getParameterByName("Sales") == "true") {
+                            $("#TCT-itemName").val($("#PoRecItems").find("form").find("#ItemName").val());
+                        } else {
+                            $("#TCT-itemName").val($("#PoRecItems").find("form").find("#ItemName").text());
+                        }
+
+                        $("#TCT-itemType").val($("#TCT-itemType").find("option:eq(1)").val());
+
+                        $("#Unit_of_measure_id").val(data.Unit_of_measure_id)
+                        $("#TCT-quantity").val(obj.Quantity)
+                        if ($("#Doc_type").val() == Doc_type.Invoice) {
+                            $("#TCT-unitPrice").val(obj.Unit_priceMask)
+                        } else {
+                            $("#TCT-unitPrice").val(-obj.Unit_priceMask)
+                        }
+                        $("#TCT-unitPrice").trigger("focusout")
+                        $("#TCT-discount").val(0)//obj.DiscountMask
+                        if ($("#Doc_type").val() == Doc_type.Invoice) {
+                            $('#TCT-netAmount').val(obj.TotalMask)
+                            $('#TCT-totalAmountbySC').val(obj.TotalMask)
+                        } else {
+                            $('#TCT-netAmount').val(-obj.TotalMask)
+                            $('#TCT-totalAmountbySC').val(-obj.TotalMask)
+                        }
+
+
+
+                        $("#TCT-tableVatID").val(data.Tbl_vat_Id)
+                        $("#TCT-tableVatID").trigger("change")
+                        if (!data.Tbl_vat_Id) {
+                            $('#TCT-tableVatID').attr("disabled", "disabled");
+                        }
+                        $("#TCT-vatID").val(data.Vat_id)
+                        $("#TCT-vatID").trigger("change")
+                        $("#TCT-decuttaTaxID").val(data.DeductId)
+                        $("#TCT-decuttaTaxID").trigger("change")
+                        $("#TCT-btnAddTaxDetails").trigger("click");
+                        //var TaxTablVat= $("#TCT-taxTblBody").find("tr").last().find(".TblVatAccountId")
+                        //    .prev("td").text();
+                        //var TaxVat = $("#TCT-taxTblBody").find("tr").last().find(".TblAccountId")
+                        //    .prev("td").text();
+                        //var DedcutVat = $("#TCT-taxTblBody").find("tr").last().find(".TblDecuttaId")
+                        //    .text();
+                        var TblVatPer;
+                        var VatPer;
+                        if (data == -1) {
+                            TblVatPer = 0;
+                            VatPer = 0;
+                        } else {
+                            TblVatPer = data.TblVatPer;
+                            VatPer = data.VatPer;
+                        }
+                        if (isNaN(TblVatPer)) {
+                            TblVatPer = 0;
+                        }
+                        if (isNaN(VatPer)) {
+                            VatPer = 0;
+                        }
+                        var TaxTablVat = RoundNumber((GetMaskNumber(obj.TotalMask) - GetMaskNumber(obj.DiscountMask)) * (parseFloat(TblVatPer) / 100));
+                        var TaxVat = RoundNumber((GetMaskNumber(obj.TotalMask) - GetMaskNumber(obj.DiscountMask) + TaxTablVat) * (parseFloat(VatPer) / 100));
+                        var DedcutVat = 0;
+                        if (data.DedAccId) {
+                            DedcutVat = RoundNumber((GetMaskNumber(obj.TotalMask) - GetMaskNumber(obj.DiscountMask)) * (parseFloat(data.DeductPer) / 100));
+                        }
+
+                        SetToTaxTable($("#TCT-taxTblBody").find("tr").last().index(),
+                            TaxVat, TaxTablVat, DedcutVat, 0, $("#Doc_type").val());
+
+
+
+                        var Tr = GetItemBodyTr(obj.Item_id);
+
+                        $(Tr).find(".BodyVat").attr("data-tax-accId", data.VatAccId)
+                            .attr("data-tax-id", data.Vat_id)
+                            .attr("data-tax-per", data.VatPer);
+
+                        $(Tr).find(".BodyTableVat").attr("data-tax-accId", data.TblVatAccId)
+                            .attr("data-tax-id", data.Tbl_vat_Id)
+                            .attr("data-tax-per", data.TblVatPer);
+
+                        $(Tr).find(".BodyTableVat").attr("data-tax-accId", data.DedAccId)
+                            .attr("data-tax-id", data.DeductId)
+                            .attr("data-tax-per", data.DeductPer);
+                        $(Tr).find(".BodyVat").text(TaxVat);
+                        $(Tr).find(".BodyTableVat").text(TaxTablVat);
+                        $(Tr).find(".BodyDeduct").text(DedcutVat);
+                        SetTaxFinalCost($("#itemsBody").find("tr").last().index(), obj.TotalMask / obj.Quantity)
+
+                        var SumOfVat = GetMaskNumber(TaxTablVat) + GetMaskNumber(TaxVat)
+                            - GetMaskNumber(DedcutVat);
+                        InsertJv(obj, SumOfVat, $(GetItemBodyTr(obj.Item_id)).index());
+                        CalcTTable();
+                    }
+                })
+            } else {
+                var Tr = GetItemBodyTr(obj.Item_id);
+
+                $(Tr).find(".BodyVat").attr("data-tax-accId", 0)
+                    .attr("data-tax-id", 0)
+                    .attr("data-tax-per", 0);
+
+                $(Tr).find(".BodyTableVat").attr("data-tax-accId", 0)
+                    .attr("data-tax-id", 0)
+                    .attr("data-tax-per", 0);
+
+                $(Tr).find(".BodyTableVat").attr("data-tax-accId", 0)
+                    .attr("data-tax-id", 0)
+                    .attr("data-tax-per", 0);
+
+                $("#itemsBody").find("tr").last().find(".BodyVat").text(0);
+                $("#itemsBody").find("tr").last().find(".BodyTableVat").text(0);
+                $("#itemsBody").find("tr").last().find(".BodyDeduct").text(0);
+
+                var SumOfVat = 0;
+                InsertJv(obj, SumOfVat, $(GetItemBodyTr(obj.Item_id)).index());
+                CalcTTable();
+            }
+
+
+        }
+
+
+    })
+    var CalcFrigtDiscountCaled = false;
+    function CalcFrightAndDiscount() {
+        CalcFrigtDiscountCaled = true;
+        RunAfterAjax(function () {
+            $("#TTradeDiscountMask").trigger("focusout");
+            $("#TFrightMask").trigger("focusout");
+            CalcFrigtDiscountCaled = false;
+        })
+    }
+    function InsertJv(obj, SumOfVat, Tr) {
+        var TransactionRate = GetMaskNumber($("#TCGE-TransactionRate").val()),
+            Debit = obj.TotalMask,
+            Credit = 0;
+        if (!TransactionRate) {
+            TransactionRate = 1;
+        }
+        if (getParameterByName("Sales") != "true") {
+            Credit = obj.Cost_priceMask;
+        } else {
+            Credit = obj.TotalMask;
+        }
+
+        $.ajax({
+            url: "/Inventory/Inv_item/GetInventoryAccount?ItemId=" + obj.Item_id + "&Doc_type=" + $("#Doc_type").val() + "&IsSales=" + getParameterByName("Sales"),
+            method:"POST",
+             success: function (data) {
+
+                 if (getParameterByName("Sales") != "true") {
+                     obj.TotalMask = GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".BodyTotal").text())
+                     if ($("#Doc_type").val() == Doc_type.Invoice) {
+                         AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), obj.TotalMask , obj.TotalMask * TransactionRate, 0);
+                         //Debit = obj.TotalMask;
+                     } else {
+                         AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), obj.Cost_priceMask , 0, obj.Cost_priceMask * TransactionRate);
+                         var VAmount = NoNegitiveSubtract(GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".CostPrice").text())
+                             , GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".BodyTotal").text()))
+
+                         if (GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".CostPrice").text()) /
+                             GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemQty").text())
+                             <=
+                             GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemPriceMask").text())
+                         ) {
+                             AddToMainTbl(data.VAC_Id, data.VAName, "SED", data.VAId, $("#Desc").val(), VAmount, 0, VAmount*TransactionRate);
+                         } else {
+                             AddToMainTbl(data.VAC_Id, data.VAName, "SED", data.VAId, $("#Desc").val(), VAmount, VAmount * TransactionRate,0 );
+                         }
+                         $("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-vcaid", data.VAC_Id);
+                         MergJv();
+                     }
+                 } else {
+                      if ($("#Doc_type").val() == Doc_type.Invoice) {
+                          AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), obj.Cost_priceMask, 0, obj.Cost_priceMask * TransactionRate);
+                      } else {
+                          AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), obj.Cost_priceMask, obj.Cost_priceMask * TransactionRate, 0);
+                          Debit = obj.TotalMask;
+                      }
+                 }
+                 $(GetItemBodyTr(obj.Item_id)).find(".BodyTotal").attr("data-caid", data.AC_Id);
+                     if (getParameterByName("Sales") != "true") {
+            var Total = ((GetMaskNumber(obj.TotalMask) - GetMaskNumber(obj.Discount))) + RoundNumber(SumOfVat);
+            var Url = "@Url.Action("GetTransactionAccount", "Payable_gl_account",new {area="Payable" })"
+                + "?VendorId=" + $("#Vendor_idTrans").val()
+                + "&Doc_type=" + $("#Doc_type").val()
+                + "&Purchase=" + 0//parseFloat(obj.TotalMask) * TransactionRate
+                + "&Taken_discount=" + 0//obj.Discount * TransactionRate
+                + "&Total=" + Total * TransactionRate
+                + "&Orginal_amount=" + parseFloat(0) * TransactionRate
+                + "&Payable=" + 0
+                + "&BookId=" + 0
+                + "&Transaction_rate=" + TransactionRate
+                + "&ThisCurrIso=" + $("#Currency_id").find("option:selected").text()
+                + "&IsInv=true"
+                + "&ItemId=" + obj.Item_id
+
+            InsertPayableJv(Url, "", "", false, function (JvData) {
+                JvData[0].ShowTransactions.push(GetManyJvDataObject(Credit * TransactionRate, Debit * TransactionRate, "", "", "", "", "", "", "", "", "", Debit , Credit , "", "", data.AC_Id));
+                PushAll(obj, JvData)
+                $(GetItemBodyTr(obj.Item_id)).find(".ItemId").attr("data-vendorecaid", JvData[0].ShowTransactions.find(x => x.Mark == "Vendore").AID)
+            }, $(GetItemBodyTr(obj.Item_id)).index(), true, true)
+
+            $("#TCGE-JEDate").removeAttr("disabled")
+            $("#TCGE-PostingDate").removeAttr("disabled")
+
+        } else {
+
+            $.ajax({
+                url: "/Inventory/Inv_item/GetCostOfAccount?ItemId=" + obj.Item_id + "&Doc_type=" + $("#Doc_type").val(),
+                method: "POST",
+                success: function (data) {
+                    if ($("#Doc_type").val() == Doc_type.Invoice) {
+                        AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), obj.Cost_priceMask, obj.Cost_priceMask * TransactionRate, 0, false, false, false, false, true);
+                    } else {
+                        AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), obj.Cost_priceMask, 0, obj.Cost_priceMask * TransactionRate,false,false,false,false,true);
+                    }
+                    $(GetItemBodyTr(obj.Item_id)).find(".CostPrice").attr("data-caid", data.AC_Id);
+                    if (getParameterByName("FullPay") != "true") {
+                        var Total = ((GetMaskNumber(obj.TotalMask) - GetMaskNumber(obj.Discount))) + RoundNumber(SumOfVat);
+                        var Url = "@Url.Action("GetTransactionAccount", "Receivable_gl_account", new { area = "Receivable" })" + "?VendorId=" + $("#Vendor_id").val()
+                            + "&Doc_type=" + $("#Doc_type").val()
+                            + "&Sales=" + GetMaskNumber(obj.TotalMask) * TransactionRate//parseFloat(obj.TotalMask) * TransactionRate
+                            + "&Discount=" + 0
+                            + "&Total=" + Total * TransactionRate
+                            + "&Orginal_amount=" + parseFloat(0) * TransactionRate
+                            + "&Receivable=" + 0
+                            + "&BookId=" + 0
+                            + "&Transaction_rate=" + TransactionRate
+                            + "&ThisCurrIso=" + $("#Currency_id").find("option:selected").text()
+                            + "&ShowSalesBtn=false"
+                            + "&IsInv=true"
+                            + "&ItemId=" + obj.Item_id
+
+
+                        InsertReceivableJv(Url, "", "", false, function (JvData) {
+                            JvData[0].ShowTransactions.push(GetManyJvDataObject(Credit * TransactionRate, Debit * TransactionRate, "", "", "", "", "", "", "", "", "", Debit, Credit, "", "", data.AC_Id));
+                            PushAll(obj, JvData)
+                            $("#itemsBody").find("tr:eq(" + Tr + ")").find(".BodyTotal").attr("data-costcaid", JvData[0].ShowTransactions.find(x => x.Mark == "Sales").AID);
+                            $(GetItemBodyTr(obj.Item_id)).find(".ItemId").attr("data-vendorecaid", JvData[0].ShowTransactions.find(x => x.Mark == "Vendore").AID)
+                        }, $(GetItemBodyTr(obj.Item_id)).index(), true, true, true)
+
+
+                    } else {
+                        var Total = ((GetMaskNumber(obj.TotalMask) - GetMaskNumber(obj.Discount))) + RoundNumber(SumOfVat);
+                        var Url = "@Url.Action("GetInvCheckBookAccount", "Receivable_gl_account", new { area = "Receivable" })?"
+                            + "&Doc_type=" + $("#Doc_type").val()
+                            + "&Amount=" + GetMaskNumber(obj.TotalMask) * TransactionRate//parseFloat(obj.TotalMask) * TransactionRate
+                            + "&CheckBookId=" + $("#Checkbook_id").val()
+                            + "&Transaction_rate=" + TransactionRate
+                            + "&ThisCurrIso=" + $("#Currency_id").find("option:selected").text()
+                            + "&ItemId=" + obj.Item_id
+
+                        InsertReceivableJv(Url, "", "", false, function (JvData) {
+                            JvData[0].ShowTransactions.push(GetManyJvDataObject(Credit, Debit, "", "", "", "", "", "", "", "", "", Debit, Credit, "", "", data.AC_Id));
+                            PushAll(obj, JvData)
+                            $("#itemsBody").find("tr:eq(" + Tr + ")").find(".BodyTotal").attr("data-costcaid", JvData[0].ShowTransactions.find(x => x.Mark == "Sales").AID);
+                            $(GetItemBodyTr(obj.Item_id)).find(".ItemId").attr("data-vendorecaid", JvData[0].ShowTransactions.find(x => x.Mark == "CheckBook").AID)
+                        }, $(GetItemBodyTr(obj.Item_id)).index(), true, true, true)
+
+
+                    }
+                }
+                })
+        }
+             }
+        })
+
+    }
+
+    var DiscountRow = 0;
+
+    $(document).on("focusout", "#TTradeDiscountMask", function () {
+        var Url = "";
+        var TotalUrl = "";
+        {
+            if (GetMaskNumber($("#TNetAmountMask").val()) > 0 &&
+                GetMaskNumber($(this).val()) >= GetMaskNumber($("#TNetAmountMask").val())) {
+                NotValid($(this), "@FabulousErp.BusController.Translate("Discount Can not Be More Than Or Equal Net Amount")",false)
+                return;
+            }
+        }
+        var TransactionRate = GetMaskNumber($("#TCGE-TransactionRate").val());
+        if (!TransactionRate) {
+            TransactionRate = 1;
+        }
+        //var ThisMyTotal = GetMaskNumber($("#TNetAmountMask").val()) -
+        //    GetMaskNumber($("#TTradeDiscountMask").val()) + GetMaskNumber($("#TTaxMask").val());
+        //$("#TTotalMask").val(ThisMyTotal)
+        //.trigger('mask.maskMoney').trigger("change")
+        var TradDiscount = GetMaskNumber($("#TTradeDiscountMask").val());
+        var ThisNet = GetMaskNumber($("#TNetAmountMask").val());
+        var Contenue = true;
+        var SumOfTableDiscount = 0;
+        $("#itemsBody").find("tr").each(function () {
+            var TrIndex = $(this).index()
+            //if (!$("#CalcTotalDis").is(":checked")) {
+            //    if ($(this).index() != EditIndex) {
+            //        Contenue = false
+            //    } else {
+            //        Contenue = true;
+            //    }
+            //} else {
+            //    Contenue = false
+            //}
+            if (Contenue) {
+                var ThisTblTr = $(this);
+                var ThisTotal = GetMaskNumber($(this).find(".BodyTotal").text())
+                var NewDiscount = 0;
+                if ($("#CalcTotalDis").is(":checked")) {
+                     NewDiscount = (ThisTotal / ThisNet) * TradDiscount
+                } else {
+                    NewDiscount = GetMaskNumber($(this).find(".BodyDiscount").text())
+                }
+                var TblVatPer = parseFloat($(this).find(".BodyTableVat").attr("data-tax-per"));
+                var VatPer = parseFloat($(this).find(".BodyVat").attr("data-tax-per"));
+                var DeductPer = parseFloat($(this).find(".BodyDeduct").attr("data-tax-per"));
+
+
+
+                var NewTax = GetTax(ThisTotal, NewDiscount, TblVatPer, VatPer, DeductPer);
+                SetTaxToItemTbl($(this).index(), NewTax.TaxTablVat, NewTax.TaxVat, NewTax.DedcutVat);
+                SetToTaxTable($(this).index(), NewTax.TaxVat, NewTax.TaxTablVat, NewTax.DedcutVat, NewDiscount,$("#Doc_type").val())
+
+                SetTaxFinalCost($(this).index(), (ThisTotal + GetMaskNumber($(this).find(".BodyFright").text()) - NewDiscount) / $(this).find(".ItemQty").text())
+
+                $(this).find(".BodyDiscount").text(MaskThisMoney(NewDiscount))
+            }
+            SumOfTableDiscount += RoundNumber(NewDiscount);
+        });
+        if (SumOfTableDiscount > GetMaskNumber($("#TTradeDiscountMask").val())) {
+            var NewLastDis = SumOfTableDiscount - GetMaskNumber($("#TTradeDiscountMask").val());
+            var ThisDis = GetMaskNumber($("#itemsBody").find("tr").last().find(".BodyDiscount").text());
+            $("#itemsBody").find("tr").last().find(".BodyDiscount").text(MaskThisMoney((NewLastDis - ThisDis)))
+        } else if (SumOfTableDiscount < GetMaskNumber($("#TTradeDiscountMask").val())) {
+            var NewLastDis = SumOfTableDiscount - GetMaskNumber($("#TTradeDiscountMask").val());
+            var ThisDis = GetMaskNumber($("#itemsBody").find("tr").last().find(".BodyDiscount").text());
+            $("#itemsBody").find("tr").last().find(".BodyDiscount").text(MaskThisMoney((NewLastDis + ThisDis)))
+        }
+        SetVendoreClientGl();
+        CalcJvTax();
+        CalcTTable();
+    })
+    var Fright = null;
+    var OldFrightAmount = 0;
+    var IsUpdate = false;
+    function ReCalcFright() {
+
+        var FrightIsDebit = "";
+        var AccrualFrightIsDebit = "";
+        if (getParameterByName("Sales") == "false" && $("#Doc_type").val() == Doc_type.Invoice) {
+            FrightDebit = true;
+        } else {
+            FrightDebit = false;
+
+        }
+        if (getParameterByName("Sales") == "false" && $("#Doc_type").val() == Doc_type.Invoice) {
+            AccrualFrightIsDebit = false;
+        } else {
+            AccrualFrightIsDebit = true;
+        }
+
+        $("#itemsBody").find("tr").each(function () {
+            RmDcByRowClassAmount(
+                $(this).find(".BodyFright").attr("data-acidrow"), true,
+                GetMaskNumber($(this).find(".BodyFright").text()), FrightDebit);
+            RmDcByRowClassAmount(
+                $(this).find(".BodyFright").attr("data-acidafrow"), true,
+                GetMaskNumber($(this).find(".BodyFright").text()), AccrualFrightIsDebit);
+        })
+    }
+    $(document).on("focusout", "#TFrightMask", function () {
+        var Url = "";
+        var TotalUrl = "";
+        var ThisMyTotal = RoundNumber(GetMaskNumber($("#TNetAmountMask").val()) -
+            GetMaskNumber($("#TTradeDiscountMask").val()) + GetMaskNumber($("#TTaxMask").val()));
+        $("#TTotalMask").val(ThisMyTotal)
+            .trigger('mask.maskMoney').trigger("change")
+        var ItemIds = [];
+        var TotalFright = GetMaskNumber($("#TFrightMask").val());
+        var ThisNet = GetMaskNumber($("#TNetAmountMask").val());
+
+        var SumOfFright = 0;
+
+        ReCalcFright();
+        var WaitCount = $("#itemsBody").find("tr").length;
+        if (getParameterByName("Sales") == "false") {
+            WaitCount *= 2;
+        }
+        var HasAdded = $("#itemsBody").find("tr").length
+        $("#itemsBody").find("tr").each(function () {
+            ItemIds.push($(this).find(".ItemId").text());
+
+             var FrightAmount = GetMaskNumber($("#TFrightMask").val());
+             var ItemStr = "&ItemsIds=" + $(this).find(".ItemId").text();
+
+
+            var ThisTotal = GetMaskNumber($(this).find(".BodyTotal").text())
+            var NewFright = 0;
+
+            var PrevFright = GetMaskNumber($(this).find(".BodyFright").text());
+
+            NewFright = RoundNumber((ThisTotal / ThisNet) * TotalFright);
+
+            SetTaxFinalCost($(this).index(), (ThisTotal + NewFright - GetMaskNumber($(this).find(".BodyDiscount").text())) / GetMaskNumber($(this).find(".ItemQty").text()))
+            SumOfFright += RoundNumber(NewFright);
+            if ($(this).index() == $("#itemsBody").find("tr").last().index()) {
+                if (SumOfFright > TotalFright) {
+                    NewFright += RoundNumber(SumOfFright - TotalFright);
+                } else if (SumOfFright < GetMaskNumber($("#TFrightMask").val())) {
+                    NewFright += RoundNumber(TotalFright - SumOfFright);
+                }
+            }
+            $(this).find(".BodyFright").text(setCurrecnyCurrFormate(NewFright, $("#@CurrencyId").find("option:selected").val()))
+
+            if (getParameterByName("Sales") == "false") {
+                 Url = "/Payable/Payable_gl_account/GetFrightJV?FrightAmount=" + NewFright +
+                "&VendorId=" + $("#Vendor_idTrans").val()
+                + "&ThisCurrIso=" + $("#@CurrencyId").find("option:selected").text()
+                     + "&Transaction_rate=" + GetMaskNumber($("#TCGE-TransactionRate").val())
+                     + ItemStr + "&DocType=" + $("#Doc_type").val()
+            } else {
+                 Url = "/Receivable/Receivable_gl_account/GetFrightJV?FrightAmount=" + NewFright +
+                    "&VendorId=" + $("#Vendor_id").val()
+                    + "&ThisCurrIso=" + $("#Currency_id").find("option:selected").text()
+                     + "&Transaction_rate=" + GetMaskNumber($("#TCGE-TransactionRate").val(),1)
+                     + ItemStr + "&DocType=" + $("#Doc_type").val()
+            }
+            if (NewFright > 0) {
+                var Tr = $(this).index();
+                $.ajax({
+                    url: Url,
+                    method: "POST",
+                    success: function (data) {
+                        var ThisBodyTr = $("#itemsBody").find("tr:eq(" + Tr + ")");
+                        ManyJvAction(data, false, false);
+                        $(ThisBodyTr).find(".BodyFright").attr("data-acidrow", GetLastDcACid())
+                        MergJv();
+                        WaitCount--;
+                    }
+                })
+                if (getParameterByName("Sales") == "false") {
+                    $.ajax({
+                        url: "/Payable/Payable_gl_account/GetAccrualFrightJV?FrightAmount=" + NewFright +
+                            "&VendorId=" + $("#Vendor_idTrans").val()
+                            + "&ThisCurrIso=" + $("#@CurrencyId").find("option:selected").text()
+                            + "&Transaction_rate=" + GetMaskNumber($("#TCGE-TransactionRate").val(),1)
+                            + ItemStr + "&DocType=" + $("#Doc_type").val(),
+                        method: "POST",
+                        success: function (data) {
+                            var ThisBodyTr = $("#itemsBody").find("tr:eq(" + Tr + ")");
+                            ManyJvAction(data, false, false);
+                            $(ThisBodyTr).find(".BodyFright").attr("data-acidafrow", GetLastDcACid())
+                            MergJv();
+                            WaitCount--;
+                        }
+                    })
+                }
+            } else {
+                WaitCount = 0;
+            }
+        });
+
+        RunAfterAjax(function () {
+            var FrighInt = setInterval(function () {
+                if (WaitCount == 0) {
+                    //if (SumOfFright > GetMaskNumber($("#TFrightMask").val())) {
+                    //    var NewLastDis = SumOfFright - GetMaskNumber($("#TFrightMask").val());
+                    //    var ThisDis = GetMaskNumber($("#itemsBody").find("tr").last().find(".BodyFright").text());
+                    //    $("#itemsBody").find("tr").last().find(".BodyFright").text(MaskThisMoney((NewLastDis - ThisDis)))
+                    //} else if (SumOfFright < GetMaskNumber($("#TFrightMask").val())) {
+                    //    var NewLastDis = GetMaskNumber($("#TFrightMask").val()) - SumOfFright;
+                    //    var ThisDis = GetMaskNumber($("#itemsBody").find("tr").last().find(".BodyFright").text());
+                    //    $("#itemsBody").find("tr").last().find(".BodyFright").text(MaskThisMoney((NewLastDis + ThisDis)))
+                    //}
+                    SetVendoreClientGl();
+                    clearInterval(FrighInt);
+                }
+            },200)
+
+        })
+
+    })
+
+</script>
+<script>
+    $(function () {
+        $("#Doc_date").val(moment().format("YYYY-MM-DD"));
+        $("#Due_date").val(moment().add(30, "days").format("YYYY-MM-DD"));
+        if (getParameterByName("Piece") == "true") {
+            $("#Piece").val(true)
+        } else {
+            $("#Piece").val(false)
+
+        }
+    })
+    var PostringNumber;
+    $("#InvCreate").click(function () {
+        if ($("#Item_id").val() || $("#Quantity").val() || $("#Unit_priceMask").val()) {
+            ModelMsg("@FabulousErp.BusController.Translate("There are UnSaved Data Do You Want To Clear it")", "", false, function () {
+                $("#AddNewItem").parents("form").find("#reset").trigger("click");
+            },null,"Clear")
+            return;
+        }
+        if (getParameterByName("Sales") != "true") {
+            if (!ValidateVendoreLimit(false, true)) {
+                return false;
+            }
+        } else {
+            if (!ValidateCustomerLimit(false, true)) {
+                return false;
+            }
+        }
+        $("#itemsBody").find("tr").each(function () {
+            var ThisTr = $(this);
+            RunAfterAjax(function () {
+                if (!CheckAllHasSerial($(ThisTr).index())) {
+                    CheckIfItemHasProp($(ThisTr).find(".ItemId").text(),
+                        $(ThisTr).find(".ItemQty").text(), $(ThisTr).index())
+                }
+            })
+        });
+
+         if (CheckAllHasSerial()) {
+                if ($("#FirstForm").valid()) {
+                  InsertTransactionData("@FabulousErp.Business.GetCompanyId()",
+                        "@FabulousErp.Business.PostingToOrThrow()", $("#TCGE-PostingDate").val(),
+                        $("#TCGE-JEDate").val(), $("#Desc").val(), $("#@CurrencyId").val(), "1", "1", $(".PageKey").val(),$(".PageKey").val(), "", "",
+                      function (Jv, PO) {
+                            PostringNumber = PO;
+                            $("#Journal_number").val(Jv);
+                            $("#InvCreate").attr("disabled", "disabled")
+                            var Total = 0;
+                            $("#itemsBody").find(".BodyTotal").each(function () {
+                                Total += parseFloat($(this).text());
+                            });
+
+                            if ((getParameterByName("Sales") == "true" && $("#Doc_type").val() == Doc_type.Invoice)
+                              //  || (getParameterByName("Sales") != "true" && $("#Doc_type").val() == "@((int)FabulousDB.Models.Doc_type.Return)")
+                            ) {
+                                var Po_inv = [];
+                                $("#itemsBody").find("tr").each(function () {
+                                    var PoItem = JSON.parse($(this).find(".PoItem").text())
+                                    $.each(PoItem, function (k, i) {
+                                        Po_inv.push(i);
+                                    })
+                                });
+                                var PoArr = JSON.stringify(Po_inv);
+                                $("#Po_inv").val(PoArr);
+                            }
+
+                            $("#FNet_amount").val(GetMaskNumber($("#TNetAmountMask").val()));
+                            $("#FTax").val(GetMaskNumber($("#TTaxMask").val()));
+                            $("#FDiscount").val(GetMaskNumber($("#TTradeDiscountMask").val()));
+                            $("#TCGE-JEDate").removeAttr("disabled")
+                            $("#TCGE-PostingDate").removeAttr("disabled")
+                          $("#MainFormProfit_user_id").val($("#Profit_user_id").val());
+                          $(".FormTotal").val(GetMaskNumber($("#TTotalMask").val()));
+                          $("#FPostringNumber").val(PO);
+                          $("#SubmitFirst").trigger("click");
+
+                        }, null, null, null, true, true)
+                }
+            }
+
+    });
+    function SubmitItems(data) {
+        var AddedList = [];
+        $("#itemsBody").find("tr").each(function () {
+            try {
+                AddedList.push({
+                    Item_id: $(this).find(".ItemId").text(),
+                    Fright: GetMaskNumber($(this).find(".BodyFright").text()),
+                    Site_id: $(this).find(".ItemSite").text(),
+                    Vat_amount: GetMaskNumber($(this).find(".BodyVat").text()),
+                    Table_vat_amount: GetMaskNumber($(this).find(".BodyTableVat").text()),
+                    Deduct_amount: GetMaskNumber($(this).find(".BodyDeduct").text()),
+                    Discount: GetMaskNumber($(this).find(".BodyDiscount").text()),
+                    Total: GetMaskNumber($(this).find(".BodyTotal").text()),
+                    Quantity: GetMaskNumber($(this).find(".ItemQty").text()),
+                    UOM_id: $(this).find(".UOM").attr("data-id"),
+                    Cost_price: GetMaskNumber($(this).find(".CostPrice").text()),
+                    Unit_price: GetMaskNumber($(this).find(".ItemPriceMask").text())
+                })
+                if (getParameterByName("Sales") == "true") {
+                    AddedList.find(x => x.Item_id == $(this).find(".ItemId").text()).Custom_name = $(this).find(".ItemName").text()
+                }
+            } catch (err) {
+                alert("حدث خطا")
+            }
+        })
+        GrNo = data.GR_no;
+        GrNum = data.GR_no;
+        if ((getParameterByName("Sales") != "true"
+            && $("#Doc_type").val() ==Doc_type.Invoice)
+            || (getParameterByName("Sales") == "true"
+                && $("#Doc_type").val() == Doc_type.Return)) {
+
+            var TrxNum = data.Trx_num;
+
+            for (var i = 0; i < AddedList.length; i++) {
+                AddedList[i].Receive_po_id = data.Id;
+            }
+
+            var SerialsData = GetSerials();
+
+            if (getParameterByName("Sales") != "true"
+                && $("#Doc_type").val() == "@((int)FabulousDB.Models.Doc_type.Invoice)") {
+                $(document).find("#TCT-taxTblBody").find("tr").each(function () {
+                    $(this).find(".Doc_num").text($("#VDocument_number").val());
+                })
+            }
+            else {
+                $(document).find("#TCT-taxTblBody").find("tr").each(function () {
+                    $(this).find(".Doc_num").text(data.Trx_counter);
+                })
+            }
+
+            InsertIntoTax($("#Journal_number").val());
+
+            $.ajax({
+                url: "@Url.Action("CreateList", "Inv_receive_po_items")?Doc_type="+$("#Doc_type").val(),
+                data: { inv_po_items: AddedList, Serials : SerialsData },
+                success: function (ValidateSerials) {
+                    if (getParameterByName("FullPay") == "true") {
+                        alert("Next Goods Number " + GrNum + " Withdrow Number " + data.BookId);
+                    } else {
+                        if (!ValidateSerials.AllService) {
+                            alert("GR Number " + GrNo + " Transaction Number " + TrxNum)
+
+                            window.open(
+                                '/Inventory/Rpt/PoItemsPrint?PoId=' + data.Id + "&IsPo=true&Doc_type=" + $("#Doc_type").val() + "&IsSales=true",
+                                '_blank'
+                            );
+                        } else {
+                            alert("Transaction Number " + data.Trx_num)
+                        }
+                    }
+
+                    if (getParameterByName("FullPay") != "true") {
+                        if ($("#Doc_type").val() == Doc_type.Invoice) {
+                            window.open(
+                                '/Payable/Payable_Transaction/Details/' + data.PayId + "?Print=true",
+                                '_blank'
+                            );
+                        } else {
+                            window.open(
+                                "/Recipts/PayRecRecipts?Id=" + data.RecId + "&IsPay=false&IsInv=true",
+                                '_blank'
+                            );
+                            window.open(
+                                '/Receivable/Receivable_transaction/Details/' + data.RecId + "?Print=true",
+                                '_blank'
+                            );
+                        }
+                    }
+                    else {
+                        window.open(
+                            "/Recipts/PayRecRecipts?Id=0&IsPay=false&IsInv=true&PO=" + PostringNumber,
+                            '_blank'
+                        );
+                    }
+
+                    if (!ValidateSerials.valid && ValidateSerials.error) {
+                        alert(ValidateSerials.error);
+                    }
+                    RedirectInt(window.location.href);
+                },
+                method: "POST"
+            })
+
+        } else {
+            var GrNum = data.GR_no;
+            var TrxNum = data.Trx_num;
+
+            //if ($("#Doc_type").val() == Doc_type.Invoice) {
+            //    alert("Next Goods Number " + data.GR_no + " Transaction Number " + data.Trx_num);
+            //} else {
+            //    alert("Next Goods Number " + data.GR_no);
+
+            //}
+
+            //var PoItemQty = [];
+            //$("#itemsBody").find("tr").each(function () {
+            //    PoItemQty.push($(this).find(".PoItem").text());
+            //})
+
+             $(document).find("#TCT-taxTblBody").find("tr").each(function () {
+                $(this).find(".Doc_num").text(data.Trx_counter);
+            })
+            InsertIntoTax($("#Journal_number").val());
+
+            for (var i = 0; i < AddedList.length; i++) {
+                AddedList[i].Sales_invoice_id = data.Id;
+                AddedList[i].Po_id = $("#GNums").val();
+            }
+            var SerialsData = GetSerials();
+
+            $.ajax({
+                url: "@Url.Action("CreateListSales", "Inv_receive_po_items")?Doc_type="+$("#Doc_type").val()+"&FullPay="+getParameterByName("FullPay"),
+                data: { inv_po_items: AddedList, Serials: SerialsData },
+                success: function (Valid) {
+                    if (getParameterByName("FullPay") == "true") {
+                        alert("Next Goods Number " + GrNum + " Deposit Number " + data.BookId);
+                    } else {
+                        if (!Valid.AllService) {
+                            alert("Next Goods Number " + GrNum + " Transaction Number " + TrxNum);
+                        } else {
+                            alert("Transaction Number " + TrxNum);
+                        }
+                    }
+
+                    if ($("#Doc_type").val() == Doc_type.Invoice) {
+                        if (!Valid.AllService) {
+                            window.open(
+                                '/Inventory/Rpt/PoItemsPrint?PoId=' + data.Id + "&IsPo=false&Doc_type=" + $("#Doc_type").val(),
+                                '_blank'
+                            );
+                            if (getParameterByName("FullPay") != "true") {
+                                if (getParameterByName("Piece") != "true") {
+                                    window.open(
+                                        "/Recipts/PayRecRecipts?Id=" + data.RecId + "&IsPay=false&IsInv=true",
+                                        '_blank'
+                                    );
+                                } else {
+                                    window.open(
+                                        "/Recipts/PayRecRecipts?Id=0&IsPay=false&IsInv=true&PO=" + PostringNumber,
+                                        '_blank'
+                                    );
+                                }
+                            }
+                            else {
+                                window.open(
+                                    "/Recipts/PayRecRecipts?Id=0&IsPay=false&IsInv=true&PO=" + PostringNumber,
+                                    '_blank'
+                                );
+                            }
+                        }
+                        if (getParameterByName("FullPay") != "true") {
+                            window.open(
+                                '/Receivable/Receivable_transaction/Details/' + data.RecId + "?Print=true",
+                                '_blank'
+                            );
+                        }
+                    } else if (getParameterByName("Sales") == "false" &&
+                        $("#Doc_type").val() == Doc_type.Return) {
+                        if (!Valid.AllService) {
+                            window.open(
+                                '/Inventory/Rpt/PoItemsPrint?PoId=' + data.Id + "&IsPo=true&Doc_type=" + $("#Doc_type").val(),
+                                '_blank'
+                            );
+                            window.open(
+                                "/Recipts/PayRecRecipts?Id=" + data.PayId + "&IsPay=true&IsInv=true",
+                                '_blank'
+                            );
+                        }
+                        window.open(
+                            '/Payable/Payable_Transaction/Details/' + data.PayId + "?Print=true",
+                            '_blank'
+                        );
+
+                    }
+                    if ((getParameterByName("Piece") == "true" || getParameterByName("FullPay")=="true")
+                        && data.BookId) {
+                        Talert("CheckBook ", data.BookName, " Deposit Number ", data.BookId);
+                        window.open(
+                            '/C_CashReciept/PrintRecipt?JN=' + PostringNumber,
+                            '_blank'
+                        );
+                    }
+                    RedirectInt(window.location.href);
+                },
+                method: "POST"
+            })
+            //window.open(
+            //    '/Receivable/Receivable_Transaction/Details/' + data.RecId + "?Print=true",
+            //    '_blank'
+            //);
+        }
+    }
+    $(document).on("change focusout", "#@CurrencyId,#TCGE-CurrencyID,#TCGE-JEDate,#TCGE-PostingDate", function () {
+        $('#TCGE-CurrencyID').val($("#@CurrencyId").val())
+    })
+    $(document).on("change", "#Desc", function () {
+        $("#TCGE-Reference").val($(this).val())
+    })
+    $(document).on("change", "#TCGE-AccountID", function () {
+        $("#TCGE-Debit").removeAttr("disabled")
+        $("#TCGE-Credit").removeAttr("disabled")
+    })
+
+    $("#CalcTotalDis").click(function () {
+        if ($(this).is(":checked")) {
+            $("#TTradeDiscountMask").removeAttr("disabled");
+        } else {
+            $("#TTradeDiscountMask").attr("disabled", "disabled");
+        }
+    })
+    function ReconcileDiscountWithFright(DcIndex) {
+        //var DiscAcid = $("#TTradeDiscountMask").attr("data-acid");
+        //var FrightAcid = $("#TFrightMask").attr("data-acid");
+        //var DiscAmount = GetMaskNumber($("#TTradeDiscountMask").val());
+        //var FrightAmount = GetMaskNumber($("#TFrightMask").val());
+        //if (DiscAcid && FrightAcid && DiscAmount && FrightAmount) {
+        //    if (FrightAcid == DiscAcid) {
+        //        var MaskedAmount = DiscAmount + FrightAmount
+        //        var AcIndex = GetGlAccIndex(DiscAcid);
+        //        SetDC(AcIndex, setCurrecnyCurrFormate(MaskedAmount));
+        //    }
+        //}
+
+
+        //if (IsDiscount && GetMaskNumber($("#TFrightMask").val()) > 0) {
+
+        //} else {
+
+        //}
+    }
+
+</script>
+@if (ViewBag.Sales == false)
+{
+    @Html.IncludeVersionedJs("/Areas/Payable/Scripts/Payable_transaction.js")
+    <input id="TCT-taxGroupID" value="1" type="hidden" />
+}
+else if (ViewBag.Sales == true)
+{
+    @Html.IncludeVersionedJs("/Areas/Receivable/Scripts/Receivable_transaction.js")
+    <input id="TCT-taxGroupID" value="2" type="hidden" />
+}
+<section class="hide">
+    @Html.Action("MainTax", "C_TaxTransaction", new { area = "" })
+    <input id="TaxTable" type="hidden" />
+    <input id="AllowTaxDuple" value="true" />
+</section>
+<script>
+    $(function () {
+        $("#TCT-taxGroupID").trigger("change")
+        if (getParameterByName("Sales") == "true") {
+            $("#Cost_price").attr("disabled", "disabled");
+            $("#Unit_price").attr("disabled", "disabled");
+            $("#TaxTable").val("Sales")
+        } else if (getParameterByName("Sales") == "false" && $("#Doc_type").val() == Doc_type.Return) {
+            $("#Cost_price").attr("disabled", "disabled");
+            $("#Unit_price").removeAttr("disabled");
+        }
+
+    })
+</script>
+@if (ViewBag.Sales == true)
+{
+    <script>
+        $("#TCGE-JEDate").change(function () {
+            $("#Due_date").val(moment($("#TCGE-JEDate").val()).add(1, "month").format("YYYY-MM-DD"));
+        })
+    </script>
+}
+
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/PoRecive.js")
+<script>
+    $(document).on("DOMSubtreeModified", "#ItemTbl", function () {
+
+    });
+    function UpdateTaxTable() {
+
+    }
+</script>
+<script>
+
+    $(function () {
+        if (AllowEditUP == "true") {
+            $("#Unit_priceMask").removeAttr("disabled")
+            $("#Unit_price").removeAttr("disabled")
+        }
+    })
+    $("#Doc_type").change(function () {
+        if ($("#Doc_type").val() == Doc_type.Return) {
+                $("#GrDiv").show();
+            $("select#Item_id").empty();
+                $("#Unit_priceMask").attr("disabled","disabled")
+                $("#Unit_price").attr("disabled","disabled")
+            } else {
+                $("#GrDiv").hide();
+                $("#Quantity").removeAttr("disabled")
+                if (getParameterByName("Sales") != "true") {
+                    $("#Unit_priceMask").removeAttr("disabled")
+                }
+        }
+    })
+    $("#GNums").change(function () {
+        $("#FirstForm").validate();
+        if (!$("#FirstForm").valid()) {
+            $("#GNums").val("");
+            return;
+        }
+        if (!$("#GNums").val()) {
+            return;
+        }
+        $("#itemsBody").find(".DeletePoItem").trigger("click");
+        $("#TTradeDiscountMask").val(0);
+        $("#TFrightMask").val(0);
+        Loader(null,'100vw','90vh');
+        if (getParameterByName("Sales") != "true") {
+            $.ajax({
+                url: "/inventory/Inv_item/GetPurchaseItems?Id=" + $("#GNums").val() + "&ST=" + $("input[name='ItemSearch']:checked").val(),
+                method: "POST",
+                success: function (data) {
+                    FillItemDrop(data, function () {
+                        TblFill = false;
+                        $.each(data, function (k, i) {
+                            var Intr = null;
+                            if (!TblFill) {
+                                FillReturnTbl(k)
+                            } else {
+                                Intr = setInterval(function () {
+                                    if (!$("#AddNewItem")[0].hasAttribute("disabled")
+                                        && !$("#InvCreate")[0].hasAttribute("disabled") && !TblFill
+                                    ) {
+                                        FillReturnTbl(k)
+                                        clearInterval(Intr);
+                                    }
+                                },500)
+                            }
+                        })
+                    })
+                }
+            })
+        } else {
+            $.ajax({
+                url: "/inventory/Inv_item/GetSalesItems?Id=" + $("#GNums").val() + "&ST=" + $("input[name='ItemSearch']:checked").val(),
+                method: "POST",
+                success: function (data) {
+                    FillItemDrop(data, function () {
+                        TblFill = false;
+                        $.each(data, function (k, i) {
+                            var Intr = null;
+                            if (!TblFill) {
+                                FillReturnTbl(k)
+                            } else {
+                                Intr = setInterval(function () {
+                                    if (!$("#AddNewItem")[0].hasAttribute("disabled")
+                                        && !$("#InvCreate")[0].hasAttribute("disabled") && !TblFill
+                                    ) {
+                                        FillReturnTbl(k)
+                                        clearInterval(Intr);
+                                    }
+                                }, 500)
+                            }
+                        })
+                    })
+
+                }
+            })
+        }
+        HideMyLoader();
+    });
+    function HideMyLoader() {
+        RunAfterAjax(function () {
+            if (!$("#AddNewItem")[0].hasAttribute("disabled")
+                && !$("#InvCreate")[0].hasAttribute("disabled") && !TblFill) {
+                HideLoader();
+            } else {
+                HideMyLoader();
+            }
+        }, 1000)
+    }
+    var TblFill = false;
+    function FillReturnTbl(k, CallBack = null) {
+        if ($("#UpdateItem").is(":visible")) {
+            $("#UpdateItem").trigger("click");
+        }
+        try {
+            if (!$("#AddNewItem")[0].hasAttribute("disabled")) {
+                TblFill = true;
+                Proc = "P"
+                if (k == 0) {
+                    var asd = $("#Item_id").find("option:eq(" + (k + 1) + ")").val();
+                    if (!$("#Item_id").find("option:eq(" + (k + 1) + ")").val()) {
+                        k += 1;
+                    }
+                }
+                $("#Item_id").find("option:eq(" + (k + 1) + ")").trigger("click");
+                var IVal = $("#Item_id").find("option:eq(" + (k + 1) + ")").val();
+                $("#Item_id").val(IVal)
+                RefreshSelcetPicker($("#Item_id"))
+                $("#Item_id").trigger("change");
+                RunAfterAjax(function () {
+                    GetReturnItemDetails(function () {
+                        RunAfterAjax(function () {
+                            RunAfterAjax(function () {
+                                var ClickInt = setTimeout(function () {
+                                    if ($("#Quantity").val()!="") {
+                                        clearInterval(ClickInt);
+                                        $("#AddNewItem").trigger("click");
+                                        TblFill = false;
+                                    }
+                                }, 300)
+                            })
+                        })
+                    })
+                })
+            }
+        } catch (err) {
+            FillReturnTbl(k, CallBack);
+        }
+
+    }
+    function GetReturnItemDetails(CallBack = null) {
+        if (getParameterByName("Sales") != "true") {
+            if ($("#Doc_type").val() == Doc_type.Return) {
+                //GetPurchasItemDetials(function (Q, U, C, Discount, Fright, UOMId) {
+                //    $("#Quantity").val(Q);
+                //    $("#Unit_priceMask").val(U).trigger("mask.maskMoney").trigger("change");
+                //    $("#Cost_priceMask").val(C).trigger('mask.maskMoney').trigger("change");
+                //    $("#DiscountMask").val(Discount).trigger("mask.maskMoney").trigger("change");
+                //    $("#FrightMask").val(Fright).trigger("mask.maskMoney").trigger("change");
+                //    var MainDiscount = GetMaskNumber($("#TTradeDiscountMask").val());
+                //    $("#TTradeDiscountMask").val(MainDiscount + Discount)
+                //    var MainFright = GetMaskNumber($("#TFrightMask").val());
+                //    $("#TFrightMask").val(MainFright + Fright)
+                //    $("#UOM_id").val(UOMId)
+                //});
+            }
+        } else {
+             if ($("#Doc_type").val() == Doc_type.Return) {
+                RunAfterAjax(function () {
+                    if ($("#Doc_type").val() == Doc_type.Return) {
+                        $("#AddNewItem").attr("disabled", "disabled");
+                        GetSalesItemDetials(function (Qty, Unit_price, Total, CostPrice,Discount,Fright,UOM) {
+                            $("#Quantity").val(Qty);
+                            $("#Unit_priceMask").val(Unit_price).trigger("mask.maskMoney").trigger("change");
+                            $("#TotalMask").val(Total).trigger("mask.maskMoney").trigger("change");
+                            $("#Cost_priceMask").val(CostPrice).trigger("mask.maskMoney").trigger("change");
+                            $("#DiscountMask").val(Discount).trigger("mask.maskMoney").trigger("change");
+                            $("#FrightMask").val(Fright).trigger("mask.maskMoney").trigger("change");
+                            var MainDiscount = GetMaskNumber($("#TTradeDiscountMask").val());
+                            $("#TTradeDiscountMask").val(MainDiscount + Discount)
+
+                            var MainFright = GetMaskNumber($("#TFrightMask").val());
+                            $("#TFrightMask").val(MainFright + Fright)
+                            $("#UOM_id").val(UOM)
+                        });
+                        RunAfterAjax(function () {
+                            $("#AddNewItem").removeAttr("disabled");
+                        })
+                    }
+                })
+            }
+        }
+        if (CallBack != null) {
+            CallBack();
+        }
+    }
+
+
+    $(function () {
+        $("#TCGE-Credit").removeAttr("disabled", "disabled");
+        $("#TCGE-Debit").removeAttr("disabled", "disabled");
+    })
+    $("#@VendoreId").change(function () {
+        if (getParameterByName("Sales") != "true" &&
+            $("#Doc_type").val()== Doc_type.Return) {
+            $.ajax({
+                url: "/Inventory/Inv_receive_po/GetVendoreInvoice?VendoreId=" + $("#@VendoreId").val(),
+                method: "POST",
+                success: function (data) {
+                    $("select#GNums").empty();
+                    $("select#GNums").append("<option></option>")
+                    $.each(data, function (k, i) {
+                        $("select#GNums").append("<option value='" + i.Id + "'>" + i.Trx + "</option>")
+                    })
+                }
+            })
+        } else if (getParameterByName("Sales") == "true" &&
+            $("#Doc_type").val() == Doc_type.Return) {
+               $.ajax({
+                   url: "/Inventory/Inv_sales_invoice/GetCustomerInvoice?CustomerId=" + $("#@VendoreId").val(),
+                method: "POST",
+                success: function (data) {
+                    $("select#GNums").empty();
+                    $("select#GNums").append("<option></option>")
+                    $.each(data, function (k, i) {
+                        $("select#GNums").append("<option value='" + i.Id + "'>" + i.Trx + "</option>")
+                    })
+                }
+            })
+        }
+
+        $(this).find("option:selected").attr("data-ortext", $(this).find("option:selected").text())
+        $(this).find("option:selected").text($(this).find("option:selected").text().split("-")[0])
+        @*if (getParameterByName("Piece") == "true") {
+            GetCustomerBalance($("#@VendoreId").val(), function (Amount) {
+                $("#CB").text(MaskThisMoney(Amount));
+            })
+        }*@
+    })
+    $("#@VendoreId").focus(function () {
+        $("#@VendoreId").find("option").each(function () {
+            if ($(this).attr("data-ortext")) {
+                $(this).text($(this).attr("data-ortext"))
+            }
+        });
+    })
+    function CalcVariance() {
+        var VAmount = 0;
+        var Exist = [];
+        $("#itemsBody").find("tr").each(function () {
+            VAmount = NoNegitiveSubtract(GetMaskNumber($(this).find(".CostPrice").text())
+                , GetMaskNumber($(this).find(".BodyTotal").text()))
+            if (Exist.find(x => x == $(this).find('.ItemId').attr("data-vcaid"))) {
+                VAmount += GetDc(GetGlAccIndex($(this).find('.ItemId').attr("data-vcaid")))
+            }
+            if (GetMaskNumber($(this).find(".CostPrice").text()) /
+                GetMaskNumber($(this).find(".ItemQty").text())
+                <=
+                GetMaskNumber($(this).find(".ItemPriceMask").text())
+            ) {
+                SetDCBool(GetGlAccIndex($(this).find('.ItemId').attr("data-vcaid")), VAmount, false);
+            } else {
+                SetDCBool(GetGlAccIndex($(this).find('.ItemId').attr("data-vcaid")), VAmount, true);
+            }
+            Exist.push($(this).find('.ItemId').attr("data-vcaid"));
+        })
+
+    }
+
+</script>
+<script>
+    @*$("#PageABar").append("<i class='fa fa-bars' id='Options'></i>");
+    var Top = $(".body-header").position().top + 25;
+    var VendoreId = ""
+    var VendoreName = ""
+    if (getParameterByName("Sales") == "true") {
+        VendoreId ="@BusController.Translate("Get Customer By Id")";
+        VendoreName ="@BusController.Translate("Get Customer By Name")";
+    } else {
+        VendoreId = "@BusController.Translate("Get Vendore By Id")";
+        VendoreName = "@BusController.Translate("Get Vendore By Name")";
+    }
+    $(".body-header").after("<nav class='MyNav' id='OptionNav' style='top:" + Top+"px;display:none;z-index:99;'>"+
+        "<div><input type='radio' name='ItemSearch' value='0' class='v-middle' checked='checked' /> <span> @BusController.Translate("Get Item By Item Id")</span></div>"+
+        "<div><input type='radio' name='ItemSearch' value='1' class='v-middle' />  <span> @BusController.Translate("Get Item By Item Short Description")</span></div>"+
+        "<div><input type='radio' name='ItemSearch' value='2' class='v-middle' />  <span> @BusController.Translate("Get Item By Item Description")</span></div>"+
+        "<br/><br/><br/>"+
+        "<div><input type='radio' name='VendoreSearch' value='0' class='v-middle' checked='checked' /> <span> " + VendoreId +" </span></div>" +
+        "<div><input type='radio' name='VendoreSearch' value='1' class='v-middle' />  <span> " + VendoreName +"</span></div>"+
+        "</nav>");*@
+    $(document).on("click", "#PageABar", function () {
+        $(document).find("#OptionNav").toggle();
+    })
+    $(document).on("click", "input[name=VendoreSearch]", function () {
+        $("select.MyVendore").empty();
+        if (getParameterByName("Sales") == "true") {
+            $.ajax({
+                url: "/Inventory/Inv_receive_po/GetCName?SV=" + $("input[name=VendoreSearch]:checked").val(),
+                method: "POST",
+                success: function (data) {
+                    $("select.MyVendore").append("<option value=''></option>");
+
+                    $.each(data, function (k, i) {
+                        $("select.MyVendore").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+                    })
+                }
+            })
+        } else {
+            $.ajax({
+                url: "/Inventory/Inv_receive_po/GetVName?SV=" + $("input[name=VendoreSearch]:checked").val(),
+                method: "POST",
+                success: function (data) {
+                    $(".MyVendore").append("<option value=''></option>");
+
+                    $.each(data, function (k, i) {
+                        $(".MyVendore").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+                    })
+                }
+            })
+
+        }
+    })
+    $("#UOM_id").change(function () {
+        if (getParameterByName("Sales") == "false") {
+            $("#Quantity").attr("data-Eq", $(this).find("option:selected").attr("data-Eq"));
+            //$("#Quantity").attr("data-action", $(this).find("option:selected").attr("data-action"));
+        } else {
+            $("#Quantity").attr("data-Eq", 1);
+            //$("#Quantity").attr("data-action", 1);
+        }
+        $("#Quantity").trigger("focusout")
+    })
+    $("#Price_lvl").change(function () {
+        $("#Quantity").trigger("focusout")
+    })
+    $("#Profit_user_id").change(function () {
+        if (getParameterByName("Piece") == "true"
+            || getParameterByName("FullPay") == "true") {
+            $.ajax({
+                url: "@Url.Action("GetUserCheckBook", "Inv_receive_po")?ProfitableUser=" + $("#Profit_user_id").val(),
+                method: "POST",
+                success: function (data) {
+                    if (!data && getParameterByName("FullPay") != "true") {
+                        $("#Profit_user_id").val("");
+                        ModelMsg("@Business.Translate("This User Dosen't Have Checkbook")", "", true);
+                    }
+                    if (getParameterByName("FullPay") == "true") {
+                        $("#Checkbook_id").val(data);
+                        ForceRefreshThisPicker("Checkbook_id");
+                    }
+                }
+            })
+        }
+
+    })
+    function CalcNewBalance() {
+        if (getParameterByName("Piece") == "true") {
+            var ThisTotal = 0;
+            $("#itemsBody").find("tr").each(function () {
+                ThisTotal += GetMaskNumber($(this).find(".BodyTotal").text())
+            })
+            ThisTotal = GetMaskNumber($("#CB").text()) + ThisTotal - GetMaskNumber($("#PayamnetMask").val());
+            $("#CBTI").text(MaskThisMoney(ThisTotal ));
+        }
+    }
+    $(document).on("focusout", "#PayamnetMask", function () {
+        CalcNewBalance();
+        SetPaymentJv();
+    })
+    function RemovePaymentJv() {
+        RmDc($("#PayamnetMask").attr("data-receivable"),false, true)
+        RmDc($("#PayamnetMask").attr("data-checkbook"), true, false)
+    }
+    function SetPaymentJv() {
+        if (getParameterByName("Piece") == "true"
+            && GetMaskNumber($("#PayamnetMask").val()) > 0
+            && $("#Profit_user_id").val()) {
+            $("#InvCreate").attr("disabled", "disabled")
+            $.ajax({
+                url: "/api/CheckBookAPIs/GetCheckbookByUser?UserId=" + $("#Profit_user_id").val(),
+                success: function (data) {
+                    RemovePaymentJv();
+                    var Url = "@Url.Action("GetPaymentAccount", "Receivable_gl_account", new { area = "Receivable" })"
+                        + "?VendorId=" + $(document).find("#Vendor_id").val()
+                        + "&Discount=" + 0
+                        + "&Orginal_amount=" + GetMaskNumber($("#PayamnetMask").val())
+                        + "&Receivable=" + GetMaskNumber($("#PayamnetMask").val())
+                        + "&CheckBookId=" + data
+                        + "&Transaction_rate=" + GetMaskNumber($("#TCGE-TransactionRate").val(),1);
+                        + "&CurrencyIso=" + $("#Currency_id").find("option:selected").text()
+
+                    GetPaymentJv(Url, false, function (data) {
+                        $("#PayamnetMask").attr("data-receivable", GetMarkAccount(data, "Receivable"))
+                        $("#PayamnetMask").attr("data-checkbook", GetMarkAccount(data, "CheckBook"))
+                    });
+                }
+            })
+            RunAfterAjax(function () {
+                $("#InvCreate").removeAttr("disabled")
+            })
+        }
+        else if (!$("#Profit_user_id").val()) {
+            NotValid($("#Profit_user_id"))
+        }
+
+    }
+    $(document).on("focusout", "#Unit_priceMask", function () {
+        if (GetMaskNumber($(this).val()) < GetMaskNumber($(document).find("#Cost_priceMask").val())
+            && GetMaskNumber($(this).val())!=0
+            && AllowPriceLowerCost=="false") {
+            NotValid($("#Unit_priceMask"), "@FabulousErp.Business.Translate("Unit Price Less Than Cost Price")");
+            Interval(function () {
+                $("#Unit_priceMask").val("");
+            },2000)
+        }
+    })
+    $(document).on("change", "#ShowTax", function () {
+        if ($(this).is(":checked")) {
+            if ($(document).find("#UpdateItem").length > 0) {
+                $(document).find(".FShTax").removeClass("hide")
+            }
+            $(document).find(".SHTax").not(".FShTax").removeClass("hide")
+        } else {
+            if ($(document).find("#UpdateItem").length > 0) {
+                $(document).find(".FShTax").addClass("hide")
+            }
+            $(document).find(".SHTax").not(".FShTax").addClass("hide")
+        }
+    })
+    function GetItemBodyTr(ItemId) {
+        return $("#itemsBody").find("tr[data-itemId='" + ItemId + "']");
+    }
+</script>

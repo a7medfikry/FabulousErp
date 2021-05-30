@@ -1,0 +1,129 @@
+﻿@model IEnumerable<FabulousModels.Inventory.CardRpt>
+
+@{
+    ViewBag.Title = "CardRpt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<section>
+    <button onclick="PrintThis('Rpt', false, false, null, null, '', false, true);" class="btn btn-primary">Print</button>
+    <button class="btn btn-info" onclick="ExportToExcel('Item Card')">Export To Excel</button>
+    <br />
+    <div class="form-group">
+        @Html.Label("", "Store Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control Store_id", required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Site Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id", required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Item Group", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Item_group", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Item_id</label>
+        <div class="col-md-10">
+            <button class="btn btn-sm btn-primary Prev"><<</button>
+            <div class="col-sm-7 d-inline-block">
+                @Html.DropDownList("Item_id", null, "", new { @class = "form-control col-sm-12" })
+            </div>
+            <button class="btn btn-sm btn-primary Next">>></button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Item Name</label>
+
+        <div class="col-md-10">
+            <label id="ItemName"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">UOM</label>
+        <div class="col-md-10">
+            <label id="UOM_id"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+           <button class="btn btn-success" id="Search">Search</button>
+        </div>
+    </div>
+</section>
+<section id="Rpt"></section>
+<script>
+    $("#Search").click(function () {
+        $("#Item_id").trigger("change");
+    })
+    $("#Item_id").change(function () {
+        $("#Rpt").html("")
+        $.get("/inventory/Rpt/CardRptRes?Type=" + getParameterByName("Type") + "&Id=" + $("#Item_id").val() + "&Store_id=" + $("#Store_id").val()
+            , function (data) {
+                $("#Rpt").html(data);
+                ReTranslate()
+            })
+    })
+    $(".Store_id").change(function () {
+        $.ajax({
+            url: "/inventory/Inv_item/GetStoreItems?StoreId=" + $(".Store_id").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+    })
+    $(".Site_id").change(function () {
+        $.ajax({
+            url: "/inventory/Inv_item/GetSiteItems?SiteId=" + $(".Site_id").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+    })
+    $("#Item_group").change(function () {
+        $.ajax({
+            url: "/inventory/Inv_item/GetGroupItems?GroupId=" + $("#Item_group").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+    })
+    function SetItems(data) {
+        $("#Item_id").empty();
+        $("#Item_id").append("<option value=''></option>")
+
+        $.each(data, function (k, i) {
+            $("#Item_id").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+        })
+    }
+    $(function () {
+        NextPrev($("#Item_id"), null)
+    })
+
+    //$(".Prev").click(function () {
+    //    var That = $(this);
+
+    //    RunAfterAjax(function () {
+    //        $(That).next("div").addClass("col-sm-6")
+    //    }, 2000)
+    //})
+    //$(".Next").click(function () {
+    //    var That = $(this);
+    //    RunAfterAjax(function () {
+    //        $(That).prev("div").addClass("col-sm-6")
+    //    },2000)
+    //})
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")
+<script>
+
+</script>

@@ -1,0 +1,5 @@
+﻿Receivable_transaction
+
+Receival Invoice Print , Jv Print , Check book if Cash Cash Reciept Print if cheque Ban Chek-Received print
+
+Payable same as recev but Cash Withdraw and Bank Check-Out

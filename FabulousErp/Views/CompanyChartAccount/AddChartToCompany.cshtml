@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Add Chart of Account To Company";
+    ViewBag.FormCode = "SACTC";
+}
+
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <div class="col-md-2 hide">
+            <label class="col-form-label col-form-label-sm"> Company ID : <span class="star">*</span> </label>
+            @Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Company Name : </label>
+            <input type="text" class="form-control form-control-sm" id="CompanyName" disabled />
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Chart of Account ID : <span class="star">*</span> </label>
+            @Html.DropDownList("AccountChartID", ViewBag.ChartList as SelectList, "-Choose-", new { @id = "AccountChartID", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-4">
+            <label class="col-form-label col-form-label-sm"> Chart Name : </label>
+            <input type="text" class="form-control form-control-sm" id="ChartName" disabled />
+        </div>
+    </div>
+
+    <div class="row col-md-12">
+        <button type="button" class="btn btn-primary btn-sm" id="AddChartToCompBtn"> Add </button>
+        <span class="text-error" id="GlobalError"></span>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap table-responsive-md" style="width:100%">
+        <thead>
+            <tr>
+                <th width="20%"> Company ID </th>
+                <th width="30%"> Company Name </th>
+                <th width="20%"> Chart of Account ID </th>
+                <th width="30%"> Chart of Account Name </th>
+            </tr>
+        </thead>
+        <tbody id="SetChartAccountComp"></tbody>
+    </table>
+    <!-- Table Area Start -->
+</div>
+<script>
+    $(function () {
+        $("#CompanyID").trigger("change")
+    })
+</script>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/CreateChartOfAccount/CompanyChartAccount/AddAccountChartToComp.js")

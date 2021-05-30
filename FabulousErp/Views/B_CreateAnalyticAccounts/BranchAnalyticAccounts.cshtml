@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Branch Analytic Account";
+    ViewBag.FormCode = "SBAA";
+}
+<div class="container-fluid">
+
+    <span class="text-error" id="GlobalError"></span>
+
+    @if (FabulousErp.Business.GetCompanyId() != null)
+    {
+        <div class="form-row mb-2">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.DropDownList("BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "BranchID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="BranchName" disabled />
+            </div>
+        </div>
+
+    }
+
+    <div class="form-row mb-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("AnalyticID", null, new { @class = "form-control form-control-sm", @id = "AnalyticID", @maxlength = "20" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts Name : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("AnalyticName", null, new { @class = "form-control form-control-sm", @id = "AnalyticName", @maxlength = "100" })
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary btn-sm" id="AddAnalyticToBranch">Save</button>
+            <span class="text-success" id="SaveSuccess"></span>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Analytic Account ID</th>
+                <th>Analytic Account Name</th>
+            </tr>
+        </thead>
+        <tbody id="BranchAnalyticData"></tbody>
+    </table>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Branch/B_Analytic/B_CreateAnalyticAccounts/AddAnalyicToBranch.js")

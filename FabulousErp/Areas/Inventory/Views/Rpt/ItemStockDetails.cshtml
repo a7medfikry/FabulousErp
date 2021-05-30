@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "ItemStockDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Item Stock Details</h2>
+
+@using (Ajax.BeginForm("ItemStockDetailsRes", new AjaxOptions { UpdateTargetId = "Res",OnBegin="EmptyRes" }))
+{
+
+    <div class="form-group">
+        <label class="col-md-4" for="ItemName">Item Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Item_id", null, "", new { @class = "form-control", name = "Item_id", id = "Item_id" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-4" for="ItemName">Item Name</label>
+        <div class="col-md-10">
+            <label id="ItemName"></label>
+        </div>
+    </div>
+    <div class="col-md-3 d-inline-block">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

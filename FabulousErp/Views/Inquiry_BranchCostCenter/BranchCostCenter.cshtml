@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "List Of Branch Cost Center";
+    ViewBag.FormCode = "IBCC";
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="IBCC-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="IBCC-BranchID"></span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : </label>
+        <div class="col-md-2">
+            @Html.Partial("CompanyOrBranch")
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+        <div class="col-md-6">
+            @if (FabulousErp.Business.GetCompanyId() != null)
+            {
+                <input type="text" class="form-control form-control-sm" id="branchname" disabled />
+            }
+         
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="20%"> Cost Center ID </th>
+                <th width="80%"> Cost Center Name </th>
+            </tr>
+        </thead>
+        <tbody id="branchcost-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Branch/B_CostCenter/Inquiry_BranchCostCenter.js")

@@ -1,0 +1,371 @@
+﻿@model FabulousDB.Models.Inv_item_group
+
+@{
+    ViewBag.Title = "Item Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <style>
+        .MyCl {
+            width: 37% !important;
+        }
+    </style>
+
+@using (Ajax.BeginForm(new AjaxOptions { OnSuccess = "SubmitGlAccount" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-sm-12">
+            <h3>General</h3>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Item_group_id, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <span class="star">*</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Item_group_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Item_group_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <span class="star">*</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Desc, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Desc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <span class="star">*</span>
+
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Validation_method, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <span class="star">*</span>
+            <div class="col-md-10">
+                @Html.DropDownList("Validation_method", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(model => model.Validation_method, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit_of_measure_id, "UOM", htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <span class="star">*</span>
+            <div class="col-md-10">
+                @Html.DropDownList("Unit_of_measure_id", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(model => model.Unit_of_measure_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @foreach (var value in Business.GetEnumValues<FabulousDB.Models.MartialService>())
+            {
+
+                @Html.RadioButtonFor(m => m.Martial_or_service, value, new { @class = "v-middle MOrS", data_value = (int)value, required = "required" })
+                @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0", style = "width: 37%;" })
+                <span style="margin-left:20px;"></span>
+            }
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Has_serial, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Has_serial, new { htmlAttributes = new { @class = "v-middle" } })
+                @Html.ValidationMessageFor(model => model.Has_serial, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Has_warranty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Has_warranty, new { htmlAttributes = new { @class = "v-middle" } })
+                @Html.ValidationMessageFor(model => model.Has_warranty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Has_expiry_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Has_expiry_date, new { htmlAttributes = new { @class = "v-middle" } })
+                @Html.ValidationMessageFor(model => model.Has_expiry_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="col-sm-12">
+            <h3>Tax</h3>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Vat Item Type :</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Vat_Item_type", null, FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-itemType", @class = "form-control form-control-sm clearTax" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Vat Tax Type : </label>
+            <div class="col-md-10">
+                @Html.DropDownList("Tax_type_id", null, FabulousErp.BusController.Translate("-Choose-"),
+                                     new { @id = "TCT-taxType", @class = "form-control form-control-sm clearTax" })
+            </div>
+        </div>
+        <div class="form-group validateTaxHeader taxTypeEffect">
+            <label class="control-label col-md-2"> Vat Tbl Type : </label>
+            <div class="col-md-10">
+                @Html.DropDownList("Tax_table_type_id", null,
+                                     FabulousErp.BusController.Translate("-Choose-"),
+                                     new { @id = "TCT-taxTableType", @class = "form-control form-control-sm clearTax" })
+            </div>
+        </div>
+
+        <div class="form-group taxTypeEffect">
+            <label class="control-label col-md-2">Tbl. Vat ID:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Tbl_vat_Id", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-tableVatID", @class = "form-control form-control-sm clearTax", name = "Tbl_vat_Id" })
+            </div>
+        </div>
+        <div class="form-group taxTableTypeEffect">
+            <label class="control-label col-md-2">Vat ID : </label>
+            <div class="col-md-10">
+                @Html.DropDownList("Vat_id", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-vatID", @class = "form-control form-control-sm clearTax", name = "Vat_id" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Deducte Tax Id:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("DeductTaxIds", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @id = "TCT-decuttaTaxID", @class = "form-control form-control-sm clearTax", name = "DeductTaxIds" })
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <h3>Cost</h3>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Cost Center:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Cost_center_id", null, FabulousErp.BusController.Translate("-Choose-"), new { @class = "form-control form-control-sm" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Cost Account:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Cost_center_account_id", new SelectList(""), FabulousErp.BusController.Translate("-Choose-"), new { @class = "form-control form-control-sm" })
+            </div>
+        </div>
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success FirstForm" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div class="col-sm-12">
+    <h3>Accounts</h3>
+</div>
+<section id="GroupGl">
+    @Html.Action("Create", "Inv_gorup_gl_accounts", new { GroupId = Model.Id })
+</section>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-success" id="Create" />
+    </div>
+</div>
+<script>
+     $(function () {
+        $("#Type").trigger("change");
+        var SetType = setInterval(function () {
+            if ($.active <= 0) {
+                try {
+                    $("#TCT-vatID").val("@Model.Vat_id");
+                    $("#TCT-tableVatID").val("@Model.Tbl_vat_Id");
+                    var Arr = @try { @Html.Raw(Json.Encode(Model.Deduct_tax.Select(x => x.Deduct_id).ToList())) } catch { @Html.Raw("[]") };
+
+                    $("#TCT-decuttaTaxID").val(Arr)
+                    clearInterval(SetType);
+                } catch (err) {
+
+                }
+
+            }
+        }, 500)
+    })
+    function SubmitGlAccount(Id) {
+        $("#GroupGl").find("#Item_group_id").val(Id);
+        $("#GlForm").trigger("click");
+    }
+    $("#Create").click(function () {
+        ValidateAll(function () {
+            $("#GroupGl").find("form").validate();
+            if ($("#GroupGl").find("form").valid()) {
+                $(".FirstForm").trigger("click");
+                $("#Create").attr("disabled", "disabled")
+            }
+        });
+
+      
+    })
+</script>
+<script>
+     $("#Type").change(function () {
+        //Change of tax Group to get tax code
+        $("#TCT-taxGroupID").val($(this).val())
+        var taxGroupID = $("#TCT-taxGroupID").val(),
+            taxTableType = $('#TCT-taxTableType').val();
+
+            $('#TCT-vatAmount').val('');
+         $('select#TCT-vatID').empty();
+         $('select#TCT-tableVatID').empty();
+         $('select#TCT-decuttaTaxID').empty();
+            $('#TCT-tableVatAmount').val('');
+            $('#TCT-dacuttaAmount').val('');
+            if (taxTableType === '0') {
+                $('#TCT-tableVatAmount').val('0');
+            }
+            if (taxGroupID.length > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: "/C_TaxTransaction/GetTaxCodeByGroup?taxGroupID=" + 1002,
+                    success: function (result) {
+                        if (result.length == 0) {
+                            $("#TCT-vatID").append($('<option/>', {
+                                value: "",
+                                text: "No Tax Code Created To this Group"
+                            }));
+
+                            $("#TCT-tableVatID").append($('<option/>', {
+                                value: "",
+                                text: "No Tax Code Created To this Group"
+                            }));
+
+                            //$("#TCT-decuttaTaxID").append($('<option/>', {
+                            //    value: "",
+                            //    text: "No Tax Code Created To this Group"
+                            //}));
+
+                        } else {
+
+                            $("#TCT-vatID").append($('<option/>', {
+                                value: "",
+                                text: "Choose"
+                            })
+                            );
+                            $("#TCT-tableVatID").append($('<option/>', {
+                                value: "",
+                                text: "Choose"
+                            }));
+
+                            //$("#TCT-decuttaTaxID").append($('<option/>', {
+                            //    value: "",
+                            //    text:Choose
+                            //}));
+
+                            $.each(result, function (index, row) {
+                                $("#TCT-vatID").append("<option value='" + row.CT_ID + "'>" + row.C_Taxcode + "</option>");
+                                $("#TCT-tableVatID").append("<option value='" + row.CT_ID + "'>" + row.C_Taxcode + "</option>");
+                                //$("#TCT-decuttaTaxID").append("<option value='" + row.CT_ID + "'>" + row.C_Taxcode + "</option>");
+                            });
+                        }
+                        if ($("#Type").val() != "@Convert.ToInt32(FabulousDB.Models.Item_group_type.Both)") {
+                            GetdecuttaTaxID();
+                        } else {
+                            GetdecuttaTaxIDBoth();
+                        }
+                    }
+                });
+
+            }
+    })
+    function GetdecuttaTaxID() {
+        $(".selectpicker").selectpicker("destroy")
+        $("#TCT-decuttaTaxID").removeClass("selectpicker");
+        $("#TCT-decuttaTaxID").removeAttr("multiple");
+        $.ajax({
+            type: 'GET',
+            url: "/C_TaxTransaction/GetTaxCodeByGroup?taxGroupID=" + $("#TCT-taxGroupID").val(),
+            success: function (result) {
+                $("#TCT-decuttaTaxID").append("<option value=''> Choose </option>");
+
+                $.each(result, function (index, row) {
+                    $("#TCT-decuttaTaxID").append("<option value='" + row.CT_ID + "'>" + row.C_Taxcode + "</option>");
+                });
+            }
+        })
+    }
+    function GetdecuttaTaxIDBoth() {
+        var FSales = false;
+        var FPur = false;
+       // $("#TCT-decuttaTaxID").append("<option value=''> Choose </option>");
+
+        $.ajax({
+            type: 'GET',
+            url: "/C_TaxTransaction/GetTaxCodeByGroup?taxGroupID=" + 1,
+            success: function (result) {
+                $("#TCT-decuttaTaxID").append("<optgroup label='Payable'>");
+                $.each(result, function (index, row) {
+                    $("#TCT-decuttaTaxID").append("<option value='" + row.CT_ID + "'>Sales -" + row.C_Taxcode + "</option>");
+                });
+                $("#TCT-decuttaTaxID").append("</optgroup>");
+                FSales = true;
+            }
+        })
+        $.ajax({
+            type: 'GET',
+            url: "/C_TaxTransaction/GetTaxCodeByGroup?taxGroupID=" +2,
+            success: function (result) {
+                $("#TCT-decuttaTaxID").append("<optgroup label='Sales'>");
+                $.each(result, function (index, row) {
+                    $("#TCT-decuttaTaxID").append("<option value='" + row.CT_ID + "'>Purchase - " + row.C_Taxcode + "</option>");
+                });
+                $("#TCT-decuttaTaxID").append("</optgroup>");
+                FPur = true;
+            }
+        })
+        var SalesPurInt = setInterval(function () {
+            if (FSales && FPur) {
+                $("#TCT-decuttaTaxID").addClass("selectpicker");
+                $("#TCT-decuttaTaxID").attr("multiple", "multiple");
+                $("#TCT-decuttaTaxID").attr("data-live-search", "true");
+                $("#TCT-decuttaTaxID").selectpicker();
+                clearInterval(SalesPurInt);
+            }
+
+        })
+
+    }
+    $(document).on("change", "#Cost_center_id", function () {
+        $.ajax({
+            url: "/api/TransactionApi/GetAccountsOfCostCenter?costCenterID=" + $("#Cost_center_id").val(),
+            success: function (data) {
+                $("select#Cost_center_account_id").empty();
+                $("select#Cost_center_account_id").append("<option></option>")
+
+                $.each(data, function (k, i) {
+                    $("select#Cost_center_account_id").append("<option value='" + i.C_CAID + "'>" + i.C_CostAccountID + "</option>")
+                })
+            }
+        })
+    })
+    $(".MOrS").change(function () {
+        if ($(this).attr("data-value")== "@((int)FabulousDB.Models.MartialService.Service)") {
+            $("input[type='checkbox']").each(function () {
+                if ($(this).is(":checked")) {
+                    $(this).trigger("click")
+                }
+            })
+            $("input[type='checkbox']").attr("disabled", "disabled")
+        } else {
+            $("input[type='checkbox']").removeAttr("disabled")
+
+        }
+    })
+    $(function () {
+        $(".MOrS").trigger("change");
+    })
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@Html.IncludeVersionedJs("/_Content/JS/Settings/TaxTransaction_Script.js")
+<input id="TCT-taxGroupID" value="1" type="hidden">

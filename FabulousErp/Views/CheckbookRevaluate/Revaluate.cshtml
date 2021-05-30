@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Checkbook Revaluate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCBR";
+}
+<div class="container-fluid">
+    <!-- **** For Checks **** -->
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="CBT-PT">@ViewBag.PT</span>
+    <span class="hide-normal" id="TCGE-FJEPer">@ViewBag.FJEPer</span>
+    <span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+    <span class="hide-normal" id="TCGE-AllowUserERate">@ViewBag.AllowUserERate</span>
+    <span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+    <span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+    <input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+
+    <!-- **** For Errors **** -->
+    <span class="text-error" id="TCGE-GlobalError"></span>
+
+    <div class="row mb-1">
+        <label class="col-form-label col-form-label-sm col-md-2"> Revaluate Date : </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="revaluateDate" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="revulateRadio" id="realRevaluate" class="custom-control-input" />
+                <label for="realRevaluate" class="custom-control-label" id=""> Real </label>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="custom-control custom-checkbox hide-normal" id="reverseDiv">
+                <input type="checkbox" id="reverseRevaluate" class="custom-control-input" />
+                <label for="reverseRevaluate" class="custom-control-label"> Reverse </label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm hide-normal" id="revaluateReverseDate" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="revulateRadio" id="unRealRevaluate" class="custom-control-input" />
+                <label for="unRealRevaluate" class="custom-control-label"> Un Real </label>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered display nowrap">
+        <thead>
+            <tr>
+                <th> Checkbook ID </th>
+                <th> Balance </th>
+                <th> Balance Current Cash Account </th>
+                <th> Rate </th>
+                <th> New Balance </th>
+                <th> Profit/Loss </th>
+            </tr>
+        </thead>
+        <tbody id="TCBR-appendData"></tbody>
+        <tfoot>
+            <tr>
+                <th colspan="5" class="text-right"> Total = </th>
+                <th> <input type="number" name="revaluateTotal" class="form-control form-control-sm" value="0" readonly /> </th>
+            </tr>
+        </tfoot>
+    </table>
+    <button class="btn btn-primary btn-sm" id="revaluateBtn"> Revaluate </button>
+
+
+    <!-- Pop-up Modal For System-Rates -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The System Rate </h5>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Pop-up Modal For All Accounts In The System -->
+    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="CBT-AccountsList">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The Profit OR Loss Account </h5>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("AccountsList", ViewBag.AccountsList as SelectList, "-Choose-", new { @id = "AccountsList", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/PublicTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookRevaluate_Script.js")

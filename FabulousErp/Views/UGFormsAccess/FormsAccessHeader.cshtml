@@ -1,0 +1,64 @@
+﻿
+<div class="row">
+    <span id="Type" class="hide-normal">@ViewBag.Type</span>
+    <div class="col-md col-md-2">
+        <div class="card">
+            <div class="card-header p-2">
+                <label class="text-danger"> Giva Access To Forms By : </label>
+            </div>
+            <div class="card-body p-2">
+                <div class="d-block">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="Group" class="custom-control-input" />
+                        <label class="custom-control-label" for="Group"> Group </label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="User" class="custom-control-input" />
+                        <label class="custom-control-label" for="User"> User </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md col-md-10">
+        <div class="card mb-1">
+            <div class="card-body p-2">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label> Group ID : </label>
+                        @Html.DropDownList("GroupID", ViewBag.GroupList as SelectList, "-Choose-", new { @id = "GroupID", @class = "dropdown-list", @disabled = "disabled" })
+                    </div>
+                    <div class="col-md-4">
+                        <label> Group Name : </label>
+                        <input type="text" id="GroupName" disabled />
+                    </div>
+                    <div class="col-md-2">
+                        <label> User ID : </label>
+                        @Html.DropDownList("UserID", ViewBag.UserList as SelectList, "-Choose-", new { @id = "UserID", @class = "dropdown-list", @disabled = "disabled" })
+                    </div>
+                    <div class="col-md-4">
+                        <label> User Name : </label>
+                        <input type="text" id="UserName" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button id="CopyAccsee" type="button" disabled onclick="CopyAccessFile()" class="btn btn-primary btn-sm"> Copy Access From Another User </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" disabled class="btn btn-success btn-sm" id="SaveBtn" onclick="Savebtn()">Save</button>
+                    </div>
+                    <div class="col-md-6">
+                        <label id="SavedSuccess" style="color:green"></label>
+                        <label id="GlobalError" class="text-error"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

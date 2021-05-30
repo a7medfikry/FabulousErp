@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Quantity Available";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Quantity Available</h2>
+
+
+@*@using (Ajax.BeginForm("QtyAvaliableRes", new AjaxOptions { UpdateTargetId = "Res" ,OnBegin="EmptyRes"}))
+{
+
+    <div class="form-group">
+        <label class="col-md-4" for="ItemName">Store</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Store_id", null, "", new { @class = "form-control", name = "Item_id", id = "Item_id" })
+        </div>
+    </div>
+    <div class="col-md-3 d-inline-block">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}*@
+<section id="Res">
+    @Html.Action("QtyAvaliableRes")
+</section>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

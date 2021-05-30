@@ -1,0 +1,96 @@
+﻿@model FabulousDB.Models.Asset
+
+@{
+    ViewBag.Title = "Delete Assets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-danger">@ViewBag.Error</h2>
+<h3>Are you sure you want to delete this and Void Its Transaction?</h3>
+@*@if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+    <form action="/FixedAssets/Assets/DeleteWithAll/@ViewBag.Id" method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete Any Way With All Values" class="btn btn-danger"> |
+        </div>
+    </form>
+    }*@
+<div>
+    <h4>Asset</h4>
+    <hr />
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Assets number</label>
+        <div class="col-md-10">
+            <label class="form-control"> @Model.Assets_number</label>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Description</label>
+        <div class="col-md-10">
+            <label class="form-control"> @Model.Description</label>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Date of orgin</label>
+        <div class="col-md-10">
+            <label class="form-control"> @Model.Date_of_orgin.ToShortDateString()</label>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Creation date</label>
+        <div class="col-md-10">
+            @if (Model.Creation_date.HasValue)
+            {
+                <label class="form-control"> @Model.Creation_date.Value.ToShortDateString()</label>
+
+            }
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Foreign name</label>
+        <div class="col-md-10">
+            <label class="form-control"> @Model.Foreign_name</label>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Assets type</label>
+        <div class="col-md-10">
+            <label class="form-control">     @Enum.GetName(typeof(FabulousDB.Models.Assets_type), Model.Type)</label>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="col-md-2 control-label ">Acquisation cost</label>
+        <div class="col-md-10">
+            <label class="form-control">@Model.Acquisation_cost</label>
+        </div>
+    </div>
+    @if (ViewBag.PostingToOrThrow != null)
+    {
+        @Html.Action("VoidPartial", "PPartial", new
+   {
+       area = "FixedAssets",
+       Controller = "Assets",
+       Currency = ViewBag.Currency,
+       PostingToOrThrow = ViewBag.PostingToOrThrow,
+       PostingNum = ViewBag.PostingNum,
+       Id = Request.Url.AbsolutePath.Split('/').LastOrDefault(),
+       DeleteAction = "DeleteWithAll",
+       TransactionDate = ViewBag.TransactionDate,
+               SubmitUrl = "/FixedAssets/Assets/DeleteWithAll"
+   })
+
+    }
+    else
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    }
+</div>

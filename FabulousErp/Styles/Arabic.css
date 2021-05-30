@@ -1,0 +1,44 @@
+﻿/** {
+    text-align: right;
+    direction: rtl;
+}*/
+
+#TCGE-GTbl {
+    direction: ltr;
+}
+
+    #TCGE-GTbl tfoot th {
+        text-align: center !important;
+    }
+
+.home-page > div {
+    float: right;
+    margin-right: 0px;
+}
+
+    .home-page > div:nth-child(odd) {
+        margin-left: 15px;
+    }
+
+form-check-inline .form-check-input {
+    position: static;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: .3125rem;
+}
+
+.dropdown-menu {
+    right: 0;
+    left: unset;
+}
+
+.MyNav {
+    left: 0;
+}
+
+#PageABar {
+    float: left;
+}
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    float: left;
+}

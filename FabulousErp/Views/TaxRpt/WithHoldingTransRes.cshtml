@@ -1,0 +1,142 @@
+﻿@model List<FabulousErp.Tax.Withholding_rpt>
+
+<style>
+    table thead tr {
+        height: 25px;
+        background-color: cornflowerblue;
+        text-align: center;
+    }
+
+    .tfoot {
+        background-color: #a7c1d8;
+    }
+</style>
+@foreach (var ii in Model.GroupBy(x => x.Period))
+{
+    <table style="width:100%;margin-top:20px;">
+        <thead>
+            <tr>
+                <td>
+                    الفترة
+                </td>
+                <td class="hide">
+                    السنة
+                </td>
+                <td class="hide">
+                    رقم التسجيل
+                </td>
+                <td class="hide">
+                    رقم الملف
+                </td>
+                <td class="hide">
+                    كود المأمورية المختصة
+                </td>
+                <td>
+                    تاريخ التعامل
+                </td>
+                <td>
+                    طبيعة التعامل
+                </td>
+                <td>
+                    القيمة الاجمالية للتعامل
+                </td>
+                <td class="hide">
+                    نوع الخصم
+                </td>
+                <td>
+                    القيمة الصافية للتعامل
+                </td>
+                <td>
+                    نسبة الخصم علي الضريبة
+                </td>
+                <td>
+                    المحصل لحساب الضريبة
+                </td>
+                <td>
+                    اسم الممول
+                </td>
+                <td class="hide">
+                    عنوان الممول
+                </td>
+                <td class="hide">
+                    الرقم القومى
+                </td>
+                <td>
+                    العملة
+                </td>
+            </tr>
+        </thead>
+        @foreach (FabulousErp.Tax.Withholding_rpt i in ii)
+        {
+            <tr style="direction:rtl;">
+                <td>
+                    @i.Period
+                </td>
+                <td class="hide">
+                    @i.Year
+                </td>
+                <td class="hide">
+                    @i.Reg_num
+                </td>
+                <td class="hide">
+                    @i.File_num
+                </td>
+                <td class="hide"></td>
+                <td>
+                    @i.Mission_date.ToShortDateString()
+                </td>
+                <td>
+                    @if (i.Mission_type != "None")
+                    {
+                        @i.Mission_type
+                    }
+                </td>
+                <td>
+                    @i.Total
+                </td>
+                <td class="hide">
+                    @i.Discount_type
+                </td>
+                <td>
+                    @i.Net_total
+                </td>
+                <td>
+                    @i.Discount_percentage @Html.Raw("%")
+                </td>
+                <td>
+                    @i.Daccouta_amount
+                </td>
+                <td>
+                    @i.Vendore_name
+                </td>
+                <td class="hide">
+                    @i.Address
+                </td>
+                <td class="hide">
+                    @i.National_id
+                </td>
+                <td>
+                    @i.Currency_iso
+                </td>
+            </tr>
+
+        }
+            <tr class="tfoot noExl">
+                <td colspan="6">
+                    Total
+                </td>
+                <td>
+                    @try
+                    {
+                        @ii.Sum(x => x.Daccouta_amount).Value.ToString(FabulousErp.Business.GetDecimalNumber())
+                    }
+                    catch
+                    {
+
+                    }
+                </td>
+            </tr>
+    </table>
+}
+
+

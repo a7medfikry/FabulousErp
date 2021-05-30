@@ -1,0 +1,8 @@
+﻿#PageABar {
+    float: right;
+}
+
+.MyNav {
+    left: unset;
+    right: 0;
+}

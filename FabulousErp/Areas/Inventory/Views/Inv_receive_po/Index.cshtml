@@ -1,0 +1,82 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_receive_po>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency.CurrencyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PO.Currency_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Site.Site_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Store.Store_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vendore.Vendor_id)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Doc_type)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Batch_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Buyer)
+        </th>
+     
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Currency.CurrencyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PO.Currency_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Site.Site_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Store.Store_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vendore.Vendor_id)
+        </td>
+     
+        <td>
+            @Html.DisplayFor(modelItem => item.Doc_type)
+        </td>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.Batch_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Buyer)
+        </td>
+      
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

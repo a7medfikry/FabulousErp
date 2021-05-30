@@ -1,0 +1,103 @@
+﻿@model FabulousDB.Models.Inv_transfer_items
+
+@{
+    ViewBag.Title = "transfer items";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.From_Store.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.From_Store.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.item.Item_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lot.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lot.Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.To_Store.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.To_Store.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Transfer_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transfer_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Transfer_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transfer_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Posting_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Posting_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ref)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ref)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unite_cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unite_cost)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

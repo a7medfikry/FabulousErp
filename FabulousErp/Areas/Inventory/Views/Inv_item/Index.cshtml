@@ -1,0 +1,98 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_item>
+
+@{
+    ViewBag.Title = "Item Gl Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string HasRecipeT = "";
+    if (Request["HasRecipe"] == "true")
+    {
+        HasRecipeT = "";
+    }
+}
+<p>
+    @if (Request["HasRecipe"] == "true")
+    {
+        @Html.ActionLink("Create New", "Create", new { HasRecipe = "true" })
+    }
+    else
+    {
+        @Html.ActionLink("Create New", "Create", new { })
+    }
+</p>
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Inv_item_group.Item_group_id)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Purchase_tax_group.TaxGroupID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sales_tax_group.TaxGroupID)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Unit_of_measure.Unit_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Short_description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inv_item_group.Item_group_id)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Purchase_tax_group.TaxGroupID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sales_tax_group.TaxGroupID)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit_of_measure.Unit_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Short_description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @if (Request["HasRecipe"] == "true")
+                    {
+                        @Html.ActionLink("Edit", "Create", new { id = item.Id, HasRecipe = "true" }) <span>|</span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Edit", "Create", new { id = item.Id }) <span>|</span>
+                    }
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

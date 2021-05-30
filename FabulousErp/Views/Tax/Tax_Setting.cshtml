@@ -1,0 +1,283 @@
+﻿@{
+    ViewBag.Title = "Tax Setting";
+    ViewBag.FormCode = "STA";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string PaddingLeft = "";
+    if (Business.GetLanguage()== FabulousDB.Models.Langs.English.ToString())
+    {
+        PaddingLeft = "padding-left:0px;padding-right:5px;";
+    }
+}
+
+<div class="container-fluid">
+    <!-- Span For Check If Company has Account-ID Or NOT -->
+    <span id="STA-AccountIDCheck" class="hide-normal">@ViewBag.AccountIDCheck</span>
+
+    <!-- tabs for company & branch & factory -->
+    <ul class="nav nav-tabs" role="tablist">
+        @*<li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#STA-group" role="tab" aria-selected="true"> Tax Group </a>
+        </li>*@
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#STA-company" role="tab" aria-selected="true"> Company </a>
+        </li>
+        @*<li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#STA-branch" role="tab" aria-selected="true"> Branch </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#STA-factory" role="tab" aria-selected="true"> Factory </a>
+        </li>*@
+    </ul>
+
+    <!-- tab panes -->
+    <div class="tab-content bg-light">
+
+        <!-- Group -->
+        @*<div id="STA-group" class="tab-pane container-fluid p-3  fade show" role="tabpanel">
+            <span id="STA-groupError" class="text-danger font-weight-bold"></span>
+            <div class="form-row mb-1">
+                <div class="col-md-3">
+                    <label class="col-form-label col-form-label-sm"> Tax Group ID : <span class="star">*</span> </label>
+                    <input class="form-control form-control-sm" id="STA-taxGroupID" maxlength="10" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-form-label col-form-label-sm"> Description : <span class="star">*</span> </label>
+                    <input class="form-control form-control-sm" id="STA-taxGroupDescription" maxlength="100" />
+                </div>
+
+                <div class="col-md-3">
+                    <label for="STA-taxType" class="col-form-label col-form-label-sm"> Tax Type : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-taxType", new List<SelectListItem>
+                                         {
+                                         new SelectListItem{Text = "Sales" , Value = "Sales" },
+                                         new SelectListItem{Text = "Purchasing" , Value = "Purchasing" },
+                                         new SelectListItem{Text = "General" , Value = "General" }
+                                         },"-Choose-",new { @id = "STA-taxType", @class= "form-control form-control-sm" })
+                </div>
+            </div>
+
+            <div class="form-row col-md-3">
+                <button class="btn btn-primary" id="STA-taxGroupSave"> Save </button>
+            </div>
+
+        </div>*@
+
+        <!-- company -->
+        <div id="STA-company" class=" tab-pane container-fluid p-3 fade active show" role="tabpanel">
+            <span id="STA-companyERROR" class="text-error"></span>
+            <span id="STA-companySuccess" class="text-success"></span>
+            <div class="form-row mb-1">
+                <div class="col-md-3">
+                    <label for="STA-companyID" class="col-form-label col-form-label-sm"> Company ID : <span class="star">*</span> </label>
+                    <input type="text" id="STA-companyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+                </div>
+                <div class="col-md-3">
+                    <label for="STA-companyname" class="col-form-label col-form-label-sm"> Company Name : </label>
+                    <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" disabled />
+                </div>
+                <div class="col-md-4">
+                    <label for="STA-companycode" class="col-form-label col-form-label-sm"> Tax Code : <span class="star">*</span> </label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" id="STA-companycode" maxlength="15">
+                        <div class="input-group-append">
+                            @Html.DropDownList("STA-companyTaxSearch", ViewBag.TaxsList as SelectList, "-Choose-", new { @id = "STA-companyTaxSearch", @class = "form-control form-control-sm" })
+                            <div class="input-group-text">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label> Group ID : <span class="star">*</span> </label>
+                    <select class="form-control form-control-sm" id="STA-GroupID" name="STA-GroupID">
+                        <option value="">-Choose-</option>
+                        <option value="1">Purchase - Purchasing</option>
+                        <option value="2">Sales - Sales</option>
+                        <option value="1002">General - General</option>
+                    </select>
+                </div>
+                @*<div class="col-md-2">
+                        <label for="STA-companytype" class="col-form-label col-form-label-sm"> Tax Type : <span class="star">*</span> </label>
+                        @Html.DropDownList("STA-companytype", new List<SelectListItem>
+                                             {
+                                             new SelectListItem{Text = "Sales" , Value = "Sales" },
+                                             new SelectListItem{Text = "Purchasing" , Value = "Purchasing" },
+                                             new SelectListItem{Text = "General" , Value = "General" }
+                                             },"-Choose-",new { @id = "STA-companytype", @class= "form-control form-control-sm" })
+                    </div>*@
+            </div>
+
+            <div class="form-row mb-1">
+                <div class="col-md-3">
+                    <label for="STA-companyaccountID"> Account ID : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-companyaccountID", ViewBag.AccountsList as SelectList, "-Choose-", new { @id = "STA-companyaccountID", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-3">
+                    <label for="STA-companyaccountname" class="col-form-label col-form-label-sm"> Account Name :  </label>
+                    <input type="text" class="form-control form-control-sm" id="STA-companyaccountname" disabled />
+                </div>
+                <div class="col-md-3">
+                    <label for="STA-companydesc" class="col-form-label col-form-label-sm"> Tax Describtion <span class="star">*</span> </label>
+                    <textarea class="form-control form-control-sm" id="STA-companydesc"></textarea>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check form-check-inline">
+                        <input class="v-bottom" type="radio" name="taxoption" id="byPercentage" checked>
+                        <label for="byPercentage" class="form-check-label col-form-label col-form-label-sm" style="@PaddingLeft"> Percentage % </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="v-bottom" type="radio" name="taxoption" id="byAmount">
+                        <label for="byAmount" class="form-check-label col-form-label col-form-label-sm" style="@PaddingLeft"> Amount </label>
+                    </div>
+                    <input type="number" role="textbox" class="form-control form-control-sm" id="STA-companypercentage" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
+                    <input type="number" role="textbox" class="form-control form-control-sm hide-normal" id="STA-companyAmount" />
+                </div>
+            </div>
+
+            <div class="form-row mb-3">
+                <div class="col-md-3">
+                    <label for="STA-companymintax" class="col-form-label col-form-label-sm"> Min. Taxable Amount :  </label>
+                    <input type="number" class="form-control form-control-sm" id="STA-companymintax" />
+                </div>
+                <div class="col-md-3">
+                    <label for="STA-companymaxtax" class="col-form-label col-form-label-sm"> Max. Taxable Amount :  </label>
+                    <input type="number" class="form-control form-control-sm" id="STA-companymaxtax" />
+                </div>
+                <div class="col-md-3 hide">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" value="False" id="STA-companyprint" class="custom-control-input" />
+                        <label for="STA-companyprint" class="custom-control-label"> Print Document </label>
+                    </div>
+                </div>
+                <div class="col-md-3 hide">
+                    <label for="STA-companyselectprint"> Select Print Document : </label>
+                    <select class="dropdown-list" id="STA-companyselectprint">
+                        <option value="" selected disabled> -Choose- </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-3">
+                    <label for="STA-companyselectprint"> Transaction type : </label>
+                    @Html.DropDownList("Transaction_type", ViewBag.Transaction_type as SelectList,new {id= "Transaction_type",@class= "form-control form-control-sm" })
+                    
+                </div>
+            </div>
+            <div class="row col-md-3">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" id="STA-CompanySave"> Save </button>
+                    <button class="btn btn-info" id="STA-CompanyUpdate" disabled> update </button>
+                    <button class="btn btn-secondary" id="STA-Reset"> Clear </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- branch -->
+        <div id="STA-branch" class=" tab-pane container-fluid fade p-3" role="tabpanel">
+            <!-- Global Spans -->
+            <span id="STA-branchERROR" class="text-error"></span>
+            <span id="STA-branchSuccess" class="text-success"></span>
+            <div class="form-row mb-1">
+                <div class="col-md-3">
+                    <label for="STA-branchID" class="col-form-label col-form-label-sm"> Branch ID : <span class="star">*</span> </label> <span id="STA-branchError"></span>
+                    @Html.DropDownList("STA-branchID", ViewBag.BranchID as SelectList, "-Choose-", new { @id = "STA-branchID", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-4">
+                    <label for="STA-branchname" class="col-form-label col-form-label-sm"> Branch Name : </label>
+                    <input type="text" class="form-control form-control-sm" id="STA-branchname" placeholder="....." disabled />
+                </div>
+                <div class="col-md-2">
+                    <label for="STA-branchcode" class="col-form-label col-form-label-sm"> Tax Code : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-branchcode", ViewBag.CompanyTaxCode as SelectList, "-Choose-", new { @id = "STA-branchcode", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-3">
+                    <label> Group ID : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-BranchGroupID", ViewBag.GroupTaxList as SelectList, "....", new { @id = "STA-BranchGroupID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                </div>
+                @*<div class="col-md-3">
+                        <label for="STA-branchtype" class="col-form-label col-form-label-sm"> Tax Type : </label>
+                        <input type="text" class="form-control form-control-sm" id="STA-branchtype" placeholder="....." disabled />
+                    </div>*@
+            </div>
+
+            <div class="form-row mb-3">
+                <div class="col-md-3">
+                    <label for="STA-branchaccountID" class="col-form-label col-form-label-sm"> Account ID : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-branchaccountID", new SelectList(""), "-Choose-", new { @id = "STA-branchaccountID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <label for="STA-branchaccountname" class="col-form-label col-form-label-sm"> Account Name :  </label>
+                    <input type="text" class="form-control form-control-sm" id="STA-branchaccountname" placeholder="....." disabled />
+                </div>
+                <div class="col-md-5">
+                    <label for="STA-branchdesc" class="col-form-label col-form-label-sm"> Tax Describtion </label>
+                    <textarea class="form-control form-control-sm" id="STA-branchdesc" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row col-md-3">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" id="STA-BranchSave"> Save </button>
+                    <button class="btn btn-info" id="STA-BranchUpdate"> update </button>
+                    <button class="btn btn-secondary" id="STA-BranchReset"> Clear </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- factory -->
+        <div id="STA-factory" class="tab-pane p-3 container-fluid fade show">
+            <!-- Global spans -->
+            <span id="STA-factoryERROR" class="text-error"></span>
+            <span id="STA-factorySuccess" class="text-success"></span>
+            <div class="form-row mb-1">
+                <div class="col-md-3">
+                    <label for="STA-factoryID" class="col-form-label col-form-label-sm"> Factory ID : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-factoryID", ViewBag.FactoryID as SelectList, "-Choose-", new { @id = "STA-factoryID", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-4">
+                    <label for="STA-facoryname" class="col-form-label col-form-label-sm"> Factory Name : </label>
+                    <input type="text" class="form-control form-control-sm" id="STA-factoryname" placeholder="....." disabled />
+                </div>
+                <div class="col-md-2">
+                    <label for="STA-factorycode" class="col-form-label col-form-label-sm"> Tax Code : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-factorycode", ViewBag.CompanyTaxCode as SelectList, "-Choose-", new { @id = "STA-factorycode", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-3">
+                    <label> Group ID : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-FactoryGroupID", ViewBag.GroupTaxList as SelectList, "....", new { @id = "STA-FactoryGroupID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                </div>
+                @*<div class="col-md-3">
+            <label for="STA-factorytype" class="col-form-label col-form-label-sm"> Tax Type : </label>
+            <input type="text" class="form-control form-control-sm" id="STA-factorytype" placeholder="....." disabled />
+        </div>*@
+            </div>
+
+            <div class="form-row mb-3">
+                <div class="col-md-3">
+                    <label for="STA-factoryaccountID" class="col-form-label col-form-label-sm"> Account ID : <span class="star">*</span> </label>
+                    @Html.DropDownList("STA-factoryaccountID", new SelectList("") as SelectList, "-Choose-", new { @id = "STA-factoryaccountID", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-4">
+                    <label for="STA-factoryaccountname" class="col-form-label col-form-label-sm"> Account Name :  </label>
+                    <input type="text" class="form-control form-control-sm" id="STA-factoryaccountname" placeholder="....." disabled />
+                </div>
+                <div class="col-md-5">
+                    <label for="STA-factorydesc" class="col-form-label col-form-label-sm"> Tax Describtion: </label>
+                    <textarea class="form-control form-control-sm" id="STA-factorydesc" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row col-md-3">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" id="STA-FactorySave"> Save </button>
+                    <button class="btn btn-info" id="STA-FactoryUpdate"> update </button>
+                    <button class="btn btn-secondary" id="STA-FactoryReset"> Clear </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/Tax/tax-setting.js")

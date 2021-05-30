@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Trail Balance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <!-- **** For Checks **** -->
+    <span class="hide-normal" id="IADI-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <input class="hide-normal" type="text" id="IADI-GurrencyFormate" />
+    <input class="hide-normal" type="text" id="IADI-HardGurrencyFormate" />
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Sort Accounts By : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("accountSort", new List<SelectListItem>
+                                     {
+                                     new SelectListItem{Text = "Account ID" , Value = "1" },
+                                     new SelectListItem{Text = "Account Name" , Value = "2" },
+                                     },"-Choose-",new { @id = "accountSort", @class= "form-control form-control-sm" })
+        </div>
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" id="zeroBallance" class="custom-control-input" />
+            <label for="zeroBallance" class="custom-control-label"> Zero Ballance </label>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Year Option
+                </div>
+                <div class=" p-2">
+                    <div class="form-check-inline">
+                        <div class="form-check-label">
+                            <input type="radio" name="yearOpen" id="openYear" class=" v-middle" />
+                            <label>Open</label>
+                        </div>
+                    </div>
+                    <div class="form-check-inline">
+                        <div class="form-check-label">
+                            <input type="radio" name="yearOpen" id="historyYear" class=" v-middle" />
+                            <label>History</label> 
+                        </div>
+                    </div>
+                    <div class="form-check-inline">
+                        <div class="form-check-label">
+                            <input type="radio" name="yearOpen" id="currentYear" class=" v-middle" />
+                            <label>Current</label>
+                        </div>
+                    </div>
+                    @Html.DropDownList("allYears", new SelectList(""), "-Choose-", new { @id = "allYears", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card">
+                <div class="card-header">
+                    Currency In
+                </div>
+                <div class=" p-2">
+                    <div class="form-check-inline">
+                        <div class="form-check-label">
+                            <input type="radio" name="currencyIn" id="currencyFunctional" class=" v-middle" checked />
+                            <label> Functional</label>
+                        </div>
+                    </div>
+                    <div class="form-check-inline">
+                        <div class="form-check-label">
+                            <input type="radio" name="currencyIn" id="currencyReporting" class=" v-middle" />
+                            <label>Reporting</label>
+</div>
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-2 col-form-label col-form-label-sm"> Currency ID : </label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("currencyID", ViewBag.Currency as SelectList, "-Choose-", new { @id = "currencyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                        </div>
+                        <label class="col-md-1 col-form-label col-form-label-sm"> Rate : </label>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control form-control-sm" id="currencyRate" disabled />
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm"> Operation : </label>
+                        <div class="col-md-2">
+                            <select disabled class="form-control form-control-sm" id="currencyOperation">
+                                <option selected> -Choose- </option>
+                                <option value="1"> divide by </option>
+                                <option value="2"> multiply by </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Date From : </label>
+            <input type="date" class="form-control form-control-sm" name="hasValidation" id="startDate" />
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Date To : </label>
+            <input type="date" class="form-control form-control-sm" name="hasValidation" id="endDate" />
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Account-ID From : </label>
+            @Html.DropDownList("accountIDFrom", new SelectList(""), "-Choose-", new { @id = "accountIDFrom", @class = "form-control form-control-sm allAccounts", @name = "hasValidation" })
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Account-ID To : </label>
+            @Html.DropDownList("accountIDTO", new SelectList(""), "-Choose-", new { @id = "accountIDTO", @class = "form-control form-control-sm allAccounts", @name = "hasValidation" })
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-sm" onclick="GetData();"> Generate </button>
+    <button class="btn btn-secondary btn-sm" onclick="location.reload()"> Clear </button>
+    <button class="btn btn-success btn-sm" id="trailBalanceExport"> Export To Excel <i class="fa fa-file-excel-o"></i> </button>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="trailBalance">
+            <thead>
+                <tr>
+                    <th> Account ID </th>
+                    <th> Account Name </th>
+                    <th> Beginning Balance </th>
+                    <th> Debit </th>
+                    <th> Credit </th>
+                    <th> Net Change </th>
+                    <th> Ending Balance </th>
+                </tr>
+            </thead>
+            <tbody id="reportAppendData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2"> Total </th>
+                    <th> </th>
+                    <th id="totalDebit"> </th>
+                    <th id="totalCredit"> </th>
+                    <th id="totalNetChange"> </th>
+                    <th id="totalEndingBalance"> </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Reports/Financial/_Company/Reports_Script.js")
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")

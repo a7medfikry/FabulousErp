@@ -1,0 +1,2032 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EF3434C6-C61D-489A-B762-2B7B92DF0EBF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FabulousDB</RootNamespace>
+    <AssemblyName>FabulousDB</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bussines\SetDataBaseName.cs" />
+    <Compile Include="DB_Context\DBContext.cs" />
+    <Compile Include="Migrations\202006241522119_AddFIscalYear.cs" />
+    <Compile Include="Migrations\202006241522119_AddFIscalYear.designer.cs">
+      <DependentUpon>202006241522119_AddFIscalYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006241535551_AllowAdjust.cs" />
+    <Compile Include="Migrations\202006241535551_AllowAdjust.designer.cs">
+      <DependentUpon>202006241535551_AllowAdjust.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006241616302_addMyFiscalYear.cs" />
+    <Compile Include="Migrations\202006241616302_addMyFiscalYear.designer.cs">
+      <DependentUpon>202006241616302_addMyFiscalYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006241638242_AddMySiscalYear2.cs" />
+    <Compile Include="Migrations\202006241638242_AddMySiscalYear2.designer.cs">
+      <DependentUpon>202006241638242_AddMySiscalYear2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006241658540_InvUpdateFiscalYearAra.cs" />
+    <Compile Include="Migrations\202006241658540_InvUpdateFiscalYearAra.designer.cs">
+      <DependentUpon>202006241658540_InvUpdateFiscalYearAra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006301501008_UpdateInvItm.cs" />
+    <Compile Include="Migrations\202006301501008_UpdateInvItm.designer.cs">
+      <DependentUpon>202006301501008_UpdateInvItm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007061149151_ItemExpiery.cs" />
+    <Compile Include="Migrations\202007061149151_ItemExpiery.designer.cs">
+      <DependentUpon>202007061149151_ItemExpiery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007061208507_NewExpiry.cs" />
+    <Compile Include="Migrations\202007061208507_NewExpiry.designer.cs">
+      <DependentUpon>202007061208507_NewExpiry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007061400380_InvDate.cs" />
+    <Compile Include="Migrations\202007061400380_InvDate.designer.cs">
+      <DependentUpon>202007061400380_InvDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007081218362_ShowUnitPrice.cs" />
+    <Compile Include="Migrations\202007081218362_ShowUnitPrice.designer.cs">
+      <DependentUpon>202007081218362_ShowUnitPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007081333312_ChanUToC.cs" />
+    <Compile Include="Migrations\202007081333312_ChanUToC.designer.cs">
+      <DependentUpon>202007081333312_ChanUToC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007091427092_CstCenter.cs" />
+    <Compile Include="Migrations\202007091427092_CstCenter.designer.cs">
+      <DependentUpon>202007091427092_CstCenter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007091547373_GroupCostCenterAccount.cs" />
+    <Compile Include="Migrations\202007091547373_GroupCostCenterAccount.designer.cs">
+      <DependentUpon>202007091547373_GroupCostCenterAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007141648319_InvPostDate.cs" />
+    <Compile Include="Migrations\202007141648319_InvPostDate.designer.cs">
+      <DependentUpon>202007141648319_InvPostDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007141653385_AddPostriData.cs" />
+    <Compile Include="Migrations\202007141653385_AddPostriData.designer.cs">
+      <DependentUpon>202007141653385_AddPostriData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007141715165_aaaca.cs" />
+    <Compile Include="Migrations\202007141715165_aaaca.designer.cs">
+      <DependentUpon>202007141715165_aaaca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007161231064_aaa.cs" />
+    <Compile Include="Migrations\202007161231064_aaa.designer.cs">
+      <DependentUpon>202007161231064_aaa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007261610326_InvNum.cs" />
+    <Compile Include="Migrations\202007261610326_InvNum.designer.cs">
+      <DependentUpon>202007261610326_InvNum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007281628253_Instllment.cs" />
+    <Compile Include="Migrations\202007281628253_Instllment.designer.cs">
+      <DependentUpon>202007281628253_Instllment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007281637376_InstallmentEdit.cs" />
+    <Compile Include="Migrations\202007281637376_InstallmentEdit.designer.cs">
+      <DependentUpon>202007281637376_InstallmentEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007281750520_ContractInvoice.cs" />
+    <Compile Include="Migrations\202007281750520_ContractInvoice.designer.cs">
+      <DependentUpon>202007281750520_ContractInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007291724543_Installment.cs" />
+    <Compile Include="Migrations\202007291724543_Installment.designer.cs">
+      <DependentUpon>202007291724543_Installment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008091445478_PaybleInstallment.cs" />
+    <Compile Include="Migrations\202008091445478_PaybleInstallment.designer.cs">
+      <DependentUpon>202008091445478_PaybleInstallment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008121122549_AddStatmentTax.cs" />
+    <Compile Include="Migrations\202008121122549_AddStatmentTax.designer.cs">
+      <DependentUpon>202008121122549_AddStatmentTax.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008191550498_RPC.cs" />
+    <Compile Include="Migrations\202008191550498_RPC.designer.cs">
+      <DependentUpon>202008191550498_RPC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CostCenter\Groupcostcenter_accounts.cs" />
+    <Compile Include="Models\CostCenter\Costcenter_accounts.cs" />
+    <Compile Include="Models\EntityHelper.ShallowCopy.cs" />
+    <Compile Include="Models\Financial\Fiscal_year_area.cs" />
+    <Compile Include="Migrations\202004230937507_Fixed.cs" />
+    <Compile Include="Migrations\202004230937507_Fixed.designer.cs">
+      <DependentUpon>202004230937507_Fixed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004231028566_Fix2.cs" />
+    <Compile Include="Migrations\202004231028566_Fix2.designer.cs">
+      <DependentUpon>202004231028566_Fix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004231117445_Fix3.cs" />
+    <Compile Include="Migrations\202004231117445_Fix3.designer.cs">
+      <DependentUpon>202004231117445_Fix3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031423245_InvReceive.cs" />
+    <Compile Include="Migrations\202005031423245_InvReceive.designer.cs">
+      <DependentUpon>202005031423245_InvReceive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031431422_InvReturnPurc.cs" />
+    <Compile Include="Migrations\202005031431422_InvReturnPurc.designer.cs">
+      <DependentUpon>202005031431422_InvReturnPurc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031457427_Inv1.cs" />
+    <Compile Include="Migrations\202005031457427_Inv1.designer.cs">
+      <DependentUpon>202005031457427_Inv1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005061012074_InvReceivableInPurchaseInvoice.cs" />
+    <Compile Include="Migrations\202005061012074_InvReceivableInPurchaseInvoice.designer.cs">
+      <DependentUpon>202005061012074_InvReceivableInPurchaseInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005061040328_InvOldSerial.cs" />
+    <Compile Include="Migrations\202005061040328_InvOldSerial.designer.cs">
+      <DependentUpon>202005061040328_InvOldSerial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005071432076_Inv2.cs" />
+    <Compile Include="Migrations\202005071432076_Inv2.designer.cs">
+      <DependentUpon>202005071432076_Inv2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005121029215_InvReturn.cs" />
+    <Compile Include="Migrations\202005121029215_InvReturn.designer.cs">
+      <DependentUpon>202005121029215_InvReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005121032214_InvRetun.cs" />
+    <Compile Include="Migrations\202005121032214_InvRetun.designer.cs">
+      <DependentUpon>202005121032214_InvRetun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005121425576_RemoveReturn.cs" />
+    <Compile Include="Migrations\202005121425576_RemoveReturn.designer.cs">
+      <DependentUpon>202005121425576_RemoveReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005191127261_Inv_item_options.cs" />
+    <Compile Include="Migrations\202005191127261_Inv_item_options.designer.cs">
+      <DependentUpon>202005191127261_Inv_item_options.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005191133095_Inv_itemUpdate.cs" />
+    <Compile Include="Migrations\202005191133095_Inv_itemUpdate.designer.cs">
+      <DependentUpon>202005191133095_Inv_itemUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005201407038_InvStocking.cs" />
+    <Compile Include="Migrations\202005201407038_InvStocking.designer.cs">
+      <DependentUpon>202005201407038_InvStocking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005201525471_AddItemId.cs" />
+    <Compile Include="Migrations\202005201525471_AddItemId.designer.cs">
+      <DependentUpon>202005201525471_AddItemId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005211054034_ItemTrans.cs" />
+    <Compile Include="Migrations\202005211054034_ItemTrans.designer.cs">
+      <DependentUpon>202005211054034_ItemTrans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005211417344_InvModification.cs" />
+    <Compile Include="Migrations\202005211417344_InvModification.designer.cs">
+      <DependentUpon>202005211417344_InvModification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005211426468_InvModif2.cs" />
+    <Compile Include="Migrations\202005211426468_InvModif2.designer.cs">
+      <DependentUpon>202005211426468_InvModif2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005211531232_InvModif3.cs" />
+    <Compile Include="Migrations\202005211531232_InvModif3.designer.cs">
+      <DependentUpon>202005211531232_InvModif3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005211538109_InvModicatin4.cs" />
+    <Compile Include="Migrations\202005211538109_InvModicatin4.designer.cs">
+      <DependentUpon>202005211538109_InvModicatin4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005230121403_ChangeUinteOfMeasureName.cs" />
+    <Compile Include="Migrations\202005230121403_ChangeUinteOfMeasureName.Designer.cs">
+      <DependentUpon>202005230121403_ChangeUinteOfMeasureName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005230252561_AddAction.cs" />
+    <Compile Include="Migrations\202005230252561_AddAction.Designer.cs">
+      <DependentUpon>202005230252561_AddAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005271039373_InvTransfer.cs" />
+    <Compile Include="Migrations\202005271039373_InvTransfer.designer.cs">
+      <DependentUpon>202005271039373_InvTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005271139301_InvTransfer1.cs" />
+    <Compile Include="Migrations\202005271139301_InvTransfer1.designer.cs">
+      <DependentUpon>202005271139301_InvTransfer1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005310913584_InvPriceLis.cs" />
+    <Compile Include="Migrations\202005310913584_InvPriceLis.designer.cs">
+      <DependentUpon>202005310913584_InvPriceLis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005310918028_InvPriceList1.cs" />
+    <Compile Include="Migrations\202005310918028_InvPriceList1.designer.cs">
+      <DependentUpon>202005310918028_InvPriceList1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005310938481_InvAccrualFright.cs" />
+    <Compile Include="Migrations\202005310938481_InvAccrualFright.designer.cs">
+      <DependentUpon>202005310938481_InvAccrualFright.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005310946408_InvAddRadio.cs" />
+    <Compile Include="Migrations\202005310946408_InvAddRadio.designer.cs">
+      <DependentUpon>202005310946408_InvAddRadio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005311048092_InvPricelvl.cs" />
+    <Compile Include="Migrations\202005311048092_InvPricelvl.designer.cs">
+      <DependentUpon>202005311048092_InvPricelvl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006021020595_InvRemoveUOMaction.cs" />
+    <Compile Include="Migrations\202006021020595_InvRemoveUOMaction.designer.cs">
+      <DependentUpon>202006021020595_InvRemoveUOMaction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006021352300_InvItemOrQty.cs" />
+    <Compile Include="Migrations\202006021352300_InvItemOrQty.designer.cs">
+      <DependentUpon>202006021352300_InvItemOrQty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006021403575_InvRec2.cs" />
+    <Compile Include="Migrations\202006021403575_InvRec2.designer.cs">
+      <DependentUpon>202006021403575_InvRec2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006021449087_AddUOM.cs" />
+    <Compile Include="Migrations\202006021449087_AddUOM.designer.cs">
+      <DependentUpon>202006021449087_AddUOM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006021526162_InvRece.cs" />
+    <Compile Include="Migrations\202006021526162_InvRece.designer.cs">
+      <DependentUpon>202006021526162_InvRece.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006031322221_InvTrasDetai.cs" />
+    <Compile Include="Migrations\202006031322221_InvTrasDetai.designer.cs">
+      <DependentUpon>202006031322221_InvTrasDetai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006041250496_InvRec3.cs" />
+    <Compile Include="Migrations\202006041250496_InvRec3.designer.cs">
+      <DependentUpon>202006041250496_InvRec3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006041348323_InvAdjustmentItem.cs" />
+    <Compile Include="Migrations\202006041348323_InvAdjustmentItem.designer.cs">
+      <DependentUpon>202006041348323_InvAdjustmentItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006041357073_Decimal.cs" />
+    <Compile Include="Migrations\202006041357073_Decimal.designer.cs">
+      <DependentUpon>202006041357073_Decimal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006041445020_InvChangeType.cs" />
+    <Compile Include="Migrations\202006041445020_InvChangeType.designer.cs">
+      <DependentUpon>202006041445020_InvChangeType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006041520087_InvRec4.cs" />
+    <Compile Include="Migrations\202006041520087_InvRec4.designer.cs">
+      <DependentUpon>202006041520087_InvRec4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006041548434_InvPo.cs" />
+    <Compile Include="Migrations\202006041548434_InvPo.designer.cs">
+      <DependentUpon>202006041548434_InvPo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006071344128_GroupPrp.cs" />
+    <Compile Include="Migrations\202006071344128_GroupPrp.designer.cs">
+      <DependentUpon>202006071344128_GroupPrp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006071614300_InvIteGroup.cs" />
+    <Compile Include="Migrations\202006071614300_InvIteGroup.designer.cs">
+      <DependentUpon>202006071614300_InvIteGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006071616569_InvGroup.cs" />
+    <Compile Include="Migrations\202006071616569_InvGroup.designer.cs">
+      <DependentUpon>202006071616569_InvGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006090933073_InvItems.cs" />
+    <Compile Include="Migrations\202006090933073_InvItems.designer.cs">
+      <DependentUpon>202006090933073_InvItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006091229235_ad.cs" />
+    <Compile Include="Migrations\202006091229235_ad.designer.cs">
+      <DependentUpon>202006091229235_ad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006141148401_InvSalesVenore.cs" />
+    <Compile Include="Migrations\202006141148401_InvSalesVenore.designer.cs">
+      <DependentUpon>202006141148401_InvSalesVenore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006141225254_AddCustomer1.cs" />
+    <Compile Include="Migrations\202006141225254_AddCustomer1.designer.cs">
+      <DependentUpon>202006141225254_AddCustomer1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006141238220_InvCusto,er.cs" />
+    <Compile Include="Migrations\202006141238220_InvCusto,er.designer.cs">
+      <DependentUpon>202006141238220_InvCusto,er.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006161050365_InvStocing.cs" />
+    <Compile Include="Migrations\202006161050365_InvStocing.designer.cs">
+      <DependentUpon>202006161050365_InvStocing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006171044296_InvRmAdustmentFlag.cs" />
+    <Compile Include="Migrations\202006171044296_InvRmAdustmentFlag.designer.cs">
+      <DependentUpon>202006171044296_InvRmAdustmentFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006171109388_ChangeStokingName.cs" />
+    <Compile Include="Migrations\202006171109388_ChangeStokingName.designer.cs">
+      <DependentUpon>202006171109388_ChangeStokingName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006171111546_ChangeTypeNam.cs" />
+    <Compile Include="Migrations\202006171111546_ChangeTypeNam.designer.cs">
+      <DependentUpon>202006171111546_ChangeTypeNam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006181241280_InvPo1.cs" />
+    <Compile Include="Migrations\202006181241280_InvPo1.designer.cs">
+      <DependentUpon>202006181241280_InvPo1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006181321102_InvSales.cs" />
+    <Compile Include="Migrations\202006181321102_InvSales.designer.cs">
+      <DependentUpon>202006181321102_InvSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006181423200_RemoveGoods.cs" />
+    <Compile Include="Migrations\202006181423200_RemoveGoods.designer.cs">
+      <DependentUpon>202006181423200_RemoveGoods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006181542384_Sh.cs" />
+    <Compile Include="Migrations\202006181542384_Sh.designer.cs">
+      <DependentUpon>202006181542384_Sh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Installment\InstallmentDB.cs" />
+    <Compile Include="Models\Installment\Installment_contract_invoice.cs" />
+    <Compile Include="Models\Installment\Purchase_Installment_contract_invoice.cs" />
+    <Compile Include="Models\Inventory\Inventory.cs" />
+    <Compile Include="Migrations\202004140955224_InvSerial.cs" />
+    <Compile Include="Migrations\202004140955224_InvSerial.designer.cs">
+      <DependentUpon>202004140955224_InvSerial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004141152377_InvSerialFlag.cs" />
+    <Compile Include="Migrations\202004141152377_InvSerialFlag.designer.cs">
+      <DependentUpon>202004141152377_InvSerialFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004141258019_AddUniqeue.cs" />
+    <Compile Include="Migrations\202004141258019_AddUniqeue.designer.cs">
+      <DependentUpon>202004141258019_AddUniqeue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004141416155_InvAddHasSerial.cs" />
+    <Compile Include="Migrations\202004141416155_InvAddHasSerial.designer.cs">
+      <DependentUpon>202004141416155_InvAddHasSerial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004151052008_AddInvCutomName.cs" />
+    <Compile Include="Migrations\202004151052008_AddInvCutomName.designer.cs">
+      <DependentUpon>202004151052008_AddInvCutomName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004151143356_InvProfitUser.cs" />
+    <Compile Include="Migrations\202004151143356_InvProfitUser.designer.cs">
+      <DependentUpon>202004151143356_InvProfitUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161055297_InvRmPoFromSaes.cs" />
+    <Compile Include="Migrations\202004161055297_InvRmPoFromSaes.designer.cs">
+      <DependentUpon>202004161055297_InvRmPoFromSaes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161114128_InvRmBP.cs" />
+    <Compile Include="Migrations\202004161114128_InvRmBP.designer.cs">
+      <DependentUpon>202004161114128_InvRmBP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161208165_InvRec.cs" />
+    <Compile Include="Migrations\202004161208165_InvRec.designer.cs">
+      <DependentUpon>202004161208165_InvRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161322401_InvPoUp.cs" />
+    <Compile Include="Migrations\202004161322401_InvPoUp.designer.cs">
+      <DependentUpon>202004161322401_InvPoUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161359055_InvSeriUp.cs" />
+    <Compile Include="Migrations\202004161359055_InvSeriUp.designer.cs">
+      <DependentUpon>202004161359055_InvSeriUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161420063_InvExpiery.cs" />
+    <Compile Include="Migrations\202004161420063_InvExpiery.designer.cs">
+      <DependentUpon>202004161420063_InvExpiery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004221045048_AddRecipe.cs" />
+    <Compile Include="Migrations\202004221045048_AddRecipe.designer.cs">
+      <DependentUpon>202004221045048_AddRecipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004221144186_InvRecipeUp.cs" />
+    <Compile Include="Migrations\202004221144186_InvRecipeUp.designer.cs">
+      <DependentUpon>202004221144186_InvRecipeUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004221254192_InvRec1.cs" />
+    <Compile Include="Migrations\202004221254192_InvRec1.designer.cs">
+      <DependentUpon>202004221254192_InvRec1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FixedAssets\Additional_information.cs" />
+    <Compile Include="Models\FixedAssets\Asset.cs" />
+    <Compile Include="Models\FixedAssets\Assets_accounts.cs" />
+    <Compile Include="Models\FixedAssets\Assets_class.cs" />
+    <Compile Include="Models\FixedAssets\Assets_main.cs" />
+    <Compile Include="Models\FixedAssets\Assets_part_serial.cs" />
+    <Compile Include="Models\FixedAssets\Book.cs" />
+    <Compile Include="Models\FixedAssets\Deleted_assets.cs" />
+    <Compile Include="Models\FixedAssets\Deleted_assets_class.cs" />
+    <Compile Include="Models\FixedAssets\Deleted_assets_serial.cs" />
+    <Compile Include="Models\FixedAssets\Deleted_fixed_assets_renewal.cs" />
+    <Compile Include="Models\FixedAssets\Delete_assets_main.cs" />
+    <Compile Include="Models\FixedAssets\Delete_fixed_assets_disposel.cs" />
+    <Compile Include="Models\FixedAssets\Delete_fixed_assets_revaluate.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation_number_of_units.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation_periods.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation_record.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation_Setting.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation_temp.cs" />
+    <Compile Include="Models\FixedAssets\Deprecation_temp_record.cs" />
+    <Compile Include="Models\FixedAssets\Depreication_assets_connection.cs" />
+    <Compile Include="Models\FixedAssets\Depreication_assets_id_connection.cs" />
+    <Compile Include="Models\FixedAssets\Enums.cs" />
+    <Compile Include="Models\FixedAssets\FixedAssetsContext.cs" />
+    <Compile Include="Models\FixedAssets\Fixed_assets_disposel.cs" />
+    <Compile Include="Models\FixedAssets\Fixed_assets_renewal.cs" />
+    <Compile Include="Models\FixedAssets\Fixed_assets_revaluate.cs" />
+    <Compile Include="Models\FixedAssets\MyModel.cs" />
+    <Compile Include="Models\FixedAssets\New_assets_transaction.cs" />
+    <Compile Include="Models\FixedAssets\Stocking_assets_transaction.cs" />
+    <Compile Include="Models\FixedAssets\Stocking_notes.cs" />
+    <Compile Include="Models\FixedAssets\Stoking_assets.cs" />
+    <Compile Include="Models\FixedAssets\Validation.cs" />
+    <Compile Include="Models\Inventory\Inv_adjustment_relation.cs" />
+    <Compile Include="Models\Inventory\Inv_item_adjustment.cs" />
+    <Compile Include="Models\Inventory\Inv_item_option.cs" />
+    <Compile Include="Models\Inventory\Inv_item_recipe.cs" />
+    <Compile Include="Models\Inventory\Inv_old_receive_item_serial.cs" />
+    <Compile Include="Models\Inventory\Inv_quotation_request_item.cs" />
+    <Compile Include="Models\Inventory\Inv_receive_expiery.cs" />
+    <Compile Include="Models\Inventory\Inv_receive_return_po_items.cs" />
+    <Compile Include="Models\Inventory\Inv_rec_num.cs" />
+    <Compile Include="Models\Inventory\Inv_sales_invoice_items.cs" />
+    <Compile Include="Models\Inventory\Inv_sales_item_serial.cs" />
+    <Compile Include="Migrations\202002201621378_InvPurReqItem.cs" />
+    <Compile Include="Migrations\202002201621378_InvPurReqItem.Designer.cs">
+      <DependentUpon>202002201621378_InvPurReqItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201734586_ItemQuantityToDouble.cs" />
+    <Compile Include="Migrations\202002201734586_ItemQuantityToDouble.Designer.cs">
+      <DependentUpon>202002201734586_ItemQuantityToDouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231028019_AddInv_item.cs" />
+    <Compile Include="Migrations\202002231028019_AddInv_item.Designer.cs">
+      <DependentUpon>202002231028019_AddInv_item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231057114_AddItemTypeGroupId.cs" />
+    <Compile Include="Migrations\202002231057114_AddItemTypeGroupId.Designer.cs">
+      <DependentUpon>202002231057114_AddItemTypeGroupId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231228271_RmoveRequirFromInvGl.cs" />
+    <Compile Include="Migrations\202002231228271_RmoveRequirFromInvGl.Designer.cs">
+      <DependentUpon>202002231228271_RmoveRequirFromInvGl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231608242_T.cs" />
+    <Compile Include="Migrations\202002231608242_T.Designer.cs">
+      <DependentUpon>202002231608242_T.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231621126_T1.cs" />
+    <Compile Include="Migrations\202002231621126_T1.Designer.cs">
+      <DependentUpon>202002231621126_T1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231627568_T -force.cs" />
+    <Compile Include="Migrations\202002231627568_T -force.Designer.cs">
+      <DependentUpon>202002231627568_T -force.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231631194_T2.cs" />
+    <Compile Include="Migrations\202002231631194_T2.Designer.cs">
+      <DependentUpon>202002231631194_T2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231636179_T21.cs" />
+    <Compile Include="Migrations\202002231636179_T21.Designer.cs">
+      <DependentUpon>202002231636179_T21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002231756309_T3.cs" />
+    <Compile Include="Migrations\202002231756309_T3.Designer.cs">
+      <DependentUpon>202002231756309_T3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241228497_InvRmFr.cs" />
+    <Compile Include="Migrations\202002241228497_InvRmFr.Designer.cs">
+      <DependentUpon>202002241228497_InvRmFr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241236528_RmNullableFr.cs" />
+    <Compile Include="Migrations\202002241236528_RmNullableFr.Designer.cs">
+      <DependentUpon>202002241236528_RmNullableFr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241349234_AddInvFr.cs" />
+    <Compile Include="Migrations\202002241349234_AddInvFr.designer.cs">
+      <DependentUpon>202002241349234_AddInvFr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241619462_RemovForegi.cs" />
+    <Compile Include="Migrations\202002241619462_RemovForegi.designer.cs">
+      <DependentUpon>202002241619462_RemovForegi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002250909374_RedoLastForeign.cs" />
+    <Compile Include="Migrations\202002250909374_RedoLastForeign.designer.cs">
+      <DependentUpon>202002250909374_RedoLastForeign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002250929412_TaxSettingFix.cs" />
+    <Compile Include="Migrations\202002250929412_TaxSettingFix.designer.cs">
+      <DependentUpon>202002250929412_TaxSettingFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002250935427_TaxSettingFix2.cs" />
+    <Compile Include="Migrations\202002250935427_TaxSettingFix2.designer.cs">
+      <DependentUpon>202002250935427_TaxSettingFix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002250940439_InvTaxSettingFx.cs" />
+    <Compile Include="Migrations\202002250940439_InvTaxSettingFx.designer.cs">
+      <DependentUpon>202002250940439_InvTaxSettingFx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002251046035_InvRemovDueDate.cs" />
+    <Compile Include="Migrations\202002251046035_InvRemovDueDate.designer.cs">
+      <DependentUpon>202002251046035_InvRemovDueDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261159167_ChangeInvReturnId.cs" />
+    <Compile Include="Migrations\202002261159167_ChangeInvReturnId.designer.cs">
+      <DependentUpon>202002261159167_ChangeInvReturnId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261216438_changeForeignKey.cs" />
+    <Compile Include="Migrations\202002261216438_changeForeignKey.designer.cs">
+      <DependentUpon>202002261216438_changeForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261223356_InvRecon.cs" />
+    <Compile Include="Migrations\202002261223356_InvRecon.designer.cs">
+      <DependentUpon>202002261223356_InvRecon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261311447_RemoveColumn.cs" />
+    <Compile Include="Migrations\202002261311447_RemoveColumn.designer.cs">
+      <DependentUpon>202002261311447_RemoveColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261520454_AddTable.cs" />
+    <Compile Include="Migrations\202002261520454_AddTable.designer.cs">
+      <DependentUpon>202002261520454_AddTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261632002_InvSalesFix.cs" />
+    <Compile Include="Migrations\202002261632002_InvSalesFix.designer.cs">
+      <DependentUpon>202002261632002_InvSalesFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002261821529_Fixes.cs" />
+    <Compile Include="Migrations\202002261821529_Fixes.designer.cs">
+      <DependentUpon>202002261821529_Fixes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003011311503_AddInvFright.cs" />
+    <Compile Include="Migrations\202003011311503_AddInvFright.designer.cs">
+      <DependentUpon>202003011311503_AddInvFright.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003021604302_InvPriceList.cs" />
+    <Compile Include="Migrations\202003021604302_InvPriceList.designer.cs">
+      <DependentUpon>202003021604302_InvPriceList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003021613474_InvPriceList2.cs" />
+    <Compile Include="Migrations\202003021613474_InvPriceList2.designer.cs">
+      <DependentUpon>202003021613474_InvPriceList2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031111062_AddFright.cs" />
+    <Compile Include="Migrations\202003031111062_AddFright.designer.cs">
+      <DependentUpon>202003031111062_AddFright.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031244392_InvPriceListAllowNullable.cs" />
+    <Compile Include="Migrations\202003031244392_InvPriceListAllowNullable.designer.cs">
+      <DependentUpon>202003031244392_InvPriceListAllowNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031339444_InvAddPoAndSales.cs" />
+    <Compile Include="Migrations\202003031339444_InvAddPoAndSales.designer.cs">
+      <DependentUpon>202003031339444_InvAddPoAndSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031355010_InvPoSales.cs" />
+    <Compile Include="Migrations\202003031355010_InvPoSales.designer.cs">
+      <DependentUpon>202003031355010_InvPoSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031512519_InvSalesPos.cs" />
+    <Compile Include="Migrations\202003031512519_InvSalesPos.designer.cs">
+      <DependentUpon>202003031512519_InvSalesPos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003031805328_Rec.cs" />
+    <Compile Include="Migrations\202003031805328_Rec.designer.cs">
+      <DependentUpon>202003031805328_Rec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003041700231_Rec1.cs" />
+    <Compile Include="Migrations\202003041700231_Rec1.designer.cs">
+      <DependentUpon>202003041700231_Rec1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003051052532_AddCreationDate.cs" />
+    <Compile Include="Migrations\202003051052532_AddCreationDate.designer.cs">
+      <DependentUpon>202003051052532_AddCreationDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003051408073_RmoveSinglePoInv.cs" />
+    <Compile Include="Migrations\202003051408073_RmoveSinglePoInv.designer.cs">
+      <DependentUpon>202003051408073_RmoveSinglePoInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003051427298_RemovForiegn.cs" />
+    <Compile Include="Migrations\202003051427298_RemovForiegn.designer.cs">
+      <DependentUpon>202003051427298_RemovForiegn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003051641528_InvCostCenter.cs" />
+    <Compile Include="Migrations\202003051641528_InvCostCenter.designer.cs">
+      <DependentUpon>202003051641528_InvCostCenter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003051814059_AddGOGR.cs" />
+    <Compile Include="Migrations\202003051814059_AddGOGR.designer.cs">
+      <DependentUpon>202003051814059_AddGOGR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191136100_Rec2.cs" />
+    <Compile Include="Migrations\202003191136100_Rec2.designer.cs">
+      <DependentUpon>202003191136100_Rec2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191418523_AddSiteToitem.cs" />
+    <Compile Include="Migrations\202003191418523_AddSiteToitem.designer.cs">
+      <DependentUpon>202003191418523_AddSiteToitem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003191608148_Rec3.cs" />
+    <Compile Include="Migrations\202003191608148_Rec3.designer.cs">
+      <DependentUpon>202003191608148_Rec3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003231120325_AddGlStore.cs" />
+    <Compile Include="Migrations\202003231120325_AddGlStore.designer.cs">
+      <DependentUpon>202003231120325_AddGlStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003231127088_Rec4.cs" />
+    <Compile Include="Migrations\202003231127088_Rec4.designer.cs">
+      <DependentUpon>202003231127088_Rec4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003241333311_Rec5.cs" />
+    <Compile Include="Migrations\202003241333311_Rec5.designer.cs">
+      <DependentUpon>202003241333311_Rec5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003241345199_PayableToPoRec.cs" />
+    <Compile Include="Migrations\202003241345199_PayableToPoRec.designer.cs">
+      <DependentUpon>202003241345199_PayableToPoRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003241604420_RemoveVatFromPo.cs" />
+    <Compile Include="Migrations\202003241604420_RemoveVatFromPo.designer.cs">
+      <DependentUpon>202003241604420_RemoveVatFromPo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003261304474_Inv.cs" />
+    <Compile Include="Migrations\202003261304474_Inv.designer.cs">
+      <DependentUpon>202003261304474_Inv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003261334577_RmInv.cs" />
+    <Compile Include="Migrations\202003261334577_RmInv.designer.cs">
+      <DependentUpon>202003261334577_RmInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003261340183_RmInv2.cs" />
+    <Compile Include="Migrations\202003261340183_RmInv2.designer.cs">
+      <DependentUpon>202003261340183_RmInv2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003261429544_UnInv.cs" />
+    <Compile Include="Migrations\202003261429544_UnInv.designer.cs">
+      <DependentUpon>202003261429544_UnInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003261505444_AddQuotauinItem.cs" />
+    <Compile Include="Migrations\202003261505444_AddQuotauinItem.designer.cs">
+      <DependentUpon>202003261505444_AddQuotauinItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003290915196_InvNullable.cs" />
+    <Compile Include="Migrations\202003290915196_InvNullable.designer.cs">
+      <DependentUpon>202003290915196_InvNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003290920347_InvRmQty.cs" />
+    <Compile Include="Migrations\202003290920347_InvRmQty.designer.cs">
+      <DependentUpon>202003290920347_InvRmQty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003290925475_RenamPoToPr.cs" />
+    <Compile Include="Migrations\202003290925475_RenamPoToPr.designer.cs">
+      <DependentUpon>202003290925475_RenamPoToPr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010506588_InvPosEdit.cs" />
+    <Compile Include="Migrations\202004010506588_InvPosEdit.designer.cs">
+      <DependentUpon>202004010506588_InvPosEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010508129_InvPosEdit1.cs" />
+    <Compile Include="Migrations\202004010508129_InvPosEdit1.designer.cs">
+      <DependentUpon>202004010508129_InvPosEdit1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010655301_InvFixPos.cs" />
+    <Compile Include="Migrations\202004010655301_InvFixPos.designer.cs">
+      <DependentUpon>202004010655301_InvFixPos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010658432_InvFixPos1.cs" />
+    <Compile Include="Migrations\202004010658432_InvFixPos1.designer.cs">
+      <DependentUpon>202004010658432_InvFixPos1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010702066_Rec6.cs" />
+    <Compile Include="Migrations\202004010702066_Rec6.designer.cs">
+      <DependentUpon>202004010702066_Rec6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010718388_Fix.cs" />
+    <Compile Include="Migrations\202004010718388_Fix.designer.cs">
+      <DependentUpon>202004010718388_Fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004081140430_AddCustomer.cs" />
+    <Compile Include="Migrations\202004081140430_AddCustomer.designer.cs">
+      <DependentUpon>202004081140430_AddCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004081151329_AddSalesRec.cs" />
+    <Compile Include="Migrations\202004081151329_AddSalesRec.designer.cs">
+      <DependentUpon>202004081151329_AddSalesRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004091338318_AddToTax.cs" />
+    <Compile Include="Migrations\202004091338318_AddToTax.designer.cs">
+      <DependentUpon>202004091338318_AddToTax.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004091340564_AddTaxFix.cs" />
+    <Compile Include="Migrations\202004091340564_AddTaxFix.designer.cs">
+      <DependentUpon>202004091340564_AddTaxFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004121031316_AddReciveSerial.cs" />
+    <Compile Include="Migrations\202004121031316_AddReciveSerial.designer.cs">
+      <DependentUpon>202004121031316_AddReciveSerial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004131141269_AddFrighToSales.cs" />
+    <Compile Include="Migrations\202004131141269_AddFrighToSales.designer.cs">
+      <DependentUpon>202004131141269_AddFrighToSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommonPayRec\Common.cs" />
+    <Compile Include="Models\Inventory\InvSalesPo.cs" />
+    <Compile Include="Models\Inventory\Inv_item_store_site.cs" />
+    <Compile Include="Models\Inventory\Inv_purchase_request_items.cs" />
+    <Compile Include="DB_Context\SaveLog.cs" />
+    <Compile Include="DB_Context\LogContext.cs" />
+    <Compile Include="DB_Context\LogisticContext.cs" />
+    <Compile Include="DB_Tabels\Important\Exceptions_Table.cs" />
+    <Compile Include="DB_Tabels\Important\FavouritesForms_Table.cs" />
+    <Compile Include="Migrations\202001281339108_LicenseMigraton.cs" />
+    <Compile Include="Migrations\202001281339108_LicenseMigraton.Designer.cs">
+      <DependentUpon>202001281339108_LicenseMigraton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002021135491_Inventory1.cs" />
+    <Compile Include="Migrations\202002021135491_Inventory1.Designer.cs">
+      <DependentUpon>202002021135491_Inventory1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002021424412_Inventory2.cs" />
+    <Compile Include="Migrations\202002021424412_Inventory2.Designer.cs">
+      <DependentUpon>202002021424412_Inventory2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002041139257_InventoryForeignUpdate.cs" />
+    <Compile Include="Migrations\202002041139257_InventoryForeignUpdate.Designer.cs">
+      <DependentUpon>202002041139257_InventoryForeignUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002041230293_Invetory_po.cs" />
+    <Compile Include="Migrations\202002041230293_Invetory_po.Designer.cs">
+      <DependentUpon>202002041230293_Invetory_po.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002041436276_invetoryKeyUpdate.cs" />
+    <Compile Include="Migrations\202002041436276_invetoryKeyUpdate.Designer.cs">
+      <DependentUpon>202002041436276_invetoryKeyUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002041624103_InventorNewUpate.cs" />
+    <Compile Include="Migrations\202002041624103_InventorNewUpate.Designer.cs">
+      <DependentUpon>202002041624103_InventorNewUpate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002041638027_IventoryNew8.cs" />
+    <Compile Include="Migrations\202002041638027_IventoryNew8.Designer.cs">
+      <DependentUpon>202002041638027_IventoryNew8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002051222378_InventoryPoNum.cs" />
+    <Compile Include="Migrations\202002051222378_InventoryPoNum.Designer.cs">
+      <DependentUpon>202002051222378_InventoryPoNum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002051340302_InventoryNewForign2.cs" />
+    <Compile Include="Migrations\202002051340302_InventoryNewForign2.Designer.cs">
+      <DependentUpon>202002051340302_InventoryNewForign2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002051412371_InvetoryNewForign3.cs" />
+    <Compile Include="Migrations\202002051412371_InvetoryNewForign3.Designer.cs">
+      <DependentUpon>202002051412371_InvetoryNewForign3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002051429005_Inv3.cs" />
+    <Compile Include="Migrations\202002051429005_Inv3.Designer.cs">
+      <DependentUpon>202002051429005_Inv3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002051431036_Inv4.cs" />
+    <Compile Include="Migrations\202002051431036_Inv4.Designer.cs">
+      <DependentUpon>202002051431036_Inv4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002061250477_RemovePayReceMandatory.cs" />
+    <Compile Include="Migrations\202002061250477_RemovePayReceMandatory.Designer.cs">
+      <DependentUpon>202002061250477_RemovePayReceMandatory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002061352212_EmptyReconcile.cs" />
+    <Compile Include="Migrations\202002061352212_EmptyReconcile.Designer.cs">
+      <DependentUpon>202002061352212_EmptyReconcile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002101028505_InstalmmentHist.cs" />
+    <Compile Include="Migrations\202002101028505_InstalmmentHist.Designer.cs">
+      <DependentUpon>202002101028505_InstalmmentHist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002131802205_13-02-2020.cs" />
+    <Compile Include="Migrations\202002131802205_13-02-2020.Designer.cs">
+      <DependentUpon>202002131802205_13-02-2020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002161325133_InventoryT1.cs" />
+    <Compile Include="Migrations\202002161325133_InventoryT1.Designer.cs">
+      <DependentUpon>202002161325133_InventoryT1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002161355330_InvT2.cs" />
+    <Compile Include="Migrations\202002161355330_InvT2.Designer.cs">
+      <DependentUpon>202002161355330_InvT2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002161425006_InvT3.cs" />
+    <Compile Include="Migrations\202002161425006_InvT3.Designer.cs">
+      <DependentUpon>202002161425006_InvT3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002161451528_IntT4.cs" />
+    <Compile Include="Migrations\202002161451528_IntT4.Designer.cs">
+      <DependentUpon>202002161451528_IntT4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002161534310_InvT9.cs" />
+    <Compile Include="Migrations\202002161534310_InvT9.Designer.cs">
+      <DependentUpon>202002161534310_InvT9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002161604088_IntT10.cs" />
+    <Compile Include="Migrations\202002161604088_IntT10.Designer.cs">
+      <DependentUpon>202002161604088_IntT10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002190947005_InvStore.cs" />
+    <Compile Include="Migrations\202002190947005_InvStore.Designer.cs">
+      <DependentUpon>202002190947005_InvStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002190956410_StorGrNo.cs" />
+    <Compile Include="Migrations\202002190956410_StorGrNo.Designer.cs">
+      <DependentUpon>202002190956410_StorGrNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191021149_RconcileInv.cs" />
+    <Compile Include="Migrations\202002191021149_RconcileInv.Designer.cs">
+      <DependentUpon>202002191021149_RconcileInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191033072_PoAddPoNo.cs" />
+    <Compile Include="Migrations\202002191033072_PoAddPoNo.Designer.cs">
+      <DependentUpon>202002191033072_PoAddPoNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191039484_GrFroMovmentToStor.cs" />
+    <Compile Include="Migrations\202002191039484_GrFroMovmentToStor.Designer.cs">
+      <DependentUpon>202002191039484_GrFroMovmentToStor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191046177_invMovmNoAutoSS.cs" />
+    <Compile Include="Migrations\202002191046177_invMovmNoAutoSS.Designer.cs">
+      <DependentUpon>202002191046177_invMovmNoAutoSS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191048584_RecInv.cs" />
+    <Compile Include="Migrations\202002191048584_RecInv.Designer.cs">
+      <DependentUpon>202002191048584_RecInv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191211387_InvGroupTax.cs" />
+    <Compile Include="Migrations\202002191211387_InvGroupTax.Designer.cs">
+      <DependentUpon>202002191211387_InvGroupTax.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191451490_InvItemGroup.cs" />
+    <Compile Include="Migrations\202002191451490_InvItemGroup.Designer.cs">
+      <DependentUpon>202002191451490_InvItemGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191456283_AddInvGroupForien.cs" />
+    <Compile Include="Migrations\202002191456283_AddInvGroupForien.Designer.cs">
+      <DependentUpon>202002191456283_AddInvGroupForien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191500040_InvGroupNulla.cs" />
+    <Compile Include="Migrations\202002191500040_InvGroupNulla.Designer.cs">
+      <DependentUpon>202002191500040_InvGroupNulla.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191622099_DeleteDudectTaxId.cs" />
+    <Compile Include="Migrations\202002191622099_DeleteDudectTaxId.Designer.cs">
+      <DependentUpon>202002191622099_DeleteDudectTaxId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191625567_AddInvGroupDeduct.cs" />
+    <Compile Include="Migrations\202002191625567_AddInvGroupDeduct.Designer.cs">
+      <DependentUpon>202002191625567_AddInvGroupDeduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191635282_DudectGroupId.cs" />
+    <Compile Include="Migrations\202002191635282_DudectGroupId.Designer.cs">
+      <DependentUpon>202002191635282_DudectGroupId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191725110_ReconciTaxSetting.cs" />
+    <Compile Include="Migrations\202002191725110_ReconciTaxSetting.Designer.cs">
+      <DependentUpon>202002191725110_ReconciTaxSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002191732544_Reconcile99.cs" />
+    <Compile Include="Migrations\202002191732544_Reconcile99.Designer.cs">
+      <DependentUpon>202002191732544_Reconcile99.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201037211_RmPurchRecFromInvItem.cs" />
+    <Compile Include="Migrations\202002201037211_RmPurchRecFromInvItem.Designer.cs">
+      <DependentUpon>202002201037211_RmPurchRecFromInvItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201040287_RemovePSInvItem.cs" />
+    <Compile Include="Migrations\202002201040287_RemovePSInvItem.Designer.cs">
+      <DependentUpon>202002201040287_RemovePSInvItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201105566_AddItemTaxDeductGroup.cs" />
+    <Compile Include="Migrations\202002201105566_AddItemTaxDeductGroup.Designer.cs">
+      <DependentUpon>202002201105566_AddItemTaxDeductGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201207302_ReconcileInv_group.cs" />
+    <Compile Include="Migrations\202002201207302_ReconcileInv_group.Designer.cs">
+      <DependentUpon>202002201207302_ReconcileInv_group.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201220112_DeletInvAndGroupForeign.cs" />
+    <Compile Include="Migrations\202002201220112_DeletInvAndGroupForeign.Designer.cs">
+      <DependentUpon>202002201220112_DeletInvAndGroupForeign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201226301_RemoveForeignKey.cs" />
+    <Compile Include="Migrations\202002201226301_RemoveForeignKey.Designer.cs">
+      <DependentUpon>202002201226301_RemoveForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201234243_AddInvGroupToItem.cs" />
+    <Compile Include="Migrations\202002201234243_AddInvGroupToItem.Designer.cs">
+      <DependentUpon>202002201234243_AddInvGroupToItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201307337_InvItemStoreSite.cs" />
+    <Compile Include="Migrations\202002201307337_InvItemStoreSite.Designer.cs">
+      <DependentUpon>202002201307337_InvItemStoreSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201430132_ChangeName.cs" />
+    <Compile Include="Migrations\202002201430132_ChangeName.Designer.cs">
+      <DependentUpon>202002201430132_ChangeName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201441594_AddPrNo.cs" />
+    <Compile Include="Migrations\202002201441594_AddPrNo.Designer.cs">
+      <DependentUpon>202002201441594_AddPrNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201447075_RemovePrNo.cs" />
+    <Compile Include="Migrations\202002201447075_RemovePrNo.Designer.cs">
+      <DependentUpon>202002201447075_RemovePrNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201517534_AddStorSiteInvPurchse.cs" />
+    <Compile Include="Migrations\202002201517534_AddStorSiteInvPurchse.Designer.cs">
+      <DependentUpon>202002201517534_AddStorSiteInvPurchse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002201519052_Reconcile.cs" />
+    <Compile Include="Migrations\202002201519052_Reconcile.Designer.cs">
+      <DependentUpon>202002201519052_Reconcile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Inventory\Inv_goods_out.cs" />
+    <Compile Include="Models\Inventory\Inv_goods_reciept.cs" />
+    <Compile Include="Models\Inventory\Inv_gorup_gl_accounts.cs" />
+    <Compile Include="Models\Inventory\Inv_item.cs" />
+    <Compile Include="Models\Inventory\Inv_items_serial.cs" />
+    <Compile Include="Models\Inventory\Inv_item_deduct_tax.cs" />
+    <Compile Include="Models\Inventory\Inv_item_gl_accounts.cs" />
+    <Compile Include="Models\Inventory\Inv_item_group.cs" />
+    <Compile Include="Models\Inventory\Inv_item_group_deduct_tax.cs" />
+    <Compile Include="Models\Inventory\Inv_movment_GS.cs" />
+    <Compile Include="Models\Inventory\Inv_po.cs" />
+    <Compile Include="Models\Inventory\Inv_po_GS.cs" />
+    <Compile Include="Models\Inventory\Inv_po_items.cs" />
+    <Compile Include="Models\Inventory\Inv_pricelist.cs" />
+    <Compile Include="Models\Inventory\Inv_purchase.cs" />
+    <Compile Include="Models\Inventory\Inv_purchase_request.cs" />
+    <Compile Include="Models\Inventory\Inv_quotation_receiving.cs" />
+    <Compile Include="Models\Inventory\Inv_quotation_request.cs" />
+    <Compile Include="Models\Inventory\Inv_receive_item_serial.cs" />
+    <Compile Include="Models\Inventory\Inv_receive_po.cs" />
+    <Compile Include="Models\Inventory\Inv_receive_po_items.cs" />
+    <Compile Include="Models\Inventory\Inv_sales.cs" />
+    <Compile Include="Models\Inventory\Inv_sales_GS.cs" />
+    <Compile Include="Models\Inventory\Inv_sales_invoice.cs" />
+    <Compile Include="Models\Inventory\Inv_sales_receivs_pos.cs" />
+    <Compile Include="Models\Inventory\Inv_stocking.cs" />
+    <Compile Include="Models\Inventory\Inv_store.cs" />
+    <Compile Include="Models\Inventory\Inv_store_site.cs" />
+    <Compile Include="Models\Inventory\Inv_transfer_items.cs" />
+    <Compile Include="Models\Inventory\Inv_po_item_transfer.cs" />
+    <Compile Include="Models\Inventory\Inv_transfer_relation.cs" />
+    <Compile Include="Models\License\Day_log.cs" />
+    <Compile Include="DB_Tabels\Settings\Client_DB.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CreateChartOfAccount\AccountGroupOfChart_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CreateChartOfAccount\ChartGroupContent_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\AccountCurrencyDefinition_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\B_AccountCurrencyDefinition_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\B_EditTRate.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\C_EditTRate.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\F_AccountCurrencyDefinition_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\F_EditTRate.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_Account\B_CreatAccountDist_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_Account\B_CreateAccountCCAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_Account\B_CreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_Account\B_CurrencyCreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_Analytic\B_AnalyticAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_Analytic\B_AnalyticDistribution_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_CheckBook\B_CheckBookSetting_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CostCenterAccounts_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_CostCenter\B_GroupCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Branch\B_CostCenter\B_MainCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_Account\C_CreatAccountDist_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_Account\C_CreateAccountCCAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_Account\C_CreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_Account\C_CurrencyCreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_Analytic\C_AnalyticDistribution_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_Analytic\C_AnalyticAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CreateChartOfAccount\AccountChart_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CreateChartOfAccount\CompanyChartAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CreateChartOfAccount\SegmentAccountChart_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\CurrenciesDefinition_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\CurrenciesExchange_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\CurrenciesDefinition\FormateSetting_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_CheckBook\C_CheckBookSetting_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_CostCenter\C_CostCenterAccounts_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_CostCenter\C_CostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_CostCenter\C_GroupCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Company\C_CostCenter\C_MainCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_Account\F_CreatAccountDist_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_Account\F_CreateAccountCCAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_Account\F_CreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_Account\F_CurrencyCreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_Analytic\F_AnalyticAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_Analytic\F_AnalyticDistribution_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_CheckBook\F_CheckBookSetting_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CostCenterAccounts_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_CostCenter\F_GroupCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\Accounting\_Factory\F_CostCenter\F_MainCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Tax\Tax.cs" />
+    <Compile Include="Migrations\202001090952467_Log1.cs" />
+    <Compile Include="Migrations\202001090952467_Log1.Designer.cs">
+      <DependentUpon>202001090952467_Log1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001091339430_Log2.cs" />
+    <Compile Include="Migrations\202001091339430_Log2.Designer.cs">
+      <DependentUpon>202001091339430_Log2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001091344406_Log3.cs" />
+    <Compile Include="Migrations\202001091344406_Log3.Designer.cs">
+      <DependentUpon>202001091344406_Log3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001151017282_Installment1.cs" />
+    <Compile Include="Migrations\202001151017282_Installment1.Designer.cs">
+      <DependentUpon>202001151017282_Installment1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001151030415_Installment2.cs" />
+    <Compile Include="Migrations\202001151030415_Installment2.Designer.cs">
+      <DependentUpon>202001151030415_Installment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001151138342_Recon5.cs" />
+    <Compile Include="Migrations\202001151138342_Recon5.Designer.cs">
+      <DependentUpon>202001151138342_Recon5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001161339371_Install4.cs" />
+    <Compile Include="Migrations\202001161339371_Install4.Designer.cs">
+      <DependentUpon>202001161339371_Install4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001191813577_DeleteUniqeCheckBook.cs" />
+    <Compile Include="Migrations\202001191813577_DeleteUniqeCheckBook.Designer.cs">
+      <DependentUpon>202001191813577_DeleteUniqeCheckBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001211633273_DBBackup.cs" />
+    <Compile Include="Migrations\202001211633273_DBBackup.Designer.cs">
+      <DependentUpon>202001211633273_DBBackup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001231436114_InstConst.cs" />
+    <Compile Include="Migrations\202001231436114_InstConst.Designer.cs">
+      <DependentUpon>202001231436114_InstConst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001231444513_InstCont2.cs" />
+    <Compile Include="Migrations\202001231444513_InstCont2.Designer.cs">
+      <DependentUpon>202001231444513_InstCont2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001231632449_ContInstallments.cs" />
+    <Compile Include="Migrations\202001231632449_ContInstallments.Designer.cs">
+      <DependentUpon>202001231632449_ContInstallments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001251729308_Test.cs" />
+    <Compile Include="Migrations\202001251729308_Test.Designer.cs">
+      <DependentUpon>202001251729308_Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001261116468_InstallContr5.cs" />
+    <Compile Include="Migrations\202001261116468_InstallContr5.Designer.cs">
+      <DependentUpon>202001261116468_InstallContr5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001261302233_ContInst1.cs" />
+    <Compile Include="Migrations\202001261302233_ContInst1.Designer.cs">
+      <DependentUpon>202001261302233_ContInst1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001261309221_InstallmentUpdate1.cs" />
+    <Compile Include="Migrations\202001261309221_InstallmentUpdate1.Designer.cs">
+      <DependentUpon>202001261309221_InstallmentUpdate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001261315484_InstallmentRef.cs" />
+    <Compile Include="Migrations\202001261315484_InstallmentRef.Designer.cs">
+      <DependentUpon>202001261315484_InstallmentRef.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001261751058_InstallmentRec.cs" />
+    <Compile Include="Migrations\202001261751058_InstallmentRec.Designer.cs">
+      <DependentUpon>202001261751058_InstallmentRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001271122025_Instal7.cs" />
+    <Compile Include="Migrations\202001271122025_Instal7.Designer.cs">
+      <DependentUpon>202001271122025_Instal7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001271141481_InstlCon10.cs" />
+    <Compile Include="Migrations\202001271141481_InstlCon10.Designer.cs">
+      <DependentUpon>202001271141481_InstlCon10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001271638123_InstNoCheque.cs" />
+    <Compile Include="Migrations\202001271638123_InstNoCheque.Designer.cs">
+      <DependentUpon>202001271638123_InstNoCheque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001271743045_PayRecREmoeForign.cs" />
+    <Compile Include="Migrations\202001271743045_PayRecREmoeForign.Designer.cs">
+      <DependentUpon>202001271743045_PayRecREmoeForign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Attachment\Attachment.cs" />
+    <Compile Include="Models\Attachment\Attachment_files.cs" />
+    <Compile Include="Models\BallanceSheetReport\BPC_raw_settings.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\BranchAddressInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\BranchCommInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\FactoryCommInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\FactoryAddressInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\CompanyAddressInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\CompanyCommInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\BranchLegalInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\CompanyBranchInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\CompanyFactoryInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\FactoryLegalInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\CompanyLegalInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\CompanyMainInfo_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\FiscalPeriods\CompanyFiscalYear_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalAdjustment_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalDefinition_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalYear_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\FiscalPeriods\NewFiscalYear_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Post\PostingSetup_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Post\PrintDocument_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Post\User_Post_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Tax\B_TaxSetting_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Tax\C_TaxSetting_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Tax\F_TaxSetting_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\Tax\TaxGroup_table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserAccess\UABranchPremission_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserAccess\UACompPremission_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserAccess\UAFactoryPremission_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserAccount\CreateAccount_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\AccountGroup_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\CreateGroup_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\GroupFormsAccess_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\Pages.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\UserFormsAccess_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\UserGroup_Table.cs" />
+    <Compile Include="DB_Tabels\Settings\Financial\GeneralSetting\UserGroup\UsersPageAccess.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Branch\Accounting\B_CreateBatch_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_BankReconcile_table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_CheckbookTransactions_table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_CreateBatch_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_EndingBeginingYear.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_GeneralJournalEntry_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_GeneralLedger_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_PurchaseTaxDetails_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_PurchaseTaxHeader_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_SaveAnalytic_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_SaveCostCenter_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_SaveTransaction_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\Accounting\C_UserBatchApproval_Table.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Company\C_PurchaseTaxHeader_tbl.cs" />
+    <Compile Include="DB_Tabels\Transaction\Financial\Factory\Accounting\F_CreateBatch_Table.cs" />
+    <Compile Include="Models\BallanceSheetReport\BPC_Relation.cs" />
+    <Compile Include="Models\Installment\Custom_installment.cs" />
+    <Compile Include="Models\Installment\Installments.cs" />
+    <Compile Include="Models\Installment\Installment_contract.cs" />
+    <Compile Include="Models\Installment\Installment_setting.cs" />
+    <Compile Include="Models\License\License.cs" />
+    <Compile Include="Models\Logistics\UnitOfMeasure.cs" />
+    <Compile Include="Models\Translate.cs" />
+    <Compile Include="Models\Payable\Address_info.cs" />
+    <Compile Include="Models\Payable\Aging_date_option.cs" />
+    <Compile Include="Models\Payable\Aging_period.cs" />
+    <Compile Include="Models\Payable\Assign_payable_doc.cs" />
+    <Compile Include="Models\Payable\Bank_info.cs" />
+    <Compile Include="Models\Payable\Creditor_setting.cs" />
+    <Compile Include="Models\Payable\Creditro_currencies.cs" />
+    <Compile Include="Models\Payable\Genral_settings.cs" />
+    <Compile Include="Models\Payable\Legal_info.cs" />
+    <Compile Include="Models\Payable\Other_option.cs" />
+    <Compile Include="Models\Payable\Password_option.cs" />
+    <Compile Include="Models\Payable\PayableContext.cs" />
+    <Compile Include="Models\Payable\Payable_Assign_void.cs" />
+    <Compile Include="Models\Payable\Payable_Gl_account.cs" />
+    <Compile Include="Models\Payable\Payable_Group_setting.cs" />
+    <Compile Include="Models\Payable\Payable_payment.cs" />
+    <Compile Include="Models\Payable\Payable_transaction.cs" />
+    <Compile Include="Models\Payable\Payable_transactions_types.cs" />
+    <Compile Include="Models\Payable\Payable_void.cs" />
+    <Compile Include="Models\Payable\Payment_term.cs" />
+    <Compile Include="Models\Payable\Related_pay_trans.cs" />
+    <Compile Include="Models\Payable\Shipping_method.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\Receivable\ReceivableContext.cs" />
+    <Compile Include="Models\Receivable\Receivable_AddressInfo.cs" />
+    <Compile Include="Models\Receivable\Receivable_Aging_date_option.cs" />
+    <Compile Include="Models\Receivable\Receivable_Aging_period.cs" />
+    <Compile Include="Models\Receivable\Receivable_Assign_payable_doc.cs" />
+    <Compile Include="Models\Receivable\Receivable_Assign_void.cs" />
+    <Compile Include="Models\Receivable\Receivable_Bank_info.cs" />
+    <Compile Include="Models\Receivable\Receivable_Creditor_setting.cs" />
+    <Compile Include="Models\Receivable\Receivable_Genral_settings.cs" />
+    <Compile Include="Models\Receivable\Receivable_Gl_account.cs" />
+    <Compile Include="Models\Receivable\Receivable_Group_setting.cs" />
+    <Compile Include="Models\Receivable\Receivable_Legal_info.cs" />
+    <Compile Include="Models\Receivable\Receivable_Other_option.cs" />
+    <Compile Include="Models\Receivable\Receivable_Password_option.cs" />
+    <Compile Include="Models\Receivable\Receivable_payment.cs" />
+    <Compile Include="Models\Receivable\Receivable_Payment_term.cs" />
+    <Compile Include="Models\Receivable\Receivable_Shipping_method.cs" />
+    <Compile Include="Models\Receivable\Receivable_transaction.cs" />
+    <Compile Include="Models\Receivable\Receivable_transactions_types.cs" />
+    <Compile Include="Models\Receivable\Receivable_vendore_currencies.cs" />
+    <Compile Include="Models\Receivable\Receivable_void.cs" />
+    <Compile Include="Models\Receivable\Related_rec_trans.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Business\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001090952467_Log1.resx">
+      <DependentUpon>202001090952467_Log1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001091339430_Log2.resx">
+      <DependentUpon>202001091339430_Log2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001091344406_Log3.resx">
+      <DependentUpon>202001091344406_Log3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001151017282_Installment1.resx">
+      <DependentUpon>202001151017282_Installment1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001151030415_Installment2.resx">
+      <DependentUpon>202001151030415_Installment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001151138342_Recon5.resx">
+      <DependentUpon>202001151138342_Recon5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001161339371_Install4.resx">
+      <DependentUpon>202001161339371_Install4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001191813577_DeleteUniqeCheckBook.resx">
+      <DependentUpon>202001191813577_DeleteUniqeCheckBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001211633273_DBBackup.resx">
+      <DependentUpon>202001211633273_DBBackup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001231436114_InstConst.resx">
+      <DependentUpon>202001231436114_InstConst.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001231444513_InstCont2.resx">
+      <DependentUpon>202001231444513_InstCont2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001231632449_ContInstallments.resx">
+      <DependentUpon>202001231632449_ContInstallments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001251729308_Test.resx">
+      <DependentUpon>202001251729308_Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001261116468_InstallContr5.resx">
+      <DependentUpon>202001261116468_InstallContr5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001261302233_ContInst1.resx">
+      <DependentUpon>202001261302233_ContInst1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001261309221_InstallmentUpdate1.resx">
+      <DependentUpon>202001261309221_InstallmentUpdate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001261315484_InstallmentRef.resx">
+      <DependentUpon>202001261315484_InstallmentRef.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001261751058_InstallmentRec.resx">
+      <DependentUpon>202001261751058_InstallmentRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001271122025_Instal7.resx">
+      <DependentUpon>202001271122025_Instal7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001271141481_InstlCon10.resx">
+      <DependentUpon>202001271141481_InstlCon10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001271638123_InstNoCheque.resx">
+      <DependentUpon>202001271638123_InstNoCheque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001271743045_PayRecREmoeForign.resx">
+      <DependentUpon>202001271743045_PayRecREmoeForign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001281339108_LicenseMigraton.resx">
+      <DependentUpon>202001281339108_LicenseMigraton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002021135491_Inventory1.resx">
+      <DependentUpon>202002021135491_Inventory1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002021424412_Inventory2.resx">
+      <DependentUpon>202002021424412_Inventory2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002041139257_InventoryForeignUpdate.resx">
+      <DependentUpon>202002041139257_InventoryForeignUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002041230293_Invetory_po.resx">
+      <DependentUpon>202002041230293_Invetory_po.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002041436276_invetoryKeyUpdate.resx">
+      <DependentUpon>202002041436276_invetoryKeyUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002041624103_InventorNewUpate.resx">
+      <DependentUpon>202002041624103_InventorNewUpate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002041638027_IventoryNew8.resx">
+      <DependentUpon>202002041638027_IventoryNew8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002051222378_InventoryPoNum.resx">
+      <DependentUpon>202002051222378_InventoryPoNum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002051340302_InventoryNewForign2.resx">
+      <DependentUpon>202002051340302_InventoryNewForign2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002051412371_InvetoryNewForign3.resx">
+      <DependentUpon>202002051412371_InvetoryNewForign3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002051429005_Inv3.resx">
+      <DependentUpon>202002051429005_Inv3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002051431036_Inv4.resx">
+      <DependentUpon>202002051431036_Inv4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061250477_RemovePayReceMandatory.resx">
+      <DependentUpon>202002061250477_RemovePayReceMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061352212_EmptyReconcile.resx">
+      <DependentUpon>202002061352212_EmptyReconcile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002101028505_InstalmmentHist.resx">
+      <DependentUpon>202002101028505_InstalmmentHist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002131802205_13-02-2020.resx">
+      <DependentUpon>202002131802205_13-02-2020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161325133_InventoryT1.resx">
+      <DependentUpon>202002161325133_InventoryT1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161355330_InvT2.resx">
+      <DependentUpon>202002161355330_InvT2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161425006_InvT3.resx">
+      <DependentUpon>202002161425006_InvT3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161451528_IntT4.resx">
+      <DependentUpon>202002161451528_IntT4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161534310_InvT9.resx">
+      <DependentUpon>202002161534310_InvT9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161604088_IntT10.resx">
+      <DependentUpon>202002161604088_IntT10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002190947005_InvStore.resx">
+      <DependentUpon>202002190947005_InvStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002190956410_StorGrNo.resx">
+      <DependentUpon>202002190956410_StorGrNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191021149_RconcileInv.resx">
+      <DependentUpon>202002191021149_RconcileInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191033072_PoAddPoNo.resx">
+      <DependentUpon>202002191033072_PoAddPoNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191039484_GrFroMovmentToStor.resx">
+      <DependentUpon>202002191039484_GrFroMovmentToStor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191046177_invMovmNoAutoSS.resx">
+      <DependentUpon>202002191046177_invMovmNoAutoSS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191048584_RecInv.resx">
+      <DependentUpon>202002191048584_RecInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191211387_InvGroupTax.resx">
+      <DependentUpon>202002191211387_InvGroupTax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191451490_InvItemGroup.resx">
+      <DependentUpon>202002191451490_InvItemGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191456283_AddInvGroupForien.resx">
+      <DependentUpon>202002191456283_AddInvGroupForien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191500040_InvGroupNulla.resx">
+      <DependentUpon>202002191500040_InvGroupNulla.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191622099_DeleteDudectTaxId.resx">
+      <DependentUpon>202002191622099_DeleteDudectTaxId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191625567_AddInvGroupDeduct.resx">
+      <DependentUpon>202002191625567_AddInvGroupDeduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191635282_DudectGroupId.resx">
+      <DependentUpon>202002191635282_DudectGroupId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191725110_ReconciTaxSetting.resx">
+      <DependentUpon>202002191725110_ReconciTaxSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002191732544_Reconcile99.resx">
+      <DependentUpon>202002191732544_Reconcile99.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201037211_RmPurchRecFromInvItem.resx">
+      <DependentUpon>202002201037211_RmPurchRecFromInvItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201040287_RemovePSInvItem.resx">
+      <DependentUpon>202002201040287_RemovePSInvItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201105566_AddItemTaxDeductGroup.resx">
+      <DependentUpon>202002201105566_AddItemTaxDeductGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201207302_ReconcileInv_group.resx">
+      <DependentUpon>202002201207302_ReconcileInv_group.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201220112_DeletInvAndGroupForeign.resx">
+      <DependentUpon>202002201220112_DeletInvAndGroupForeign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201226301_RemoveForeignKey.resx">
+      <DependentUpon>202002201226301_RemoveForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201234243_AddInvGroupToItem.resx">
+      <DependentUpon>202002201234243_AddInvGroupToItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201307337_InvItemStoreSite.resx">
+      <DependentUpon>202002201307337_InvItemStoreSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201430132_ChangeName.resx">
+      <DependentUpon>202002201430132_ChangeName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201441594_AddPrNo.resx">
+      <DependentUpon>202002201441594_AddPrNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201447075_RemovePrNo.resx">
+      <DependentUpon>202002201447075_RemovePrNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201517534_AddStorSiteInvPurchse.resx">
+      <DependentUpon>202002201517534_AddStorSiteInvPurchse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201519052_Reconcile.resx">
+      <DependentUpon>202002201519052_Reconcile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201621378_InvPurReqItem.resx">
+      <DependentUpon>202002201621378_InvPurReqItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002201734586_ItemQuantityToDouble.resx">
+      <DependentUpon>202002201734586_ItemQuantityToDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231028019_AddInv_item.resx">
+      <DependentUpon>202002231028019_AddInv_item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231057114_AddItemTypeGroupId.resx">
+      <DependentUpon>202002231057114_AddItemTypeGroupId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231228271_RmoveRequirFromInvGl.resx">
+      <DependentUpon>202002231228271_RmoveRequirFromInvGl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231608242_T.resx">
+      <DependentUpon>202002231608242_T.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231621126_T1.resx">
+      <DependentUpon>202002231621126_T1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231627568_T -force.resx">
+      <DependentUpon>202002231627568_T -force.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231631194_T2.resx">
+      <DependentUpon>202002231631194_T2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231636179_T21.resx">
+      <DependentUpon>202002231636179_T21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002231756309_T3.resx">
+      <DependentUpon>202002231756309_T3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002241228497_InvRmFr.resx">
+      <DependentUpon>202002241228497_InvRmFr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002241236528_RmNullableFr.resx">
+      <DependentUpon>202002241236528_RmNullableFr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002241349234_AddInvFr.resx">
+      <DependentUpon>202002241349234_AddInvFr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002241619462_RemovForegi.resx">
+      <DependentUpon>202002241619462_RemovForegi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002250909374_RedoLastForeign.resx">
+      <DependentUpon>202002250909374_RedoLastForeign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002250929412_TaxSettingFix.resx">
+      <DependentUpon>202002250929412_TaxSettingFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002250935427_TaxSettingFix2.resx">
+      <DependentUpon>202002250935427_TaxSettingFix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002250940439_InvTaxSettingFx.resx">
+      <DependentUpon>202002250940439_InvTaxSettingFx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002251046035_InvRemovDueDate.resx">
+      <DependentUpon>202002251046035_InvRemovDueDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261159167_ChangeInvReturnId.resx">
+      <DependentUpon>202002261159167_ChangeInvReturnId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261216438_changeForeignKey.resx">
+      <DependentUpon>202002261216438_changeForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261223356_InvRecon.resx">
+      <DependentUpon>202002261223356_InvRecon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261311447_RemoveColumn.resx">
+      <DependentUpon>202002261311447_RemoveColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261520454_AddTable.resx">
+      <DependentUpon>202002261520454_AddTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261632002_InvSalesFix.resx">
+      <DependentUpon>202002261632002_InvSalesFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002261821529_Fixes.resx">
+      <DependentUpon>202002261821529_Fixes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003011311503_AddInvFright.resx">
+      <DependentUpon>202003011311503_AddInvFright.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003021604302_InvPriceList.resx">
+      <DependentUpon>202003021604302_InvPriceList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003021613474_InvPriceList2.resx">
+      <DependentUpon>202003021613474_InvPriceList2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031111062_AddFright.resx">
+      <DependentUpon>202003031111062_AddFright.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031244392_InvPriceListAllowNullable.resx">
+      <DependentUpon>202003031244392_InvPriceListAllowNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031339444_InvAddPoAndSales.resx">
+      <DependentUpon>202003031339444_InvAddPoAndSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031355010_InvPoSales.resx">
+      <DependentUpon>202003031355010_InvPoSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031512519_InvSalesPos.resx">
+      <DependentUpon>202003031512519_InvSalesPos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031805328_Rec.resx">
+      <DependentUpon>202003031805328_Rec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003041700231_Rec1.resx">
+      <DependentUpon>202003041700231_Rec1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051052532_AddCreationDate.resx">
+      <DependentUpon>202003051052532_AddCreationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051408073_RmoveSinglePoInv.resx">
+      <DependentUpon>202003051408073_RmoveSinglePoInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051427298_RemovForiegn.resx">
+      <DependentUpon>202003051427298_RemovForiegn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051641528_InvCostCenter.resx">
+      <DependentUpon>202003051641528_InvCostCenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051814059_AddGOGR.resx">
+      <DependentUpon>202003051814059_AddGOGR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191136100_Rec2.resx">
+      <DependentUpon>202003191136100_Rec2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191418523_AddSiteToitem.resx">
+      <DependentUpon>202003191418523_AddSiteToitem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003191608148_Rec3.resx">
+      <DependentUpon>202003191608148_Rec3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003231120325_AddGlStore.resx">
+      <DependentUpon>202003231120325_AddGlStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003231127088_Rec4.resx">
+      <DependentUpon>202003231127088_Rec4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003241333311_Rec5.resx">
+      <DependentUpon>202003241333311_Rec5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003241345199_PayableToPoRec.resx">
+      <DependentUpon>202003241345199_PayableToPoRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003241604420_RemoveVatFromPo.resx">
+      <DependentUpon>202003241604420_RemoveVatFromPo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003261304474_Inv.resx">
+      <DependentUpon>202003261304474_Inv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003261334577_RmInv.resx">
+      <DependentUpon>202003261334577_RmInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003261340183_RmInv2.resx">
+      <DependentUpon>202003261340183_RmInv2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003261429544_UnInv.resx">
+      <DependentUpon>202003261429544_UnInv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003261505444_AddQuotauinItem.resx">
+      <DependentUpon>202003261505444_AddQuotauinItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003290915196_InvNullable.resx">
+      <DependentUpon>202003290915196_InvNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003290920347_InvRmQty.resx">
+      <DependentUpon>202003290920347_InvRmQty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003290925475_RenamPoToPr.resx">
+      <DependentUpon>202003290925475_RenamPoToPr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010506588_InvPosEdit.resx">
+      <DependentUpon>202004010506588_InvPosEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010508129_InvPosEdit1.resx">
+      <DependentUpon>202004010508129_InvPosEdit1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010655301_InvFixPos.resx">
+      <DependentUpon>202004010655301_InvFixPos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010658432_InvFixPos1.resx">
+      <DependentUpon>202004010658432_InvFixPos1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010702066_Rec6.resx">
+      <DependentUpon>202004010702066_Rec6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010718388_Fix.resx">
+      <DependentUpon>202004010718388_Fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004081140430_AddCustomer.resx">
+      <DependentUpon>202004081140430_AddCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004081151329_AddSalesRec.resx">
+      <DependentUpon>202004081151329_AddSalesRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004091338318_AddToTax.resx">
+      <DependentUpon>202004091338318_AddToTax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004091340564_AddTaxFix.resx">
+      <DependentUpon>202004091340564_AddTaxFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004121031316_AddReciveSerial.resx">
+      <DependentUpon>202004121031316_AddReciveSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004131141269_AddFrighToSales.resx">
+      <DependentUpon>202004131141269_AddFrighToSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004140955224_InvSerial.resx">
+      <DependentUpon>202004140955224_InvSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004141152377_InvSerialFlag.resx">
+      <DependentUpon>202004141152377_InvSerialFlag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004141258019_AddUniqeue.resx">
+      <DependentUpon>202004141258019_AddUniqeue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004141416155_InvAddHasSerial.resx">
+      <DependentUpon>202004141416155_InvAddHasSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004151052008_AddInvCutomName.resx">
+      <DependentUpon>202004151052008_AddInvCutomName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004151143356_InvProfitUser.resx">
+      <DependentUpon>202004151143356_InvProfitUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161055297_InvRmPoFromSaes.resx">
+      <DependentUpon>202004161055297_InvRmPoFromSaes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161114128_InvRmBP.resx">
+      <DependentUpon>202004161114128_InvRmBP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161208165_InvRec.resx">
+      <DependentUpon>202004161208165_InvRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161322401_InvPoUp.resx">
+      <DependentUpon>202004161322401_InvPoUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161359055_InvSeriUp.resx">
+      <DependentUpon>202004161359055_InvSeriUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161420063_InvExpiery.resx">
+      <DependentUpon>202004161420063_InvExpiery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004221045048_AddRecipe.resx">
+      <DependentUpon>202004221045048_AddRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004221144186_InvRecipeUp.resx">
+      <DependentUpon>202004221144186_InvRecipeUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004221254192_InvRec1.resx">
+      <DependentUpon>202004221254192_InvRec1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004230937507_Fixed.resx">
+      <DependentUpon>202004230937507_Fixed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004231028566_Fix2.resx">
+      <DependentUpon>202004231028566_Fix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004231117445_Fix3.resx">
+      <DependentUpon>202004231117445_Fix3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031423245_InvReceive.resx">
+      <DependentUpon>202005031423245_InvReceive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031431422_InvReturnPurc.resx">
+      <DependentUpon>202005031431422_InvReturnPurc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031457427_Inv1.resx">
+      <DependentUpon>202005031457427_Inv1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005061012074_InvReceivableInPurchaseInvoice.resx">
+      <DependentUpon>202005061012074_InvReceivableInPurchaseInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005061040328_InvOldSerial.resx">
+      <DependentUpon>202005061040328_InvOldSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005071432076_Inv2.resx">
+      <DependentUpon>202005071432076_Inv2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005121029215_InvReturn.resx">
+      <DependentUpon>202005121029215_InvReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005121032214_InvRetun.resx">
+      <DependentUpon>202005121032214_InvRetun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005121425576_RemoveReturn.resx">
+      <DependentUpon>202005121425576_RemoveReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005191127261_Inv_item_options.resx">
+      <DependentUpon>202005191127261_Inv_item_options.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005191133095_Inv_itemUpdate.resx">
+      <DependentUpon>202005191133095_Inv_itemUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005201407038_InvStocking.resx">
+      <DependentUpon>202005201407038_InvStocking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005201525471_AddItemId.resx">
+      <DependentUpon>202005201525471_AddItemId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005211054034_ItemTrans.resx">
+      <DependentUpon>202005211054034_ItemTrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005211417344_InvModification.resx">
+      <DependentUpon>202005211417344_InvModification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005211426468_InvModif2.resx">
+      <DependentUpon>202005211426468_InvModif2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005211531232_InvModif3.resx">
+      <DependentUpon>202005211531232_InvModif3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005211538109_InvModicatin4.resx">
+      <DependentUpon>202005211538109_InvModicatin4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005230121403_ChangeUinteOfMeasureName.resx">
+      <DependentUpon>202005230121403_ChangeUinteOfMeasureName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005230252561_AddAction.resx">
+      <DependentUpon>202005230252561_AddAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005271039373_InvTransfer.resx">
+      <DependentUpon>202005271039373_InvTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005271139301_InvTransfer1.resx">
+      <DependentUpon>202005271139301_InvTransfer1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005310913584_InvPriceLis.resx">
+      <DependentUpon>202005310913584_InvPriceLis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005310918028_InvPriceList1.resx">
+      <DependentUpon>202005310918028_InvPriceList1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005310938481_InvAccrualFright.resx">
+      <DependentUpon>202005310938481_InvAccrualFright.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005310946408_InvAddRadio.resx">
+      <DependentUpon>202005310946408_InvAddRadio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005311048092_InvPricelvl.resx">
+      <DependentUpon>202005311048092_InvPricelvl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006021020595_InvRemoveUOMaction.resx">
+      <DependentUpon>202006021020595_InvRemoveUOMaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006021352300_InvItemOrQty.resx">
+      <DependentUpon>202006021352300_InvItemOrQty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006021403575_InvRec2.resx">
+      <DependentUpon>202006021403575_InvRec2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006021449087_AddUOM.resx">
+      <DependentUpon>202006021449087_AddUOM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006021526162_InvRece.resx">
+      <DependentUpon>202006021526162_InvRece.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006031322221_InvTrasDetai.resx">
+      <DependentUpon>202006031322221_InvTrasDetai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041250496_InvRec3.resx">
+      <DependentUpon>202006041250496_InvRec3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041348323_InvAdjustmentItem.resx">
+      <DependentUpon>202006041348323_InvAdjustmentItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041357073_Decimal.resx">
+      <DependentUpon>202006041357073_Decimal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041445020_InvChangeType.resx">
+      <DependentUpon>202006041445020_InvChangeType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041520087_InvRec4.resx">
+      <DependentUpon>202006041520087_InvRec4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041548434_InvPo.resx">
+      <DependentUpon>202006041548434_InvPo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006071344128_GroupPrp.resx">
+      <DependentUpon>202006071344128_GroupPrp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006071614300_InvIteGroup.resx">
+      <DependentUpon>202006071614300_InvIteGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006071616569_InvGroup.resx">
+      <DependentUpon>202006071616569_InvGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006090933073_InvItems.resx">
+      <DependentUpon>202006090933073_InvItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006091229235_ad.resx">
+      <DependentUpon>202006091229235_ad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006141148401_InvSalesVenore.resx">
+      <DependentUpon>202006141148401_InvSalesVenore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006141225254_AddCustomer1.resx">
+      <DependentUpon>202006141225254_AddCustomer1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006141238220_InvCusto,er.resx">
+      <DependentUpon>202006141238220_InvCusto,er.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006161050365_InvStocing.resx">
+      <DependentUpon>202006161050365_InvStocing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006171044296_InvRmAdustmentFlag.resx">
+      <DependentUpon>202006171044296_InvRmAdustmentFlag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006171109388_ChangeStokingName.resx">
+      <DependentUpon>202006171109388_ChangeStokingName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006171111546_ChangeTypeNam.resx">
+      <DependentUpon>202006171111546_ChangeTypeNam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006181241280_InvPo1.resx">
+      <DependentUpon>202006181241280_InvPo1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006181321102_InvSales.resx">
+      <DependentUpon>202006181321102_InvSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006181423200_RemoveGoods.resx">
+      <DependentUpon>202006181423200_RemoveGoods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006181542384_Sh.resx">
+      <DependentUpon>202006181542384_Sh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006241522119_AddFIscalYear.resx">
+      <DependentUpon>202006241522119_AddFIscalYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006241535551_AllowAdjust.resx">
+      <DependentUpon>202006241535551_AllowAdjust.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006241616302_addMyFiscalYear.resx">
+      <DependentUpon>202006241616302_addMyFiscalYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006241638242_AddMySiscalYear2.resx">
+      <DependentUpon>202006241638242_AddMySiscalYear2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006241658540_InvUpdateFiscalYearAra.resx">
+      <DependentUpon>202006241658540_InvUpdateFiscalYearAra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006301501008_UpdateInvItm.resx">
+      <DependentUpon>202006301501008_UpdateInvItm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007061149151_ItemExpiery.resx">
+      <DependentUpon>202007061149151_ItemExpiery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007061208507_NewExpiry.resx">
+      <DependentUpon>202007061208507_NewExpiry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007061400380_InvDate.resx">
+      <DependentUpon>202007061400380_InvDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007081218362_ShowUnitPrice.resx">
+      <DependentUpon>202007081218362_ShowUnitPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007081333312_ChanUToC.resx">
+      <DependentUpon>202007081333312_ChanUToC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007091427092_CstCenter.resx">
+      <DependentUpon>202007091427092_CstCenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007091547373_GroupCostCenterAccount.resx">
+      <DependentUpon>202007091547373_GroupCostCenterAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007141648319_InvPostDate.resx">
+      <DependentUpon>202007141648319_InvPostDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007141653385_AddPostriData.resx">
+      <DependentUpon>202007141653385_AddPostriData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007141715165_aaaca.resx">
+      <DependentUpon>202007141715165_aaaca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007161231064_aaa.resx">
+      <DependentUpon>202007161231064_aaa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007261610326_InvNum.resx">
+      <DependentUpon>202007261610326_InvNum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007281628253_Instllment.resx">
+      <DependentUpon>202007281628253_Instllment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007281637376_InstallmentEdit.resx">
+      <DependentUpon>202007281637376_InstallmentEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007281750520_ContractInvoice.resx">
+      <DependentUpon>202007281750520_ContractInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007291724543_Installment.resx">
+      <DependentUpon>202007291724543_Installment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008091445478_PaybleInstallment.resx">
+      <DependentUpon>202008091445478_PaybleInstallment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008121122549_AddStatmentTax.resx">
+      <DependentUpon>202008121122549_AddStatmentTax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008191550498_RPC.resx">
+      <DependentUpon>202008191550498_RPC.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

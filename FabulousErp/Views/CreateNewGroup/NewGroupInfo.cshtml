@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "New Group Information";
+    ViewBag.FormCode = "SCNA";
+}
+@using (Html.BeginForm())
+{
+    <div class="container-fluid">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Group ID : <span class="star">*</span> </label> <span class="text-error"> @Html.ValidationMessage("ErrorGroupID", null, new { @id = "ErrorGroupID", @class = "Error" })</span>
+            <div class="col-md-3">
+                @Html.TextBox("GroupID", null, new { @id = "GroupID", @maxlength = "50", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Group Name : <span class="star">*</span> </label> <span class="text-error">
+                @Html.ValidationMessage("ErrorGroupName", null, new { @id = "ErrorGroupName", @class = "Error" })
+            </span>
+            <div class="col-md-3">
+                @Html.TextBox("GroupName", null, new { @id = "GroupName", @maxlength = "30", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Group Description : <span class="star">*</span> </label> <span class="text-error">
+                @Html.ValidationMessage("ErrorGroupDescription", null, new { @id = "ErrorGroupDescription", @class = "Error" })
+            </span>
+            <div class="col-md-3">
+                @Html.TextBox("GroupDescription", null, new { @id = "GroupDescription", @maxlength = "50", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+
+        <div class="form-row hide">
+            <label class="col-md-2 col-form-label col-form-label-sm"> New Group To : <span class="star">*</span></label>
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input id="RBCompany" name="BuidingType" type="radio" class="custom-control-input" value="1" />
+                    <label class="custom-control-label BuidingTypelbl" for="RBCompany">Company</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input id="RBBranch" name="BuidingType" type="radio" class="custom-control-input" value="2" />
+                    <label class="custom-control-label BuidingTypelbl" for="RBBranch">Branch</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input id="RBFactory" name="BuidingType" type="radio" class="custom-control-input" value="3" />
+                    <label class="custom-control-label BuidingTypelbl" for="RBFactory">Factory</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-sm btn-primary" onclick="Savebtn()">Save</button>
+        <label id="SavedSuccess" style="color:green" class="hide-normal"></label>
+
+    </div>
+}
+<script>
+    $("#RBCompany").trigger("click")
+</script>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserGroup/CreateNewGroup/GroupSaveBtn.js")

@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string asd = "";
+    string asd3 = "";
+}
+
+<div class="content">
+    <h2>
+        Your License Has Expired Kindly Upload The New One
+    </h2>
+    <br />
+    <div>
+        <label class="col-md-2">Device Name</label>
+        <label class="col-md-10">@FabulousErp.Controllers.LicenseController.GetMachineKey()</label>
+
+    </div>
+    @Html.Raw(ViewBag.error)
+    <div class="form-horizontal" style="padding-top:20px;">
+        @using (Html.BeginForm("Submit", "License", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="file" accept=".lic" required="required" />
+            <div>
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+            <div class="text-danger" style="font-weight:bold;">
+                @Html.Raw(TempData["Error"])
+            </div>
+        }
+    </div>
+</div>
+   
+   
+<script>
+    $(function () {
+        $("#loader").remove();
+    })
+</script>

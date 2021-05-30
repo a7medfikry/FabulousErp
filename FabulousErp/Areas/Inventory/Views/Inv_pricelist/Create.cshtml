@@ -1,0 +1,158 @@
+﻿@model FabulousDB.Models.Inv_pricelist
+
+@{
+    ViewBag.Title = "Price List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="Create">
+    @using (Ajax.BeginForm(new AjaxOptions { OnSuccess = "GetPricList" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Item_id, "Item_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Item_id", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Item_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemName, "Item Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <label id="ItemName"></label>
+                    @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price_lvl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Price_lvl, htmlAttributes: new { @class = "form-control Trans" })
+                    @Html.ValidationMessageFor(model => model.Price_lvl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Currency_id, "Currency_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Unit_of_measure_id, "Unit of measure", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Unit_of_measure_id", null, "", htmlAttributes: new { @class = "form-control", id = "UOM_id", required = "required" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Start_quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Start_quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Start_quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.End_quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.End_quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.End_quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="form-group hide">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="reset" id="reset" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<section id="Edit">
+
+</section>
+
+<section id="Res">
+</section>
+<script>
+    $(function () {
+        UOMDropDown = true;
+    })
+    function GetPricList(IsReset = true) {
+        $("#Res").html("");
+        $.get("/Inventory/Inv_pricelist/Index?ItemId=" + $("#Item_id").val(), function (data) {
+            $("#Res").html(data);
+            var ItemId = $("#Item_id").val();
+            $("#Item_id").val(ItemId)
+            if (IsReset) {
+                $("#reset").trigger("click");
+                $("#Item_id").val(ItemId)
+            }
+            ReTranslate();
+        })
+    }
+    $("#End_quantity").change(function () {
+        if (parseFloat($("#Start_quantity").val()) > parseFloat($("#End_quantity").val())) {
+            NotValid($("#End_quantity"));
+            $("#End_quantity").val("");
+            return;
+        }
+    })
+    $("#Item_id").change(function () {
+        $("#UOM_id").empty();
+        EmptyRes();
+        GetPricList(false);
+    })
+    $(document).on("click", ".Edit",function () {
+        $.get("/Inventory/Inv_pricelist/Edit/" + $(this).attr("data-id"), function (data) {
+            $("#Edit").html(data);
+            $("#Create").hide();
+            ReTranslate();
+        })
+    })
+    function DoneEdit() {
+        GetPricList(false)
+        $("#Res").show();
+        $("#Create").show();
+        $("#Edit").html("");
+    }
+    $(document).on("click", ".Delete", function () {
+        var Txt = "@FabulousErp.BusController.Translate("Are You Sure")"
+        var Id = $(this).attr("data-id");
+        var Tr = $(this).parents("tr");
+        ModelMsg(Txt, "@FabulousErp.BusController.Translate("Delete")", false, function () {
+            $.ajax({
+                url: "/Inventory/Inv_pricelist/Delete/" + Id,
+                data: { __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()},
+                method: "POST",
+                success: function () {
+                    $(Tr).remove();
+                }
+            })
+        },null,"Ok")
+    })
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

@@ -1,0 +1,55 @@
+﻿.star {
+    color: red;
+}
+/*Fiscal Periods*/
+#ErrorDate, #NotMatchError, #ErrorDateAdj {
+    color: red;
+}
+
+#PeriodsDone {
+    color: green;
+}
+/*Branch & Factory Information*/
+#CIDError, #BIDError, #BNError, #StreetError, #BuildingError, #GovError, #FIDError, #FNError,
+/*Fiscal Year Definition*/
+#FiscalIDError, #FiscalNameError, #PeriodsError, #AdjError,
+/* Login */
+#LogInWithOutCBF,
+/*Global Error*/
+.text-error {
+    color: red;
+    font-size: 14px;
+    font-family: 'Californian FB'
+}
+
+.not-valid {
+    border: 2px solid red;
+}
+
+.input-error {
+    border: 2px solid;
+    border-color: red;
+    border-radius: 5px;
+}
+
+.invalid {
+    color: #ec3f41;
+}
+
+
+/*Global Success*/
+.text-success {
+    color: green;
+    font-size: 14px;
+    font-family: 'Californian FB'
+}
+
+.valid {
+    border: 2px solid green;
+}
+
+.input-success {
+    border: 3px solid;
+    border-color: #125f2b;
+    border-radius: 8px;
+}

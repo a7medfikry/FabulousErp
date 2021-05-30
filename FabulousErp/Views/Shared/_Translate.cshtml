@@ -1,0 +1,348 @@
+﻿@{
+    FabulousDB.DB_Context.DBContext db = new FabulousDB.DB_Context.DBContext();
+}
+<input value="@FabulousErp.Business.GetLanguage()" id="Language" type="hidden" />
+<script>
+        var ChooseTxt = "@FabulousErp.BusController.Translate("-Choose-")"
+        var NoExistData = "@FabulousErp.BusController.Translate("Not Exist Data To this Account..!")"
+        var TWords =@Html.Raw(Json.Encode(db.Translates.Select(x=>new { Key=x.Key, Txt=x.Arabic }).ToList()));
+        function Talert(message, Mdata = "", message2 = "", Mdata2 = "") {
+            var Message = "";
+
+            if (message) {
+                Message = message;
+            }
+            if (Mdata && typeof (Mdata) != "object") {
+                Message += " " + Mdata;
+            }
+            if (message2) {
+                Message += " " + message2;
+            }
+            if (Mdata2 && typeof (Mdata2) != "object") {
+                Message += " " + Mdata2;
+            }
+            alert(Message)
+    }
+
+// generate Cookies
+</script>
+@if (FabulousErp.Business.GetLanguage() == FabulousDB.Models.Langs.Arabic.ToString())
+{
+
+    <script>
+
+        var Keys = [];
+
+        function PushKeys(Txt, Elm, Tag) {
+            Txt = Txt.replace(SpecialChar, "").replace(":", "").trim();
+            if (Txt != "") {
+                var ThisTrans = null;
+                try {
+                    if (!Keys.find(e => e.Key == Txt && e.Tag == Tag)) {
+                        ThisTrans = TWords.find(x => x.Key.trim() == Txt);
+                        if (ThisTrans.Txt != null) {
+                            Keys.push({ Key: Txt, Txt: ThisTrans.Txt, Tag: Tag })
+                        }
+                    } else {
+                    }
+
+                } catch (err) {
+                }
+
+                // Keys.push({ Word: Txt.trim(), Elm: Elm, Tag: Tag })
+            }
+        }
+        async function SetTransKeys() {
+            $(document).find(".Trans").each(function () {
+                PushKeys($(this).text().replace(/\d/g, '').trim(), $(this))
+            });
+        }
+        function SetTransKeysTag(Tag) {
+            $(document).find(Tag).not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), Tag)
+            });
+        }
+
+        function ReTranslate() {
+            //  Keys = [];
+            SetTransKeysTag("th");
+            SetTransKeysTag("span");
+            SetTransKeysTag("label");
+            $(document).find(".Trans").each(function () {
+                SetTransKeysTag($(this).prop("tagName").toLowerCase());
+                SetValues(Keys, $(this).prop("tagName").toLowerCase(), "t")
+            })
+            SetValues(Keys, "th", "t")
+            SetValues(Keys, "span", "t")
+            SetValues(Keys, "label", "t")
+            if (TdCheck()) {
+                SetTransKeysTag("td");
+                SetValues(Keys, "td", "t")
+            }
+            DataTable()
+            $(document).find(".MaskTxt").each(function () {
+                if (!isNaN($(this).text())) {
+                    $(this).text(MaskThisMoney($(this).text()));
+                }
+            })
+        }
+        function ReTranslateTh() {
+            //  Keys = [];
+            SetTransKeysTag("th");
+            SetValues(Keys, "th", "t")
+            if (TdCheck()) {
+                SetTransKeysTag("td");
+                SetValues(Keys, "td", "t")
+            }
+            DataTable()
+            $(document).find(".MaskTxt").each(function () {
+                if (!isNaN($(this).text())) {
+                    $(this).text(MaskThisMoney($(this).text()));
+                }
+            })
+        }
+        function ReTranslateSpan() {
+            SetTransKeysTag("span");
+            SetValues(Keys, "span", "t")
+        }
+       
+        function doJob(x, sec) {
+            return new Promise(resolve => {
+                console.log('Start: ' + x);
+                setTimeout(() => {
+                    console.log('End: ' + x);
+                    resolve(x);
+                });
+            });
+        }
+        function Translate(CallBack = null) {
+            SetTransKeys();
+
+            //SetValues(Keys, "li", "t")
+            //SetValues(Keys, "div", "t")
+            SetValues(Keys, "span", "h")
+            SetValues(Keys, "label", "h")
+            SetValues(Keys, "a", "h")
+            SetValues(Keys, "h1", "h")
+            SetValues(Keys, "h2", "h")
+            SetValues(Keys, "h3", "h")
+            SetValues(Keys, "h4", "h")
+            SetValues(Keys, "h5", "h")
+            SetValues(Keys, "h6", "h")
+            SetValues(Keys, "h7", "h")
+            SetValues(Keys, "h8", "h")
+            SetValues(Keys, "input[type='submit']", "v")
+            SetValues(Keys, "input[type='button']", "v")
+            SetValues(Keys, "button", "t")
+            SetValues(Keys, "option", "t")
+            SetValues(Keys, ".Trans", "t")
+            SetValues(Keys, ".card-header", "t")
+            SetValues(Keys, "p", "t")
+            SetValues(Keys, "sub", "t")
+            SetValues(Keys, "th", "t")
+            if (TdCheck()) {
+                SetValues(Keys, "td", "t")
+            }
+            try {
+                RemoveLoader();
+            } catch (e) {
+
+            }
+
+            if (CallBack != null) {
+                CallBack();
+            }
+        }
+    function GetWords(CallBack = null) {
+        @*var ThisPKeys = JSON.parse(
+                    JSON.parse(@Html.Raw(Json.Encode(Business.GetFromCache(Request.Path))))
+        );
+
+        if (ThisPKeys) {
+            Keys = ThisPKeys;
+            CallBack();
+            return;
+        }*@
+        $(document).find("span:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "span")
+            });
+            $(document).find("label").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "label")
+            });
+            $(document).find(".card-header").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), ".card-header")
+            });
+            $(document).find("a:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "a")
+            });
+            $(document).find("h1:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "h1")
+            });
+            $(document).find("h2:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "h2")
+            });
+            $(document).find("h3:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "h3")
+            });
+            $(document).find("h4:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "h4")
+            });
+            $(document).find("h5:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "h5")
+            });
+            $(document).find("h6:visible").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "h6")
+            });
+            $(document).find("p:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                if ($(this).find("a").length <= 0) {
+                    PushKeys($(this).text(), $(this), "p")
+                }
+            });
+            $(document).find("sub:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "sub")
+            });
+            $(document).find("button").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "button")
+            });
+            $(document).find("input[type='submit']:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).val(), $(this), "input[type='submit']")
+            });
+            $(document).find("input[type='button']").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).val(), $(this), "input[type='button']")
+            });
+            $(document).find("th").not(".hide-normal").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "th")
+            });
+            if (TdCheck()) {
+                $(document).find("td").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "td")
+                });
+            }
+            //$(document).find("li").not(".hide-normal").not(".NoTrans").each(function () {
+            //    PushKeys($(this).text(), $(this), "li")
+            //});
+            //$(document).find("div").not(".hide-normal").not(".NoTrans").each(function () {
+            //    PushKeys($(this).text(), $(this), "div")
+            //});
+            $(document).find("option").not(".NoTrans").each(function () {
+                PushKeys($(this).text(), $(this), "option")
+            });
+            $(document).find(".Trans").each(function () {
+                PushKeys($(this).text(), $(this), ".Trans")
+            });
+            if (CallBack != null) {
+                CallBack();
+            }
+            //$.ajax({
+            //    url: "/Bus/AddToCach",
+            //    data: { name: window.location.pathname, value: JSON.stringify(Keys) },
+            //    method:"POST"
+            //})
+        }
+        function TdCheck() {
+            if (window.location.href.indexOf("Rpt") > -1 ||
+                window.location.href.indexOf("Report") > -1 ||
+                window.location.href.indexOf("/Installment/Installment_setting") > -1 ||
+                window.location.href.indexOf("/ListOfUser/GetUsers") > -1 ||
+                window.location.href.indexOf("/Inquiry_TaxSchedule/TaxSchedule") > -1 ||
+                window.location.href.indexOf("/Inventory/Inv_item_group/") > -1 ||
+                window.location.href.indexOf("/Inquiry_ICCOA/CompanyChartOfAccounts") > -1 ||
+                ($(document).find("table").length > -1 && $(document).find("a:contains('Create New')").length > -1)
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        async function SetValues(data, Elm, TOR) {
+            var MyData = $.grep(data, function (a) {
+                return a.Tag == Elm
+            });
+            $.each(MyData, function (k, i) {
+                var Extra = "";
+                if (Elm == "label") {
+                    if ($(Elm + ":textEquals('" + i.Key + "')").text().indexOf("*") > 0) {
+                        Extra = "<span style='color:red;'>*</span>";
+                    }
+                } else if (Elm == "a") {
+                    if ($("a:textEquals('" + i.Key + "')").find("i").length > 0) {
+                        Extra = $("a:textEquals('" + i.Key + "')").find("i")[0].outerHTML;
+                    }
+                }
+                if (TOR == "h") {
+                    $(Elm + ":textEquals('" + i.Key + "')").not(".NoTrans")
+                        .html(i.Txt + " " + Extra);
+                } else if (TOR == "v") {
+                    $(Elm + ":textEquals('" + i.Key + "')").not(".NoTrans")
+                        .val(i.Txt);
+                } else {
+                    if (i.Key.indexOf("(") > -1) {
+                        $(Elm + ":contains('" + i.Key + "')").not(".NoTrans")
+                            .text(i.Txt + " " + Extra);
+                    } else {
+                        $(Elm + ":textEquals('" + i.Key + "')").not(".NoTrans")
+                            .text(i.Txt + " " + Extra);
+                    }
+                }
+            })
+        }
+        $(function () {
+            if (window.location.pathname.indexOf("Done") < 0
+                && window.location.pathname.indexOf("/Translates/Index") != 0) {
+
+                GetWords(Translate);
+
+
+
+            }
+        })
+
+
+        function stripHtml(html) {
+            // Create a new div element
+            var temporalDivElement = document.createElement("div");
+            // Set the HTML content with the providen
+            temporalDivElement.innerHTML = html;
+            // Retrieve the text property of the element (cross-browser support)
+            return temporalDivElement.textContent || temporalDivElement.innerText || "";
+        }
+        function TranslateThis(Key) {
+            try {
+                return TWords.find(x => x.Key.trim() == Key.trim()).Txt;
+            } catch{
+                return Key;
+            }
+        }
+
+    </script>
+
+    <link href="~/Styles/Arabic.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            //$("i").not(".fa-chevron-up").css("float", "right")
+            //$("i").not(".fa-chevron-up").css("margin-left", "10px")
+        })
+    </script>
+}
+else
+{
+    <link href="~/Styles/English.css" rel="stylesheet" />
+    <script>
+        function ReTranslate() {
+            DataTable();
+        }
+        function ReTranslateTh() {
+            DataTable()
+        }
+        $(function () {
+            try {
+                RemoveLoader();
+            } catch (e) {
+
+            }
+        })
+        function TranslateThis(Key) {
+            return Key;
+        }
+    </script>
+}

@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Account Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "RAD";
+}
+<div class="container-fluid">
+    <!-- **** For Checks **** -->
+    <span class="hide-normal" id="IADI-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <input class="hide-normal" type="text" id="IADI-GurrencyFormate" />
+    <input class="hide-normal" type="text" id="IADI-HardGurrencyFormate" />
+
+    <div class="form-row mb-1">
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Account ID : <i class="star">*</i> </label>
+            @Html.DropDownList("RAD-allAccounts", ViewBag.AccountsList as SelectList, "-Choose-", new { @id = "RAD-allAccounts", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Account Name : <i class="star">*</i> </label>
+            <input type="text" class="form-control form-control-sm" id="RAD-accountName" disabled />
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm"> Year : <i class="star">*</i> </label>
+            @Html.DropDownList("allYears", ViewBag.YearList as SelectList, "-Choose-", new { @id = "allYears", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-3">
+            <label class="text-hide"> Multi Currency : </label>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" id="RAD-multiCurrency" name="RAD-multiCurrency" class="custom-control-input" />
+                <label for="RAD-multiCurrency" class="custom-control-label">Multi Currency</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-1 col-form-label col-form-label-sm"> Date : </label>
+        <div class="col-md-1">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="date" id="RAD-allDate" class="custom-control-input" />
+                <label class="custom-control-label" for="RAD-allDate">All</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="date" id="RAD-fromDate" class="custom-control-input" />
+                <label class="custom-control-label" for="RAD-fromDate">From / To :</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="RAD-startDate" disabled />
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="RAD-endDate" disabled />
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary btn-sm" id="RAD-search" disabled> Search <i class="fa fa-search"></i> </button>
+        </div>
+    </div>
+
+    <button class="btn btn-success btn-sm" id="RAD-export"> Export To Excel <i class="fa fa-file-excel-o"></i> </button>
+
+
+    <div class="table-responsive mt-1 mb-2">
+        <table class="table table-bordered table-striped" id="RAD-tbl">
+            <thead>
+                <tr>
+                    <th> V </th>
+                    <th> Date </th>
+                    <th> Journal No. </th>
+                    <th> Posting No. </th>
+                    <th> Posting Key </th>
+                    <th> Journal Type </th>
+                    <th> Description </th>
+                    <th class="forHidden"> Original Amount </th>
+                    <th class="forHidden"> Currency </th>
+                    <th class="forHidden"> Transaction Rate </th>
+                    <th> Debit </th>
+                    <th> Credit </th>
+                    <th> Document </th>
+                </tr>
+            </thead>
+            <tbody style="white-space:nowrap"></tbody>
+        </table>
+    </div>
+
+    <div class="d-block float-left w-50">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Debit : </label>
+            <div class="input-group input-group-sm col-md-9">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-light font-weight-bold"> No. </span>
+                </div>
+                <input type="number" class="form-control" id="RAD-debitNo" value="0" readonly />
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-light font-weight-bold"> Amount </span>
+                </div>
+                <input type="text" class="form-control" id="RAD-debitAmount" value="0" readonly />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Credit : </label>
+            <div class="input-group input-group-sm col-md-9">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-light font-weight-bold"> No. </span>
+                </div>
+                <input type="number" class="form-control" id="RAD-creditNo" value="0" readonly />
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-light font-weight-bold"> Amount </span>
+                </div>
+                <input type="text" class="form-control" id="RAD-creditAmount" value="0" readonly />
+            </div>
+        </div>
+    </div>
+    <div class="d-block float-right w-50">
+        <div class="form-row mb-1">
+            <label class="col-md-8 col-form-label col-form-label-sm"> Supported External Document (SED) : </label>
+            <div class="col-md-4">
+                <input type="number" class="form-control form-control-sm" id="RAD-SED" readonly />
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-8 col-form-label col-form-label-sm"> Supported Internal Document (SID) : </label>
+            <div class="col-md-4">
+                <input type="number" class="form-control form-control-sm" id="RAD-SID" readonly />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-md-8 col-form-label col-form-label-sm"> Unsupported (UnS) : </label>
+            <div class="col-md-4">
+                <input type="text" class="form-control form-control-sm" id="RAD-UNS" readonly />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Reports/Financial/_Company/Reports_Script.js")
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")

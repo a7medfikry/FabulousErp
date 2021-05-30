@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Transfer Inquery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("InqueryRes", "Inv_transfer_items", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes", OnSuccess = "ReTranslate" }))
+{
+    <div class="form-group">
+        @Html.Label("", $"Transfer", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Transfer_num", null, "", htmlAttributes: new { @class = "form-control ", required = "required" })
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <button type="submit" class="btn btn-success" style="vertical-align: text-bottom;">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+<script>
+
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

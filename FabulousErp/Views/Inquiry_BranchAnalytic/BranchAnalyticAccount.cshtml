@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Branch Analytic Account";
+    ViewBag.FormCode = "IBAA";
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="IBAA-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="IBAA-BranchID"></span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : </label>
+        <div class="col-md-2">
+            @Html.Partial("CompanyOrBranch")
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+        <div class="col-md-6">
+            @if (FabulousErp.Business.GetCompanyId() != null)
+            {
+                <input type="text" class="form-control form-control-sm" id="branchname" disabled />
+            }
+         
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="20%"> Analytic Account ID </th>
+                <th width="80%"> Analytic Account Name </th>
+            </tr>
+        </thead>
+        <tbody id="branchanalytic-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Branch/B_Analytic/Inquiry_BranchAnalytic.js")

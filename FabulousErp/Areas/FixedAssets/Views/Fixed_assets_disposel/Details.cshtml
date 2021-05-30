@@ -1,0 +1,77 @@
+﻿@model FabulousDB.Models.Fixed_assets_disposel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div id="MainDiv">
+    <h4>Fixed_assets_disposel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Disposal_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disposal_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Transaction_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transaction_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Disposal_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disposal_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Depreication_up_to_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Depreication_up_to_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Disposal_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disposal_amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Asset.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Asset.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@if (Request["Print"] == "true")
+{
+    <script>
+        $(function () {
+            PrintThis("MainDiv", false, true, false, null, "", true, true, function () {
+                $(document).find("input").not(":visible").addClass("hide");
+            }, "input{border:none !important;width:40% !important;}select{border:none !important;width:40% !important;}.form-group label{width:35% !important;}.form-group div{width:60%;background:red !important;}.form-group div input,.form-group div select{width:100%}")
+        })
+    </script>
+}

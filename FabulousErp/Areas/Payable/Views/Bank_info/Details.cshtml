@@ -1,0 +1,91 @@
+﻿@model FabulousErp.Payable.Models.Payable_bank_info
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bank_info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Creditor.Vendor_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Creditor.Vendor_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cheque_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cheque_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bank_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bank_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Branch)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Branch)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Swift_code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Swift_code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bank_address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bank_address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Iban)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Iban)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

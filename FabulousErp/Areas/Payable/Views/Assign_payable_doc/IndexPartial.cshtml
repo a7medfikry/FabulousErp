@@ -1,0 +1,94 @@
+﻿@model IEnumerable<FabulousErp.Payable.Models.Assign_payable_doc>
+
+@{
+    Layout = null;
+}
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Assign_no)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendor.Vendor_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Doc_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Applay_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creation_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orginal_amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Applay_assign)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unassign_amount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.OrderByDescending(x => x.Id))
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Assign_no)
+
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vendor.Vendor_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doc_type)
+                </td>
+                <td>
+                    @item.Applay_date.ToShortDateString()
+                </td>
+                <td>
+                    @item.Creation_date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Orginal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Applay_assign)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unassign_amount)
+                </td>
+                @if (Request["section"] == "void")
+                {
+                    <td>
+                        @Html.ActionLink("Void", "Index", "Void", new { Type = TrxPay.Assign.ToString(), id = item.Id }, new { })
+                    </td>
+                }
+                else
+                {
+                    if (ViewBag.section != "Inquiry" && ViewBag.section != "Report")
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        </td>
+
+                    }
+                }
+
+            </tr>
+        }
+    </tbody>
+
+</table>

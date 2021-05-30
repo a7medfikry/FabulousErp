@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Open/Close Periods";
+    ViewBag.FormCode = "SOCP";
+}
+<div class="container-fluid">
+    <div class="form-row">
+        <label class="col-md-2 col-form-label col-form-label-sm">Year Name :</label>
+        <div class="col-md-3">
+            @Html.DropDownList("YearName", ViewBag.YearList as SelectList, "-Choose-", new { @id = "YearName", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success btn-sm" id="FinishSavePeriodsBtn" disabled> Save </button>
+        </div>
+        <label class="col-md-5 text-success" id="SuccessSaved"></label>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap" id="FiscalYearPeriodsTbl">
+        <caption class="Trans"> Fiscal Year Periods </caption>
+        <thead>
+            <tr>
+                <th width="10%">Period No.</th>
+                <th width="15%">Start Date</th>
+                <th width="15%">End Date</th>
+                @foreach (string AreaName in FabulousErp.Business.GetAreasNames())
+                {
+                    <th>@AreaName</th>
+
+                }
+                @*<th width="15%">Financial</th>
+        <th width="15%">Purchasing</th>
+        <th width="15%">Sales</th>
+        <th width="15%">Inventory</th>*@
+            </tr>
+        </thead>
+        <tbody id="FiscalYearPeriodsBody"></tbody>
+    </table>
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/OpenAndClosFiscalPeriods/OpenAndColsePeriods.js")

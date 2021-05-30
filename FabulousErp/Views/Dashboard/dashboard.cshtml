@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .body-header {
+        display: none;
+    }
+
+    body {
+    }
+    
+</style>
+
+<div class="container-fluid">
+    <div class="form-row">
+        <div class="col-xl-3 col-sm-6 mb-2">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fa fa-fw fa-file"></i>
+                    </div>
+                    <div class="mr-5">Financial</div>
+                </div>
+                <a class="card-footer text-white small clearfix z-index-1" href="/Home/Financial_Home">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-2">
+            <div class="card text-white bg-danger of-hidden">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fa fa-fw fa-gear"></i>
+                    </div>
+                    <div class="mr-5">Purchasing</div>
+                </div>
+                <a class="card-footer text-white small clearfix z-index-1" href="/Home/Purchasing_Home">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-2">
+            <div class="card text-white bg-info of-hidden">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fa fa-fw fa-line-chart"></i>
+                    </div>
+                    <div class="mr-5">Sales</div>
+                </div>
+                <a class="card-footer text-white small clearfix z-index-1" href="/Home/Sales_Home">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-2">
+            <div class="card text-white bg-warning of-hidden">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fa fa-fw fa-industry"></i>
+                    </div>
+                    <div class="mr-5">Inventory</div>
+                </div>
+                <a class="card-footer text-white small clearfix z-index-1" href="/Home/Inventory_Home">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-list fa-fw"></i> To-Do List
+                </div>
+                <div class="card-body text-center">
+                    <div id="todo-notifications">
+                        No New Tasks
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-2">
+            <div class="card text-white bg-success of-hidden">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fa fa-fw fa-industry"></i>
+                    </div>
+                </div>
+                <a class="card-footer text-white small clearfix z-index-1" href="/Translates/Index">
+                    <span class="float-left">Translate</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

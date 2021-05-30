@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "Branch User Forms Access";
+    ViewBag.FormCode = "SBUAP";
+}
+<div class="container-fluid">
+    <section>
+        @Html.Partial("FormsAccessHeader")
+    </section>
+
+    <div class="hide-normal mt-2" id="FormsTable">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#SettingForms" role="tab" aria-selected="true"> Setting Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#InquiryForms" role="tab" aria-selected="true"> Inquiry Forms </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#TransactionForms" role="tab" aria-selected="true"> Transaction Forms </a>
+            </li>
+        </ul>
+
+        <div class="tab-content bg-light">
+
+            <div id="SettingForms" class=" tab-pane container-fluid p-3 active fade show" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" style="width:100%" id="main-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-20 font-weight-bold">Setting Forms @Html.CheckBox("CheckAllSetting", false, new { @id = "CheckAllSetting" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>SBAA</td>
+                            <td>Branch Analytic Accounts</td>
+                            <td>@Html.CheckBox("SBAA", false, new { @id = "SBAA", @class = "S CB", @value = "SBAA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SBAAD</td>
+                            <td>Create Branch Analytic Account Distribution</td>
+                            <td>@Html.CheckBox("SBAAD", false, new { @id = "SBAAD", @class = "S CB", @value = "SBAAD" })</td>
+                        </tr>
+                        <tr>
+                            <td>SBCC</td>
+                            <td>Branch Cost Center</td>
+                            <td>@Html.CheckBox("SBCC", false, new { @id = "SBCC", @class = "S CB", @value = "SBCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>SBCCA</td>
+                            <td>Create Branch Cost Center Accounts</td>
+                            <td>@Html.CheckBox("SBCCA", false, new { @id = "SBCCA", @class = "S CB", @value = "SBCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SBMCC</td>
+                            <td>Create Branch Main Cost Center</td>
+                            <td>@Html.CheckBox("SBMCC", false, new { @id = "SBMCC", @class = "S CB", @value = "SBMCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>SUBMCC</td>
+                            <td>Update Branch Main Cost Center</td>
+                            <td>@Html.CheckBox("SUBMCC", false, new { @id = "SUBMCC", @class = "S CB", @value = "SUBMCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>SBCA</td>
+                            <td>Branch Create Account</td>
+                            <td>@Html.CheckBox("SBCA", false, new { @id = "SBCA", @class = "S CB", @value = "SBCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SDATBA</td>
+                            <td>Add Dist. Accounts To Branch Account</td>
+                            <td>@Html.CheckBox("SDATBA", false, new { @id = "SDATBA", @class = "S CB", @value = "SDATBA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SCATBA</td>
+                            <td>Add Cost Accounts To Branch Account</td>
+                            <td>@Html.CheckBox("SCATBA", false, new { @id = "SCATBA", @class = "S CB", @value = "SCATBA" })</td>
+                        </tr>
+                        <tr>
+                            <td>SBCB</td>
+                            <td>Branch CheckBook Setting</td>
+                            <td>@Html.CheckBox("SBCB", false, new { @id = "SBCB", @class = "S CB", @value = "SBCB" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">CDTBA</td>
+                            <td width="60%">Link Currency Definition To Branch Account</td>
+                            <td width="20%">@Html.CheckBox("CDTBA", false, new { @id = "CDTBA", @class = "S CB", @value = "CDTBA" })</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">SBLAA</td>
+                            <td width="60%">Branch Link Analytic To Account</td>
+                            <td width="20%">@Html.CheckBox("SBLAA", false, new { @id = "SBLAA", @class = "S CB", @value = "SBLAA" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div id="InquiryForms" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" style="width:100%" id="main-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-20 font-weight-bold">Inquiry Forms @Html.CheckBox("CheckAllInquiry", false, new { @id = "CheckAllInquiry" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>IBAA</td>
+                            <td>List Of Branch Analytic Account</td>
+                            <td>@Html.CheckBox("IBAA", false, new { @id = "IBAA", @class = "I CB", @value = "IBAA" })</td>
+                        </tr>
+                        <tr>
+                            <td>IBCC</td>
+                            <td>List Of Branch Cost Center</td>
+                            <td>@Html.CheckBox("IBCC", false, new { @id = "IBCC", @class = "I CB", @value = "IBCC" })</td>
+                        </tr>
+                        <tr>
+                            <td>IBADA</td>
+                            <td>Branch Analytic Distribution</td>
+                            <td>@Html.CheckBox("IBADA", false, new { @id = "IBADA", @class = "I CB", @value = "IBADA" })</td>
+                        </tr>
+                        <tr>
+                            <td>IBCCA</td>
+                            <td>List of Branch Center Accounts</td>
+                            <td>@Html.CheckBox("IBCCA", false, new { @id = "IBCCA", @class = "I CB", @value = "IBCCA" })</td>
+                        </tr>
+                        <tr>
+                            <td>IBT</td>
+                            <td>Branch Tax</td>
+                            <td>@Html.CheckBox("IBT", false, new { @id = "IBT", @class = "I CB", @value = "IBT" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div id="TransactionForms" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+                <table class="table table-bordered table-striped display nowrap" style="width:100%" id="main-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Form Code</th>
+                            <th width="60%">Form Name</th>
+                            <th width="20%">Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grouplabel">
+                            <td></td>
+                            <td class="fs-20 font-weight-bold">Transaction Forms @Html.CheckBox("CheckAllTransaction", false, new { @id = "CheckAllTransaction" }) Check All</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>TBCB</td>
+                            <td>Branch Create Batch</td>
+                            <td>@Html.CheckBox("TBCB", false, new { @id = "TBCB", @class = "T CB", @value = "TBCB" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Copy Access From Another User</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4 id="ModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="form-group">
+                            User ID :
+                            @Html.DropDownList("TargetUserID", new SelectList(""), "-Choose-", new { @id = "TargetUserID", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            User Name :
+                            <label id="TargetUserName"></label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="ConfirmCopy()">Copy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="SaveBtn" class="hide-normal">
+        <button type="button" class="btn btn-primary btn-sm" onclick="Savebtn()">Save</button>
+        <label id="SavedSuccess" style="color:green"></label>
+    </div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/SaveBtnAccess.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/HandleRB.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UGFormAccess/Company/UserCopyAccess.js")
+

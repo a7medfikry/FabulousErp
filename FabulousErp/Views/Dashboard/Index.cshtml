@@ -1,0 +1,170 @@
+﻿@model List<FabulousModels.ViewModels.Chart>
+@{
+    List<FabulousModels.Inventory.GrandProfit> GrandProfit = ViewBag.GrandRes;
+    List<FabulousModels.Inventory.QtyAvaliable> QtyRes = ViewBag.QtyRes;
+}
+<style>
+    section {
+        margin-bottom: 20px;
+    }
+</style>
+<link href="~/_Content/Styles/Chart.min.css" rel="stylesheet" />
+    <script src="~/Scripts/New/Chart.bundle.min.js"></script>
+
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Grand Profit</h4>
+        @*@Html.Partial("/Areas/Inventory/Views/Rpt/GrandProfitRes.cshtml", GrandProfit)*@
+    </section>
+    <canvas id="Chart1" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Quantity Avaliable</h4>
+        @*@Html.Partial("/Areas/Inventory/Views/Rpt/QtyAvaliableRes.cshtml", QtyRes)*@
+    </section>
+    <canvas id="Chart2" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Sales Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = false, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <canvas id="Chart3" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Sales Return Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = true, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <canvas id="Chart4" style="width:50vw;height:200px;"></canvas>
+</section>
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Purchase Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = false, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <canvas id="Chart5" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Monthly Return Purchase Rpt</h4>
+        @*@Html.Action("MonthlySalesRes", "Rpt", new { Area = "Inventory", IsPay = false, IsReturn = true, YearId = ViewBag.YearId, Ftype = "Month" })*@
+    </section>
+    <canvas id="Chart6" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Vendore Balance</h4>
+    </section>
+    <canvas id="Chart7" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Vendore Purchase</h4>
+    </section>
+    <canvas id="Chart8" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Customer Balance</h4>
+    </section>
+    <canvas id="Chart9" style="width:50vw;height:200px;"></canvas>
+</section>
+<hr />
+<section>
+    <section>
+        <h4 class="col-sm-12 NoTrans text-center">Customer Sales</h4>
+    </section>
+    <canvas id="Chart10" style="width:50vw;height:200px;"></canvas>
+</section>
+<script>
+    var Colors = ["blue", "red", "orange",
+        "yellow", "green", "blue",
+        "purple", "grey"]
+    var ColorInt = 0;
+
+    MakeChart(document.getElementById('Chart1').getContext('2d'),
+            @Html.Raw(Json.Encode(Model.Where(x=>x.Order==1).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==1).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart2').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==2).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==2).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart3').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==3).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==3).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart4').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==4).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==4).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart5').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==5).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==5).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart6').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==6).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==6).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart7').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==7).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==7).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart8').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==8).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==8).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart9').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==9).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==9).Select(x=>x.Details))))
+
+    MakeChart(document.getElementById('Chart10').getContext('2d'),
+        @Html.Raw(Json.Encode(Model.Where(x=>x.Order==10).SelectMany(x=>x.Head.Labels))),
+   @Html.Raw(Json.Encode(Model.Where(x=>x.Order==10).Select(x=>x.Details))))
+
+    function GetColor() {
+        var ThisColor = Colors[ColorInt]
+        ColorInt++;
+        if (ColorInt > 8) {
+            ColorInt = 0;
+        }
+        return ThisColor;
+    }
+    function AfterLoader() {
+        $(document).find("#mobile-collapse").trigger("click");
+    }
+    function DataSet(Data) {
+        var DataSet = [];
+        $.each(Data, function (k, i) {
+            $.each(i, function (kk, ii) {
+                DataSet.push({
+                    label: ii.Label,
+                    data: ii.Data,
+                    fill: false,
+                    borderColor: GetColor()
+                })
+            })
+        })
+        return DataSet;
+    }
+    function MakeChart(Canv, Labels, Data) {
+        ColorInt = 0;
+        var myChart = new Chart(Canv, {
+            type: 'line',
+            data: {
+                labels: Labels,
+                datasets: DataSet(Data)
+            }
+        });
+    }
+</script>

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Done";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<embed src="@ViewBag.Doc#toolbar=0" style="width:100%;height:auto;min-height:100vh;" />*@
+
+@*<iframe class="doc" src="https://docs.google.com/gview?url=http://writing.engr.psu.edu/workbooks/formal_report_template.doc&embedded=true"></iframe>
+    <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://localhost:61367/PrintDocumentTemp/a.docx' width='1366px' height='623px' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>
+
+    <script>
+
+    </script>*@
+
+
+<div>@Html.Raw(ViewBag.WordHtml)</div>

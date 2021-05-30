@@ -1,0 +1,566 @@
+$(document).ready(function () {
+
+    var companyID = $("#TCGE-CompanyID").text(),
+        PTcheck = $("#CBT-PT").text(),
+        EPDcheck = $("#TCGE-EPD").text(),
+        fJEPer = $("#TCGE-FJEPer").text(),
+        FinalAmount = $('#transferTo').find('.CBT-amount'),
+        transferNumber = $('#CBT-transferNumber').text(),
+        tbody = $('#TCGE-TTbl'),
+        profitHiddenID, profitAccountID, profitAccountName,
+        lossHiddenID, lossAccountID, lossAccountName,
+        tbodyData = "<tr>" +
+            "<td>" + '<button type="button" class="btn btn-sm mr-1 MoreDetailsT"><span class="fa fa-eye"></span></button>' + "</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td>SID</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td class='sDebitTbl'></td>" +
+            "<td class='sCreditTbl'></td>" +
+            "</tr>" +
+            "<tr>" +
+            "<td>" + '<button type="button" class="btn btn-sm mr-1 MoreDetailsT"><span class="fa fa-eye"></span></button>' + "</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td>SID</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td class='sDebitTbl'></td>" +
+            "<td class='sCreditTbl'></td>" +
+            "</tr>",
+        ThisSlector;
+    FinalAmount.prop('disabled', true);
+    tbody.append(tbodyData);
+
+
+    if (fJEPer === "NoPS") {
+        alert("This Company in Financial Module Not have Posting Setup..!");
+        window.location.href = "/Home/Financial_Home";
+    }
+    $('#transferNumber').val(transferNumber);
+    $('.CBT-transferDate').focus(function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $('.CBT-transferDate').val(today);
+    });
+
+
+    // Check Checkbook Security Before Get Data
+    $(".CBT-checkbookID").change(function () {
+        //tbody.find('tr').eq(2).remove();
+        ThisSlector = $(this).parents(".MainSection");
+        Clear(ThisSlector);
+        var checkbookID = $(this).val();
+        if (checkbookID.length === 0) {
+            Clear();
+        } else {
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                method: "get",
+                url: "/api/CheckBookAPIs/CheckbookSecurity?checkbookID=" + checkbookID + "&companyID=" + companyID,
+                success: function (result) {
+                    if (result.CB_Password === "Exist") {
+                        $("#CBT-CBid").text(checkbookID);
+                        ThisSlector.find(".CBT-checkbookID").val("");
+                        ThisSlector.find(".CBT-checkbookName").val("");
+                        $("#CBT-checkbookModal").modal("show");
+                    } else if (result.CB_UserID === "UserIDAccess") {
+                        GetCheckbookData(checkbookID, ThisSlector);
+                    } else if (result.CB_UserID === "NoPermit") {
+                        ThisSlector.find(".CBT-checkbookID").val("");
+                        ThisSlector.find(".CBT-checkbookName").val("");
+                        alert("you not have access to this checkbook");
+                    } else {
+                        GetCheckbookData(checkbookID, ThisSlector);
+                    }
+                }
+            });
+        }
+    });
+    $("#CBT-checkbookCheck").click(function () {
+        var password = $("#CBT-checkbookPassword").val();
+        var checkbookID = $("#CBT-CBid").text();
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            method: "get",
+            url: "/api/CheckBookAPIs/CheckbookSecurityCheck?password=" + password + "&checkbookID=" + checkbookID + "&companyID=" + companyID,
+            success: function (result) {
+                GetCheckbookData(checkbookID, ThisSlector);
+                $(ThisSlector).find(".CBT-checkbookID").val(checkbookID);
+                $("#CBT-checkbookModal").modal("hide");
+            },
+            statusCode: {
+                406: function (request) {
+                    $("#CBT-wrongpass").text(JSON.parse(request.responseText).Message);
+                }
+            }
+            /*
+            error: function (request, statues, error) {
+                if (request.status === 406) {
+                    $(".CBT-wrongpass").text(JSON.parse(request.responseText).Message);
+                }
+            }
+            */
+        });
+    });
+
+    // Get Profit and Loss Accounts
+    $('.CBT-amount').focusin(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        var currencyID = ThisSlector.find('.TCGE-CurrencyID').val();
+        $.ajax({
+            type: 'GET',
+            url: "/CheckbookTransfer/GetProfitLossAccount?currencyID=" + currencyID,
+            success: function (result) {
+                $.each(result, function (key, item) {
+                    if (item.AccountType === "Profit") {
+                        profitHiddenID = item.C_AID;
+                        profitAccountID = item.Currency_AccountsID;
+                        profitAccountName = item.Company_AccountsName;
+                    } else {
+                        lossHiddenID = item.C_AID;
+                        lossAccountID = item.Currency_AccountsID;
+                        lossAccountName = item.Company_AccountsName;
+                    }
+                });
+            }
+        });
+        console.log(profitHiddenID);
+        console.log(profitAccountName);
+        console.log(profitAccountID);
+    });
+
+    // Amount of Transfer-from checkbook
+    $('.CBT-amount').focusout(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        var Amount = $(this).val().replace(regRemoveCurrFormate, ""),
+            TransactionRate = $('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+            SystemRate = $('.TCGE-SystemRate').val().replace(regRemoveCurrFormate, ""),
+            MaxAmount = ThisSlector.find('#CBT-maxAmount').text(),
+            MinAmount = ThisSlector.find('#CBT-minAmount').text(),
+            transferDate = ThisSlector.find('.CBT-transferDate').val(),
+            test = true;
+
+        if (test === true && $(this).val().length > 0) {
+
+            var test1 = true;
+
+            if (MaxAmount.length > 0 && MinAmount.length > 0) {
+                if (parseFloat(Amount) >= parseFloat(MinAmount) && parseFloat(Amount) <= parseFloat(MaxAmount)) {
+                    $("#TCGE-GlobalError").text("");
+                } else {
+                    test1 = false;
+                    $(this).val("");
+                    $(this).focus();
+                    $("#TCGE-GlobalError").text("Checkbook Minimum Amount = " + MinAmount + " And Maximum Amount = " + MaxAmount + "")
+                }
+            } else if (MaxAmount.length > 0 && MinAmount.length === 0) {
+
+                if (parseFloat(Amount) <= parseFloat(MaxAmount)) {
+                    $("#TCGE-GlobalError").text("");
+                } else {
+                    test1 = false;
+                    $(this).val("");
+                    $(this).focus();
+                    $("#TCGE-GlobalError").text("Checkbook Maximum Amount = " + MaxAmount + "")
+                }
+            } else if (MinAmount.length > 0 && MaxAmount.length === 0) {
+
+                if (parseFloat(Amount) >= parseFloat(MinAmount)) {
+                    $("#TCGE-GlobalError").text("");
+                } else {
+                    test1 = false;
+                    $(this).val("");
+                    $(this).focus();
+                    $("#TCGE-GlobalError").text("Checkbook Minimum Amount = " + MinAmount + "")
+                }
+            }
+            if (test1 === true) {
+                var credit = parseFloat(Amount) * parseFloat(SystemRate);
+                tbody.find('tr').eq(0).find('td').eq(6).text(setSystemCurrFormate(+parseFloat(Amount)));
+                tbody.find('tr').eq(0).find('td').eq(8).text(setSystemCurrFormate(+parseFloat(credit)));
+                SumDebitAndCredit();
+                if (CalculateAmount()) {
+                    var systemRate = $('#transferTo').find('.TCGE-SystemRate').val().replace(regRemoveCurrFormate, ""),
+                        finalAmount = $('#transferTo').find('.CBT-amount').val().replace(regRemoveCurrFormate, "");
+                    var debit = parseFloat(finalAmount) * parseFloat(systemRate);
+                    tbody.find('tr').eq(1).find('td').eq(7).text(setSystemCurrFormate(+parseFloat(debit)));
+                    SumDebitAndCredit();
+                }
+            }
+        }
+        CalculateDiffrance();
+    });
+
+    // Fill The Third-Row If There's profit or Loss
+    $('.CBT-amount').keyup(function () {
+        ThisSlector = $(this).parents(".MainSection");
+        var difference = ThisSlector.find('.TCGE-DiffrenceRate').val().replace(regRemoveCurrFormate, "");
+        // Profit
+        if (difference > 0) {
+            tbody.find('tr').eq(2).find('td').eq(1).text(profitHiddenID);
+            tbody.find('tr').eq(2).find('td').eq(2).text(profitAccountName);
+            tbody.find('tr').eq(2).find('td').eq(4).text(profitAccountID);
+        } else if (difference < 0) {
+            tbody.find('tr').eq(2).find('td').eq(1).text(lossHiddenID);
+            tbody.find('tr').eq(2).find('td').eq(2).text(lossAccountName);
+            tbody.find('tr').eq(2).find('td').eq(4).text(lossAccountID);
+        }
+    });
+
+    // Calculate Difference If user Change transaction-Rate
+    $(".TCGE-TransactionRate").change(function () {
+        ThisSlector = $(this).parents(".MainSection");
+
+        //clear
+        ThisSlector.find('.CBT-amount').val('');
+        ClearTable();
+
+        var transactionRate = $(this).val().replace(regRemoveCurrFormate, ""),
+            systemRate = ThisSlector.find(".TCGE-SystemRate").val().replace(regRemoveCurrFormate, ""),
+            difference = ThisSlector.find('.TCGE-DiffrenceRate').val().replace(regRemoveCurrFormate, ""),
+            currencyID = ThisSlector.find('.TCGE-CurrencyID').val();
+
+        if (transactionRate >= 0) {
+            $(this).css("border-color", "");
+            difference = parseFloat(transactionRate) - parseFloat(systemRate);
+            ThisSlector.find(".TCGE-DiffrenceRate").val(setSystemCurrFormate(+difference));
+        } else {
+            $(this).css("border-color", "red");
+        }
+
+        if (difference > 0 || difference < 0) {
+            $.ajax({
+                type: 'GET',
+                url: "/CheckbookTransfer/GetProfitLossAccount?currencyID=" + currencyID,
+                success: function (result) {
+                    $.each(result, function (key, item) {
+                        if (item.AccountType === "Profit") {
+                            profitHiddenID = item.C_AID;
+                            profitAccountID = item.Currency_AccountsID;
+                            profitAccountName = item.Company_AccountsName;
+                        } else {
+                            lossHiddenID = item.C_AID;
+                            lossAccountID = item.Currency_AccountsID;
+                            lossAccountName = item.Company_AccountsName;
+                        }
+                    });
+                    CalculateDiffrance();
+                }
+            });
+
+            tbody.find('tr').eq(2).remove();
+            tbodyData = "<tr>" +
+                "<td>" + '<button type="button" class="btn btn-sm mr-1 MoreDetailsT"><span class="fa fa-eye"></span></button>' + "</td>" +
+                "<td class='hide-normal'></td>" +
+                "<td></td>" +
+                "<td>SID</td>" +
+                "<td class='hide-normal'></td>" +
+                "<td class='hide-normal'></td>" +
+                "<td></td>" +
+                "<td class='sDebitTbl'></td>" +
+                "<td class='sCreditTbl'></td>" +
+                "</tr>";
+            tbody.append(tbodyData);
+        } else {
+            tbody.find('tr').eq(2).remove();
+        }
+        CalculateDiffrance();
+
+    });
+
+    // Discription
+    $('.CBT-description').focusout(function () {
+        var reference = $(this).val();
+        ThisSlector = $(this).parents(".MainSection");
+        // Fill The First-Row of Transfer-From and Second-Row If Exist
+        if (ThisSlector.hasClass('transferFrom')) {
+            tbody.find('tr').eq(0).find('td').eq(5).text(reference);
+            tbody.find('tr').eq(2).find('td').eq(5).text(reference);
+        }
+        // Fill The Second-Row of Transfer-To
+        if (ThisSlector.hasClass('transferTo')) {
+            tbody.find('tr').eq(1).find('td').eq(5).text(reference);
+        }
+    });
+
+    // To Add Third-Row If Difference equal Zero
+    $('#transferADD').click(function () {
+        tbody.find('tr').eq(2).remove();
+        tbodyData = "<tr>" +
+            "<td>" + '<button type="button" class="btn btn-sm mr-1 MoreDetailsT"><span class="fa fa-eye"></span></button>' + "</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td>SID</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td class='sDebitTbl'></td>" +
+            "<td class='sCreditTbl'></td>" +
+            "</tr>";
+        var debit = parseFloat($('#TCGE-TTbl').find('tr').eq(1).find('td').eq(7).text().replace(",", "")),
+            credit = parseFloat($('#TCGE-TTbl').find('tr').eq(0).find('td').eq(8).text().replace(",", "")),
+            deff = parseFloat(debit) - parseFloat(credit);
+        tbody.append(tbodyData);
+        if (parseFloat(deff) > 0) {
+            tbody.find('tr').eq(2).find('td').eq(1).text(profitHiddenID);
+            tbody.find('tr').eq(2).find('td').eq(2).text(profitAccountName);
+            tbody.find('tr').eq(2).find('td').eq(4).text(profitAccountID);
+        } else if (parseFloat(deff) < 0) {
+            tbody.find('tr').eq(2).find('td').eq(1).text(lossHiddenID);
+            tbody.find('tr').eq(2).find('td').eq(2).text(lossAccountName);
+            tbody.find('tr').eq(2).find('td').eq(4).text(lossAccountID);
+        }
+        CalculateDiffrance();
+    });
+
+    // Transfer Button-Click
+    $('#transferCB').click(function () {
+        // transfer-from checkbook
+        var transferDate = $('.CBT-transferDate').val(),
+            transferDocumentNumber = $('#documentNumber').val(),
+            transferReference = $('#reference').val(),
+            postingKey = "TCBT",
+            first_CheckbookID = $('#transferFrom').find('.CBT-checkbookID').val(),
+            first_CheckbookName = $('#transferFrom').find('.CBT-checkbookName').val(),
+            first_Currency = $('#transferFrom').find('.TCGE-CurrencyID').val(),
+            first_SystemRate = $('#transferFrom').find('.TCGE-SystemRate').val().replace(regRemoveCurrFormate, ""),
+            first_TransactionRate = $('#transferFrom').find('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+            first_Difference = $('#transferFrom').find('.TCGE-DiffrenceRate').val().replace(regRemoveCurrFormate, ""),
+            first_Description = $('#transferFrom').find('.CBT-description').val(),
+            first_Amount = $('#transferFrom').find('.CBT-amount').val().replace(regRemoveCurrFormate, ""),
+            // transfer-to checkbook
+            second_CheckbookID = $('#transferTo').find('.CBT-checkbookID').val(),
+            second_CheckbookName = $('#transferTo').find('.CBT-checkbookName').val(),
+            second_Currency = $('#transferTo').find('.TCGE-CurrencyID').val(),
+            second_SystemRate = $('#transferTo').find('.TCGE-SystemRate').val().replace(regRemoveCurrFormate, ""),
+            second_TransactionRate = $('#transferTo').find('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+            second_Difference = $('#transferTo').find('.TCGE-DiffrenceRate').val().replace(regRemoveCurrFormate, ""),
+            second_Description = $('#transferTo').find('.CBT-description').val(),
+            final_Amount = $('#transferTo').find('.CBT-amount').val().replace(regRemoveCurrFormate, "");
+
+        // Check if SPS Posting to General Ladger OR Posting throw General Ladger
+        if (PTcheck === "A1") {
+            var journalEntryNumber = InsertTransactionData(companyID, 1, transferDate, transferDate, transferReference, first_Currency, first_SystemRate, first_TransactionRate, postingKey, "Checkbook Transfer");
+        } else {
+            var journalEntryNumber = InsertTransactionData(companyID, 2, transferDate, transferDate, transferReference, first_Currency, first_SystemRate, first_TransactionRate, postingKey, "Checkbook Transfer");
+        }
+
+        var transferArray = [
+            {
+                C_PostingNumber: journalEntryNumber,
+                C_TransactionDate: transferDate,
+                C_PostingDate: transferDate,
+                C_CBSID: first_CheckbookID,
+                CurrencyID: first_Currency,
+                C_SystemRate: first_SystemRate,
+                C_TransactionRate: first_TransactionRate,
+                C_Difference: first_Difference,
+                C_Reference: first_Description,
+                C_Payment: first_Amount,
+                C_Reciept: 0,
+                C_CheckNumber: transferDocumentNumber,
+                C_PostingKey: postingKey
+            },
+            {
+                C_PostingNumber: journalEntryNumber,
+                C_TransactionDate: transferDate,
+                C_PostingDate: transferDate,
+                C_CBSID: second_CheckbookID,
+                CurrencyID: second_Currency,
+                C_SystemRate: second_SystemRate,
+                C_TransactionRate: second_TransactionRate,
+                C_Difference: second_Difference,
+                C_Reference: second_Description,
+                C_Reciept: final_Amount,
+                C_Payment: 0,
+                C_CheckNumber: transferDocumentNumber,
+                C_PostingKey: postingKey
+            }
+        ];
+        transferArray = JSON.stringify({ 'transferArray': transferArray });
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: "POST",
+            url: "/CheckbookTransfer/Transfer",
+            data: transferArray,
+            success: function (result) {
+                if (result === "True") {
+                    alert('Transfer Successfuly');
+                }
+            }
+        });
+    });
+
+    // Reset Button
+    $('#transferReset').click(function () {
+        location.reload();
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    $('#CBT-checkbookModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input")
+            .val('')
+            .end()
+            .find("label").text('').end();
+    });
+
+
+
+
+
+
+
+});
+
+
+
+function CalculateDiffrance() {
+    var debit = parseFloat($('#TCGE-TTbl').find('tr').eq(1).find('td').eq(7).text().replace(",", "")),
+        credit = parseFloat($('#TCGE-TTbl').find('tr').eq(0).find('td').eq(8).text().replace(",", "")),
+        deff = parseFloat(debit) - parseFloat(credit);
+
+    if (!isNaN(deff)) {
+        if (parseFloat(deff) > 0) {
+            $('#TCGE-TTbl').find('tr').eq(2).find('td').eq(7).text('');
+            $('#TCGE-TTbl').find('tr').eq(2).find('td').eq(8).text(setSystemCurrFormate(+parseFloat(deff)));
+            $('#TCGE-TTbl').find('tr').eq(2).find('td').eq(6).text(setSystemCurrFormate(+parseFloat(deff)));
+
+        } else if (parseFloat(deff) < 0) {
+            var Number = Math.abs(deff);
+            $('#TCGE-TTbl').find('tr').eq(2).find('td').eq(8).text('');
+            $('#TCGE-TTbl').find('tr').eq(2).find('td').eq(7).text(setSystemCurrFormate(+parseFloat(Number)));
+            $('#TCGE-TTbl').find('tr').eq(2).find('td').eq(6).text(setSystemCurrFormate(+parseFloat(Number)));
+        }
+        SumDebitAndCredit();
+    }
+}
+
+
+
+
+
+function GetCheckbookData(checkbookID, Selector) {
+    var companyID = $("#TCGE-CompanyID").text(),
+        currencyID,
+        postingDate,
+        tbody = $('#TCGE-TTbl');
+
+    $.ajax({
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        method: "get",
+        url: "/api/CheckBookAPIs/GetCheckbookData?checkbookID=" + checkbookID + "&companyID=" + companyID,
+        success: function (result) {
+            $(Selector).find(".TCGE-CurrencyID").append("<option value='" + result.CurrencyID + "' selected>" + result.CurrencyName + "</option>");
+            $(Selector).find(".CBT-checkbookName").val(result.CheckbookName);
+            $(Selector).find('#CBT-minAmount').text(result.MinAmount);
+            $(Selector).find('#CBT-maxAmount').text(result.MaxAmount);
+
+            // Fill The First-Row of Transfer-From
+            if ($(Selector).hasClass('transferFrom')) {
+                tbody.find('tr').eq(0).find('td').eq(1).text(result.C_AID);
+                tbody.find('tr').eq(0).find('td').eq(2).text(result.Company_AccountsName);
+                tbody.find('tr').eq(0).find('td').eq(4).text(result.Company_AccountsID);
+            }
+            // Fill The Second-Row of Transfer-To
+            if ($(Selector).hasClass('transferTo')) {
+                tbody.find('tr').eq(1).find('td').eq(1).text(result.C_AID);
+                tbody.find('tr').eq(1).find('td').eq(2).text(result.Company_AccountsName);
+                tbody.find('tr').eq(1).find('td').eq(4).text(result.Company_AccountsID);
+            }
+
+            if (result.CurrencyID === companyID) {
+                // so currency is main
+                $(Selector).find('.TCCR-rateField').hide();
+            } else {
+                $(Selector).find('.TCCR-rateField').show();
+            }
+
+            // Get System and Transaction Rate
+            currencyID = result.CurrencyID;
+            postingDate = $('.CBT-transferDate').val();
+            var checkPostingDate = CheckPostingDateInPeriods(postingDate);
+            if (checkPostingDate !== true) {
+                $(Selector).find(".TCGE-SystemRate").val("");
+                $(Selector).find(".TCGE-TransactionRate").val("");
+                $(Selector).find(".TCGE-DiffrenceRate").val("");
+                $(Selector).find(".TCGE-TransactionRate").prop("disabled", true);
+            } else {
+                if (GetCurrencyRates(currencyID, postingDate, Selector)) {
+                    if (CalculateAmount(Selector)) {
+                        var systemRate = $('#transferTo').find('.TCGE-SystemRate').val().replace(regRemoveCurrFormate, ""),
+                            finalAmount = $('#transferTo').find('.CBT-amount').val().replace(regRemoveCurrFormate, "");
+                        var debit = parseFloat(finalAmount) * parseFloat(systemRate);
+                        tbody.find('tr').eq(1).find('td').eq(7).text(setSystemCurrFormate(+parseFloat(debit)));
+                        SumDebitAndCredit();
+                    }
+                }
+            }
+            CalculateDiffrance();
+        }
+    });
+
+
+
+}
+
+
+function Clear(Selector) {
+    $(Selector).find(".CBT-checkbookName").val("");
+    $(Selector).find(".CBT-transferDate").val("");
+    $(Selector).find(".CBT-postingDate").val("");
+    $(Selector).find(".CBT-amount").val("");
+    $(Selector).find(".TCGE-SystemRate").val("");
+    $(Selector).find(".TCGE-TransactionRate").val("");
+    $(Selector).find(".TCGE-DiffrenceRate").val("");
+    $(Selector).find(".TCGE-reference").val("");
+}
+function ClearTable() {
+    var tbody = $('#TCGE-TTbl');
+
+    $('#transferTo').find('.CBT-amount').val("");
+    tbody.find('tr').eq(1).find('td').eq(7).text("");
+    tbody.find('tr').eq(0).find('td').eq(8).text("");
+    $('tfoot').find('#DebitTblFoot').text(0);
+    $('tfoot').find('#CreditTblFoot').text(0);
+}
+function CalculateAmount(Selector) {
+    var tbody = $('#TCGE-TTbl'),
+        Amount = $('#transferFrom').find('.CBT-amount').val().replace(regRemoveCurrFormate, ""),
+        transactionRate1 = $('#transferFrom').find('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+        transactionRate2 = $('#transferTo').find('.TCGE-TransactionRate').val().replace(regRemoveCurrFormate, ""),
+        finalAmount = parseFloat(Amount) * parseFloat(transactionRate1) / parseFloat(transactionRate2);
+    $('#transferTo').find('.CBT-amount').val(setSystemCurrFormate(+finalAmount));
+    // Fill The Second-Row of Transfer-To
+    if ($(Selector).hasClass('transferTo')) {
+        tbody.find('tr').eq(1).find('td').eq(6).text(setSystemCurrFormate(+finalAmount));
+    }
+    CalculateDiffrance();
+
+    return true;
+}
+
+
+

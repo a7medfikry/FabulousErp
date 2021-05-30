@@ -1,0 +1,57 @@
+﻿@model FabulousDB.Models.Inv_item_group
+
+@{
+    ViewBag.Title = "Item Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3>Are you sure you want to delete this?</h3>
+<h4 class="text-danger">@ViewBag.Msg</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.Unit_of_measure.Unit_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unit_of_measure.Unit_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item_group_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item_group_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-success" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

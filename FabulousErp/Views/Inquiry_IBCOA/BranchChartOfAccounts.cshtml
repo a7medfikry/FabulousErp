@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Branch Chart Of Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IBCOA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-form-label col-form-label-sm"> Branch ID : </label>
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    @Html.DropDownList("IBCOA-branchID", ViewBag.BranchID as SelectList, "-Choose-", new { @id = "IBCOA-branchID", @class = "form-control form-control-sm" })
+                </div>
+                <input type="text" id="IBCOA-branchName" class="form-control form-control-sm" readonly />
+            </div>
+        </div>
+
+        <label class="col-form-label col-form-label-sm"> Sort By : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("IBCOA-branchSort", new List<SelectListItem>
+                                     {
+                                     new SelectListItem{Text = "Account ID" , Value = "1" },
+                                     new SelectListItem{Text = "Account Name" , Value = "2" },
+                                     },"-Choose-",new { @id = "IBCOA-branchSort", @class= "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap" id="example">
+        <thead>
+            <tr>
+                <td> Account ID </td>
+                <td> Account Name </td>
+                <td> Account Type </td>
+                <td> Account Group </td>
+                <td> Posting Type </td>
+            </tr>
+        </thead>
+        <tbody id="IBCOA-branchtbody"></tbody>
+    </table>
+    <button id="btnExport" class="btn btn-success btn-sm">Export To Excel <i class="fa fa-file-excel-o"></i> </button>
+</div>
+
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/ChartOfAccounts/Inquiry_ICOA.js")

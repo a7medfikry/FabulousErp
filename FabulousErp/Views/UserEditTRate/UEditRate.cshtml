@@ -1,0 +1,189 @@
+﻿@model List<FabulousDB.DB_Tabels.Settings.Financial.Accounting.CurrenciesDefinition.C_EditTRate>
+@{
+    ViewBag.Title = "User Edit Transaction Rate";
+    ViewBag.FormCode = "SUETR";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1 hide">
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-header p-2">
+                    <label class="text-black">Select First :</label>
+                </div>
+                <div class="card-body p-2">
+                    <div class="custom-control custom-radio">
+                        <input id="SUETR-RBCompany" name="SUETR-BuidingType" type="radio" class="custom-control-input" />
+                        <label class="custom-control-label SUETR-BuidingTypelbl" for="SUETR-RBCompany">Company</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input id="SUETR-RBBranch" name="SUETR-BuidingType" type="radio" class="custom-control-input" />
+                        <label class="custom-control-label SUETR-BuidingTypelbl" for="SUETR-RBBranch">Branch</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input id="SUETR-RBFactory" name="SUETR-BuidingType" type="radio" class="custom-control-input" />
+                        <label class="custom-control-label SUETR-BuidingTypelbl" for="SUETR-RBFactory">Factory</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body p-2">
+                    <div class="form-row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("SUETR-CompanyID", ViewBag.CompanyList as SelectList, new { @id = "SUETR-CompanyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm">Name :</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control form-control-sm" id="SUETR-CompanyName" disabled />
+                        </div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm">Branch ID :</label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("SUETR-BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "SUETR-BranchID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm">Name :</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control form-control-sm" id="SUETR-BranchName" disabled />
+                        </div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm">Factory ID :</label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("SUETR-FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "SUETR-FactoryID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm">Name :</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control form-control-sm" id="SUETR-FactoryName" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Module : </label>
+      
+        <ul class="nav nav-tabs clearfix " role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#Financial" role="tab" aria-selected="true">Financial</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Purshacing" role="tab" aria-selected="true"> Purshacing </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Sales" role="tab" aria-selected="true">Sales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Inventory" role="tab" aria-selected="true"> Inventory </a>
+            </li>
+        </ul>
+        <div class="tab-content bg-light clearfix  d-block w-100">
+            <div id="Financial" class=" tab-pane container-fluid p-3 active fade show" role="tabpanel">
+                <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="20%"></th>
+                            <th width="60%">Form Name</th>
+                        </tr>
+                    </thead>
+                    @{ 
+                        string C = "checked='checked'";
+                    }
+                    <tbody class="FinancialTbl">
+                        @foreach (FabulousDB.DB_Tabels.Settings.Financial.Accounting.CurrenciesDefinition.C_EditTRate i in Model.Where(x => x.Module == "Financial"))
+                        {
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox ">
+                                        @if (i.AllowUserE)
+                                        {
+                                            C = "checked='checked'";
+                                        }
+                                        else
+                                        {
+                                            C = "";
+                                        }
+                                        <input id="@i.C_ETRID" data-name="@i.TransactionFormName" @C  data-moudle="@i.Module" type="checkbox" class="custom-control-input RateCheckBox">
+                                        <label class="custom-control-label" for="@i.C_ETRID">Allow</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    @i.TransactionFormName
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="Purshacing" class=" tab-pane container-fluid p-3  fade hide" role="tabpanel">
+                Purshacing
+            </div>
+            <div id="Sales" class=" tab-pane container-fluid p-3  fade hide" role="tabpanel">
+                Sales
+            </div>
+            <div id="Inventory" class=" tab-pane container-fluid p-3  fade hide" role="tabpanel">
+                Inventory
+            </div>
+        </div>
+        <span class="col-md-4 text-error" id="SUETR-GlobalError"></span>
+    </div>
+
+    <button class="btn btn-success" type="button" id="Save">Save</button>
+
+    <div class="form-row mb-1">
+        <div class="col-md-6">
+            @*<div class="custom-control custom-checkbox ">
+                    <input id="SUETR-CBAUTETR" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label" for="SUETR-CBAUTETR" id="SUETR-CBAUTETRlbl">Allow User To Edit Transaction Rate</label>
+                </div>*@
+        </div>
+    </div>
+
+  
+
+</div>
+
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")
+
+<script>
+    $(function () {
+        CompanyRadioChecked();
+        $("#SUETR-CompanyID").trigger("change");
+        
+    })
+    $("#Save").click(function () {
+        var Pages = [];
+        $(document).find(".RateCheckBox").each(function () {
+            Pages.push({
+                Module: $(this).attr("data-moudle"),
+                C_ETRID: $(this).attr("id"),
+                AllowUserE: $(this).is(":checked"),
+                TransactionFormName:$(this).attr("data-name")
+            });
+        })
+        $.ajax({
+            type: "POST",
+            url: "/UserEditTRate/UpdateCompanyUE",//+ "&module=" + module + "&tFormName=" + tFormName + "&allowUserE=" + allowUserE,
+            data:{ Pages: Pages },
+            dataType: "json",
+            success: function (result) {
+                if (result === "False") { }
+                else {
+                    location.reload();
+                }
+            }
+        });
+    })
+   
+</script>

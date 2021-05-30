@@ -1,0 +1,51 @@
+﻿@model FabulousDB.Models.Unit_of_measure
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Unit_of_measure</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Equivalante.Unit_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Equivalante.Unit_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unit_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unit_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity_dicimal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity_dicimal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

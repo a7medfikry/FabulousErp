@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_quotation_receiving>
+
+@{
+    ViewBag.Title = "Quotation Receiving";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency.CurrencyName)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Qutation.Request_for_qut_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vendore_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Payment_term)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Currency.CurrencyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qutation.Request_for_qut_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vendore_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Payment_term)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

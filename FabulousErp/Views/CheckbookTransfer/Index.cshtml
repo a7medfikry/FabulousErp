@@ -1,0 +1,165 @@
+﻿@{
+    ViewBag.Title = "Cash Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCBT";
+}
+<style>
+    #TCGE-TTbl td:nth-child(3), #TCGE-TTbl td:nth-child(4) {
+        display: none;
+    }
+</style>
+<div class="container-fluid" id="transferInputs">
+
+    <!-- ***** Transfer Number After Transfer ***** -->
+    <span id="transferNumber" hidden></span>
+
+    <div class="mb-1">
+        <button class="btn btn-success btn-sm" id="transferCB"> Transfer </button>
+        <button class="btn btn-primary btn-sm" id="transferShow"> Show J.V </button>
+        <button class="btn btn-secondary btn-sm" id="transferReset"> Clear </button>
+    </div>
+    <section id="Print">
+
+        <div class="form-row mb-1" id="forValidation">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cheque Number : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="documentNumber" />
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Transfer Date : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm CBT-transferDate" id="transferDate" />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Reference : <span class="star">*</span> </label>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" id="reference" />
+            </div>
+        </div>
+
+        <section id="transferFrom" class="MainSection transferFrom">
+            <h5 class="font-weight-bold"> Transfer From : </h5>
+            @{
+                Html.RenderAction("CheckbookData");
+            }
+        </section>
+        <hr />
+        <section id="transferTo" class="MainSection transferTo">
+            <h5 class="font-weight-bold"> Transfer To : </h5>
+            @{
+                Html.RenderAction("CheckbookData");
+            }
+        </section>
+    </section>
+
+    <!-- Table Area Start -->
+    <div class="collapse" id="transferTable">
+        <table class="table table-bordered table-striped table-responsive-md mt-1" id="TCGE-GTbl" width="100%">
+            <thead>
+                <tr>
+                    <th>@FabulousErp.BusController.Translate("Action")</th>
+                    <th>@FabulousErp.BusController.Translate("Account Name")</th>
+                    <th class="hide">@FabulousErp.BusController.Translate("Doc").</th>
+                    <th class="hide">@FabulousErp.BusController.Translate("Original Amount")</th>
+                    <th>@FabulousErp.BusController.Translate("Debit")</th>
+                    <th>@FabulousErp.BusController.Translate("Credit")</th>
+                </tr>
+            </thead>
+            <tbody id="TCGE-TTbl"></tbody>
+            <tfoot class="text-center">
+                <tr>
+                    <th colspan="2" style="text-align:right">@FabulousErp.BusController.Translate("Total")</th>
+<th id="DebitTblFoot"></th>
+                    <th id="CreditTblFoot"></th>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-align:right">@FabulousErp.BusController.Translate("Difference")</th>
+<th colspan="2" id="DiffOfDAC"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- Table Area End -->
+    <!-- Pop-up Modal For Checkbook Security -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="CBT-checkbookModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Enter Checkbook Password </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="hide-normal" id="CBT-CBid"></span>
+                    <input type="password" id="CBT-checkbookPassword" class="form-control form-control-sm" />
+                    <label id="CBT-wrongpass" class="text-error"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CBT-checkbookCheck" class="btn btn-primary btn-sm">Enter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal For System-Rates -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The System Rate </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal For More-Detail -->
+    <div class="modal fade" id="TCGE-PUMoreDetailsRecord">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label>Account ID :</label>
+                    <label id="TCGE-PUMDAccID"></label>
+                    <br />
+                    <label>Describtion :</label>
+                    <label id="TCGE-PUMDDes"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal For All Accounts In The System -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="CBT-AccountsList">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The Profit OR Loss Account </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("AccountsList", ViewBag.AccountsList as SelectList, "-Choose-", new { @id = "AccountsList", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransfer.js")
+<style>
+    #TCGE-TTbl td:nth-child(3){
+        display:block;
+    }
+    #TCGE-TTbl td:nth-child(7){
+        display:none;
+    }
+</style>

@@ -1,0 +1,113 @@
+﻿@model IEnumerable<FabulousErp.Receivable.Models.Receivable_transaction>
+@{ 
+    Layout = null;
+    string hide = "ShowInExcel";
+}
+    <table class="table" id="TransactionTbl">
+        <thead>
+
+            <tr>
+                <th>V</th>
+                <th>Trx. No</th>
+                <th>Doc. Type</th>
+                <th>Doc. No</th>
+                <th>Trx. Date</th>
+                <th>@Html.DisplayNameFor(model => model.Vendor.Vendor_name)</th>
+                <th class="@hide">Sales</th>
+                <th class="@hide">Discount</th>
+                <th class="@hide">Tax</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Currency</th>
+                <th>Description</th>
+                <th>Jv Number</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.Is_void)
+                        {
+                            @Html.Raw("*");
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Trans_doc_type.Trx_num)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Doc_type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Trans_doc_type.Counter)
+                    </td>
+                    <td>
+                        @item.Posting_date.ToShortDateString()
+                    </td>
+                    <td>
+                        @try
+                        {
+                            @item.Vendor.Vendor_name
+                        }
+                        catch
+                        {
+
+                        }
+                    </td>
+                    <td class="@hide">
+                        @item.Purchase.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td class="@hide">
+                        @item.Taken_discount.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td class="@hide">
+                        @item.Tax.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @((item.Purchase - item.Taken_discount + item.Tax).ToString(FabulousErp.Business.GetDecimalNumber()))
+                    </td>
+                    <td>
+                        @item.Transaction_rate.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @item.Currency.ISOCode
+                    </td>
+                    <td>
+                        @item.Desc
+                    </td>
+                    <td>
+                        @item.Journal_number
+                    </td>
+
+                    @if (ViewBag.section != "void")
+                    {
+                        if (ViewBag.section != "Inquiry" && ViewBag.section != "Report")
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                            </td>
+
+                        }
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Void", "Index", "Void", new { Type = TrxPay.Trx.ToString(), id = item.Id }, new { })
+                        </td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+
+    </table>

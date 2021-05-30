@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "Account profile";
+    ViewBag.FormCode = "IUP";
+}
+
+<div class="container-fluid">
+    <div class="row pt-2 pl-3">
+        <label class="col-md-2 font-weight-bold"> Search By ID : </label>
+        <div class="col-md-5">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryuserID", @class = "dropdown-list" })
+        </div>
+    </div>
+    <div class="card mb-2">
+        <div class="card-body p-2">
+            <div class="IUP-image">
+                <img id="ImagePp" class="img" />
+            </div>
+            <div class="IUP-details">
+                <h4 id="user-username"> </h4>
+                <ul class="row list-unstyled">
+                    <li class="col-sm-4 border-right">
+                        <h5 class="word">
+                            Date Of User Creation
+                        </h5>
+                        <div class="digit" id="user-date">
+                        </div>
+                    </li>
+                    <li class="col-sm-4 border-right">
+                        <h5 class="word">
+                            Password last change date
+                        </h5>
+                        <div class="digit" id="user-passchange"> </div>
+                    </li>
+                    <li class="col-sm-4">
+                        <h5 class="word">
+                            Member Of Group
+                        </h5>
+                        <div class="digit" id="user-group"> </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account profile of user Details -->
+    <div class="row">    
+        <div class="col-md-3">
+            <div class="card card-body p-0">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" data-toggle="pill" href="#v-personal" role="tab" aria-selected="true">Personal Information</a>
+                    <a class="nav-link" data-toggle="pill" href="#v-function" role="tab" aria-selected="false">Function</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card card-body p-2">
+                <div class="tab-content">
+                    <!-- Personal Informations -->
+                    <div class="tab-pane fade show active" id="v-personal" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label> National / Passport ID : </label>
+                                <input type="text" id="user-national" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label> First Name : </label>
+                                <input type="text" id="user-firstname" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Last Name : </label>
+                                <input type="text" id="user-lastname" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Family Name : </label>
+                                <input type="text" id="user-familyname" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label> Building Number : </label>
+                                <input type="text" id="user-building" disabled />
+                            </div>
+                            <div class="col-md-8">
+                                <label> Street Name : </label>
+                                <input type="text" id="user-street" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label> Avenue : </label>
+                                <input type="text" id="user-avenue" disabled />
+                            </div>
+                            <div class="col-md-3">
+                                <label> State : </label>
+                                <input type="text" id="user-state" disabled />
+                            </div>
+                            <div class="col-md-3">
+                                <label> City :</label>
+                                <input type="text" id="user-city" disabled />
+                            </div>
+                            <div class="col-md-3">
+                                <label> Country : </label>
+                                <input type="text" id="user-country" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label> Home Phone : </label>
+                                <input type="text" id="user-homephone" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Mobile Phone : </label>
+                                <input type="text" id="user-mobilephone" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Other Mobile Phone : </label>
+                                <input type="text" id="user-othermobile" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Function -->
+                    <div class="tab-pane fade" id="v-function" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label> Position : </label>
+                                <input type="text" id="user-position" disabled />
+                            </div>
+                            <div class="col-md-6">
+                                <label> Department : </label>
+                                <input type="text" id="user-department" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label> Building Number : </label>
+                                <input type="text" id="user-building2" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Floor Number : </label>
+                                <input type="text" id="user-floor" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Room Number : </label>
+                                <input type="text" id="user-room" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label> Tele. Number : </label>
+                                <input type="text" id="user-tele" disabled />
+                            </div>
+                            <div class="col-md-2">
+                                <label> Extention </label>
+                                <input type="text" id="user-teleext" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label> Fax Number : </label>
+                                <input type="text" id="user-fax" disabled />
+                            </div>
+                            <div class="col-md-2">
+                                <label> Extention </label>
+                                <input type="text" id="user-faxext" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label> Mobile Phone : </label>
+                                <input type="text" id="user-mobilephone" disabled />
+                            </div>
+                            <div class="col-md-12">
+                                <label> Email Address : </label>
+                                <input type="text" id="user-email" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/UserAccount/Inquiry_Accountprofile/Inquiry_Accountprofile.js")

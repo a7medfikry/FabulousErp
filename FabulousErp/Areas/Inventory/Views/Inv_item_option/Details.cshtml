@@ -1,0 +1,83 @@
+﻿@model FabulousDB.Models.Inv_item_option
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inv_item_option</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.Item_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Width)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Width)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Depth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Depth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Size_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Size_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Wight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Wight_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wight_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

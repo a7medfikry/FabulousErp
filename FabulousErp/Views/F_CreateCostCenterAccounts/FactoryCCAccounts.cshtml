@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Create Factory Cost Center Accounts";
+    ViewBag.FormCode = "SFCCA";
+}
+<div class="container-fluid">
+
+    <span class="text-error" id="AccessError"></span>
+
+    <div class="form-row mb-1" id="FactoryCCAccounts">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "FactoryID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="FactoryName" disabled />
+            </div>
+        }
+        
+    </div>
+
+    <div id="FilterCostCenterIDFactory">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("FactoryCostCenterID", new SelectList(""), "-Choose-", new { @id = "FactoryCostCenterID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="FactoryCostCenterName" disabled />
+            </div>
+        </div>
+    </div>
+
+    <span class="text-error" id="GlobalError"></span>
+
+    <div class="hide-normal" id="CCAccountsInputs">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Account ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.TextBox("CostAccountID", null, new { @class = "form-control form-control-sm", @id = "CostAccountID", @maxlength = "20" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Account Name : <i class="star">*</i> </label>
+            <div class="col-md-6">
+                @Html.TextBox("CostAccountName", null, new { @class = "form-control form-control-sm", @id = "CostAccountName", @maxlength = "100" })
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm mb-1 hide-normal" id="AddCCAccountsFactoryBtn"> Add </button>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th>Cost Account ID</th>
+                <th>Cost Account Name</th>
+                <th>Action (Delete)</th>
+            </tr>
+        </thead>
+        <tbody id="CCAccountsTbl"></tbody>
+    </table>
+    <!-- Table Area Start -->
+
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="popUpHearder">Delete Cost Account</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <label id="CCAccountID" class="hide-normal"></label>
+                </div>
+                <div class="modal-body">
+                    <p id="popUpContent">Are You Sure? You Want To Delete This Cost Account..!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CancelDelete" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="FactoryDeletebtn" class="btn btn-danger btn-sm" onclick="FactoryConfirmDelete()">Confirm </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_CostCenter/F_CreateCostCenterAccounts/FactoryCCAccounts.js")

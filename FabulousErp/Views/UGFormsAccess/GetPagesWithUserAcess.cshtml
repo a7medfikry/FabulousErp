@@ -1,0 +1,66 @@
+﻿@using FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.UserGroup;
+@model IEnumerable<FabulousDB.DB_Tabels.Settings.Financial.GeneralSetting.UserGroup.Pages>
+
+@{
+    ViewBag.Title = "GetPagesWithUserAcess";
+    Layout = null;
+    List<UsersPageAccess> UserPer = ViewBag.UserPermission as List<UsersPageAccess>;
+    string Checked = "";
+    string CheckAllId = $"CheckAll{ViewBag.Sec}Assets";
+    string FormName = "";
+    if (ViewBag.Sec == "Fixed")
+    {
+        FormName = "Fixed Assets Forms";
+    }
+    else if (ViewBag.Sec == "Payable")
+    {
+        FormName = "Payable Forms";
+    }
+    else if (ViewBag.Sec == "Receivable")
+    {
+        FormName = "Receivable Forms";
+    }
+}
+
+
+<table class="table table-bordered table-striped display nowrap">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+
+            <th>
+                Access
+            </th>
+        </tr>
+
+    </thead>
+    <tr>
+        <td colspan="2">
+          <span>@FormName</span>  <input id="@CheckAllId" class="CheckAccess" type="checkbox" /> <span>Check All</span>
+        </td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @if (UserPer.Where(x => x.Page_id == item.Id).ToList().DefaultIfEmpty(new UsersPageAccess { View = false }).FirstOrDefault().View)
+                {
+                    Checked = "checked=checked";
+                }
+                else
+                {
+                    Checked = "";
+                }
+                <input type="checkbox" class="PageAccess" @Checked data-id="@UserPer.Where(x=>x.Page_id==item.Id).ToList().DefaultIfEmpty(new UsersPageAccess {Id=0}).FirstOrDefault().Id" data-page="@item.Id" />
+            </td>
+        </tr>
+    }
+</table>

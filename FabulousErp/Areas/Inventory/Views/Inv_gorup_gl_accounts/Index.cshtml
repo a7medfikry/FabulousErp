@@ -1,0 +1,86 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_gorup_gl_accounts>
+
+@{
+    ViewBag.Title = "Gorup Gl Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost_of_GS.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Damage.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inventory.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.item_group.Item_group_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Purchase_variance.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inventory_returne.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sales.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sales_return.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Variancies.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost_of_GS.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Damage.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inventory.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.item_group.Item_group_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Purchase_variance.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inventory_returne.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sales.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sales_return.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Variancies.AccountID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Desc)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

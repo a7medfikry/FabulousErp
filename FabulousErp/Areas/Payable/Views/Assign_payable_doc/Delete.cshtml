@@ -1,0 +1,80 @@
+﻿@model FabulousErp.Payable.Models.Assign_payable_doc
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Assign_payable_doc</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Trans_doc_type.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trans_doc_type.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendor.Vendor_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendor.Vendor_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Applay_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Applay_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Orginal_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orginal_amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Applay_assign)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Applay_assign)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unassign_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unassign_amount)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "List Of Factory Cost Center";
+    ViewBag.FormCode = "IFCC";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryFactoryID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="factoryname" disabled />
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="30%"> Cost Center ID </th>
+                <th width="70%"> Cost Center Name </th>
+            </tr>
+        </thead>
+        <tbody id="factorycost-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Factory/F_CostCenter/Inquiry_FactoryCostCenter.js")
+

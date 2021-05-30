@@ -1,0 +1,48 @@
+﻿@model IEnumerable<FabulousDB.Models.Unit_of_measure>
+
+@{
+    Layout = null;
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Unit_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equivalante)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity_dicimal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equivalante_quantity)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unit_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equivalante.Unit_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity_dicimal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equivalante_quantity)
+        </td> 
+
+        <td>
+            <button class="btn btn-link Edit" data-id="@item.Id">Edit</button>
+            <button class="btn btn-link Delete" data-id="@item.Id" data-name="@item.Unit_id">Delete</button>
+        </td>
+    </tr>
+}
+
+</table>

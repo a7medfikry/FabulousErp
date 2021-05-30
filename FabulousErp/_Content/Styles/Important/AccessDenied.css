@@ -1,0 +1,49 @@
+﻿* {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+}
+
+.denied {
+    margin-top: 80px;
+}
+
+    .denied img {
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        width: 38%;
+        display: block;
+    }
+
+    .denied h1 {
+        text-align: center;
+        font-size: 200px;
+    }
+
+    .denied h2 {
+        margin-top: 30px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+        .denied h2 img {
+            width: 30px;
+            height: 30px;
+        }
+
+    .denied h3 {
+        text-align: center;
+        color: red;
+    }
+
+    .denied h5 {
+        text-align: center;
+        color: #808080;
+    }
+
+.body-header {
+    display:none;
+}

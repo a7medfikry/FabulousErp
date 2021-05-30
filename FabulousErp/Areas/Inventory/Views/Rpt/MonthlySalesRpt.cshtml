@@ -1,0 +1,103 @@
+﻿
+@{
+    if (Convert.ToBoolean(Request["IsPay"]))
+    {
+        if (Convert.ToBoolean(Request["IsReturn"]))
+        {
+            ViewBag.Title = "Monthly Return Purchase Rpt";
+        }
+        else
+        {
+            ViewBag.Title = "Monthly Purchase Rpt";
+        }
+    }
+    else
+    {
+        if (Convert.ToBoolean(Request["IsReturn"]))
+        {
+            ViewBag.Title = "Monthly Return Sales Rpt";
+        }
+        else
+        {
+            ViewBag.Title = "Monthly Sales Rpt";
+        }
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("MonthlySalesRes", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes" }))
+{
+    <input name="IsPay" value="@Request["IsPay"]" type="hidden" />
+    <input name="IsReturn" value="@Request["IsReturn"]" type="hidden" />
+
+    <div class="form-group MyShow">
+        <label class="col-md-2">Year</label>
+        <div class="col-md-10">
+            @Html.DropDownList("YearId", null, "", new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Periodic</label>
+        <div class="col-md-10">
+            <input class="v-middle" name="Ftype" value="Periodic" type="radio" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Month</label>
+        <div class="col-md-10">
+            <input class="v-middle" name="Ftype" value="Month" type="radio" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Quarter</label>
+        <div class="col-md-10">
+            <input class="v-middle" name="Ftype" value="Quarter" type="radio" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Yearlly</label>
+        <div class="col-md-10">
+            <input class="v-middle" name="Ftype" value="Yearlly" type="radio" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Date</label>
+        <div class="col-md-10">
+            <input class="v-middle" name="Ftype" value="StartEnd" type="radio" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+
+    </div>
+    <div class="form-group hide Myhide">
+        <label class="col-md-4">Start Date</label>
+        <div class="col-md-10">
+            <input class="v-middle form-control" name="Start" type="date" />
+        </div>
+    </div>
+    <div class="form-group hide Myhide">
+        <label class="col-md-4">End Date</label>
+        <div class="col-md-10">
+            <input class="v-middle form-control" name="End" type="date" />
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")
+<script>
+    $("input[type='radio']").change(function () {
+        if ($(this).val() == "StartEnd") {
+            $(".Myhide").removeClass("hide");
+            $(".MyShow").addClass("hide");
+            $("#YearId").val($("#YearId").find("option:eq(1)").val());
+        } else {
+            $(".Myhide").addClass("hide");
+            $(".MyShow").removeClass("hide");
+        }
+    })
+</script>

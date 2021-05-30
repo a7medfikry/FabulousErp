@@ -1,0 +1,58 @@
+﻿@model IEnumerable<FabulousErp.Receivable.Models.Receivable_legal_info>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Creditor.Vendor_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tax_file_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tax_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Commercial_register)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Social_insurance)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creditor.Vendor_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tax_file_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tax_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Commercial_register)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Social_insurance)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

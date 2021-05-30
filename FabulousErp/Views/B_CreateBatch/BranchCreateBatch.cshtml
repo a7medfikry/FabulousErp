@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Branch Create Batch";
+    ViewBag.FormCode = "TBCB";
+}
+
+<div class="container-fluid">
+
+    <span class="text-error" id="TBCB-GlobalError"></span>
+
+    <span class="hide-normal" id="TCCB-CheckPS">@ViewBag.PSExist</span>
+
+    <div class="form-row form-group">
+        <div class="col-md-2">
+            <label class="col-form-label col-form-label-sm" for="TBCB-BranchID"> Branch ID : <i class="star">*</i> </label>
+            @Html.DropDownList("TBCB-BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "TBCB-BranchID", @class = "form-control form-control-sm", @tabindex = "1" })
+        </div>
+        <div class="col-md-4">
+            <label class="col-form-label col-form-label-sm" for="TBCB-BranchName"> Branch Name : </label>
+            <input type="text" class="form-control form-control-sm" id="TBCB-BranchName" disabled />
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm" for="TBCB-Module"> Module : <i class="star">*</i> </label>
+            @Html.DropDownList("TBCB-Module", new List<SelectListItem>
+                                  {
+                                  new SelectListItem{Text = "Financial" , Value = "Financial" },
+                                  new SelectListItem{Text = "Purshacing" , Value = "Purshacing" },
+                                  new SelectListItem{Text = "Sales" , Value = "Sales" },
+                                  new SelectListItem{Text = "Inventory" , Value = "Inventory" },
+                                  }, "-Choose-", new { @id = "TBCB-Module", @class= "form-control form-control-sm", @tabindex = "2" })
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm" for="TBCB-BatchID"> Batch ID <i class="star">*</i> </label>
+            <input type="text" class="form-control form-control-sm" id="TBCB-BatchID" maxlength="5" tabindex="3" />
+        </div>
+    </div>
+
+    <div class="form-row form-group">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Description : <i class="star">*</i> </label>
+        <div class="col-md-10">
+            <textarea id="TBCB-BatchDescription" maxlength="100" class="textArea" tabindex="4"></textarea>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="p-2" role="group">
+            <button type="button" class="btn btn-success btn-sm" id="TBCB-SaveBatch">Save</button>
+            <button type="button" class="btn btn-danger btn-sm" id="TBCB-ResetPage">Clear</button>
+        </div>
+    </div>
+
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")

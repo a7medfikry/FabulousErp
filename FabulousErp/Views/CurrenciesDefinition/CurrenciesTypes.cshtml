@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "Currencies Types";
+    ViewBag.FormCode = "SCD";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#AddCurrency" role="tab" aria-selected="true"> Add Currency </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#AddAccountToCurrency" role="tab" aria-selected="true"> Add Profit And Loss Accounts </a>
+        </li>
+    </ul>
+
+    <div class="tab-content bg-light">
+        <div id="AddCurrency" class=" tab-pane container-fluid p-3 active fade show" role="tabpanel">
+
+            <!--Global Error-->
+            <div class="mb-2">
+                <span class="text-error" id="GlobalError"></span>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="col-form-label col-form-label-sm"> Currency ID : <span class="star">*</span> </label>
+                    @Html.TextBox("CurrencyID", null, new { @id = "CurrencyID", @maxlength = "50", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-3">
+                    <label class="col-form-label col-form-label-sm"> Currency Name : <span class="star">*</span> </label>
+                    @Html.TextBox("CurrencyName", null, new { @id = "CurrencyName", @maxlength = "50", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-3">
+                    <label class="col-form-label col-form-label-sm"> ISO Code : <span class="star">*</span> </label>
+                    @Html.TextBox("ISOCode", null, new { @id = "ISOCode", @maxlength = "10", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <label class="sr-only"> Currency Submit </label>
+                    <button type="button" id="addToList" class="btn btn-primary btn-sm btn-block"> Add Currency </button>
+                </div>
+            </div>
+
+            <!-- Table Area Here -->
+            <table class="table table-bordered table-striped table-responsive-md" style="width:100%">
+                <thead>
+                    <tr>
+                        <th> Currency ID </th>
+                        <th> Currency Name </th>
+                        <th> ISO Code </th>
+                        <th> Action (Delete) </th>
+                        <th> Dis Active </th>
+                    </tr>
+                </thead>
+                <tbody id="SetCurrencyInfo"></tbody>
+            </table>
+            <!-- Table Area Here -->
+        </div>
+
+        <div id="AddAccountToCurrency" class=" tab-pane container-fluid p-3 fade" role="tabpanel">
+
+            <div class="form-row mb-1">
+                <label class="col-md-2 col-form-label col-form-label-sm"> Currency ID : <span class="star">*</span> </label>
+                <div class="col-md-2">
+                    @Html.DropDownList("AccountCurrencyID", new SelectList(""), "-Choose-", new { @id = "AccountCurrencyID", @class = "form-control form-control-sm" })
+                </div>
+                <label class="col-md-2 col-form-label col-form-label-sm"> Currency Name : </label>
+                <div class="col-md-6">
+                    @Html.TextBox("AccountCurrencyName", null, new { @id = "AccountCurrencyName", @disabled = "disabled", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+
+            <div class="form-row mb-1">
+                <label class="col-md-2 col-form-label col-form-label-sm"> Profit Account ID : <i class="star">*</i> </label>
+                <div class="col-md-2">
+                    @Html.DropDownList("AccountID", ViewBag.AccountList as SelectList, "-Choose-", new { @id = "AccountID", @class = "form-control form-control-sm" })
+                </div>
+                <label class="col-md-2 col-form-label col-form-label-sm"> Account Name : </label>
+                <div class="col-md-6">
+                    @Html.TextBox("AccountName", null, new { @id = "AccountName", @disabled = "disabled", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="col-md-2 col-form-label col-form-label-sm"> Loss Account ID : <i class="star">*</i> </label>
+                <div class="col-md-2">
+                    @Html.DropDownList("AccountID2", ViewBag.AccountList as SelectList, "-Choose-", new { @id = "AccountID2", @class = "form-control form-control-sm" })
+                </div>
+                <label class="col-md-2 col-form-label col-form-label-sm"> Account Name : </label>
+                <div class="col-md-6">
+                    @Html.TextBox("AccountName2", null, new { @id = "AccountName2", @disabled = "disabled", @class = "form-control form-control-sm" })
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="AddAccToCurr" class="btn btn-primary btn-sm btn-block"> Save </button>
+                    <button type="button" id="UpdateAccToCurr" class="btn btn-primary btn-sm btn-block hide-normal"> Update </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="popUpHearder"></h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <label id="CurrencyIDH" class="hide-normal"></label>
+                </div>
+                <div class="modal-body">
+                    <p id="popUpContent"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CancelDelete" class="btn btn-primary btn-sm hide-normal" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="CancelDisActive" class="btn btn-primary btn-sm hide-normal" data-dismiss="modal" onclick="CancelD()">Cancel</button>
+                    <button type="button" id="CancelActive" class="btn btn-primary btn-sm hide-normal" data-dismiss="modal" onclick="CancelA()">Cancel</button>
+                    <button type="button" id="Deletebtn" class="btn btn-danger btn-sm hide-normal" onclick="ConfirmDelete()">Confirm</button>
+                    <button type="button" id="DisActivebtn" class="btn btn-danger btn-sm hide-normal" onclick="ConfirmDisActive()">Confirm</button>
+                    <button type="button" id="Activebtn" class="btn btn-danger btn-sm hide-normal" onclick="ConfirmActive()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/CurrencyDefinition/CurrenciesDefinition/GetCurrenciesDefinition.js")

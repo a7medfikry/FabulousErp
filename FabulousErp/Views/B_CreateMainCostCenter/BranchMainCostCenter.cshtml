@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Create Branch Main Cost Center";
+    ViewBag.FormCode = "SBMCC";
+}
+<div class="container-fluid">
+    <span class="text-error" id="AccessError"></span>
+
+    <div class="form-row mb-1" id="BranchMainCC">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "BranchID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="BranchName" disabled />
+            </div>
+        }
+    </div>
+
+    <span class="text-error" id="GlobalError"></span>
+
+    <div id="MainCostCenterDetails">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Group ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.TextBox("CostCenterGroupID", null, new { @class = "form-control form-control-sm", @id = "CostCenterGroupID", @maxlength = "20" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Group Name : <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.TextBox("CostCenterGroupName", null, new { @class = "form-control form-control-sm", @id = "CostCenterGroupName", @maxlength = "100" })
+            </div>
+            <div class="col-md-3">
+                <select class="form-control form-control-sm" id="rCosrCenterGroupID"></select>
+            </div>
+        </div>
+
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : <i class="star">*</i> </label>
+            <label class="col-md-2">
+                @Html.DropDownList("BranchCostCenterID", new SelectList(""), "-Choose-", new { @id = "BranchCostCenterID", @class = "form-control form-control-sm" })
+            </label>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : <i class="star">*</i> </label>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="BranchCostCenterName" disabled />
+            </div>
+            <label class="col-md-2"> Percentage % : <i class="star">*</i> </label>
+            <div class="col-md-1">
+                @Html.TextBox("Percentage", null, new { @class = "form-control form-control-sm", @id = "Percentage", @maxlength = "3", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" })
+            </div>
+        </div>
+
+        <div class="form-row col-md-12">
+            <div id="BranchAddBtn">
+                <button class="btn btn-primary btn-sm" id="BranchAddCostCenterID">Add</button>
+            </div>
+            <span id="ComparePercentage" class="hide-normal">
+                <label id="TakedPercentage"></label> % - From 100 %
+            </span>
+            <span class="text-error" id="PercentageError"></span>
+        </div>
+
+        <!-- Table Area Start -->
+        <table class="table table-bordered table-striped display nowrap" id="TestTable">
+            <thead>
+                <tr>
+                    <th>Cost Center ID</th>
+                    <th>Cost Center Name</th>
+                    <th>percentage %</th>
+                    <th>Action (Delete)</th>
+                </tr>
+            </thead>
+            <tbody id="CostCenterGroupTbl"></tbody>
+        </table>
+        <!-- Table Area End -->
+
+        <div class="row col-md-12">
+            <label class="hide-normal" id="BranchSaveBtn">
+                <button class="btn btn-success btn-sm" id="BranchSaveCostCenterGroup">Save</button>
+            </label>
+
+            <label class="text-error" id="SaveError"></label>
+            <label class="text-success" id="SaveSuccess"></label>
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Branch/B_CostCenter/B_CreateMainCostCenter/BranchMainCostCenter.js")

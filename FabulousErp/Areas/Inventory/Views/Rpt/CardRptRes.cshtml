@@ -1,0 +1,103 @@
+﻿@model List<FabulousModels.Inventory.CardRpt>
+@{
+    Layout = null;
+}
+
+
+<table class="table NoDataTable">
+    <thead>
+        <tr>
+            @*<th>
+
+            </th>*@
+            <th>
+                Type
+            </th>
+            <th>
+                Doc. No.
+            </th>
+            <th>
+                Doc. Date
+            </th>
+            <th>
+                Store
+            </th>
+            <th>
+                Qty
+            </th>
+            <th>
+                Unit Cost
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Avaliable
+            </th>
+            @*<th>
+                UOM
+            </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (i > 0)
+            {
+                if (Model[i].Po_receive_id != Model[i - 1].Po_receive_id)
+                {
+                    <tr style="background: transparent;height:20px;display:none;" class="MyHide">
+                        <td colspan="6" style="background:transparent;"></td>
+                    </tr>
+                }
+            }
+            <tr>
+                @*<td>
+                    @Model[i].Po_receive_id
+                </td>*@
+                <td>
+                    @Model[i].Type
+                </td>
+                <td>
+                    @Model[i].Action_num
+                </td>
+                <td>
+                    @Model[i].Doc_date
+                </td>
+                <td>
+                    @Model[i].Store
+                </td>
+                <td>
+                    @Model[i].Qty
+                </td>
+                <td>
+                    @{
+                        decimal UnitCost = Model[i].UnitCost;
+                        if (!Model[i].TakeUnit)
+                        {
+                            UnitCost = (Model[i].Fright + Model[i].Total - Model[i].Discount) / (decimal)Model[i].Qty;
+                        }
+                    }
+                    @UnitCost.ToString(FabulousErp.Business.GetDecimalNumber())
+
+                </td>
+                <td>
+                    @((UnitCost*(decimal)Model[i].Qty).ToString(FabulousErp.Business.GetDecimalNumber()))
+                </td>
+                <td>
+                    <span>@Model[i].Avaliable</span>
+                </td>
+                @*<td>
+                    <span>@Model[i].UOM</span>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(function () {
+        RunAfterAjax(function () {
+            $(".MyHide").show();
+        },1000)
+    })
+</script>

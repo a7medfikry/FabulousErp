@@ -1,0 +1,310 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset class="container-fluid home-page">
+    <!-- Transactions Field -->
+    <div class="transactions-field">
+        <div class="transactions-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Transactions
+                </div>
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        @*<li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-itPayem">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>*@
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="transactions-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                    
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="Inventory" data-parent=".transactions-accordion">
+                                        <li>
+                                            <a href="/Inventory/Inv_purchase_request/Create">Purchase Request</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_transfer_items/Create">Transfer Items</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_adjustment_items/Create">Adjustment Items</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_goods_reciept/Create">Goods Reciept</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_goods_out/Create">Goods Out</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_purchase/Create">Purchase</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_quotation_request/Create">Request for Quotation</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_quotation_receiving/Create">Quotation Receiving</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_sales/Create">Sales Order</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_po/Create">Po</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_receive_po/Create?Sales=false&Doc_type=Invoice">Receive Po</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_receive_po/Create?Sales=false&Doc_type=Return">Receive Po Return</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Invoice">Sales Invoice</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_receive_po/Create?Sales=true&Doc_type=Return">Sales Invoice Return</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ****** Setting Field ****** -->
+    <div class="setting-field">
+        <div class="setting-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Setting
+                </div>
+                <div class="card-header">
+                  
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Accounting -->
+                        <div id="accounting-company" class="active tab-pane fade show container">
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                    
+                                    <ul class=" list-group list-unstyled" data-toggle="" data-parent=".setting-accordion" id="setting-Inventory">
+                                        <li>
+                                            <a href="/Inventory/Inv_store_site/">Create New Site</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_item_group/">Item Group</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_item/">item</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_item?HasRecipe=true">item With Recipe</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_items_serial/">Item track Serial No</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_pricelist/Create">Price list</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_transfer_items/Transfer">Po Item Transfer</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_po_adjustment/Index">Po Item Adjust</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                     
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Inquiry Field ********** -->
+    <div class="inquiry-field">
+        <div class="inquiry-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Inquiry
+                </div>
+                @*<div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>
+                        </ul>
+                    </div>*@
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="inquiry-company" class="tab-pane active show fade container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                 
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="InventoryInquery" data-parent=".transactions-accordion">
+                                        <li>
+                                            <a href="/Inventory/Inv_purchase_request/">Purchase Request</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_transfer_items/">Transfer Items</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_adjustment_items/">Adjustment Items</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_goods_reciept/">Goods Reciept</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_goods_out/">Goods Out</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_goods_out/">Goods Out</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_purchase/">Purchase Request</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_quotation_request/">Request for Quotation</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_quotation_receiving/">Quotation Receiving</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_sales/">Sales Order</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Inv_sales_invoice/">Sales Invoice</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/CardRpt?Type=Item">Item Card</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/StockRpt?Type=Item">Stock Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/ItemStockDetails">Item Stock Details</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/GrandProfitRpt">Grand Profit</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/QtyAvaliable">Quantity Available</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/DailySalesRpt?IsPay=false&IsReturn=false"> Sales Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/DailySalesRpt?IsPay=false&IsReturn=true">Sales Return Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/MonthlySalesRpt?IsPay=false&IsReturn=false">Monthly Sales Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/MonthlySalesRpt?IsPay=false&IsReturn=true">Monthly Return Sales Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/CustomerSalesRpt?IsPay=false&IsB=true">Customer Balance Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/CustomerSalesRpt?IsPay=false&IsB=false">Customer Sales Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/DailySalesRpt?IsPay=true&IsReturn=false">Purchase Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/DailySalesRpt?IsPay=true&IsReturn=true">Purchase Return Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/MonthlySalesRpt?IsPay=true&IsReturn=false">Monthly Purchase Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/MonthlySalesRpt?IsPay=true&IsReturn=true">Monthly Return Purchase Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/CustomerSalesRpt?IsPay=true&IsB=true">Vendore Balance Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Inventory/Rpt/CustomerSalesRpt?IsPay=true&IsB=false">Vendore Purchase Report</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Report Field ********** -->
+    <div class="report-field">
+        <div class="report-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Reports
+                </div>
+                @*<div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>
+                        </ul>
+                    </div>*@
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="report-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                         
+                            </ul>
+                        </div>
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+

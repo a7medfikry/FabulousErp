@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Vendore Balance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td{
+        text-align:center;
+    }
+</style>
+<div class="form-group" style="margin-top:20px;">
+    <label class="control-label col-md-2">Vendore Id</label>
+    <div class="col-md-10">
+        @Html.DropDownList("VendoreId", null, "",  new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-md-2">Class Id</label>
+    <div class="col-md-10">
+        @Html.DropDownList("ClassId", null, "",  new { @class = "form-control" })
+    </div>
+</div>
+<section class="Tbl"></section>
+<script>
+    $("#VendoreId,#ClassId").change(function () {
+        if ($(this).attr("id") == "ClassId") {
+            $("#VendoreId").val("");
+        }
+        if ($(this).attr("id") == "VendoreId") {
+            $("#ClassId").val("");
+        }
+        $.ajax({
+            url: "@Url.Action("VendoreBalanceRes")?VendoreId=" + $("#VendoreId").find("option:selected").val() + "&GroupId=" + $("#ClassId").find("option:selected").val(),
+            datatype: "html",
+            beforeSend: function () {
+                $(".Tbl").empty()
+            },
+            success: function (data) {
+                $(".Tbl").html(data);
+            }
+        })
+    })
+</script>

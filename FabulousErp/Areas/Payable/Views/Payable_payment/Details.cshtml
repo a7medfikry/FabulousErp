@@ -1,0 +1,21 @@
+﻿@model FabulousErp.Payable.Models.Payable_payment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@Html.Action("PartialCreate", new { id = ViewBag.id, Partial = true, IsTransaction = true })
+<script>
+    $(function () {
+        $(document).find("input").attr("disabled", "disabled");
+        //$(document).find("select").attr("disabled", "disabled");
+        //$(document).find("input[type='submit']").remove();
+        //$(document).find("button").not(".Print").remove();
+    })
+   
+</script>
+
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

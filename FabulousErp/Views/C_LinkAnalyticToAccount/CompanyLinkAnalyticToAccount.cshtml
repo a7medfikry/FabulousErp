@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Company Link Analytic To Account ID";
+    ViewBag.FormCode = "SCLAA";
+}
+
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-2">
+            <input type="text" id="SCLAA-companyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md">
+            <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("SCLAA-analyticID", ViewBag.AnalyticList as SelectList, "-Choose-", new { @id = "SCLAA-analyticID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Name : </label>
+        <div class="col-md">
+            <input type="text" id="SCLAA-analyticName" class="form-control form-control-sm" disabled />
+        </div>
+    </div>
+
+    <div id="SCLAA-dvTableOfLinked"></div>
+
+    @*<div class="card border-dark">
+            <div class="card-header text-center bg-secondary text-white">
+                Accounts Details
+            </div>
+            <div class="card-body" id="dvCheckBoxListControl"></div>
+        </div>*@
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")

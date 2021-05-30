@@ -1,0 +1,100 @@
+﻿@model List<FabulousDB.DB_Tabels.Transaction.Financial.Company.Accounting.C_CheckbookTransactions_table>
+@{
+    string Title = "";
+    string VendoreCustomer = "Customer ID";
+    if (Request["Sec"] == "Pay")
+    {
+        Title = "Payable Installment Inquery";
+        VendoreCustomer = "Vendore ID";
+    }
+    else
+    {
+        Title = "Recevable Installment Inquery";
+        VendoreCustomer = "Customer ID";
+    }
+    ViewBag.Title = Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("GetInstallments", new AjaxOptions { UpdateTargetId = "CheckTrx", InsertionMode = InsertionMode.Replace }))
+    {
+        <div class="form-group">
+            @Html.Label($"{VendoreCustomer}", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Vendores", null, "", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="col-md-12" for="VendorNamelbl" id="VendorNamelbl"> </label>
+            </div>
+        </div>
+        @*<div class="form-group">
+            @Html.Label("Doc Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DocType", null, "", new { @class = "form-control" })
+            </div>
+        </div>*@
+        @*<div class="form-group">
+            @Html.Label("Check Book", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CheckBook", null, "", new { @class = "form-control" })
+            </div>
+        </div>*@
+        <div class="form-group">
+            @Html.Label("Contract", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Contract" name="Contract" class="form-control"></select>
+            </div>
+        </div>
+        <input value="@Request["Sec"]" type="hidden" name="Sec" />
+        <div class="form-group">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </div>
+    }
+
+</div>
+<section id="CheckTrx"></section>
+<script>
+    $("#Vendores,#CheckBook").change(function () {
+        GetCreditorName($("#Vendores").val(), function () {
+
+        })
+    })
+    function GetCreditorName(Id, CallBack = null) {
+        var Url = "";
+        if (getParameterByName("Sec") == "Rec") {
+            Url = "@Url.Action("GetNameAndCBookById", "Creditor_setting",new {area= "Receivable" })?id=" + Id;
+        } else if (getParameterByName("Sec") == "Pay") {
+            Url = "@Url.Action("GetNameAndCBookById", "Creditor_setting",new {area= "Payable" })?id=" + Id;
+        }
+         $.ajax({
+             url: Url,
+             success: function (data) {
+                 $("#VendorNamelbl").text(data.Name);
+                // $("#CheckBook").val(data.CBook);
+                 //$("#CheckBook").trigger("change");
+
+                 if (CallBack != null) {
+                     CallBack(data.CBook);
+                 }
+                  $.ajax({
+                      url: "@Url.Action("GetContract")?VendoreId=" + Id + "&Sec=@ViewBag.Sec&CheckBookId=" + $("#CheckBook").find("option:selected").val(),
+                      method: "POST",
+                      beforeSend: function () {
+                          $("#Contract").empty();
+                      },
+                      success: function (data) {
+                          $("#Contract").append("<option></option>");
+                          $.each(data, function (k,i) {
+                              $("#Contract").append("<option value='" +i.Id +"'>"+i.Ref+"</option>");
+                          });
+                      }
+                    })
+            },
+            method:"POST"
+        })
+    }
+</script>

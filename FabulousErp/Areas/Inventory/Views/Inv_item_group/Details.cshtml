@@ -1,0 +1,50 @@
+﻿@model FabulousDB.Models.Inv_item_group
+
+@{
+    ViewBag.Title = "Item Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+      
+        <dt>
+            @Html.DisplayNameFor(model => model.Unit_of_measure.Unit_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unit_of_measure.Unit_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item_group_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item_group_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

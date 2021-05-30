@@ -1,0 +1,145 @@
+﻿@model FabulousErp.Payable.Models.Assign_payable_doc
+
+@{
+    ViewBag.Title = "Assign Payable Doc";
+    if (ViewBag.Partial == true)
+    {
+        Layout = null;
+    }
+}
+<button onclick="PrintThis($('.form-horizontal').html(), false, false,true, null, '', true);" class="btn btn-primary Print">Print</button>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vendor_id, "Vendor_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Vendor_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Trans_doc_type_id, "Trans_doc_type_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Trans_doc_type_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Trans_doc_type_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Doc_type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.Doc_type, ViewBag.Doc_type as SelectList, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Doc_type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Applay_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Applay_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.Applay_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Orginal_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Orginal_amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Orginal_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Applay_assign, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Applay_assign, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Applay_assign, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unassign_amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unassign_amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Unassign_amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<section class="Tbl"></section>
+
+<script>
+     function GetJv() {
+        var TakenDiscount = [];
+        var EarnAndLoss = [];
+        var TransactionRate = 1;
+        var Currencies = [];
+        var Rates = [];
+
+        var QueryStr = "";
+        var i = 0;
+        $(".Tbl").find("table").find("tr").not(".Head").each(function () {
+            TakenDiscount.push(parseFloat($(this).find(".TakenDiscount").val()));
+            EarnAndLoss.push(parseFloat($(this).find(".EarningOrLose").text()));
+            Currencies.push($(this).find(".Currency").attr("data-CurrId"));
+            Rates.push($(this).find(".Rate").text())
+            QueryStr += "&TakenDiscount[" + i + "]=" + parseFloat($(this).find(".TakenDiscount").val())
+                + "&EarnAndLoss[" + i + "]=" + parseFloat($(this).find(".EarningOrLose").text())
+                + "&Currencies[" + i + "]=" + $(this).find('.Currency').attr('data-CurrId')
+                + "&Rates[" + i + "]=" + $(this).find(".Rate").text()
+                + "&MainCurr=" + $("#MainCurrency_id").attr("currid")
+            i++;
+        })
+
+        var Url = "@Url.Action("GetAssignEarnAndLose", "Payable_gl_account")" + "?VendorId=" + $("#Vendor_id").find("option:selected").val() + QueryStr
+            //+ "&TakenDiscount=" + TakenDiscount.serializeArray()
+            //+ "&EarnAndLoss=" + JSON.stringify(EarnAndLoss)
+            //+ "&Currencies=" + JSON.stringify(Currencies)
+            //+ "&Rates=" + JSON.stringify(Rates)
+
+            $.ajax({
+                url: Url,
+                method: "POST",
+                success: function (data) {
+                    EmptyGlTransaction();
+                    $.each(data, function (k, i) {
+                        ManyJvAction(i, false);
+                    })
+                    $("#JVSecCont").find("button").not(".MoreDetailsT").remove();
+                }
+            })
+    }
+    $(function () {
+        $("#Doc_type").val("@ViewBag.DocType");
+        $.ajax({
+            url: "@Url.Action("BelowTableRes")?VendoreId=" +@Model.Vendor_id+"&To=" +@Model.Trans_doc_type_id_to+"&IsEdit=true",
+            contentType: 'html',
+            success: function (data) {
+                $(".Tbl").html(data);
+                GetJv();
+                $("#TCGE-TTbl").find("button").not(".MoreDetailsT").remove();
+                $(document).find(".GlAddedBatch").nextUntil(".mt-2").hide();
+                $("#JVSecCont").attr("style", "display:block;");
+                $(document).find(".AssignInput").remove();
+            }
+        })
+    })
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

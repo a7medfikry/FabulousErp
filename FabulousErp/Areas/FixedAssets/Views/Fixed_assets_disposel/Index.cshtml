@@ -1,0 +1,80 @@
+﻿@model IEnumerable<FabulousDB.Models.Fixed_assets_disposel>
+
+@{
+    ViewBag.Title = "Disposel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @if (Request["section"] != "Inquiry")
+    {
+        @Html.ActionLink("Create New", "Create", new { Setting = Request["Setting"] })
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Transaction date
+        </th>
+        <th>
+           Disposal date
+        </th>
+        <th>
+            Depreication Uptodate
+        </th>
+        <th>
+           Disposal Amount
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.Transaction_date.HasValue)
+            {
+                @item.Transaction_date.Value.ToShortDateString()
+            }
+        </td>
+        <td>
+            @if (item.Disposal_date.HasValue)
+            {
+                @item.Disposal_date.Value.ToShortDateString()
+            }
+        </td>
+        <td>
+            @if (item.Depreication_up_to_date.HasValue)
+            {
+                @item.Depreication_up_to_date.Value.ToShortDateString()
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Disposal_amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Asset.Description)
+        </td>
+        <td>
+            @if (Request["section"] != "Inquiry" && Request["section"] != "Transactions")
+            {
+                <text>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                </text>
+            }
+            else if (Request["section"] == "Transactions")
+            {
+                <text>
+                    @Html.ActionLink("Void", "Delete", new { id = item.Id }) |
+                </text>
+            }   
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

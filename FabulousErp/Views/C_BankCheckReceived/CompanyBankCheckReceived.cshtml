@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Bank Check Received";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCBR";
+}
+<div class="container-fluid">
+
+    <!-- **** For Checks **** -->
+    <!-- Get Min-Amount && Max-Amount For Amount Check -->
+    <span class="hide-normal" id="CBT-minAmount"></span>
+    <span class="hide-normal" id="CBT-maxAmount"></span>
+
+    <!-- Get Deposit && Withdraw Number -->
+    <span class="hide-normal" id="CBT-nextDeposit"></span>
+    <span class="hide-normal" id="CBT-nextWithdraw"></span>
+
+    <span class="hide-normal" id="CBT-PT">@ViewBag.PT</span>
+
+    <!-- **** Main Buttons **** -->
+    <div class="btn-group btn-group-sm mb-1" role="group">
+        <button type="button" class="btn btn-info" id="CBT-Attachment">Attachment</button>
+        <button type="button" class="btn btn-primary" id="CBT-Post">Post</button>
+        <button type="button" class="btn btn-secondary" id="CBT-Reset">Reset</button>
+    </div>
+
+    <!-- **** For Errors **** -->
+    <span class="text-error" id="TCGE-GlobalError"></span>
+
+    <div class="collapse show" id="collapseFirst">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "CBT-checkbookID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm" id="CBT-checkbookName" disabled />
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Currency : </label>
+            <div class="col-md-2">
+                @Html.DropDownList("TCGE-CurrencyID", new SelectList(""), "...", new { @id = "TCGE-CurrencyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Date : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="CBT-transactionDate" />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="CBT-postingDate" />
+            </div>
+        </div>
+        <div class="hide-normal" id="TCCR-rateField">
+            <div class="form-row mb-1">
+                <label class="col-md-2 col-form-label col-form-label-sm"> System Rate : </label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control form-control-sm" id="TCGE-SystemRate" disabled />
+                </div>
+
+                <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control form-control-sm" id="TCGE-TransactionRate" disabled />
+                </div>
+
+                <label class="col-md-2 col-form-label col-form-label-sm"> Difference : </label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control form-control-sm" id="TCGE-DiffrenceRate" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Reference : <span class="star">*</span> </label>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" id="TCGE-Reference" />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Document : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CBT-document", new List<SelectListItem>
+                                        {
+                                        new SelectListItem{Text = "Supported an external document" , Value = "SED" },
+                                        new SelectListItem{Text = "Supported an internal document" , Value = "SID" },
+                                        new SelectListItem{Text = "Unsupported" , Value = "UnS" }
+                                        },"-Choose-",new { @id = "CBT-document", @class= "form-control form-control-sm" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Received From : <span class="star">*</span> </label>
+                <input type="text" class="form-control form-control-sm" id="CBT_receivedFrom_payTo" />
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Check Number : <span class="star">*</span> </label>
+                <input type="number" class="form-control form-control-sm" id="CBT-checkNumber" />
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Due Date : <span class="star">*</span> </label>
+                <input type="date" class="form-control form-control-sm" id="CBT-dueDate" />
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label col-form-label-sm"> Amount : <span class="star">*</span> </label>
+                <input type="text" class="form-control form-control-sm" id="CBT-amount" />
+            </div>
+        </div>
+    </div>
+
+    <!-- GE Transaction -->
+    @Html.Partial("_MainTransaction")
+
+    <!-- Pop-up Modal For Checkbook Security -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="CBT-checkbookModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Enter Checkbook Password </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="hide-normal" id="CBT-CBid"></span>
+                    <input type="password" id="CBT-checkbookPassword" class="form-control form-control-sm" />
+                    <label id="CBT-wrongpass" class="text-error"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CBT-checkbookCheck" class="btn btn-primary btn-sm">Enter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal For System-Rates -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The System Rate </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransaction_Script.js")
+<script>
+    $("#FUGAS").hide();
+    $("#FileUploadGlobalDelete").hide();
+</script>
+<script>
+    $("#CBT-Attachment").click(function () {
+        $(".AttachmentUploadFile").trigger("click");
+    })
+</script>

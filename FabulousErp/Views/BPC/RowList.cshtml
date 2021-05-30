@@ -1,0 +1,67 @@
+﻿@using FabulousDB.Models;
+@model IEnumerable<BPC_Relation>
+@{
+    Layout = null;
+}
+<table class="table">
+    <tr>
+        <th>
+            Row name
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Account Name
+        </th>
+        <th>
+            Related Row
+        </th>
+        <th>
+            Priority
+        </th>
+        <th>
+            Minus
+        </th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalanceSheet.Row_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalanceSheet.Type)
+        </td>
+        <td>
+            @if (Request["RptType"] != "CashFlow")
+            {
+                @Html.DisplayFor(modelItem => item.Account.AccountName)
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.Row.Row_name)
+
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Row.Row_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalanceSheet.Priority)
+        </td>
+        @if (ViewBag.RptType.ToString()  == Report_type.CashFlow.ToString())
+        {
+            <td>
+                @Enum.GetName(typeof(Minus),item.BalanceSheet.Minus)
+            </td>
+        }
+        <td>
+            @Ajax.ActionLink("Delete","DeleteSettingRow",new {Id=item.Id,RptType= ViewBag.RptType }
+   ,new AjaxOptions { UpdateTargetId = "RowSettings", OnSuccess = "ResetSelect" }
+   , new {@class="btn btn-danger" })
+    </td>
+    </tr>
+}
+
+</table>

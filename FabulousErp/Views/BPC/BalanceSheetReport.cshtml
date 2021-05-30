@@ -1,0 +1,157 @@
+﻿@using FabulousDB.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-sm-12">
+    <section id="Options" class="hide">
+        <div class="clearfix container" style="margin:20px;">
+            <button class="btn btn-info" onclick="PrintThis(null,null,null,null,null,'@ViewBag.Title')">Print</button>
+            <button class="btn btn-info" onclick="ExportToExcel('@Request["RptType"]','hide')">Export To Excel</button>
+        </div>
+        <div class="col-sm-3 d-inline-block">
+            <div>
+                <label class="col-md-10 v-middle">Get Only totals</label>
+                <div class="col-sm-1 d-inline-block">
+                    <input type="checkbox" id="GetTotalOnly" class="v-middle" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 CheckYears">
+            <div>
+                <div class="col-sm-3 d-inline-block">
+                    <label class="col-md-10 v-middle">Current Year</label>
+                    <input type="checkbox" class="v-middle Years CurrentYear" checked="checked" />
+                </div>
+                <div class="col-sm-3 d-inline-block">
+                    <label class="col-md-10 v-middle">Last Year</label>
+                    <input type="checkbox" class="v-middle Years LastYear" />
+                </div>
+                <div class="col-sm-3 d-inline-block">
+                    <label class="col-md-10 v-middle">Last 2 Year</label>
+                    <input type="checkbox" class="v-middle Years Last2Year" />
+                </div>
+                <div class="col-sm-3 d-inline-block">
+                    <label class="col-md-10 v-middle">Last 3 Year</label>
+                    <input type="checkbox" class="v-middle Years Last3Year" />
+                </div>
+                <div class="col-sm-3 d-inline-block">
+                    <label class="col-md-10 v-middle">Last 4 Year</label>
+                    <input type="checkbox" class="v-middle Years Last4Year" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @using (Ajax.BeginForm("GetBalanceSheetReport", new AjaxOptions { UpdateTargetId = "BalanceSheetReport", OnBegin = "EmptyDiv", OnSuccess = "Success" }))
+    {
+        <div class="col-sm-5">
+
+        </div>
+        <input type="hidden" name="RptType" value="@Request["RptType"]" />
+        <label class="col-md-2">Select Year</label>
+        <div class="col-sm-3 d-inline-block">
+            @Html.DropDownList("Year",ViewBag.Year as SelectList,new {@class="form-control"  })
+            @*<input style="width:100%;" type="number" name="Year" min="1990" max="3000" class="form-control" />*@
+        </div>
+        <section class="CompareYearDiv d-inline-block col-sm-6">
+            <label class="col-md-4">Compare To Year</label>
+            <div class="col-sm-7 d-inline-block">
+                <input style="width:100%;" type="number" name="CompareYear" min="1990" max="3000" class="form-control CompareYearInput" />
+            </div>
+        </section>
+       
+        <div class="col-sm-3">
+            <button class="btn btn-success">Generate</button>
+        </div>
+    }
+
+    <div id="BalanceSheetReport">
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        if (getParameterByName("RptType") == "@Report_type.CashFlow") {
+            $(document).find(".CompareYearDiv").remove();
+            $(document).find(".CheckYears").remove();
+        }
+    })
+    function EmptyDiv() {
+        $("#BalanceSheetReport").empty();
+        if ($("#GetTotalOnly").is(":checked")) {
+            $("#GetTotalOnly").trigger("click")
+        }
+    }
+    $("#GetTotalOnly").click(function () {
+        if ($(this).is(":checked")) {
+            $(document).find("#BalanceSheetReport").find(".Account").addClass('hide');
+            $(document).find(".HeadRowName").text("")
+            $(document).find(".TotalCheck").addClass('hide')
+
+        } else {
+            $(document).find("#BalanceSheetReport").find(".Account").removeClass('hide');
+            $(document).find(".HeadRowName").text("@FabulousErp.BusController.Translate("Raw Name")")
+            $(document).find(".TotalCheck").removeClass('hide')
+        }
+    })
+    function Success() {
+
+        $("#Options").removeClass('hide')
+        $(document).find("#BalanceSheetReport").find(".LastYear").addClass('hide');
+        $(document).find("#BalanceSheetReport").find(".Last2Year").addClass('hide');
+        $(document).find("#BalanceSheetReport").find(".Last3Year").addClass('hide');
+        $(document).find("#BalanceSheetReport").find(".Last4Year").addClass('hide');
+        if (getParameterByName("RptType") != "@Report_type.CashFlow") {
+            if ($(".CompareYearInput").val()) {
+                $(document).find(".CheckYears").addClass('hide');
+            } else {
+                $(document).find(".CompareYear").addClass('hide');
+                $(document).find(".CheckYears").removeClass('hide');
+
+            }
+            if (!$(".CurrentYear").is(":checked")) {
+                $(".CurrentYear").trigger("click")
+            }
+            if ($(".LastYear").is(":checked")) {
+                $(".LastYear").trigger("click")
+                $(document).find("#BalanceSheetReport").find(".LastYear").addClass('hide');
+
+            }
+            if ($(".Last2Year").is(":checked")) {
+                $(".Last2Year").trigger("click")
+                $(document).find("#BalanceSheetReport").find(".Last2Year").addClass('hide');
+
+            }
+            if ($(".Last3Year").is(":checked")) {
+                $(".Last3Year").trigger("click")
+                $(document).find("#BalanceSheetReport").find(".Last3Year").addClass('hide');
+
+            }
+            if ($(".Last4Year").is(":checked")) {
+                $(".Last4Year").trigger("click")
+                $(document).find("#BalanceSheetReport").find(".Last4Year").addClass('hide');
+            }
+        }
+   
+    }
+    $(".Years").click(function () {
+        if ($(this).hasClass("CurrentYear")) {
+            $(document).find("#BalanceSheetReport").find(".CurrentYear").toggleClass('hide');
+        } else if ($(this).hasClass("LastYear")) {
+            $(document).find("#BalanceSheetReport").find(".LastYear").toggleClass('hide');
+
+        } else if ($(this).hasClass("Last2Year")) {
+            $(document).find("#BalanceSheetReport").find(".Last2Year").toggleClass('hide');
+
+        } else if ($(this).hasClass("Last3Year")) {
+            $(document).find("#BalanceSheetReport").find(".Last3Year").toggleClass('hide');
+
+        } else if ($(this).hasClass("Last4Year")) {
+            $(document).find("#BalanceSheetReport").find(".Last4Year").toggleClass('hide');
+
+        }
+    })
+</script>

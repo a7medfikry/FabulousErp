@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Company Cost Center";
+    ViewBag.FormCode = "SCCC";
+}
+
+<div class="container-fluid">
+    <div class="mb-2">
+        <span class="text-error" id="GlobalError"></span>
+    </div>
+
+    <div class="form-row mb-2 hide">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @*@Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID" , @class= "form-control form-control-sm" })*@
+            <input type="text" id="CompanyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" id="CompanyName" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <div class="form-row mb-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("CostCenterID", null, new { @id = "CostCenterID", @maxlength = "20", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("CostCenterName", null, new { @id = "CostCenterName", @maxlength = "100", @class = "form-control form-control-sm" })
+        </div>
+
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary btn-sm" id="AddCostCenterToCompany">Save</button>
+            <label class="text-success" id="SaveSuccess"></label>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Cost Center ID</th>
+                <th>Cost Center Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="CompanyCostData"></tbody>
+    </table>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Company/C_CostCenter/C_CreateCostCenter/CompCostCenter.js")

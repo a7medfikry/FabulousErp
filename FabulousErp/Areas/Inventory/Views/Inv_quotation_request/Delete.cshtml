@@ -1,0 +1,73 @@
+﻿@model FabulousDB.Models.Inv_quotation_request
+
+@{
+    ViewBag.Title = "Quotation Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Inv_quotation_request</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendore.Vendor_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendore.Vendor_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_for_qut_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request_for_qut_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Within_days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Within_days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request_from)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-success" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

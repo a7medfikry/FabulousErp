@@ -1,0 +1,19 @@
+﻿.input-error {
+    border: 2px solid;
+    border-color: red;
+    border-radius: 5px;
+}
+
+.input-success {
+    border: 3px solid;
+    border-color: #125f2b;
+    border-radius: 8px;
+}
+.Error, #Star, #LogInWithOutCBF {
+    color: red;
+}
+.userError, .passError {
+    font-size: 12px;
+    font-style: italic;
+    color: red;
+}

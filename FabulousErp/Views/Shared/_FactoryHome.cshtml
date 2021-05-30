@@ -1,0 +1,287 @@
+﻿@using (Html.BeginForm())
+{
+    <fieldset class="container home-page">
+        <div class="transactions-field">
+            <div class="transactions-accordion">
+                <div class="card">
+                    <div class="card-header"> Transactions </div>
+                    <div class="card-header" data-toggle="collapse" data-target="#financial-transactions">
+                        <span class="badge badge badge-info"> </span> Financial <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <!-- Financial Content -->
+                    <div id="financial-transactions" class="collapse" data-parent=".transactions-accordion">
+                        <div class="card-body">
+                            <div class="body-content" data-toggle="collapse" data-target="#transactions-factory">
+                                Factory <i class="fa fa-chevron-right pull-right"></i>
+                            </div>
+                            <div id="transactions-factory" class="collapse">
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#transactions-accounting" data-toggle="collapse" aria-expanded="true"> Accounting <i class="fa fa-chevron-down"></i> </a> </label>
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#transactions-fixedasets" data-toggle="collapse" aria-expanded="true"> Fixed Asets <i class="fa fa-chevron-down"></i> </a> </label>
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#transactions-checkbook" data-toggle="collapse" aria-expanded="true"> CheckBook <i class="fa fa-chevron-down"></i> </a> </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#transactions-purshacing">
+                        <span class="badge badge-info"> </span> Purshacing <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="transactions-purshacing" class="collapse" data-parent=".transactions-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#transactions-sales">
+                        <span class="badge badge-info"> </span> Sales <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="transactions-sales" class="collapse" data-parent=".transactions-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#transactions-inventory">
+                        <span class="badge badge-info"> </span> Inventory <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="transactions-inventory" class="collapse" data-parent=".transactions-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#transactions-production">
+                        <span class="badge badge-info"> </span>  Production <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="transactions-production" class="collapse" data-parent=".transactions-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#transactions-hr">
+                        <span class="badge badge-info"> </span>  HR <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="transactions-hr" class="collapse" data-parent=".transactions-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="setting-field">
+            <div class="accordion">
+                <div class="card">
+                    <div class="card-header text-center"> Settings </div>
+                    <div class="card-header" data-toggle="collapse" data-target="#financial">
+                        <span class="badge badge badge-info"> </span> Financial <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <!-- Financial Content -->
+                    <div id="financial" class="collapse" data-parent=".accordion">
+                        <div class="card-body">
+                            <div class="body-content" data-toggle="collapse" data-target="#ShowAccouting">
+                                Accounting <i class="fa fa-chevron-right pull-right"></i>
+                            </div>
+                            <div id="ShowAccouting" class="collapse list-unstyled">
+                                <!-- Factory Content -->
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#factory-content" data-toggle="collapse" aria-expanded="true"> Factory <i class="fa fa-arrow-circle-down"></i> </a> </label>
+                                <div id="factory-content" class="collapse list-unstyled ml-3">
+                                    <label class="col-md-12 text-left"> <a class="text-danger" href="#factory-chart" data-toggle="collapse" aria-expanded="true"> Chart Of Account <i class="fa fa-arrow-down"></i> </a> </label>
+                                    <ul class="collapse list-unstyled ml-4" id="factory-chart">
+                                        <li> <a href="/F_CreateAccount/FactoryAccount"> <i class=""></i> Factory Create Account </a></li>
+                                    </ul>
+
+                                    <label class="col-md-12 text-left"> <a class="text-danger" href="#factory-analytic" data-toggle="collapse" aria-expanded="true"> Analytic <i class="fa fa-arrow-down"></i> </a> </label>
+                                    <ul class="collapse list-unstyled ml-4" id="factory-analytic">
+                                        <li> <a href="/F_CreateAnalyticAccounts/FactoryAnalyticAccounts"> <i class=""></i> Factory Analytic Account </a></li>
+                                        <li> <a href="/F_AnalyticAccountDistribution/FactoryAnalyticDistribution"> <i class=""></i> Create Analytic Factory Distribution </a></li>
+                                        <li> <a href="/F_AddDistToAccount/DistToFactoryAccount"> <i class=""></i> Add Distribution Account To Factory Account </a></li>
+                                    </ul>
+
+                                    <label class="col-md-12 text-left"> <a class="text-danger" href="#factory-cost" data-toggle="collapse" aria-expanded="true"> Cost <i class="fa fa-arrow-down"></i> </a> </label>
+                                    <ul class="collapse list-unstyled ml-4" id="factory-cost">
+                                        <li> <a href="/F_CreateCostCenter/FactoryCostCenter"> <i class=""></i> Factory Cost Center </a></li>
+                                        <li> <a href="/F_CreateCostCenterAccounts/FactoryCCAccounts"> <i class=""></i> Create Cost Center Account </a></li>
+                                        <li> <a href="/F_CreateMainCostCenter/FactoryMainCostCenter"> <i class=""></i> Create Main Cost Center </a></li>
+                                        <li> <a href="/F_UpdateMainCostCenter/FactoryUpdateGroupCC"> <i class=""></i> Update Main Cost Center </a></li>
+                                        <li> <a href="/F_AddCostAccountToAccount/CostAccountToFactoryAccount"> <i class=""></i> Add Cost Account To Factory Account </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#purshacing">
+                        <span class="badge badge-info"> </span> Purshacing <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="purshacing" class="collapse" data-parent=".accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#sales">
+                        <span class="badge badge-info"> </span> Sales <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="sales" class="collapse" data-parent=".accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#inventory">
+                        <span class="badge badge-info"> </span> Inventory <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="inventory" class="collapse" data-parent=".accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#production">
+                        <span class="badge badge-info"> </span>  Production <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="production" class="collapse" data-parent=".accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#hr">
+                        <span class="badge badge-info"> </span>  HR <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="hr" class="collapse" data-parent=".accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="inquiry-field">
+            <div class="inquiry-accordion">
+                <div class="card">
+                    <div class="card-header"> Inquiry </div>
+                    <div class="card-header" data-toggle="collapse" data-target="#financial-inquiry">
+                        <span class="badge badge badge-info"> </span> Financial <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="financial-inquiry" class="collapse" data-parent=".inquiry-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#purshacing-inquiry">
+                        <span class="badge badge-info"> </span> Purshacing <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="purshacing-inquiry" class="collapse" data-parent=".inquiry-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#sales-inquiry">
+                        <span class="badge badge-info"> </span> Sales <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="sales-inquiry" class="collapse" data-parent=".inquiry-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#inventory-inquiry">
+                        <span class="badge badge-info"> </span> Inventory <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="inventory-inquiry" class="collapse" data-parent=".inquiry-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#production-inquiry">
+                        <span class="badge badge-info"> </span>  Production <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="production-inquiry" class="collapse" data-parent=".inquiry-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#hr-inquiry">
+                        <span class="badge badge-info"> </span>  HR <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="hr-inquiry" class="collapse" data-parent=".inquiry-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inquiry-generalsettingpanel" class="hide-normal">
+                <div>
+                    <label> <a href="#ShowInquiryAccountingContent" data-toggle="collapse" aria-expanded="true"> Accounting <i class="fa fa-arrow-down"></i> </a> </label>
+                </div>
+                <ul class="collapse list-unstyled" id="ShowInquiryAccountingContent">
+                    <li> <a href="/Inquiry_AccountChart/ListAccountChart"> <i class="fa fa-bar-chart"></i> Chart List of Account </a></li>
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- Report Field-->
+        <div class="report-field">
+            <div class="reports-accordion">
+                <div class="card">
+                    <div class="card-header"> Reports </div>
+                    <div class="card-header" data-toggle="collapse" data-target="#financial-reports">
+                        <span class="badge badge badge-info"> </span> Financial <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <!-- Financial Content -->
+                    <div id="financial-reports" class="collapse" data-parent=".reports-accordion">
+                        <div class="card-body">
+                            <div class="body-content" data-toggle="collapse" data-target="#reports-factory">
+                                Factory <i class="fa fa-chevron-right pull-right"></i>
+                            </div>
+                            <div id="reports-factory" class="collapse">
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#" data-toggle="collapse" aria-expanded="true"> Accounting <i class="fa fa-chevron-down"></i> </a> </label>
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#" data-toggle="collapse" aria-expanded="true"> Fixed Asets <i class="fa fa-chevron-down"></i> </a> </label>
+                                <label class="col-md-12 text-left"> <a class="text-dark" href="#" data-toggle="collapse" aria-expanded="true"> CheckBook <i class="fa fa-chevron-down"></i> </a> </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#reports-purshacing">
+                        <span class="badge badge-info"> </span> Purshacing <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="reports-purshacing" class="collapse" data-parent=".reports-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#reports-sales">
+                        <span class="badge badge-info"> </span> Sales <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="reports-sales" class="collapse" data-parent=".reports-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#reports-inventory">
+                        <span class="badge badge-info"> </span> Inventory <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="reports-inventory" class="collapse" data-parent=".reports-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#reports-production">
+                        <span class="badge badge-info"> </span>  Production <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="reports-production" class="collapse" data-parent=".reports-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+
+                    <div class="card-header" data-toggle="collapse" data-target="#reports-hr">
+                        <span class="badge badge-info"> </span>  HR <i class="fa fa-plus pull-right"></i>
+                    </div>
+                    <div id="reports-hr" class="collapse" data-parent=".reports-accordion">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+
+

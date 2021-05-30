@@ -1,0 +1,41 @@
+﻿
+@media print{
+    .search-navbar{
+        display:none;
+    }
+    .favourites-navbar{
+        display:none;
+    }
+    .body-header{
+        display:none;
+    }
+    .no-print{
+        display:none;
+    }
+    body{
+        background-color: white;
+    }
+    .Inqiry-form .table-wrapper table {
+        border-spacing: 1px;
+        border-collapse: collapse;
+        background-color: #8e8e8e;
+        border: 2px solid;  
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+    }
+    .Inqiry-form .table-wrapper table thead tr {
+        background-color: black;
+        text-align: center;
+    }
+
+        .Inqiry-form .table-wrapper table thead tr th {
+            font-family: Calibri;
+            font-size: 16px;
+            color: black;
+            line-height: 1.3;
+            font-weight: unset;
+        }
+}

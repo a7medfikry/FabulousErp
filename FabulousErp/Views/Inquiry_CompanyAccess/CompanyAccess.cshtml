@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Company Access";
+    ViewBag.FormCode = "ICA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryCompanyID", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap" style="width:100%" id="main-table">
+        <thead>
+            <tr>
+                <th> Company Name </th>
+                <th> User Name </th>
+                <th> User ID </th>
+            </tr>
+        </thead>
+        <tbody id="company-append-data"></tbody>
+    </table>
+</div>
+
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/UserAccess/Inquiry_CompanyAccess.js")

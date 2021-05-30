@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Checkbook Cash & Bank Transactions ";
+    ViewBag.FormCode = "ICBT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            <div class="col-sm-12">
+                    <button class="btn btn-sm btn-primary Prev col-sm-1"><<</button>
+                    <section class="col-sm-8">
+                        @Html.DropDownList("Inquiry-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "Inquiry-checkbookID", @class = "form-control form-control-sm" })
+                    </section>
+                    <button class="btn btn-sm btn-primary Next col-sm-1">>></button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="col-sm-12">
+                <input type="text" class="form-control form-control-sm" id="checkbookName" disabled />
+            </div>
+        </div>
+        <div class="col-md-5">
+            <label class="col-md-5 col-form-label col-form-label-sm"> Current Checkbook Balance : </label>
+            <div class="col-md-5">
+                <input type="text" class="form-control form-control-sm" id="checkbookBalance" disabled />
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-row mb-1">
+        <div class="col-sm-3">
+            <label class="col-md-2"> Currency : </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control form-control-sm" id="currency" disabled />
+            </div>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-sm-5">
+            <label class="col-md-5 col-form-label col-form-label-sm"> Current Cash Account Balance : </label>
+            <div class="col-md-5">
+                <input type="text" class="form-control form-control-sm" id="cashAccountBalance" disabled />
+            </div>
+        </div>
+      
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-1 col-form-label col-form-label-sm"> Date : </label>
+        <div class="col-md-1">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="date" id="allDate" class="custom-control-input" />
+                <label class="custom-control-label" for="allDate">All</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="date" id="fromDate" class="custom-control-input" />
+                <label class="custom-control-label" for="fromDate">From / To :</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="startDate" disabled />
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="endDate" disabled />
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary btn-sm" id="search" disabled> Search <i class="fa fa-search"></i> </button>
+        </div>
+    </div>
+
+    <!-- Start Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped display nowrap">
+            <thead>
+                <tr>
+                    <th style="width:2%;"> Void </th>
+                    <th style="width:10%;"> Date </th>
+                    <th  style="width:5%;"> Doc. Number </th>
+                    <th style="width:6%;"> Doc. Type </th>
+                    <th style="width:17%;"> Paid To / Received From </th>
+                    <th> Refrence </th>
+                    <th style="width:8%;"> Payment </th>
+                    <th style="width:8%;"> Deposit </th>
+                    <th style="width:8%;"> Balance </th>
+                    <th style="width:8%;"> Action </th>
+                </tr>
+            </thead>
+            <tbody id="appendData">
+            </tbody>
+        </table>
+    </div>
+    <!-- End Table -->
+
+</div>
+
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookTransactions.js")
+
+<script>
+    var TCCR = "@FabulousErp.BusController.Translate("Cash Reciept")"
+    var TCCW = "@FabulousErp.BusController.Translate("Cash Withdraw")"
+    var TCBR = "@FabulousErp.BusController.Translate("Bank Check-Recieved")"
+    var TCBC = "@FabulousErp.BusController.Translate("Bank Check-out")"
+    var TCBT = "@FabulousErp.BusController.Translate("Checkbook Transfer")"
+    var TBR = "@FabulousErp.BusController.Translate("Bank Reconcile")"
+    var Void = "@FabulousErp.BusController.Translate("Void")"
+    $(function () {
+        NextPrev($("#Inquiry-checkbookID"), $("#allDate"))
+    })
+</script>

@@ -1,0 +1,109 @@
+﻿@using FabulousDB.Models
+@model List<Stocking_assets_transaction>
+@{
+    ViewBag.Title = "StockingReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<button onclick="PrintThis(null, false, true);" class="btn btn-primary">Print</button>
+
+<h4>Stoking Report</h4>
+<div class="form-group">
+    <div>
+        <label>Show All Assets</label>
+        <input type="radio" name="ShowAll" value="1" />
+    </div>
+    <div>
+        <label>Show Un-Reconcile</label>
+        <input type="radio" name="ShowAll" value="2" />
+    </div>
+    <div>
+        <label>Show Reconcile</label>
+        <input type="radio" name="ShowAll" value="3" />
+    </div>
+</div>
+<table class="table StockAssets">
+    <thead>
+        <tr>
+            <th>
+                Assets_class
+            </th>
+            <th>
+                Assets_id
+            </th>
+            <th>
+                Transaction Date
+            </th>
+            <th>
+                Serial
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Reconcile
+            </th>
+            <th>
+                Reconcile_date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Stocking_assets_transaction item in Model)
+        {
+            <tr>
+
+                <td class="hide">
+                    <input type="text" name="StockingNo" class="StockingNo" />
+                </td>
+                <td>@item.Stoking_assets.Asset.Description</td>
+                <td class="Description">@item.Stoking_assets.Asset.Description</td>
+
+                <td class="Description">
+                    @if (item.Transaction_date.HasValue)
+                    {
+                        @item.Transaction_date.Value.ToShortDateString()
+                    }
+                </td>
+                <td>
+                    @item.Stoking_assets.Serial
+                </td>
+                <td class="MyCheckBoxTd">
+                    <label>@Enum.GetName(typeof(StockingStatus), item.Status)</label>
+                </td>
+                <td class="Reconcile">@Html.CheckBox("Reconcile", item.Reconcile.Value, new { @disabled = "disabled" }) </td>
+                <td>
+                    @item.Reconcile_date
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $("input[name='ShowAll']").click(function () {
+        if ($(this).val() == 1) {
+            $(".Reconcile").parents("tr").show();
+        } else if ($(this).val() == 2) {
+            $(".Reconcile").each(function () {
+                if ($(this).find("input").is(":checked")) {
+                    $(this).parents("tr").hide();
+
+                } else {
+                    $(this).parents("tr").show();
+
+                }
+            })
+
+        } else if ($(this).val() == 3) {
+            $(".Reconcile").each(function () {
+                if ($(this).find("input").is(":checked")) {
+                    $(this).parents("tr").show();
+
+
+                } else {
+                    $(this).parents("tr").hide();
+
+                }
+            })
+        }
+    })
+</script>

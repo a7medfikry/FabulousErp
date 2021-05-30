@@ -1,0 +1,114 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Business.GetLanguage()== FabulousDB.Models.Langs.Arabic.ToString())
+{
+    <style>
+        .header-details div {
+            float: right;
+        }
+
+        .header-details label, .header-details span {
+            float: left;
+            direction: rtl;
+        }
+
+        .header-details input {
+            float: right;
+            direction: rtl;
+        }
+
+        .aa label {
+            float: right;
+        }
+        table{
+            direction:rtl;
+        }
+  </style>
+}
+<style>
+    @@page {
+        margin-bottom: 100px;
+        color: #000;
+        background-color: #fff;
+        direction:rtl;
+        float:right;
+    }
+</style>
+<div>
+    <div class="container">
+        <button type="button" class="btn btn-danger btn-sm d-print-none" id="TCGE-print">print</button>
+    </div>
+    <div class="aa" id="aa"></div>
+</div>
+
+<section id="ExtraModel">
+</section>
+<script>
+    $(function () {
+        $("#ExtraModel").find("thead").find("th").first().remove();
+        $("#ExtraModel").find("tbody").find("tr").each(function () {
+            $(this).find("td").first().remove();
+        })
+    })
+    $(document).ready(function () {
+        $('#TCGE-print').click(function () {
+            var searchNumber = getParameterByName("searchNumber");
+            if (searchNumber) {
+                //var url =  + "&ExtraModel=";
+                $.ajax({
+                    url: '/C_ReportsPrint/PrintReport?searchNumber=' + searchNumber,
+                    method: "POST",
+                    success: function (data) {
+                        $(".aa").html(data);
+                        //RemoveLoader();
+                        // $(document).find(".header-logo").remove();
+                        @if (FabulousErp.Business.GetLanguage() == FabulousDB.Models.Langs.Arabic.ToString())
+                        {
+                            <text>
+                            GetWords(function () {
+                                Translate(function () {
+                                    $(".aa").print()
+                                   // PrintAsImage("aa",false)
+                                })
+                            });
+                             </text>
+                        }
+                        else {
+                            <text>
+                        RunAfterAjax(function () {
+                                    //PrintAsImage("aa",false)
+
+                                        $(".aa").print()
+                                    })
+                            </text>
+                        }
+
+                    }
+                })
+                //$('.aa').load(url, function (response, status, xhr) {
+
+                //});
+            }
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/C_GeneralEntryTransaction/PrintReport',
+            //    success: function (result) {
+            //        $('.aa').html(result);
+            //    }
+            //});
+        });
+    });
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+</script>
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookTransactions.js")

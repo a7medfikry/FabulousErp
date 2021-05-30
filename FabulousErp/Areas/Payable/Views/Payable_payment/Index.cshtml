@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewBag.Title = "Payable Payment";
+    int SortBy = 1;
+}
+
+
+@Html.Action("ReportSearch", "Common", new { section = Request["section"], Cont = "Payable_payment" })

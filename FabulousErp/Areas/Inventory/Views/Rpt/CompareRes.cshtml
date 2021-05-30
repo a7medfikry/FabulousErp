@@ -1,0 +1,38 @@
+﻿@model List<FabulousModels.Inventory.CompareQutaion>
+@{
+    ViewBag.Title = "CompareRes";
+    Layout = null;
+}
+
+
+<table style="width:100%;">
+    <tr>
+        <td>Vendore Id</td>
+        <td>Name </td>
+        <td>Qutation No</td>
+        <td>Currency</td>
+        <td>Grand Total</td>
+        <td>Trad Discount</td>
+        <td>Flight</td>
+        <td>Miscellaneous</td>
+        <td>Tax</td>
+        <td>Net Amount</td>
+        <td></td>
+    </tr>
+    @foreach (FabulousModels.Inventory.CompareQutaion i in Model)
+    {
+        <tr>
+            <td>@i.Vendore_id</td>
+            <td>@i.Name </td>
+            <td>@i.Qutation_no</td>
+            <td>@i.Currency</td>
+            <td>@i.Grand_total</td>
+            <td>@i.Trade_discount </td>
+            <td>@i.Flight</td>
+            <td>@i.Miscellaneous</td>
+            <td>@i.Tax</td>
+            <td>@i.Net</td>
+            <td><input type="checkbox" class="Select" value="@i.Id"></td>
+        </tr>
+    }
+</table>

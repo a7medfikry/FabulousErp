@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E229C04-620D-4934-A1AF-76F6A039C5EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FabulousModels</RootNamespace>
+    <AssemblyName>FabulousModels</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APIModels\TransactionApiData.cs" />
+    <Compile Include="DTOModels\Important\Favourites.cs" />
+    <Compile Include="DTOModels\Important\Get_Small_Data_DTO.cs" />
+    <Compile Include="DTOModels\Inquiry\Financial\Accounting\ChartOfAccount\List_Account_Chart_DTO.cs" />
+    <Compile Include="DTOModels\Inquiry\Financial\GeneralSetting\Tax\Inquiry_TaxDTO.cs" />
+    <Compile Include="DTOModels\Inquiry\Financial\GeneralSetting\UserGroup\Inquiry_GroupAccess.cs" />
+    <Compile Include="DTOModels\Inquiry\Inquiry_DTO.cs" />
+    <Compile Include="DTOModels\Inquiry\Inquiry_JETransaction_DTO.cs" />
+    <Compile Include="DTOModels\Reports\Financial\Accounting\Reports_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\Analytic\Analytic_Account_Distribution_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\Analytic\Analytic_To_Account_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CostCenter\Cost_Center_Accounts_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CostCenter\Main_Cost_Center_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateAccount\Import_Excel_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateAccount\RetrieveDataToAccount_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateChartOfAccount\Account_Chart_Company_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateChartOfAccount\CBF_Accounts_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateChartOfAccount\Chart_Group_Content_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateChartOfAccount\Chart_View_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CreateChartOfAccount\Segments_Chart_DTO.cs" />
+    <Compile Include="DTOModels\Inquiry\Financial\GeneralSetting\C_B_F_Setup\Inquiry_CompanySetup.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CurrenciesDefinition\Currencies_Definition_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CurrenciesDefinition\Exchange_Rates_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\Accounting\CurrenciesDefinition\Formate_Setting_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\C_B_F_Setup\CompanyBranchInfo\R_Branch_Info_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\C_B_F_Setup\CompanyFactoryInfo\R_Company_Info_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\C_B_F_Setup\CompanyInformation\R_Company_Info_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\FiscalPeriods\Company_FY_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\FiscalPeriods\Open_Close_Periods_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\FiscalPeriods\OverlappingError.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\Tax\TaxCodeByGroup_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\Tax\Tax_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\UGFormAccess\UserGroupAccess_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\UserAccess\UA_Comp_Premission_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\UserAccount\R_User_Account_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\UGFormAccess\R_UG_Access_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\UserAccount\User_Login_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\UserGroup\R_Group_Info_DTO.cs" />
+    <Compile Include="DTOModels\Settings\Financial\GeneralSettings\User_Post_DTO.cs" />
+    <Compile Include="DTOModels\Transaction\CloseYear_DTO.cs" />
+    <Compile Include="DTOModels\Transaction\Financial\CheckbookTransactions_DTO.cs" />
+    <Compile Include="DTOModels\Transaction\Financial\Company\TCGE_DTO.cs" />
+    <Compile Include="Inventory\CardRpt.cs" />
+    <Compile Include="Inventory\CompareQutaion.cs" />
+    <Compile Include="Inventory\CostCenterAccount.cs" />
+    <Compile Include="Inventory\CostUnitPrice.cs" />
+    <Compile Include="Inventory\DailySalesRpt.cs" />
+    <Compile Include="Inventory\GetVendoreInvoice.cs" />
+    <Compile Include="Inventory\GrandProfit.cs" />
+    <Compile Include="Inventory\HasCostCenterHasAnayltic.cs" />
+    <Compile Include="Inventory\InvCSRpt.cs" />
+    <Compile Include="Inventory\InvCustSalesRpt.cs" />
+    <Compile Include="Inventory\InvSalesPo.cs" />
+    <Compile Include="Inventory\ItemDetails.cs" />
+    <Compile Include="Inventory\ItemStockDetails.cs" />
+    <Compile Include="Inventory\ItemStockingInquery.cs" />
+    <Compile Include="Inventory\MonthlySalesRpt.cs" />
+    <Compile Include="Inventory\PoItemsPrint.cs" />
+    <Compile Include="Inventory\QtyAvaliable.cs" />
+    <Compile Include="Inventory\Seriales.cs" />
+    <Compile Include="Inventory\StockRpt.cs" />
+    <Compile Include="Inventory\TransferItems.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tax\TaxTable.cs" />
+    <Compile Include="ViewModels\BatchApproval.cs" />
+    <Compile Include="ViewModels\Chart.cs" />
+    <Compile Include="ViewModels\IDR.cs" />
+    <Compile Include="ViewModels\Important\All_Project_Forms.cs" />
+    <Compile Include="ViewModels\Installment_view.cs" />
+    <Compile Include="ViewModels\Reports.cs" />
+    <Compile Include="ViewModels\Settings\Financial\Accounting\Checkbook_DTO.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\Address_Information.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\Branch_Collections.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\Branch_legal_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\Branch_Main_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\Factory_Collection.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\Factory_Legal_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\Factory_main_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\Company_Collection.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\Communication_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\Company_Legal_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\Company_Main_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\FiscalPeriods\Company_Fiscal_Year.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalDefandPeriods.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\FiscalPeriods\Fiscal_Adjustment.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\FiscalPeriods\Fiscal_Definition.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\FiscalPeriods\Fiscal_Year.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\UserAccount\List_Of_User.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\UserAccount\UserLogin.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\UserAccount\User_Profile_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\UserGroup\Account_Group_Info.cs" />
+    <Compile Include="ViewModels\Settings\Financial\GeneralSetting\UserGroup\List_Of_Group.cs" />
+    <Compile Include="ViewModels\ShowTransaction.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FabulousDB\FabulousDB.csproj">
+      <Project>{ef3434c6-c61d-489a-b762-2b7b92df0ebf}</Project>
+      <Name>FabulousDB</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

@@ -1,0 +1,156 @@
+﻿@model IEnumerable<FabulousDB.Models.Deprecation_record>
+
+@{
+    ViewBag.Title = "Depr. record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a href="/FixedAssets/Deprecations/Create">Back To Depreciation</a>
+@*$('.DebitCreditSection').find('#TCGE-GTbl').parent('div').html()*@
+<button onclick="PrintThis(null, true, true);" class="btn btn-primary" id="Print">Print</button>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<section style="overflow:auto;">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                Acq. Cost
+            </th>
+            <th>
+                Renewal Amount
+            </th>
+            <th>
+                Disposal Amount
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                Beginning Accum.
+            </th>
+            <th>
+                Depr.
+            </th>
+            <th>
+                Renewal Depr.
+            </th>
+            <th>
+                Ending Accum.
+            </th>
+            <th>
+                Net Cost
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Asset.Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.Date.HasValue)
+                    {
+                        @item.Date.Value.ToShortDateString()
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_acquisition_cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renewal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disposal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Beginning_deprecation_accumulated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Depreication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renewal_depreication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ending_deprecication_accumulated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Net_assets_cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asset.Description)
+                </td>
+                <td>
+                    @if (Request["section"] != "Reports" && Request["section"] != "Inquiry")
+                    {
+                        @Html.ActionLink("Edit", "MainEdit", new { id = item.Id }) @*<span class="removeBeforePrint"> |</span>*@
+
+                    }
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) <span class="removeBeforePrint"> |</span>*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</section>
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")
+
+@if (Request["section"] != "Reports")
+{
+    <script>
+        var TblCost = [{
+            Credit: 0,
+            Debit: 0,
+            CreditAccNum: "",
+            DebitAccNum: "",
+            DebitAccName: "",
+            CreditAccName: "",
+            Describtion: "",
+            ISO: ""
+        }];
+    $(function () {
+        if ("@ViewBag.JlNumber") {
+           var JlNumber = "@ViewBag.JlNumber";
+            $.ajax({
+                url: "/api/TransactionApi/GetTransactionData?postingNumber=" + JlNumber,
+                method: "GET",
+                success: function (data) {
+                    var Count = 0;
+                    data.ShowTransactions = data.ShowGeneralLedger;
+                    ManyJvAction(data)
+                }
+            });
+
+
+        }
+
+    })
+
+    </script>
+    @Scripts.Render("~/MainTransaction")
+
+    <section class="DebitCreditSection">
+        @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+    </section>
+    <input id="TCGE-GurrencyFormate" type="hidden" value="" />
+
+}
+@if (Request["print"] == "true")
+{
+    <script>
+        $(function () {
+            $("#Print").trigger("click");
+        })
+    </script>
+}

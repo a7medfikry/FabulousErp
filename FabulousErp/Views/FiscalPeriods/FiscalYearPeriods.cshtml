@@ -1,0 +1,71 @@
+﻿@model FabulousModels.ViewModels.Settings.Financial.GeneralSetting.FiscalPeriods.FiscalDefandPeriods
+
+@{
+    ViewBag.Title = "Fiscal Year Periods";
+}
+
+@using (Html.BeginForm("FiscalYearPeriods", "FiscalPeriods", FormMethod.Post, new { id = "Form1" }))
+{
+    <div class="container-fluid">
+        <table class="table table-bordered table-striped display nowrap" id="FiscalYearTable">
+            <caption> Fiscal Year Periods </caption>
+            <thead id="FiscalYearHead">
+                <tr>
+                    <td> Fiscal Year Name </td>
+                    <td> Period No </td>
+                    <td> Period Start Date </td>
+                    <td> Period End Date </td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Fiscal_Year_List.Count; i++)
+                {
+                    <tr>
+                        <td width="15%">
+                            @Html.HiddenFor(x => Model.Fiscal_Year_List[i].ID)
+                            @Html.HiddenFor(x => Model.Fiscal_Year_List[i].Fiscal_Year_ID, new { id = "FiscalYearID" })
+                            @Html.TextBoxFor(x => Model.Fiscal_Year_List[i].Fiscal_Year_Name, new { @disabled = "disabled", id = "FiscalYearName", @class = "form-control form-control-sm" })
+
+                        </td>
+                        <td width="10%"> @Html.TextBoxFor(x => Model.Fiscal_Year_List[i].Period_No, new { @disabled = "disabled", @class = "form-control form-control-sm" })</td>
+                        <td width="20%"> @Html.EditorFor(x => Model.Fiscal_Year_List[i].Period_Start_Date, "{00:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control1 form-control form-control-sm", @type = "date", @id = "StartDate", @maxlength = "20" } })</td>
+                        <td width="20%"> @Html.EditorFor(x => Model.Fiscal_Year_List[i].Period_End_Date, "{00:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control1 form-control form-control-sm", @type = "date", @id = "EndDate", @maxlength = "20" } })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table class="table table-bordered table-striped display nowrap" id="AdjustmentTable">
+            <caption> Fiscal Year Adjustment Periods </caption>
+            <thead>
+                <tr>
+                    <td> Fiscal Year Name </td>
+                    <td> Period No </td>
+                    <td> Date </td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Fiscal_Adjustment_List.Count; i++)
+                {
+                    <tr>
+                        <td width="15%">
+                            @Html.HiddenFor(x => Model.Fiscal_Adjustment_List[i].ID)
+                            @Html.HiddenFor(x => Model.Fiscal_Year_List[i].Fiscal_Year_ID, new { id = "FiscalYearID" })
+                            @Html.TextBoxFor(x => Model.Fiscal_Adjustment_List[i].Fiscal_Year_Name, new { @disabled = "disabled", id = "FiscalYearName", @class = "form-control form-control-sm" })
+                        </td>
+                        <td width="10%"> @Html.TextBoxFor(x => Model.Fiscal_Adjustment_List[i].Period_No, new { @disabled = "disabled", @class = "form-control form-control-sm" })</td>
+                        <td width="20%"> @Html.EditorFor(x => Model.Fiscal_Adjustment_List[i].Period_Start_Date, "{00:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control2 form-control form-control-sm", @type = "date", @id = "StartDate", @maxlength = "20" } })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input type="button" id="SubmitError" value="save" class="Click btn btn-primary btn-sm" /> <label id="PeriodsDone"></label>
+
+        <p id="ErrorDate" class="hide-normal"> <label id="ErrorMsg"></label> From Date <label id="StartMsg"></label> to <label id="EndMsg"> </label>  In <label>Custom Periods</label></p>
+
+        <p id="ErrorDateAdj" class="hide-normal"> <label id="ErrorMsgAdj"></label>  <label id="StartMsgAdj"></label> </p>
+
+        <p id="NotMatchError" class="hide-normal"></p>
+    </div>
+}
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/FiscalYearPeriods/Validation.js")

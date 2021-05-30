@@ -1,0 +1,96 @@
+﻿@model FabulousDB.Models.Inv_item_gl_accounts
+
+@{
+    ViewBag.Title = "Item Gl Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+   <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost_of_GS.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost_of_GS.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Damage.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Damage.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inventory.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inventory.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.item.Item_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Purchase_variance.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Purchase_variance.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inventory_returne.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inventory_returne.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sales.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sales.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sales_return.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sales_return.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Variancies.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Variancies.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

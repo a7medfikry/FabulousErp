@@ -1,0 +1,63 @@
+﻿@model IEnumerable<FabulousDB.Models.Installment_setting>
+
+@{
+    ViewBag.Title = "Installment setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Plan_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inactive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cash_advanced_percentage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Number_of_installment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Installment_period)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plan_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inactive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cash_advanced_percentage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Number_of_installment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installment_period)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Create", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

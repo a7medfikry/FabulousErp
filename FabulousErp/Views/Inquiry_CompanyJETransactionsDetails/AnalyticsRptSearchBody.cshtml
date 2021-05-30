@@ -1,0 +1,140 @@
+﻿@model List<FabulousModels.ViewModels.AnaylticRpt>
+@{
+    Layout = null;
+    bool Print = Model.Any(x => x.Action == "Print");
+    int Count = 0;
+    bool HasValue = false;
+    string TextAlign = "";
+    if (FabulousErp.Business.GetLanguage()== FabulousDB.Models.Langs.Arabic.ToString())
+    {
+        TextAlign = "text-align:right;";
+    }
+}
+<div class="table-responsive">
+    @foreach (List<FabulousModels.ViewModels.AnaylticRpt> ii in Model.GroupBy(x => x.DistId).Select(x => x.ToList()))
+    {
+        Count = 0;
+        HasValue = true;
+        <h4 style="@TextAlign">@ii.FirstOrDefault().Dist_name</h4>
+        <table class="table table-bordered table-striped" id="D_@Count">
+            <thead>
+                <tr>
+                    @if (!Print)
+                    {
+                        <th>@FabulousErp.BusController.Translate("V") </th>
+                        <th> @FabulousErp.BusController.Translate("Date") </th>
+                        <th> @FabulousErp.BusController.Translate("JE Num.") </th>
+                        <th> @FabulousErp.BusController.Translate("P. Key") </th>
+                        <th> @FabulousErp.BusController.Translate("Currency") </th>
+                        <th> @FabulousErp.BusController.Translate("Amount") </th>
+                        <th> @FabulousErp.BusController.Translate("Rate") </th>
+                        <th> @FabulousErp.BusController.Translate("Describtion") </th>
+                        <th> @FabulousErp.BusController.Translate("Debit") </th>
+                        <th> @FabulousErp.BusController.Translate("Credit")</th>
+                        <th> @FabulousErp.BusController.Translate("Balance") </th>
+                        <th>
+                            @FabulousErp.BusController.Translate("Action") </th>
+                        }
+                        else
+                        {
+                        <th>@FabulousErp.BusController.Translate("Account Id") </th>
+                    <th> @FabulousErp.BusController.Translate("Anayaltic Distribution") </th>
+                        <th> @FabulousErp.BusController.Translate("Description") </th>
+                        <th> @FabulousErp.BusController.Translate("Prcentage") </th>
+                        <th> @FabulousErp.BusController.Translate("Debit") </th>
+                        <th> @FabulousErp.BusController.Translate("Credit") </th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody id="IADI-tblBody">
+                @{ 
+                    double? Debit = 0;
+                    double? Credit = 0;
+                    double? Balance = 0;
+                }
+                @foreach (FabulousModels.ViewModels.AnaylticRpt i in ii)
+                {
+                    if (!Print)
+                    {
+                        if (Count == 0/*i.IsBeging*/)
+                        {
+                            <tr>
+                                <td colspan="7"></td>
+                                <td> @i.Beging.FirstOrDefault().Description </td>
+                                <td> @i.Beging.Sum(x => x.Balance) </td>
+                                <td></td>
+                            </tr>
+                        }
+                        
+                            <tr>
+                                <td>
+                                    @if (i.V)
+                                    {
+                                        <span style="color:red;">*</span>
+                                    }
+                                </td>
+                                <td> @i.Date </td>
+                                <td> @i.JE_num </td>
+                                <td> @i.Posting_key </td>
+                                <td> @i.Currency </td>
+                                <td> @i.Original_amount  </td>
+                                <td> @i.Transaction_rate </td>
+                                <td> @i.Description </td>
+                                <td> @i.Debit </td>
+                                <td> @i.Credit </td>
+                                <td> @i.Balance </td>
+
+                                <td style="width:5%;">
+                                    @if (i.Posting_Num != 0)
+                                    {
+                                        <a class="btn btn-secondary noExl" target="_blank" href="/Inquiry_CompanyJETransactionsDetails/TransactionDetails?journalEntryNumber=@i.Posting_Num">View Details</a>
+                                    }
+                                </td>
+                            </tr>
+                        
+                    }
+                    else
+                    {
+                        <tr>
+                            <td> @i.Account_id </td>
+                            <td> @i.Anayaltic_Distribution </td>
+                            <td> @i.Description </td>
+                            <td> @i.Prcentage %</td>
+                            <td> @i.Debit </td>
+                            <td> @i.Credit </td>
+                        </tr>
+                    }
+                    Count++;
+                    Debit += i.Debit;
+                    Credit += i.Credit;
+                    Balance += i.Balance;
+                }
+                @if (!Print)
+                {
+                    <tr>
+                        <td colspan="7"></td>
+                        <td>
+                            Ending
+                        </td>
+
+                        <td> 
+                            @ii.Sum(x => x.Debit)
+                        </td>
+                        <td>
+                            @ii.Sum(x => x.Credit)
+                        </td>
+                        <td>
+                            @ii.Sum(x => x.Balance)
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    @if (!HasValue)
+    {
+        <h2>No Data Found</h2>
+    }
+</div>

@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Factory Create Batch";
+    ViewBag.FormCode = "TFCB";
+}
+
+<div class="container-fluid">
+
+    <span class="text-error" id="TFCB-GlobalError"></span>
+
+    <span class="hide-normal" id="TCCB-CheckPS">@ViewBag.PSExist</span>
+
+    <div class="form-row form-group">
+        <div class="col-md-2">
+            <label class="col-form-label col-form-label-sm" for="TFCB-FactoryID"> Factory ID <i class="star">*</i> </label>
+            @Html.DropDownList("TFCB-FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "TFCB-FactoryID", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-4">
+            <label class="col-form-label col-form-label-sm" for="TFCB-FactoryName"> Factory Name : </label>
+            <input type="text" class="form-control form-control-sm" id="TFCB-FactoryName" disabled />
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm" for="TFCB-Module"> Module : <i class="star">*</i> </label>
+            @Html.DropDownList("TFCB-Module", new List<SelectListItem>
+                                  {
+                                  new SelectListItem{Text = "Financial" , Value = "Financial" },
+                                  new SelectListItem{Text = "Purshacing" , Value = "Purshacing" },
+                                  new SelectListItem{Text = "Sales" , Value = "Sales" },
+                                  new SelectListItem{Text = "Inventory" , Value = "Inventory" },
+                                  }, "-Choose-", new { @id = "TFCB-Module", @class= "form-control form-control-sm" })
+        </div>
+        <div class="col-md-3">
+            <label class="col-form-label col-form-label-sm" for="TFCB-BatchID"> Batch ID <i class="star">*</i> </label>
+            <input type="text" class="form-control form-control-sm" id="TFCB-BatchID" maxlength="5" />
+        </div>
+    </div>
+
+    <div class="form-row form-group">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Description : <i class="star">*</i> </label>
+        <div class="col-md-10">
+            <textarea id="TFCB-BatchDescription" class="textArea" maxlength="100"></textarea>
+        </div>
+    </div>
+
+    <div class="p-2">
+        <button type="button" class="btn btn-success btn-sm" id="TFCB-SaveBatch">Save</button>
+        <button type="button" class="btn btn-danger btn-sm" id="TFCB-ResetPage">Clear</button>
+    </div>
+
+</div>
+
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")

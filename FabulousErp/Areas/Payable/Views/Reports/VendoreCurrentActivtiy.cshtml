@@ -1,0 +1,149 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <input class="CV Vendore v-middle" name="Date" type="radio" value="1" checked="checked" />
+    <label class="v-middle" style="margin-bottom:1px;"> Vendore</label>
+    <input class="CV v-middle" name="Date" type="radio" value="2" />
+    <label class="v-middle" style="margin-bottom:1px;"> Class</label>
+</div>
+<div class="clearfix">
+    <div class="form-group VendoreDiv" style="width:40%;">
+        <label class="control-label col-md-2">Vendore Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("VendoreId", null, "", new { @class = "form-control CheckDrop" })
+        </div>
+    </div>
+    <div class="form-group ClassDiv" style="width:40%;">
+        <label class="control-label col-md-2">Class Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("ClassId", null, "", new { @class = "form-control CheckDrop" })
+        </div>
+    </div>
+
+</div>
+
+<div class="clearfix VendoreDiv ">
+    <div class="form-group" style="width:40%;">
+        <label class="control-label col-md-2">From  Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("VendoreId", null, "", new { @class = "form-control",id= "VendoreIdFrom" })
+        </div>
+    </div>
+    <div class="form-group" style="width:40%;">
+        <label class="control-label col-md-2">To Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("VendoreId", null, "", new { @class = "form-control",Id= "VendoreIdTo" })
+        </div>
+    </div>
+</div>
+<div class="clearfix ClassDiv">
+    <div class="form-group" style="width:40%;">
+        <label class="control-label col-md-2">From  Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("ClassId", null, "", new { @class = "form-control",id= "ClassIdFrom" })
+        </div>
+    </div>
+    <div class="form-group" style="width:40%;">
+        <label class="control-label col-md-2">To Id</label>
+        <div class="col-md-10">
+            @Html.DropDownList("ClassId", null, "", new { @class = "form-control",id = "ClassIdTo" })
+        </div>
+    </div>
+</div>
+
+<div class="clearfix">
+    <div>
+        <input class="PT v-middle" name="Date" type="radio" value="1" checked="checked" />
+        <label class="v-middle" style="margin-bottom:1px;"> All</label>
+        <input class="PT v-middle" name="Date" type="radio" value="2" />
+        <label class="v-middle" style="margin-bottom:1px;"> From Period</label>
+    </div>
+    <div class="FromToDate" style="display:none;">
+        <div class="form-group" style="width:40%;">
+            <label class="control-label col-md-2">From </label>
+            <div class="col-md-10">
+                <input type="date" class="PeriodFrom form-control" />
+            </div>
+        </div>
+        <div class="form-group" style="width:40%;">
+            <label class="control-label col-md-2">To </label>
+            <div class="col-md-10">
+                <input type="date" class="PeriodTo form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="Tbl"></section>
+<script>
+    $(function () {
+        ShowVendore();
+    })
+    $(document).on("click", ".PT", function () {
+        if ($(document).find(".PT:checked").val() == 1) {
+            $(".FromToDate").hide();
+        } else {
+            $(".FromToDate").show();
+
+        }
+    })
+    $(document).on("click", ".CV", function () {
+        if ($(document).find(".CV:checked").val() == 1) {
+            ShowVendore();
+        } else {
+            $(".ClassDiv").show();
+            $(".VendoreDiv").hide();
+
+            $("#VendoreIdFrom").val("")
+            $("#VendoreIdTo").val("")
+            $("#VendoreId").val("")
+
+        }
+    })
+    function ShowVendore() {
+        $(".ClassDiv").hide();
+        $(".VendoreDiv").show();
+
+        $("#ClassIdFrom").val("")
+        $("#ClassIdTo").val("")
+        $("#ClassId").val("")
+    }
+    $("#VendoreId,#ClassId,#VendoreIdFrom,#VendoreIdTo,.PeriodFrom,.PeriodTo").change(function () {
+        if ($(this).attr("id") == "ClassId") {
+            $("#VendoreId").val("");
+            $("#VendoreIdFrom").val("");
+            $("#VendoreIdTo").val("");
+        }
+        if ($(this).attr("id") == "VendoreId") {
+            $("#ClassId").val("");
+            $("#VendoreIdFrom").val("");
+            $("#VendoreIdTo").val("");
+        }
+        if ($(this).attr("id") == "VendoreIdFrom"
+            || $(this).attr("id") == "VendoreIdTo") {
+            $("#ClassId").val("");
+            $("#VendoreId").val("");
+        }
+
+        $.ajax({
+            url: "@Url.Action("VendoreCurrentActivtiyRes")?PeriodType=" + $(".PT:checked").val() + "&VendoreId=" + $("#VendoreId").find("option:selected").val() + "&GroupId=" + $("#ClassId").find("option:selected").val() + "&VendoreIdFrom=" + $("#VendoreIdFrom").find("option:selected").val() + "&VendoreIdTo=" + $("#VendoreIdTo").find("option:selected").val() + "&VendoreId=" + $("#VendoreId").find("option:selected").val() + "&GroupId=" + $("#ClassId").find("option:selected").val()
+                + "&ClassIdFrom=" + $("#ClassIdFrom").find("option:selected").val() + "&ClassIdTo=" + $("#ClassIdTo").find("option:selected").val()
+                + "&PeriodFrom=" + $(".PeriodFrom").val() + "&PeriodTo=" + $(".PeriodTo").val()
+                + "&GetlastYear=@ViewBag.GetLastYear",
+            datatype: "html",
+            beforeSend: function () {
+                $(".Tbl").empty()
+            },
+            success: function (data) {
+
+                $(".Tbl").html(data);
+            }
+        })
+    })
+    $(".CheckDrop").change(function () {
+
+    })
+</script>

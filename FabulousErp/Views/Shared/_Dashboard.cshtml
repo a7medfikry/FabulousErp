@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/_Content/Styles/StyleSheet1.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #25476a;" role="navigation">
+        <!-- Navbar-toggler -->
+        <button class="btn btn-dark btn-sm rounded-circle text-white" id="sidebarToggle" href="#">
+            <i class="fa fa-bars"></i>
+        </button>
+        <a class="navbar-brand ml-3" href="#">Home</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- /.Navbar-toggler -->
+    </nav>
+
+    <div id="wrapper">
+        <!-- Left Side-bar -->
+        @Html.Partial("_FavouritesNavbar")
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- Breadcrumbs / page header -->
+               @Html.Partial("_PageHeader")
+                <!-- Page Content -->
+                @RenderBody()
+            </div>
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+          @Html.Partial("_PageFooter")
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</body>
+</html>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/Scripts/bootstrap.js")
+<script>
+    $("#sidebarToggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>

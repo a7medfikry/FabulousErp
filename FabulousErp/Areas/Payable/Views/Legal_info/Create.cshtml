@@ -1,0 +1,82 @@
+﻿@model FabulousErp.Payable.Models.Payable_legal_info
+
+@{
+    Layout = null;
+}
+
+<div class="form-horizontal">
+
+    @using (Ajax.BeginForm("Create", "Legal_info", new AjaxOptions { }))
+    {
+        @Html.AntiForgeryToken()
+
+        <h5 style="font-weight:bold;"><span>Legal info</span></h5>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tax_file_no, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tax_file_no, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tax_file_no, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tax_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tax_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tax_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Commercial_register, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Commercial_register, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Commercial_register, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Social_insurance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Social_insurance, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Social_insurance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Creditor_id, "Creditor_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Creditor_id, new { htmlAttributes = new { @class = "form-control Creditor_id", id = "Creditor_idLegal" } })
+
+                @Html.ValidationMessageFor(model => model.Creditor_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-8">
+            <button class="fileupload btn btn-success d-inline-block">Add Tax file no</button>
+            <button class="fileupload btn btn-success d-inline-block">Add Tax Id</button>
+            <button class="fileupload btn btn-success d-inline-block">Add Commercial register</button>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    <div class="FileUploadDiv">
+        @Html.Action("UploadFile", "UploadFile", new { area = "" })
+    </div>
+</div>
+<script>
+    $(".fileupload").click(function () {
+        $(".AttachmentUploadFile").trigger("click");
+    })
+    $(function () {
+        $(".AttachmentUploadFile").parent("span").addClass("hide");
+        $(".FileUploadDiv").find(".delete").addClass("hide");
+        $(".FileUploadDiv").find(".delete").next("input").addClass("hide");
+        $(".FileUploadDiv").find(".progress").addClass("hide");
+    })
+</script>

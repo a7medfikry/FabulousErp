@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Assign Fiscal Year To Company";
+    ViewBag.FormCode = "SCFY";
+}
+
+<div class="container-fluid">
+
+    <div class="row form-group hide">
+        <label class="col-md-2"> Company ID : <span class="star">*</span> </label> 
+        <div class="col-md-4">
+            @Html.DropDownList("CompanyID", ViewBag.CompanyID as SelectList, "Select", new { id = "CompanyID", @class = "form-control form-control-sm" })
+            <span class="text-error" id="CIDError"></span>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label class="col-md-10"> Company Name : </label>
+        <div class="col-md-11">
+            <input type="text" class="form-control form-control-sm" id="CompanyName" disabled />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label class="col-md-10"> Fiscal Year ID : <span class="star">*</span> </label> 
+        <div class="col-md-11">
+            @Html.DropDownList("FiscalYearID", ViewBag.FiscalYearID as SelectList, "Select", new { id = "FiscalYearID", @class = "form-control form-control-sm" })
+            <span class="text-error" id="FIDError"></span>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label class="col-md-10"> Fiscal Year Name : </label>
+        <div class="col-md-11">
+            @Html.TextBox("FiscalYearName",null, new { id = "FiscalYearName", @readonly = "true", @class="form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn btn-primary btn-sm mr-2" id="AssignFYToCompBtn">Assign</button>
+        <label id="SuccessAssign"></label>
+        <button type="button" class="btn btn-danger btn-sm" id="Reset">Clear</button>
+    </div>
+
+</div>
+<script>
+    $(function () {
+        $("#CompanyID").trigger("change");
+    })
+</script>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/CompanyFiscalYear/C_Fiscal_Validation.js")

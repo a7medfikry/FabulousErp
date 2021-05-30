@@ -1,0 +1,130 @@
+﻿@model IEnumerable<FabulousErp.Receivable.Models.Receivable_payment>
+@{ 
+    Layout = null;
+}
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th>
+                    V
+                </th>
+                <th>
+                    No.
+                </th>
+                <th>
+                    Customer
+                </th>
+                <th>
+                    Currency
+                </th>
+                <th>
+                    Rate
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Cheque No.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Due_date)
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>@Html.DisplayNameFor(model => model.Reference)</th>
+                <th>Journal No.</th>
+                <th>Checkbook </th>
+                <th>Receipt No.</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @if (item.Is_void)
+                        {
+                            @Html.Raw("*")
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payment_no)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vendor.Vendor_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Currency.ISOCode)
+                    </td>
+                    <td>
+                        @item.Transaction_rate.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+
+                    <td>
+                        @item.Posting_date.ToShortDateString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cash_type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cheque_number)
+                    </td>
+                    <td>
+                        @if (item.Due_date.HasValue)
+                        {
+                            @item.Due_date.Value.ToShortDateString()
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Orginal_amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Reference)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Journal_number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckBook_setting.C_CheckbookID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckBook_transaction.C_DocumentNumber)
+                    </td>
+
+                    @if (Request["section"] == "void")
+                    {
+                        <td>
+                            @Html.ActionLink("Void", "Index", "Void", new { Type = TrxPay.Pay.ToString(), id = item.Id }, new { })
+                        </td>
+                    }
+                    else
+                    {
+                        if (Request["section"] != "Inquiry" && Request["section"] != "Report")
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Create", new { id = item.Id, D = "D" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Create", new { id = item.Id, D = "D" })
+                            </td>
+
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+
+    </table>
+

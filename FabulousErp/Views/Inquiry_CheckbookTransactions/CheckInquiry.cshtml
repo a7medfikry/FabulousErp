@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Check Inquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string hide = "";
+    string Ohide = "";
+    if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.JN)))
+    {
+        hide = "hide";
+    }
+    else
+    {
+        Ohide = "hide";
+    }
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    @*<button class="btn btn-primary btn-sm" id="Print" onclick="PrintThis('PrintSec', false, true, false,null, 'Cheque Trasfer', true, true, null,'PrintSec *{font-size:24px;}')"> Print </button>*@
+    <button class="btn btn-primary btn-sm" id="Print" onclick="PrintAsImage('PrintSec')"> Print </button>
+
+    <section id="PrintSec">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Document No : </label>
+            <div class="col-md-2">
+                @if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.DocNum)))
+                {
+                    <div class="col-md-2 @Ohide">
+                        @ViewBag.DocNum
+                    </div>
+                }
+                @Html.DropDownList("CBI-docNumber", ViewBag.DocumentNumber as SelectList, "-Choose-", new { @id = "CBI-docNumber", @class = $"form-control form-control-sm {hide}" })
+
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> JV Number : </label>
+            @if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.JN)))
+            {
+                <div class="col-md-2 @Ohide">
+                    @ViewBag.JN
+                </div>
+            }
+            <div class="col-md-2 @hide">
+                @Html.DropDownList("documentNumberVoid", ViewBag.JVNumber as SelectList, "-Choose-", new { @id = "TCGV-JENum", @class = "form-control form-control-sm" })
+            </div>
+
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Date : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="C_TransactionDate" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="C_PostingDate" disabled />
+            </div>
+        </div>
+        <div class="form-row mb-1" id="transferFrom">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "CBT-checkbookID", @class = "form-control form-control-sm CBT-checkbookID", @disabled = "disabled" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+            <div class="col-md">
+                <input type="text" class="form-control form-control-sm CBT-checkbookName" disabled />
+            </div>
+        </div>
+        <div class="form-row mb-1" id="transferTo">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Bank ID : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "CBT-checkbookID", @class = "form-control form-control-sm CBT-checkbookID", @disabled = "disabled" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Bank Name : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm CBT-checkbookName" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-TransactionRate" disabled />
+            </div>
+        </div>
+
+        <div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered mb-2 NoDataTable" id="TCT-table">
+                    <thead>
+                        <tr>
+                            <th>@FabulousErp.BusController.Translate("Check Number")</th>
+                            <th>@FabulousErp.BusController.Translate("Due Date")</th>
+                            <th>@FabulousErp.BusController.Translate("Original Amount")</th>
+                            <th>@FabulousErp.BusController.Translate("Recieved From")</th>
+                            <th>@FabulousErp.BusController.Translate("Transfer")</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+    @*@Html.Partial("_MainVoidTransaction")*@
+
+
+</div>
+
+
+
+@*@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/ShowTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/VoidTransaction.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransactionVoid_Script.js")
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookTransactions.js")
+<script>
+    $(function () {
+        if (getParameterByName("Po")) {
+            $("#CBI-docNumber").val(getParameterByName("Po"))
+            $("#CBI-docNumber").trigger("change");
+            $('#TCGV-JENum').trigger('change');
+        }
+    })
+    RunAfterAjax(function () {
+                        $("#Print").trigger("click");
+                        //PrintAsImage("PrintSec")
+                    })
+    //$('#CBI-docNumber').change(function () {
+    //    var Po = $(this).val(),
+    //        cutDate = $('#TCT-cutDate').val(),
+    //        tableBody = $('#TCT-table > tbody');
+    //    tableBody.empty();
+    //    if ($(this).val().length > 0) {
+    //        $.ajax({
+    //            type: 'GET',
+    //            url: '/C_CheckTransfer/GetCheckDataByPo?Po=' + Po,
+    //            success: function (result) {
+    //                // Get Transaction Rate
+    //                if (result.length > 0) {
+    //                    $.each(result, function (index, res) {
+    //                        $('#TCT-checkCheckBookName').val(res.CheckbookName);
+    //                        checkCurrencyID = res.CurrencyID;
+    //                        checkAID = res.C_AID;
+    //                        checkAccountID = res.AccountID;
+    //                        checkAccountName = res.AccountName;
+    //                        var Data = "<tr>" +
+    //                            "<td>" + res.CheckNumber + "</td>" +
+    //                            "<td>" + res.Date + "</td>" +
+    //                            "<td>" + res.Balance + "</td>" +
+    //                            "<td>" + res.RecievedFrom + "</td>" +
+    //                            "<td>" + '<input type="checkbox" class="TCT-transferBox" />' + "</td>" +
+    //                            "</tr>";
+    //                        tableBody.append(Data);
+    //                    });
+    //                  //  GetCurrencyRates(checkCurrencyID, postingDate);
+    //                } else {
+    //                    tableBody.append("<tr><td colspan='5'>" + "There's No Any Data" + "</td></tr>");
+    //                }
+    //                RunAfterAjax(function () {
+    //                    //$("#Print").trigger("click");
+    //                    PrintAsImage("PrintSec")
+    //                })
+    //            }
+    //        });
+    //    }
+    //});
+</script>
+<style>
+    .hide {
+        display: none !important;
+    }
+</style>
+<link href="~/Styles/PrintBundle.css" rel="stylesheet" />

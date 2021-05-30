@@ -1,0 +1,161 @@
+﻿@model List<ReconcileRpt>
+@{
+    ViewBag.Title = "Reconcile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string IsTotal = "width:100%;display:block;height:20px;";
+}
+<style>
+    #MyRes {
+        background: #fff;
+    }
+     *{
+        font-size:20px;
+    }
+    .MyTable {
+        direction: ltr;
+        float: right;
+    }
+
+    .MyTable, .Title {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .Title {
+        /*float: right;*/
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .TTitle {
+        width: 40%;
+        direction: rtl;
+    }
+
+    .TValue {
+        width: 30%;
+    }
+
+    .Total {
+        width: 30%;
+        text-align: center;
+        float: left;
+        border: solid 1px;
+    }
+
+    tr {
+        background: transparent !important;
+    }
+    td {
+        border: solid 1px;
+    }
+    .Title {
+        border: none;
+    }
+
+    .DTV {
+        width: 40%;
+        display: inline-block;
+        border: none;
+    }
+    table tbody tr td {
+        border: solid 1px;
+    }
+    .PageHeader {
+        width: 47%;
+        float: right;
+        text-align: right;
+        direction: rtl;
+    }
+</style>
+<h2>Reconcile</h2>
+<script>
+    $(function () {
+        $("#PrintBtn").trigger("click");
+    })
+</script>
+<button onclick="PrintThis('MyRes', null, false,false,null,'',true,true,null,'input{width:40%;}')" id="PrintBtn"></button>
+<section id="MyRes">
+    <section style="margin:40px;">
+        <div style="height:80px;">
+            <div class="text-center">مذكرة تسوية بنكية</div>
+            <div>
+                <div class="PageHeader"> كود البنك : @ViewBag.BankCode </div>
+                <div class="PageHeader"> اسم البنك : @ViewBag.BankName </div>
+            </div>
+        </div>
+
+        @foreach (ReconcileRpt i in Model)
+        {
+            <div class="Title">
+                <div class="DTV">
+                    @i.Head.Title
+                </div>
+                @if (i.Data == null)
+                {
+                    <div class="Total">
+                        @i.Head.Total.Value.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </div>
+                }
+            </div>
+            if (i.Data != null)
+            {
+                <table class="MyTable">
+                    @foreach (RecnocileData ii in i.Data)
+                    {
+                        <tr>
+                            <td style="width:33%;"></td>
+                            <td style="width:33%;" class="TValue">
+                                @if (ii.Deposite != 0)
+                                {
+                                    <span>@ii.Deposite.ToString(FabulousErp.Business.GetDecimalNumber())</span>
+                                }
+                                else if (ii.Payment != 0)
+                                {
+                                    <span>(@ii.Payment.ToString(FabulousErp.Business.GetDecimalNumber()))</span>
+
+                                }
+                            </td>
+                            <td style="width:33%;" class="TTitle">
+                                @if (ii.Type == "row")
+                                {
+                                    <span>شيك رقم :</span> <span> @ii.Cheque_num</span>
+                                }
+                                else
+                                {
+                                    if (ii.Cheque_num == "Other Income")
+                                    {
+                                        <span>إيرادات أخري </span>
+                                    }
+                                    else if (ii.Cheque_num == "Other Expenses")
+                                    {
+                                        <span>مصروفات بنكية </span>
+                                    }
+                                    else if (ii.Cheque_num == "Interest Income")
+                                    {
+                                        <span> فوائد بنكية دائنة </span>
+                                    }
+                                    else if (ii.Cheque_num == "Interest Expenses")
+                                    {
+                                        <span> فوائد بنكية مدينة </span>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td style="width:33%;">
+                            @i.Head.Total.Value.ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                        <td style="width:33%;"></td>
+                        <td style="width:33%;">
+                            <label>الاجمالي</label>
+                        </td>
+                    </tr>
+                </table>
+            }
+        }
+    </section>
+  
+</section>

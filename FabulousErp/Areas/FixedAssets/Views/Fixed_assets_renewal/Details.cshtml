@@ -1,0 +1,33 @@
+﻿@model FabulousDB.Models.Fixed_assets_renewal
+
+@{
+    ViewBag.Title = "Details Renewal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="MainDiv">
+    @Html.Action("Create", new { Id = ViewBag.Id, IsPartial = true })
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id, section = "Inquiry" }) |
+    @Html.ActionLink("Back to List", "Index", new { id = Model.Id, section = "Inquiry" })
+</p>
+<script>
+    $(function () {
+        $("#MainDiv").find("input").attr('disabled', "disabled");
+        $("#MainDiv").find("select").attr('disabled', "disabled");
+        $("#MainDiv").find("input[type='submit']").remove();
+        $("#MainDiv").find("a").remove();
+    })
+</script>
+@if (Request["Print"] == "true")
+{
+    <script>
+        $(function () {
+            PrintThis("MainDiv", false, true, false, null, "Fixed Assets Renwal", true, true, function () {
+                $(document).find("input").not(":visible").addClass("hide");
+            }, "input{border:none !important;width:40% !important;}select{border:none !important;width:40% !important;}.form-group label{width:35% !important;}.form-group div{width:60%;background:red !important;}.form-group div input,.form-group div select{width:100%}")
+        })
+    </script>
+}

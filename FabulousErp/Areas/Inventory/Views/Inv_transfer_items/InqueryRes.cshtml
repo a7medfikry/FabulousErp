@@ -1,0 +1,93 @@
+﻿@model List<FabulousDB.Models.Inv_po_item_transfer>
+@{
+    Layout = null;
+}
+
+    <div>
+
+        <div class="form-group">
+            <label class="col-md-4">From Store</label>
+            <div class="col-md-6">
+                <label class="col-md-12">@Model.FirstOrDefault().From_store.Store_id</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4">From Site</label>
+            <div class="col-md-6">
+                <label class="col-md-12">@Model.FirstOrDefault().From_site.Store_id</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4">Transfer Date</label>
+            <div class="col-md-6">
+                <label class="col-md-12">@Model.FirstOrDefault().Transfer_date.ToShortDateString()</label>
+            </div>
+        </div>
+        @*<div class="form-group">
+            <label class="control-label col-md-2">Transaction date</label>
+            <div class="col-md-10 Transaction_dateDiv">
+                <input class="form-control" type="date" id="TCGE-JEDate" />
+            </div>
+        </div>*@
+        <div class="form-group">
+            <label class="col-md-4">To Store</label>
+            <div class="col-md-6">
+                <label class="col-md-12">@Model.FirstOrDefault().To_store.Store_id</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4">To Site</label>
+            <div class="col-md-6">
+                <label class="col-md-12">@Model.FirstOrDefault().To_site.Store_id</label>
+            </div>
+        </div>
+    </div>
+<div style="margin-top:20px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item Id
+                </th>
+                <th>
+                    Item Name
+                </th>
+
+                <th>
+                    UOM
+                </th>
+
+                <th>
+                    Qty
+                </th>
+                
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+            @foreach (FabulousDB.Models.Inv_po_item_transfer i in Model)
+            {
+                <tr>
+                    <th>
+                        @i.Item.Item_id
+                    </th>
+                    <th>
+                        @i.Item.Short_description
+                    </th>
+                    <th>
+                        @i.UOM.Unit_id
+                    </th>
+
+                    <th>
+                        @i.Transfer_qty
+                    </th>
+                  
+                    <th></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

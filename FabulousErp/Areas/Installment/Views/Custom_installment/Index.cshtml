@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FabulousDB.Models.Custom_installment>
+
+@{
+    ViewBag.Title = "Custom installment";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Installment_setting.Plan_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Percetage)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installment_setting.Plan_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Custom_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Percetage)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

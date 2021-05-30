@@ -1,0 +1,137 @@
+﻿@model IEnumerable<FabulousModels.Inventory.SalesAndDebit>
+
+@{
+    decimal Total = 0;
+}
+@if (ViewBag.IsB)
+{
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th>
+                    Customer Name
+                </th>
+                <th>
+                    From 1 To 30
+                </th>
+                <th>
+                    From 31 To 60
+                </th>
+                <th>
+                    From 61 To 90
+                </th>
+                <th>
+                    90+
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var Customers in Model.SelectMany(x => x.Debit).GroupBy(x => x.Customer_name))
+            {
+            <tr>
+                <td>
+
+                    @Customers.FirstOrDefault().Customer_name
+                </td>
+                <td>
+                    @Customers.Where(item => DateTime.Now.Subtract(item.Date).TotalDays > 0 && DateTime.Now.Subtract(item.Date).TotalDays <= 30).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+                <td>
+                    @Customers.Where(item => DateTime.Now.Subtract(item.Date).TotalDays > 30 && DateTime.Now.Subtract(item.Date).TotalDays <= 60).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+
+                </td>
+                <td>
+                    @Customers.Where(item => DateTime.Now.Subtract(item.Date).TotalDays > 60 && DateTime.Now.Subtract(item.Date).TotalDays <= 90).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+                <td>
+                    @Customers.Where(item => DateTime.Now.Subtract(item.Date).TotalDays > 90).Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+
+                </td>
+                <td>
+                    @Customers.Sum(x => x.Amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+<table class="table">
+    <thead>
+
+        <tr>
+            <th>
+                Doc_type
+            </th>
+            <th>
+                Doc_no
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                @if (ViewBag.IsPay)
+                {
+                    @Html.Raw("Vendore Name")
+                }
+                else
+                {
+                    @Html.Raw("Customer")
+                }
+                </th>
+            <th>
+                Sales
+            </th>
+            <th>
+                Taken Discount
+            </th>
+            <th>
+                Net Amount
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var Customers in Model.SelectMany(x => x.Sales))
+        {
+        <tr>
+            <td>
+                @Customers.Doc_type.ToString()
+            </td>
+            <td>
+                @Customers.Doc_no
+            </td>
+            <td>
+                @try
+                {
+                    @Customers.Date.ToShortDateString()
+                }
+                catch
+                {
+
+                }
+            </td>
+            <td>
+                @Customers.Customer_name
+            </td>
+            <td>
+                @Customers.Amount.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+            <td>
+                @Customers.Discount.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+            <td>
+                @((Customers.Amount- Customers.Discount).ToString(FabulousErp.Business.GetDecimalNumber()))
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}

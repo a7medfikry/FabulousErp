@@ -1,0 +1,416 @@
+﻿@{
+    decimal Total = 0;
+    List<FabulousModels.Inventory.MonthlySalesRpt> ResInv = (ViewBag.Res as List
+<FabulousModels.Inventory.MonthlySalesRpt>
+).Where(x => x.Doc_type != FabulousDB.Models.Doc_type.Return).ToList();
+
+    List<FabulousModels.Inventory.MonthlySalesRpt> ResReturn = (ViewBag.Res as List
+<FabulousModels.Inventory.MonthlySalesRpt>
+).Where(x => x.Doc_type == FabulousDB.Models.Doc_type.Return).ToList();
+}
+@if (!ViewBag.IsReturn)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (string i in ViewBag.Columns as List<string>)
+                {
+                    <th>@i</th>
+                }
+                <th>
+                    Total
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Ftype == "Periodic" || ViewBag.Ftype == "Month" || ViewBag.Ftype == "Quarter")
+            {
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+
+                        if (ResInv.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResInv.Where(x => x.Col == i))
+                            {
+                                <td>@Tres.Sales.ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Sales;
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @if (ViewBag.IsPay)
+                        {
+                            @Html.Raw("Purchase")
+                        }
+                        else
+                        {
+                            @Html.Raw("Sales")
+                        }
+                    </td>
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResInv.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResInv.Where(x => x.Col == i))
+                            {
+                                <td>@Tres.Discount.ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Discount;
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Discount
+                    </td>
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResInv.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResInv.Where(x => x.Col == i))
+                            {
+                                <td>@((Tres.Sales-Tres.Discount).ToString(FabulousErp.Business.GetDecimalNumber()))</td>
+                                Total += Tres.Sales - Tres.Discount;
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Net Amount
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResInv.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResInv.GroupBy(x => x.Similer))
+                            {
+                                <td>@Tres.Sum(x => x.Sales).ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Sum(x => x.Sales);
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @if (ViewBag.IsPay)
+                        {
+                            @Html.Raw("Purchase")
+                        }
+                        else
+                        {
+                            @Html.Raw("Sales")
+                        }
+                    </td>
+
+
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResInv.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResInv.GroupBy(x => x.Similer))
+                            {
+                                <td>@Tres.Sum(x => x.Discount).ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Sum(x => x.Discount);
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Discount
+                    </td>
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResInv.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResInv.GroupBy(x => x.Similer))
+                            {
+                                <td>@((Tres.Sum(x => x.Sales)-Tres.Sum(x => x.Discount)).ToString(FabulousErp.Business.GetDecimalNumber()))</td>
+                                Total += Tres.Sum(x => x.Sales) - Tres.Sum(x => x.Discount);
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Net Amount
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+else
+{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h3>Monthly Return Type</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (string i in ViewBag.Columns as List<string>)
+                {
+                    <th>@i</th>
+                }
+                <th>
+                    Total
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Ftype == "Periodic" || ViewBag.Ftype == "Month")
+            {
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+
+                        if (ResReturn.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResReturn.Where(x => x.Col == i))
+                            {
+                                <td>@Tres.Sales.ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Sales;
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @if (ViewBag.IsPay)
+                        {
+                            @Html.Raw("Purchase")
+                        }
+                        else
+                        {
+                            @Html.Raw("Sales")
+                        }
+                    </td>
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResReturn.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResReturn.Where(x => x.Col == i))
+                            {
+                                <td>@Tres.Discount.ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Discount;
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Discount
+                    </td>
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResReturn.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResReturn.Where(x => x.Col == i))
+                            {
+                                <td>@((Tres.Sales- Tres.Discount).ToString(FabulousErp.Business.GetDecimalNumber()))</td>
+                                Total += Tres.Sales - Tres.Discount;
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Net Amount
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResReturn.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResReturn.GroupBy(x => x.Similer))
+                            {
+                                <td>@Tres.Sum(x => x.Sales).ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Sum(x => x.Sales);
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @if (ViewBag.IsPay)
+                        {
+                            @Html.Raw("Purchase")
+                        }
+                        else
+                        {
+                            @Html.Raw("Sales")
+                        }
+                    </td>
+                </tr>
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResReturn.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResReturn.GroupBy(x => x.Similer))
+                            {
+                                <td>@Tres.Sum(x => x.Discount).ToString(FabulousErp.Business.GetDecimalNumber())</td>
+                                Total += Tres.Sum(x => x.Discount);
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Discount
+                    </td>
+                </tr>
+
+                Total = 0;
+                <tr>
+                    @foreach (string i in ViewBag.Columns as List<string>)
+                    {
+                        if (ResReturn.Where(x => x.Col == i).Any())
+                        {
+                            foreach (var Tres in ResReturn.GroupBy(x => x.Similer))
+                            {
+                                <td>@((Tres.Sum(x => x.Sales)-Tres.Sum(x => x.Discount)).ToString(FabulousErp.Business.GetDecimalNumber()))</td>
+                                Total += Tres.Sum(x => x.Sales) - Tres.Sum(x => x.Discount);
+                            }
+                        }
+                        else
+                        {
+                            <td>0.00</td>
+                        }
+
+                    }
+                    <td>
+                        @Total.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        Net Amount
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

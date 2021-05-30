@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "FabulousERP-Login";
+}
+<style>
+    /* Remove layout Default CSS */
+    .body-header, .favourites-navbar, .footer {
+        display: none;
+    }
+
+    #content-wrapper {
+        padding: 0;
+    }
+
+    #wrapper.toggled #content-wrapper {
+        padding-left: 0;
+    }
+    /* End Remove layout Default CSS */
+
+    body {
+        padding-top: 50px;
+    }
+
+    .card-login {
+        max-width: 25rem;
+    }
+
+    h6 {
+        color: dodgerblue;
+    }
+    .body-header{
+        display:none !important;
+    }
+</style>
+
+<body onload="Clock()" class="bg-light100">
+    <!--Date Navbar-->
+    <header class="date-navbar NoTrans">
+        @Html.Partial("_DateNavbar")
+    </header>
+    <!--Date Navbar-->
+    <div class="container-fluid">
+        <div class="card card-login mx-auto">
+            <div class="card-header text-center">
+                @*<h2 class="morning-text" id="text"> Good Afternoon</h2>*@
+                <p class="text-muted"> We Wish you have a Good Day </p>
+            </div>
+            <div class="card-body">
+                <form>
+                    <h6 class="fs-18"> We will need... <sub class="text-muted">Fill User ID First..</sub> </h6>
+                    <div class="form-group" style="width:100%">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user-o"></i> </span>
+                            </div>
+                            <input type="text" class="form-control form-control-sm" id="UserID" name="username" placeholder="User ID" tabindex="1">
+                        </div>
+                        <span class="text-error"> @Html.ValidationMessage("ErrorUserID", null, new { @id = "ErrorUserID", @class = "Error" }) </span>
+                    </div>
+                    <div class="form-group" style="width:100%">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-key"></i> </span>
+                            </div>
+                            <input type="Password" class="form-control form-control-sm" id="Password" name="password" placeholder="Password" tabindex="2">
+                        </div>
+                        <span class="text-error"> @Html.ValidationMessage("ErrorPassword", null, new { @id = "ErrorPassword", @class = "Error" }) </span>
+                    </div>
+
+                    @*<div class="d-block mb-2">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" name="LoginRB" id="CompanyRB" class="custom-control-input" disabled />
+                                    <label class="custom-control-label" for="CompanyRB"> Company </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" name="LoginRB" id="BranchRB" class="custom-control-input" disabled />
+                                    <label class="custom-control-label" for="BranchRB"> Branch </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" name="LoginRB" id="FactoryRB" class="custom-control-input" disabled />
+                                    <label class="custom-control-label" for="FactoryRB"> Factory </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <!-- Accesss -->
+                    @*<div class="hide-normal " id="CompanyLogin">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.DropDownList("CompanyID", new SelectList(""), "-Choose-", new { @id = "CompanyID", @class = "dropdown-list" })
+                            </div>
+                            <div class="col-md-12">
+                                <label class="text-danger" id="NameOfCompany"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hide-normal " id="BranchLogin">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.DropDownList("BranchID", new SelectList(""), "-Choose-", new { @id = "BranchID", @class = "dropdown-list" })
+                            </div>
+                            <div class="col-md-12">
+                                <label class="text-danger" id="NameOfBranch"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hide-normal " id="FactoryLogin">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.DropDownList("FactoryID", new SelectList(""), "-Choose-", new { @id = "FactoryID", @class = "dropdown-list" })
+                            </div>
+                            <div class="col-md-12">
+                                <label class="text-danger" id="NameOfFactory"></label>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <!-- Error Access -->
+                    <span class="access-error" id="LogInWithOutCBF">
+                    </span>
+
+                    <button type="button" class="btn btn-info btn-block mt-5" onclick="LoginBtn()"> Login on </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/UserLogin/LoginBtn.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/UserLogin/LoginValidation.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/UserLogin/LoginClock.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/UserLogin/LoginRB.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccount/UserLogin/Login_form.js")
+
+

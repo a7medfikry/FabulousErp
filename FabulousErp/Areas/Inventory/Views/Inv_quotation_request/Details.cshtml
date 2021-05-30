@@ -1,0 +1,64 @@
+﻿@model FabulousDB.Models.Inv_quotation_request
+
+@{
+    ViewBag.Title = "Quotation Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendore.Vendor_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendore.Vendor_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_for_qut_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request_for_qut_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Within_days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Within_days)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request_from)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

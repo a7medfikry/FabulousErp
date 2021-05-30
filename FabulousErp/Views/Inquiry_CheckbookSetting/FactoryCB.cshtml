@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Inquiry Factory Checkbook Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IFCBS";
+}
+<div class="container-fluid">
+    <!-- **** For Session Checks **** -->
+    <span class="hide-normal" id="IFCBS-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="IFCBS-BranchID"></span>
+    <span class="hide-normal" id="IFCBS-FactoryID"></span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-3">
+            @if (FabulousErp.Business.GetCompanyId() != null )
+            {
+                @Html.DropDownList("IFCBS-branchID", ViewBag.FactoryID as SelectList, "-Choose-", new { @id = "IFCBS-factoryID", @class = "form-control form-control-sm" })
+            }
+            
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+        <div class="col-md-5">
+            @if (FabulousErp.Business.GetCompanyId() != null )
+            {
+                <input type="text" class="form-control form-control-sm" id="IFCBS-factoryName" disabled />
+            }
+           
+        </div>
+    </div>
+
+    <!-- table Area Start -->
+    <table class="table table-bordered table-striped display nowrap" id="IFCBS-table">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Name </th>
+                <th> Type </th>
+                <th> Status </th>
+                <th> Currency </th>
+                <th> Account ID </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- table Area End -->
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookSetting.js")

@@ -1,0 +1,90 @@
+﻿@model FabulousErp.Payable.Models.Payable_gl_account
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Gl_account</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Account_payable.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Account_payable.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Accrued_purchase.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Accrued_purchase.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Creditor_settings.Vendor_id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Creditor_settings.Vendor_id)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Group_setting.Group_id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Group_setting.Group_id)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Purchase.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Purchase.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Purchase_variance.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Purchase_variance.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Returne.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Returne.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Taken_discount.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Taken_discount.AccountID)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

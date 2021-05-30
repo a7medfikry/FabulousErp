@@ -1,0 +1,57 @@
+﻿@model  List<FabulousModels.ViewModels.Settings.Financial.GeneralSetting.UserGroup.List_Of_Group>
+@{
+    ViewBag.Title = "Manage Groups";
+    ViewBag.FormCode = "SLOG";
+}
+
+@using (Html.BeginForm("GetGroups", "ListOfGroup", FormMethod.Post, new { id = "MyForm" }))
+{
+    <div class="container financial-form">
+
+        <input type="submit" value="Save" id="btnSaveRow" class="btn btn-primary btn-sm" />
+
+        <table class="table table-bordered table-striped display nowrap" id="MyTable" style="width:100%">
+            <thead>
+                <tr>
+                    <th> Group ID </th>
+                    <th> Group Name </th>
+                    <th> Account Group </th>
+                    <th> Date Of Creation </th>
+                    <th> Delete </th>
+                    <th> Status </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr class="Search">
+                        <td>
+                            @Html.TextBoxFor(x => x[i].GroupID, new { @readonly = "true" })
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(x => x[i].GroupName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x[i].GroupDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x[i].Date)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(x => x[i].Deleted, new { @class = "Deletecb" })
+                        </td>
+                        <td>
+                            Active
+                            @Html.CheckBoxFor(x => x[i].DisActive, new { @class = "checkedin v-bottom" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserGroup/ListOfGroup/DeleteAlert.js")
+<link href="~/_Content/Styles/Settings/Financial/GeneralSetting/UserGroup/ListOfGroup/LG_form.css" rel="stylesheet" />

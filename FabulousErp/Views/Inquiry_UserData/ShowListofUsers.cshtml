@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "List Of Users";
+    ViewBag.FormCode = "ILOU";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Search By ID : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryuserID", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Search By UserName : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList2 as SelectList, "-Choose-", new { @id = "InquiryuserName", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap" id="example">
+        <thead>
+            <tr>
+                <th> User ID </th>
+                <th> User Name </th>
+                <th> Date Of Creation </th>
+            </tr>
+        </thead>
+        <tbody id="append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/UserAccount/Inquiry_Listofusers/Inquiry_AccountInfo.js")

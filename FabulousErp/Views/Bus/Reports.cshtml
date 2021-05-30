@@ -1,0 +1,11 @@
+﻿@using FastReport
+@using FastReport.Web
+
+@{
+    ViewBag.Title = "Reports";
+    var asd = ViewBag.WebReport;
+    string[] files = Directory.GetFiles(Server.MapPath("~/Reports/"), "*.xlsx");
+
+}
+
+<div class="card-body"> <img src="@ViewBag.Path" style="width: 11in" /></div>

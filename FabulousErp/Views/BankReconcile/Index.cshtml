@@ -1,0 +1,317 @@
+﻿@{
+    ViewBag.Title = "Bank Reconsile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TBR";
+}
+<div class="container-fluid">
+    <!-- **** For Checks **** -->
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="CBT-PT">@ViewBag.PT</span>
+    <span class="hide-normal" id="TCGE-FJEPer">@ViewBag.FJEPer</span>
+    <span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+    <span class="hide-normal" id="TCGE-AllowUserERate">@ViewBag.AllowUserERate</span>
+    <span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+    <span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+    <input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+
+    <!-- **** Reconcile Number After Save **** -->
+    <span id="TBR-bankRenconcileNumber" hidden>@ViewBag.ReconcileNumber</span>
+    <div class="mb-1">
+        <button class="btn btn-light btn-sm" data-toggle="collapse" data-target="#firstPart"> <i class="fa fa-plus"></i> First part </button>
+        <button class="btn btn-light btn-sm" data-toggle="collapse" data-target="#secondPart"> <i class="fa fa-plus"></i> Second part </button>
+    </div>
+
+    <div class="collapse show" id="firstPart">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Bank Reconcile Search : </label>
+            <div class="col-md-2">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#TBR-bankReconcileModal"> <i class="fa fa-search"></i> </button>
+                <button class="btn btn-danger btn-sm" id="TBR-reconcileDelete"> <i class="fa fa-trash"></i> </button>
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : </label>
+            <div class="col-md-2 NoTrans">
+                @Html.DropDownList("TBR-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "TBR-checkbookID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TBR-checkbookName" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Currency : </label>
+            <div class="col-md-2">
+                @Html.DropDownList("TBR-currencyID", new SelectList(""), "...", new { @id = "TBR-currencyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Bank Statement Ending Balance : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="TBR-bankEndingBalance" />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Bank Statement Ending Date : </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="TBR-bankEndingDate" />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Book Statement Ending Date : </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="TBR-bookEndingDate" />
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-group btn-group-sm">
+            <button class="btn btn-primary" id="saveBankReconcile"> Save </button>
+            <button class="btn btn-secondary" id="clearBankReconcile"> Clear </button>
+        </div>
+    </div>
+
+    <div id="secondPart" class="collapse">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Sort Data By : </label>
+            <div class="col-md-1">
+                <div class="custom-control custom-radio">
+                    <input type="radio" name="sortBy" id="dateSort" class="custom-control-input" />
+                    <label class="custom-control-label" for="dateSort"> Date </label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input type="radio" name="sortBy" id="docSort" class="custom-control-input" />
+                    <label class="custom-control-label" for="docSort"> Document Type </label>
+                </div>
+            </div>
+            <div class="col-md-7 d-flex justify-content-end">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" id="finishBankReconcile" disabled> Reconcile </button>
+                    <button class="btn btn-info" data-toggle="modal" data-target="#adjustmentModal"> Adjustment </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Area Start -->
+        <table class="table table-bordered table-striped display nowrap">
+            <thead>
+                <tr>
+                    <th> @FabulousErp.BusController.Translate("Doc. Type") </th>
+                    <th> @FabulousErp.BusController.Translate("Doc. Number") </th>
+                    <th> @FabulousErp.BusController.Translate("Check Number") </th>
+                    <th> @FabulousErp.BusController.Translate("Date") </th>
+                    <th> @FabulousErp.BusController.Translate("Reconsile") </th>
+                    <th> @FabulousErp.BusController.Translate("Payment") </th>
+                    <th> @FabulousErp.BusController.Translate("Deposit") </th>
+                </tr>
+            </thead>
+            <tbody id="TBR-appendData"></tbody>
+        </table>
+        <!-- Table Area End -->
+
+        <div class="d-block float-left w-50">
+            <div class="form-row mb-1">
+                <label class="col-md-2 col-form-label col-form-label-sm">@FabulousErp.BusController.Translate("Deposit") : </label>
+                <div class="input-group input-group-sm col-md-9">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-light font-weight-bold"> @FabulousErp.BusController.Translate("No"). </span>
+                    </div>
+                    <input type="number" class="form-control" id="depositCounter" value="0" readonly />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-light font-weight-bold">@FabulousErp.BusController.Translate("Amount") </span>
+                    </div>
+                    <input type="number" class="form-control" id="depositAmount" value="0" readonly />
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-md-2 col-form-label col-form-label-sm">@FabulousErp.BusController.Translate("Payment") : </label>
+                <div class="input-group input-group-sm col-md-9">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-light font-weight-bold"> No. </span>
+                    </div>
+                    <input type="number" class="form-control" id="paymentCounter" value="0" readonly />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-light font-weight-bold"> Amount </span>
+                    </div>
+                    <input type="number" class="form-control" id="paymentAmount" value="0" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="d-block float-right w-50">
+            <div class="form-row mb-1">
+                <label class="col-md-5 col-form-label col-form-label-sm">@FabulousErp.BusController.Translate("Adjustment Bank Balance") : </label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control form-control-sm" id="bankBalanceAmount" readonly />
+                </div>
+            </div>
+            <div class="form-row mb-1">
+                <label class="col-md-5 col-form-label col-form-label-sm">@FabulousErp.BusController.Translate("Adjustment Book Balance") : </label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control form-control-sm" id="bookBalanceAmount" readonly />
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-md-5 col-form-label col-form-label-sm">@FabulousErp.BusController.Translate("Difference") : </label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control form-control-sm" id="bankReconcileDifference" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+
+    <!-- Pop-up Modal For Adjustment-Bank-Reconcile -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="adjustmentModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@FabulousErp.BusController.Translate("Adjustment Bank Reconcile") </h5>
+                    <button type="button" class="btn btn-primary btn-sm" id="TBR-finishAdjustment" disabled> @FabulousErp.BusController.Translate("Finish Adjustment") </button>
+                </div>
+                <div class="modal-body">
+                    <!-- **** For Errors **** -->
+                    <span class="text-error" id="TCGE-GlobalError"></span>
+
+                    <div class="form-row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm">@FabulousErp.BusController.Translate("Checkbook Name") : </label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control form-control-sm" id="TBR-adjustmentCheckbookName" disabled />
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm"> @FabulousErp.BusController.Translate("Currency") : </label>
+                        <div class="col-md-2">
+                            @Html.DropDownList("TBR-adjustmentCheckbookCurrency", new SelectList(""), "...", new { @id = "TBR-adjustmentCheckbookCurrency", @class = "form-control form-control-sm", @disabled = "disabled" })
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm"> @FabulousErp.BusController.Translate("Difference") : </label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control form-control-sm" id="TBR-adjustmentDifference" readonly />
+                        </div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm"> @FabulousErp.BusController.Translate("Account ID") : </label>
+                        <div class="col-md">
+                            @Html.DropDownList("TBR-accountID", new SelectList(""), "...", new { @id = "TBR-accountID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                        </div>
+                        <label class="col-md-2 col-form-label col-form-label-sm"> @FabulousErp.BusController.Translate("Account Name") : </label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control form-control-sm" id="TBR-accountName" disabled />
+                        </div>
+                    </div>
+                    <!-- Table Area Start -->
+                    <table class="table table-bordered table-striped display nowrap" id="TBR-adjustmentTable">
+                        <thead>
+                            <tr>
+                                <th width="20%"> @FabulousErp.BusController.Translate("Type") </th>
+                                <th width="10%">@FabulousErp.BusController.Translate("Date") </th>
+                                <th width="20%"> @FabulousErp.BusController.Translate("Account ID") </th>
+                                <th width="30%"> @FabulousErp.BusController.Translate("Description") </th>
+                                <th width="20%"> @FabulousErp.BusController.Translate("Amount") </th>
+                                <th> <a href="javascript:void(0);" id="addMoreRow" title="Add More Rows"> <span class="fa fa-plus-square"></span> </a> </th>
+                            </tr>
+                        </thead>
+                        <tbody id="TBR-adjustmentData">
+                            <tr>
+                                <td hidden> <input type="text" name="systemRate" class="form-control form-control-sm" readonly /> </td>
+                                <td>
+                                    <select name="adjustmentType" class="form-control form-control-sm RowType">
+                                        <option value="OI" selected>Other Income</option>
+                                        <option value="OE">Other Expenses</option>
+                                        <option value="II">Interest Income</option>
+                                        <option value="IE">Interest Expenses</option>
+                                    </select>
+                                </td>
+                                <td> <input type="date" name="adjustmentDate" class="form-control form-control-sm"> </td>
+                                <td>
+                                    @Html.DropDownList("TBR-adjustmentAccountID", ViewBag.AccountsID as SelectList, "-Choose-", new { @id = "TBR-adjustmentAccountID", @class = "form-control form-control-sm" })
+                                </td>
+                                <td> <input type="text" name="adjustmentDescription" class="form-control form-control-sm"> </td>
+                                <td> <input type="number" name="adjustmentAmount" class="form-control form-control-sm adjustmentAmount"> </td>
+                                <td> <a href='javascript:void(0);' class='removeRow'> <span class='fa fa-remove'></span> </a> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Table Area End -->
+
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm"> @FabulousErp.BusController.Translate("Net Adjustment") : </label>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control form-control-sm" value="0" id="TBR-netAdjustment" readonly />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label col-form-label-sm"> @FabulousErp.BusController.Translate("Reconcile Diff"). : </label>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control form-control-sm" value="0" id="TBR-adjustmentReconcileDifference" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Pop-up Modal For Checkbook Security -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="CBT-checkbookModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Enter Checkbook Password </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="hide-normal" id="CBT-CBid"></span>
+                    <input type="password" id="CBT-checkbookPassword" class="form-control form-control-sm" />
+                    <label id="CBT-wrongpass" class="text-error"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CBT-checkbookCheck" class="btn btn-primary btn-sm">Enter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal For Bank-Reconcile Search -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="TBR-bankReconcileModal">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@FabulousErp.BusController.Translate("Choose Bank Reconcile Number") : </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body NoTrans">
+                    @Html.DropDownList("TBR-reconcileSearch", ViewBag.BankReconcileNumbers as SelectList, "-Choose-", new { @id = "TBR-reconcileSearch", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Modal For System-Rates -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The System Rate </h5>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookReconsile_Script.js")
+@Html.IncludeVersionedJs("/_Content/JS/PublicTransaction.js")
+<script>
+    $("#TBR-reconcileSearch").change(function () {
+        $("#TBR-bankReconcileModal").modal("hide");
+    })
+</script>

@@ -1,0 +1,8 @@
+﻿@model IEnumerable<FabulousErp.Payable.Models.Assign_payable_doc>
+
+@{
+    ViewBag.Title = "Assign Payable Doc";
+    int SortBy = 1;
+}
+
+@Html.Action("ReportSearch", "Common", new { section = Request["section"], Cont = "Assign_payable_doc" })

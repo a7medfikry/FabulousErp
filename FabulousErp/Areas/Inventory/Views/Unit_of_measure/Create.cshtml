@@ -1,0 +1,125 @@
+﻿@model FabulousDB.Models.Unit_of_measure
+
+@{
+    ViewBag.Title = "Unit of measure";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+<section id="CreateSec">
+    @using (Ajax.BeginForm("Create",new AjaxOptions {UpdateTargetId="UpateList",OnSuccess="UpdateList"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4></h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unit_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Unit_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity_dicimal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity_dicimal, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity_dicimal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Equivalante_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Equivalante_id",null,"", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Equivalante_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Equivalante_quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Equivalante_quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Equivalante_quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success hide" id="Submit" />
+                <input type="button" value="Create" class="btn btn-success" id="Check" />
+            </div>
+        </div>
+    </div>
+}
+</section>
+
+<section id="EditDiv">
+
+</section>
+<section id="UpateList">
+    @Html.Action("Index")
+</section>
+
+<script>
+    function UpdateList(){
+        $.ajax({
+            url: "@Url.Action("GetEquivalent")",
+            method:"POST",
+            beforeSend: function () {
+                $("#Equivalante_id").empty();
+            },
+            success: function (data) {
+                $("#Equivalante_id").append("<option></option>")
+                $.each(data, function (k, i) {
+                    $("#Equivalante_id").append("<option value='" + i.Id + "'>" + i.Unit_id+"</option>")
+                });
+                $("#CreateSec").show();
+                $("#EditDiv").html("");
+            }
+        })
+        ReTranslate();
+    }
+    $("#Check").click(function(){
+        $.ajax({
+            url: "/Inventory/Unit_of_measure/CheckDuplicate?UnitId=" + $("#Unit_id").val().trim()+"&Id=0",
+            method: "POST",
+            success: function (data) {
+                if (!data) {
+                    $("#Submit").trigger("click");
+                } else {
+                    ModelMsg("@FabulousErp.BusController.Translate("This Unit Id Already Exists")", "Duplicate Name", true);
+                }
+            }
+        })
+    })
+    $(document).on("click", ".Edit", function () {
+        $.get("/Inventory/Unit_of_measure/Edit?id=" + $(this).attr("data-id"), function (data) {
+            $("#EditDiv").html(data);
+            $("#CreateSec").hide();
+        })
+    })
+    $(document).on("click", ".Delete", function () {
+        var Id = $(this).attr("data-id");
+        ModelMsg("@Business.Translate("Are You Sure You Want To Delete ")" + $(this).attr("data-name") + " ", "@Business.Translate("Delete")"
+            , false, function () {
+                $.ajax({
+                    url: "/Inventory/Unit_of_measure/Delete/" + Id,
+                    method: "POST",
+                    data: { __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val() },
+                    success: function () {
+                        window.location.reload();
+                    }
+                })
+            })
+    })
+    function DoneUpdate() {
+        UpdateList();
+        $("#CreateSec").show();
+        $("#EditDiv").html("");
+
+    }
+</script>

@@ -1,0 +1,87 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_gl_account
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Gl_account</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Account_Receivable.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Account_Receivable.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Accrued_purchase.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Accrued_purchase.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Creditor_settings.Vendor_id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Creditor_settings.Vendor_id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Purchase.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Purchase.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Purchase_variance.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Purchase_variance.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Returne.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Returne.AccountID)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Taken_discount.AccountID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Taken_discount.AccountID)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

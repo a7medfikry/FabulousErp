@@ -1,0 +1,105 @@
+﻿@model FabulousDB.Models.Inv_sales_invoice
+
+@{
+    ViewBag.Title = "Sales Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency.CurrencyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency.CurrencyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Site.Site_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site.Site_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Store.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Store.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Batch_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Batch_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Transaction_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transaction_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Posting_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Posting_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sales_person)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sales_person)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.So_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.So_no)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

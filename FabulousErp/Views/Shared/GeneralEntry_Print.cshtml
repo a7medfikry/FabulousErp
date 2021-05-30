@@ -1,0 +1,176 @@
+﻿@model List<FabulousModels.ViewModels.PrintTransaction>
+@{ 
+    Layout = null;
+}
+<div class="container" style="float:right;">
+    <!--  ********* Header ********* -->
+    @{
+        Html.RenderAction("ReportsPrintHeader");
+    }
+    <!-- ********** Body Content ********* -->
+    @if (Model != null)
+    {
+        foreach (FabulousModels.ViewModels.PrintTransaction item in Model)
+        {
+            double? Debit = 0;
+            double? Credit = 0;
+            <h3 class="text-center">@item.ShowHeader2.TransactionType</h3>
+            <div class="form-row mb-1 hide">
+                <label class="control-label col-md-2"> Batch ID : </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control form-control-sm" value="NULL" readonly />
+                </div>
+            </div>
+            <div class="form-row mb-1">
+                <div class="form-group">
+                    <label class="control-label col-md-2"> Journal Number : </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-sm" value="@item.ShowHeader2.JENumber" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2"> Transaction Date : </label>
+                    <div class="col-md-10">
+                        <input type="date" class="form-control form-control-sm" value="@item.ShowHeader2.TransactionDate" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="control-label col-md-2"> Posting Date : </label>
+                    <div class="col-md-10">
+                        <input type="date" class="form-control form-control-sm" value="@item.ShowHeader2.PostingDate" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-1">
+                <div class="form-group">
+
+                    <label class="control-label col-md-2"> Currency : </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-sm" value="@item.ShowHeader2.ISO" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="control-label col-md-2"> System Rate : </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-sm" value="@item.ShowHeader2.SystemRate" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="control-label col-md-2"> Transaction Rate : </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-sm" value="@item.ShowHeader2.TransactionRate" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-1">
+                <div class="form-group">
+                    <label class="control-label col-md-2"> Reference : </label>
+                    <div class="col-md-10">
+                        <input type="text" style="border:none;" class="form-control form-control-sm" value="@item.ShowHeader2.Reference" readonly />
+                    </div>
+                </div>
+            </div>
+                <div id="appendTemplate">
+                    <table class="table table-bordered table-striped mt-3 reportPrint-tbl NoDataTable">
+                        <thead>
+                            <tr>
+                                @*<th>@FabulousErp.BusController.Translate("Doc.")</th>*@
+
+                                <th>@FabulousErp.BusController.Translate("Account ID")</th>
+
+                                <th>@FabulousErp.BusController.Translate("Account Name")</th>
+
+                                <th>@FabulousErp.BusController.Translate("Description")</th>
+
+                                <th class="hide">@FabulousErp.BusController.Translate("Amount")</th>
+
+                                <th>@FabulousErp.BusController.Translate("Debit")</th>
+
+                                <th>@FabulousErp.BusController.Translate("Credit")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (FabulousModels.ViewModels.ShowTransaction Ditem in item.ShowGeneralLedger.OrderBy(x => x.Credit).ThenBy(x => x.Debit))
+                            {
+                                <tr>
+                                    @*<td>  @Ditem.Document  </td>*@
+                                    <td style="width:14%;">  @Ditem.AccountID  </td>
+                                    <td style="max-width: 220px;width:30%;white-space: initial;">  @Ditem.AccountName  </td>
+                                    <td style="max-width: 220px;width:200px;white-space: initial;">  @Ditem.Describtion  </td>
+                                    <td class="hide">  @Ditem.OriginalAmount  </td>
+                                    <td class="sDebitTbl">  @Ditem.Debit  </td>
+                                    <td class="sCreditTbl">  @Ditem.Credit  </td>
+                                </tr>
+                                Debit += Ditem.Debit;
+                                Credit += Ditem.Credit;
+
+                            }
+
+                        </tbody>
+                        <tfoot>
+
+                            <tr>
+                                <th colspan="3" class="text-left"><span style="padding:20px;">  @FabulousErp.BusController.Translate("Total")</span>  </th>
+                                <th class="DebitTblFoot"> @Debit </th>
+                                <th class="CreditTblFoot"> @Credit </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" class="text-left NoTrans" > <span style="padding:20px;"> @FabulousErp.BusController.Translate("Difference")</span>  </th>
+                                @{
+                                    decimal Dif = (decimal)Debit - (decimal)Credit;
+                                }
+                            <th colspan="2" class="DiffOfDAC NoTrans"><span style="padding:20px;">@Dif</span>  </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                if (Model.SelectMany(x => x.ShowAnalytics.Where(z => z.Posting_Num == item.ShowGeneralLedger.FirstOrDefault().PostingNumber)).Any())
+                {
+                Html.RenderPartial("~/Views/Inquiry_CompanyJETransactionsDetails/AnalyticsRptSearchBody.cshtml", Model.SelectMany(x => x.ShowAnalytics.Where(z => z.Posting_Num == item.ShowGeneralLedger.FirstOrDefault().PostingNumber)).ToList());
+                }
+
+                }
+                if (ViewBag.HasCostCenter)
+                {
+                @Html.Action("JvCostCenterRpt", "Inquiry_CompanyJETransactionsDetails", new { PostingNumber = ViewBag.PO });
+                }
+                if (ViewBag.HasTax)
+                {
+                @Html.Action("TaxTable", "C_TaxTransaction", new { PostingNumber = Model.FirstOrDefault().ShowGeneralLedger.FirstOrDefault().PostingNumber })
+                }
+
+                <div class="form-row mb-1">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control form-control-sm" id="printAccNo" value="@Model.SelectMany(x=>x.ShowGeneralLedger).Count()" readonly />
+                        </div>
+                        <label class="control-label col-md-2"> Number Of Account : </label>
+                    </div>
+                    
+                </div>
+                <div class="form-row mb-1">
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <input type="text" class="form-control form-control-sm" value="@FabulousErp.BusController.Translate("No")" readonly />
+                        </div>
+                        <label class="control-label col-md-2"> Attachment : </label>
+                    </div>
+
+                </div>
+                    @*<div class="form-row">
+            <label class="control-label col-md-2"> Total Amount : </label>
+            <div class="col-md-10">
+                <input type="text" class="form-control form-control-sm" id="printAccAmount" readonly />
+            </div>
+        </div>*@
+                    }
+                </div>
+<style>
+    .form-row{
+        direction:rtl;
+    }
+</style>

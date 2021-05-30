@@ -1,0 +1,289 @@
+﻿@model FabulousErp.Payable.Models.Payable_creditor_setting
+
+@{
+    ViewBag.Title = "Creditor Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int CreditLimit = 0;
+}
+<style>
+    .MyCl {
+        width: 37% !important;
+    }
+</style>
+
+@using (Ajax.BeginForm("Create", "Creditor_setting", new AjaxOptions { OnSuccess = "CreateOtherForms" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Vendor_id, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+        <span class="star">*</span>
+
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Vendor_id, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+            @Html.ValidationMessageFor(model => model.Vendor_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Group_setting_id, "Group Setting Id", htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.DropDownList("Group_setting_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Group_setting_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vendor_name, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <span class="star">*</span>
+
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Vendor_name, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Vendor_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Alies, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Alies, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Alies, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Currency_id", null, htmlAttributes: new { @class = "form-control selectpicker", multiple = "multiple", data_show_subtext = "true", data_live_search = "true" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment_term_id, "Payment Term Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Payment_term_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Payment_term_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", autocomplete = "new-password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Def_Checkbook, "Def Checkbook", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Def_Checkbook", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Def_Checkbook, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Minimum_order, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Minimum_order, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Minimum_order, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Maximum_order, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Maximum_order, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Maximum_order, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shipping_method_id, "Shipping M.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Shipping_method_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Shipping_method_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tax_group_id, "Tax Group", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Tax_group_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Tax_group_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Inactive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBox("Inactive", false, new { @class = "v-middle" })
+                    @Html.ValidationMessageFor(model => model.Inactive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label col-md-2 MyCl" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBox("Customer", false, new { @class = "v-middle" })
+
+                    @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group w-100">
+            @Html.LabelFor(model => model.Credit_limit, htmlAttributes: new { @class = "col-md-15" })
+            <div class="col-md-10">
+                <span class="star">*</span>
+
+                @foreach (var value in Business.GetEnumValues<Credit_limit_enum>())
+                {
+
+                    @Html.RadioButtonFor(m => m.Credit_limit, value, new { @class = "v-middle Credit_limitRadio", required = "required", data_value = (int)value, id = "" })
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+
+                }
+                @Html.EditorFor(model => model.Credit_limit_amount, new { htmlAttributes = new { @class = "form-control d-inline-block hide", id = "CreditLimitAmount" } })
+
+            </div>
+        </div>
+
+        <div class="form-group w-100 hide">
+            @Html.LabelFor(model => model.Minimum_payment, "Min. Payment", htmlAttributes: new { @class = "col-md-15" })
+            <div class="col-md-10">
+                @foreach (var value in Business.GetEnumValues<Minimum_payment>())
+                {
+
+                    @Html.RadioButtonFor(m => m.Minimum_payment, value, new { @class = "v-middle PayRadio", data_value = (int)value})
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+                }
+                @Html.EditorFor(model => model.Min_payment_amount, new { htmlAttributes = new { @class = "form-control d-inline-block hide", id = "MinPaymentAmount" } })
+            </div>
+
+        </div>
+
+        <div class="form-group w-100">
+            @Html.LabelFor(model => model.Payment_per, htmlAttributes: new { @class = "col-md-15" })
+            <div class="col-md-10">
+                <span class="star">*</span>
+
+                @foreach (var value in Business.GetEnumValues<Payment_per>())
+                {
+                    @Html.RadioButtonFor(m => m.Payment_per, value, new { @class = "v-middle Payment_per", required = "required", data_value = (int)value })
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Revaluate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBox("Revaluate", false, new { @class = "v-middle" })
+                    @Html.ValidationMessageFor(model => model.Revaluate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<section class="Forms">
+    <div id="AccountsDiv">
+        @Html.Action("Create", "Payable_gl_account")
+    </div>
+    <div id="AddressinfoFDiv">
+        @Html.Action("Create", "Address_info")
+    </div>
+    <div id="LegalinfoDiv">
+        @Html.Action("Create", "Legal_info")
+    </div>
+    <div id="BankinfoDiv">
+        @Html.Action("Create", "Bank_info")
+    </div>
+</section>
+<input id="Lang" type="hidden" value="@FabulousErp.Business.GetLanguage()" />
+<script>
+    function CreateOtherForms(Id) {
+        $(document).find("#AccountsDiv").find("#Creditor_setting_id").val(Id);
+        $(document).find(".Forms").find(".Creditor_id").val(Id);
+        $(document).find(".Forms").find("form").find("input[type='submit']").trigger("click")
+
+        $(document).find(".Relation_id").val(Id);
+        $(document).find(".UploadKey").val("PayCredit");
+        $(document).find(".StartImageUpload").trigger("click");
+    }
+     $(document).on("click", "#Submit", function () {
+         $(".Forms").find("#AccountsDiv").find("form").validate()
+         if (!$("#Account_payable_id").val()) {
+             CheckIfAccIsVisis()
+             NotValid($("#Account_payable_id"))
+             return;
+         }
+        var This = $(this);
+        DisableThis($(This));
+        $.ajax({
+            url: "/Payable/Creditor_setting/CheckVendoreId",
+            data: { VendoreId: $("#Vendor_id").val() },
+           method:"POST",
+            success: function (data) {
+                if (!data) {
+                    ValidateAll(function () {
+                        if ($(".Forms").find("#AccountsDiv").find("form").valid()) {
+                            CheckIfAccIsVisis();
+                            $("#Create").trigger("click")
+                        } else {
+                            EnabledThis($(This));
+                        }
+                    }, function () {
+                            EnabledThis($(This));
+                    });
+                } else {
+                    EnabledThis($(This));
+                    alert("@FabulousErp.BusController.Translate("Vendore Id Already Existes")");
+                }
+            }
+        })
+     })
+    function CheckIfAccIsVisis() {
+        if (!$(".Forms").find("#AccountsDiv").find(".form-horizontal").find("div").is(":visible")) {
+            $(document).find("#AccountsDiv").find(".HideDiv").trigger("click");
+        }
+    }
+    RunAfterAjax(function () {
+        $("#Submit").removeAttr("disabled")
+    })
+</script>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" id="Submit" class="btn btn-success" disabled="disabled" />
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@Html.IncludeVersionedJs("/Areas/Payable/Scripts/CreditorJs.js")
+<style>
+    .Forms hr {
+        margin-top: -5.5px;
+    }
+
+    input[type=radio] {
+        margin-right: 5px;
+    }
+</style>

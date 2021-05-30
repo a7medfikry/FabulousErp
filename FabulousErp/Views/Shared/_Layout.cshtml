@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <title> @Html.Raw(Business.Translate(ViewBag.Title)) </title>
+    <script>
+
+    </script>
+    @*<link href="~/Styles/All.min.css" rel="stylesheet" />*@
+   
+    @Html.IncludeVersionedCss("/Styles/All.min.css")
+
+    @Html.IncludeVersionedJs("/Scripts/New/All.js")
+
+    @if (Request.Url.PathAndQuery.ToLower().Contains("print"))
+    {
+        <link href="~/Styles/PrintBundle.css" rel="stylesheet" />
+    }
+
+
+</head>
+<body class="menu-static">
+        <input class="PageKey" type="hidden" value="@Html.Raw(ViewBag.PageKey)" />
+        <!-- Pre-loader start -->
+        <div class="theme-loader">
+            <div class="ball-scale">
+                <div class='contain'>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                    <div class="ring"><div class="frame"></div></div>
+                </div>
+            </div>
+        </div>
+        <!-- Pre-loader end -->
+        @Html.Partial("_Translate")
+
+        <div id="pcoded" class="pcoded">
+            <div class="pcoded-overlay-box"></div>
+            <div class="pcoded-container navbar-wrapper">
+                @Html.Partial("_UpperNav")
+                <div class="pcoded-main-container">
+                    @*@Html.Partial("_UpperNav2")*@
+                    <div class="pcoded-wrapper">
+                        @Html.Partial("_NavBar")
+                        <div class="pcoded-content">
+                            <div class="pcoded-inner-content">
+                                <div class="main-body">
+                                    <div class="page-wrapper">
+                                        @RenderBody()
+                                    </div>
+                                </div>
+                                @*<div id="styleSelector">
+
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @Html.Partial("_Models")
+                @Html.Partial("_Setting")
+
+                <section id="tempheader"></section>
+            </div>
+        </div>
+
+    </body>
+</html>

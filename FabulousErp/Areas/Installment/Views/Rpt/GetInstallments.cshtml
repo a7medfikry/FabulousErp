@@ -1,0 +1,194 @@
+﻿@model IEnumerable<FabulousModels.ViewModels.Installment_view>
+
+@{
+    Layout = null;
+    string Green = "background: #0080009c;";
+    string Red = "background: #ff000096;";
+    string Blue = "    background: #4fb7b7;";
+    string Gray = "    background: #5c97c1;";
+    string Back = "";
+}
+<style>
+    .col-sm-3 {
+        display: inline-block;
+        width: 24%;
+        margin-bottom: 20px;
+    }
+</style>
+<div class="clearfix">
+    <div class="form-group">
+        <label class="control-label col-md-2">@FabulousErp.BusController.Translate("Currency")</label>
+        <div class="col-md-10">
+            @try
+            {
+                <label class="control-label col-md-2">@Model.FirstOrDefault().Currency</label>
+            }
+            catch
+            {
+                <label class="control-label col-md-2"></label>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">@FabulousErp.BusController.Translate("Orginal Amount")</label>
+        <div class="col-md-10">
+            <label class="control-label col-md-2"> @ViewBag.OrginalAmount </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">@FabulousErp.BusController.Translate("Installment Plan")</label>
+        <div class="col-md-10">
+            <label class="col-md-12"> @ViewBag.InstallmentPlan </label>
+        </div>
+    </div>
+
+    <div class=" col-sm-3" style="@Red">
+        <label class="control-label col-md-2">
+            @FabulousErp.BusController.Translate("Due")
+        </label>
+        <div class="col-md-10">
+            <label class="control-label col-md-2">@Model.Where(x => x.State == FabulousModels.ViewModels.Installment_due_state.Due).Sum(x => x.Amount)</label>
+        </div>
+    </div>
+    <div class=" col-sm-3" style="@Blue">
+        <label class="control-label col-md-2">
+            @FabulousErp.BusController.Translate("Not_Due")
+        </label>
+        <div class="col-md-10">
+            <label class="control-label col-md-2">@Model.Where(x => x.State == FabulousModels.ViewModels.Installment_due_state.Not_due).Sum(x => x.Amount)</label>
+        </div>
+    </div>
+    @if (Request["Sec"] == "Pay")
+    {
+        <div class=" col-sm-3" style="@Gray">
+            <label class="control-label col-md-2">
+                @FabulousErp.BusController.Translate("Payment_in_progress")
+            </label>
+            <div class="col-md-10">
+                <label class="control-label col-md-2">@Model.Where(x => x.State == FabulousModels.ViewModels.Installment_due_state.Payment_in_progress).Sum(x => x.Amount)</label>
+            </div>
+        </div>
+        <div class=" col-sm-3" style="@Green">
+            <label class="control-label col-md-2">
+                @FabulousErp.BusController.Translate("Paid")
+            </label>
+            <div class="col-md-10">
+                <label class="control-label col-md-2">@Model.Where(x => x.State == FabulousModels.ViewModels.Installment_due_state.Paid).Sum(x => x.Amount)</label>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class=" col-sm-3" style="@Gray">
+            <label class="control-label col-md-2">
+                @FabulousErp.BusController.Translate("Collecting")
+            </label>
+            <div class="col-md-10">
+                <label class="control-label col-md-2">@Model.Where(x => x.State == FabulousModels.ViewModels.Installment_due_state.Collecting).Sum(x => x.Amount)</label>
+            </div>
+        </div>
+        <div class=" col-sm-3" style="@Green">
+            <label class="control-label col-md-2">
+                @FabulousErp.BusController.Translate("Achieved")
+            </label>
+            <div class="col-md-10">
+                <label class="control-label col-md-2">@Model.Where(x => x.State == FabulousModels.ViewModels.Installment_due_state.Achieved).Sum(x => x.Amount)</label>
+            </div>
+        </div>
+    }
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Refrence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Percentage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cheque_number)
+        </th>
+        <th style="width:15%;">
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th  style="width:15%;">
+            Collected Date
+        </th>  
+        <th style="width:10%;">
+           Days Of Dealy
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.State == FabulousModels.ViewModels.Installment_due_state.Paid
+            || item.State == FabulousModels.ViewModels.Installment_due_state.Achieved)
+        {
+            Back = Green;
+        }
+        else if (item.State == FabulousModels.ViewModels.Installment_due_state.Due)
+        {
+            Back = Red;
+        }
+        else if (item.State == FabulousModels.ViewModels.Installment_due_state.Not_due)
+        {
+            Back = Blue;
+        }
+        else if (item.State == FabulousModels.ViewModels.Installment_due_state.Collecting
+            || item.State == FabulousModels.ViewModels.Installment_due_state.Payment_in_progress)
+        {
+            Back = Gray;
+        }
+        else
+        {
+            Back = "";
+        }
+        <tr style="@Back">
+            <td>
+                @Html.DisplayFor(modelItem => item.Refrence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Percentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cheque_number)
+            </td>
+            <td>
+                @if (item.Date.HasValue)
+                {
+                    @item.Date.Value.ToShortDateString()
+
+                }
+            </td>
+            <td>
+                @FabulousErp.BusController.Translate(item.State.ToString()).Replace("_", " ")
+            </td> 
+            <td>
+                @item.Transaction_date
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Transaction_date)
+                    && item.Date.HasValue)
+                {
+                    if (
+                        (Convert.ToDateTime(item.Transaction_date)
+                        .Subtract(item.Date.Value).TotalDays)>0)
+                    {
+                        @(Convert.ToDateTime(item.Transaction_date)
+                        .Subtract(item.Date.Value).TotalDays)
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>

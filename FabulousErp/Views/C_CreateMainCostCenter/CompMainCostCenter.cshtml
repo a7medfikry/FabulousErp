@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Create Company Main Cost Center";
+    ViewBag.FormCode = "SCMCC";
+}
+<div class="container-fluid">
+    <!-- For Errors -->
+    <span class="text-error" id="AccessError"></span>
+
+    <div class="form-row mb-1 hide" id="CompMainCC">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : <i class="star">*</i> </label>
+        <div class="col-md-4">
+            <input type="text" id="CompanyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" id="CompanyName" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <span class="text-error" id="GlobalError"></span>
+
+    <div id="MainCostCenterDetails">
+        <div class="form-row mb-1">
+            <label class="col-md-3 col-form-label col-form-label-sm"> Cost Center Group ID <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.TextBox("CostCenterGroupID", null, new { @id = "CostCenterGroupID", @maxlength = "20", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-3 col-form-label col-form-label-sm"> Cost Center Group Name <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.TextBox("CostCenterGroupName", null, new { @id = "CostCenterGroupName", @maxlength = "100", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+
+        <div class="form-row mb-1">
+            <label class="col-md-3 col-form-label col-form-label-sm"> Cost Center ID <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.DropDownList("CompCostCenterID", new SelectList(""), "-Choose-", new { @id = "CompCostCenterID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-3 col-form-label col-form-label-sm"> Cost Center Name : <i class="star">*</i> </label>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="CompCostCenterName" disabled />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-md-3 col-form-label col-form-label-sm"> Percentage % <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.TextBox("Percentage", null, new { @id = "Percentage", @maxlength = "3", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57", @class = "form-control form-control-sm" })
+            </div>
+            @*<div class="col-md-2">
+                <select class="form-control form-control-sm" id="rCosrCenterGroupID"></select>
+            </div>*@
+        </div>
+
+        <div class="row col-md-12">
+            <div id="CompAddBtn">
+                <button class="btn btn-primary btn-sm" id="CompAddCostCenterID">Add</button>
+            </div>
+
+            <span id="ComparePercentage" class="hide-normal mt-1">
+                <span id="TakedPercentage"></span> % - From 100 %
+            </span>
+
+            <span class="text-error" id="PercentageError"></span>
+        </div>
+
+        <!-- table Area Start -->
+        <table class="table table-bordered table-striped display nowrap" id="TestTable">
+            <thead>
+                <tr>
+                    <th width="20%">Cost Center ID</th>
+                    <th width="40%">Cost Center Name</th>
+                    <th width="20%">percentage %</th>
+                    <th width="20%">Action (Delete)</th>
+                </tr>
+            </thead>
+            <tbody id="CostCenterGroupTbl"></tbody>
+        </table>
+        <!-- Table Area End -->
+
+        <div class="row col-md-12">
+            <label class="hide-normal" id="CompSaveBtn">
+                <button class="btn btn-danger btn-sm" id="CompSaveCostCenterGroup">Save</button>
+            </label>
+
+            <span class="text-error" id="SaveError"></span>
+            <span class="text-error" id="SaveSuccess"></span>
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Company/C_CostCenter/C_CreateMainCostCenter/CompMainCostCenter.js")

@@ -1,0 +1,3 @@
+﻿function CResetBtn() {
+    location.reload();
+}

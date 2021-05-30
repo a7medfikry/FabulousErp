@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Company Cost Center";
+    ViewBag.FormCode = "ICCC";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="InquiryCompanyID" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="companyname" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th> Cost Center ID </th>
+                <th> Cost Center Name </th>
+            </tr>
+        </thead>
+        <tbody id="companycost-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Company/C_CostCenter/Inquiry_CompanyCostCenter.js")

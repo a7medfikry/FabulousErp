@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "Stocking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Stocking</h2>
+
+
+<section class="clearfix col-sm-12" style="display:none;" id="JvDates">
+    <div class="form-group">
+        <label class="control-label col-md-2">Transaction date</label>
+        <div class="col-md-10 Transaction_dateDiv">
+            <input type="date" class="form-control" name="TCGE-JEDate" id="TCGE-JEDate" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Posting date</label>
+        <div class="col-md-10 Posting_dateDiv">
+            <input type="date" class="form-control" name="TCGE-PostingDate" id="TCGE-PostingDate" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Description</label>
+        <div class="col-md-10 Posting_dateDiv">
+            <input  class="form-control" name="TCGE-Reference" id="TCGE-Reference" />
+        </div>
+    </div>
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+</section>
+
+
+@using (Ajax.BeginForm("StockingRes", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes",OnSuccess="ShowTrDates" }))
+{
+
+    <div class="form-group">
+        @Html.Label("", "Store Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control Store_id" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Site Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id" })
+        </div>
+    </div>
+    <div class="col-md-3 d-inline-block">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+<button id="Create" class="btn btn-success">Create</button>
+<script src="~/Areas/Inventory/Script/CommonInventory.js"></script>
+
+<section id="JVSecCont">
+    <label id="TCGE-GlobalError"></label>
+    <input id="TCGE-CurrencyID" class="hide" value="@FabulousErp.Bussiness.Business.GetCompanyId()"/>
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(function () {
+        //$("#JVSecCont").find("#TCGE-Describtion").remove();
+    })
+    $(document).on("change", "#TCGE-CurrencyID", function () {
+        $(this).val(CompId)
+    })
+    $(document).on("focusout", ".Actual,.Damage,.Loss", function () {
+        CalcAcualAndDamge($(this).parents("tr").index())
+    })
+    function CalcAcualAndDamge(Tr) {
+        var Damamge = GetMaskNumber($("#TBody").find("tr:eq(" + Tr + ")").find(".Damage").val());
+        var Actual = GetMaskNumber($("#TBody").find("tr:eq(" + Tr + ")").find(".Actual").val());
+        var UnitCost = GetMaskNumber($("#TBody").find("tr:eq(" + Tr + ")").find(".UnitCost").text());
+        var Loss = GetMaskNumber($("#TBody").find("tr:eq(" + Tr + ")").find(".Loss").val());
+
+        var Final = GetMaskNumber($("#TBody").find("tr:eq(" + Tr + ")").find(".Avaliable").text())
+            - Actual
+            - Damamge
+            - Loss;
+        $("#TBody").find("tr:eq(" + Tr + ")").find(".Diffrence").text(Final);
+        var ItemId=  $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-id");
+
+        var IsDebit;
+        
+        InsertInventoryLossJv(ItemId, Tr, false, Loss * UnitCost)
+        InsertDamgeJv(ItemId, Tr, Damamge * UnitCost);
+    }
+    function ShowTrDates() {
+        EmptyGlTransaction();
+        $("#JvDates").show();
+    }
+    function InsertInventoryLossJv(ItemId, Tr, IsDebit, Amount) {
+        $.ajax({
+            url: "/Inventory/Inv_item/GetInventoryAccount?ItemId=" + ItemId,
+            method: "POST",
+            success: function (data) {
+                var TransactionRate = 1;
+                var Debit = 0,
+                    Credit = 0;
+                var PrevVal = $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvLossrow");
+               
+                if (PrevVal == "") {
+                    AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, data.AName, Amount, 0, Amount, false);
+                    $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvLossrow", GetDCLastIndexRowClass())
+
+                } else {
+                    SetDCBool(GetGlAccIndexRClass(PrevVal), Amount,false)
+                }
+                Credit = Amount;
+
+                $("#TCGE-JEDate").removeAttr("disabled")
+            }
+        })
+    }
+    function InsertDamgeJv(ItemId, Tr, Amount) {
+        $.ajax({
+            url: "/Inventory/Inv_item/GetDamageAccount?ItemId=" + ItemId,
+            method: "POST",
+            success: function (data) {
+                var TransactionRate = 1;
+                var Debit = 0,
+                    Credit = 0;
+                var PrevVal = $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvDamgerow");
+              
+
+                if (PrevVal == "") {
+                    AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, data.AName, Amount, Amount, 0, false);
+                    $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvDamgerow", GetDCLastIndexRowClass())
+
+                } else {
+                    SetDCBool(GetGlAccIndexRClass(PrevVal), Amount,true)
+                }
+                Debit = Amount;
+                $("#TCGE-JEDate").removeAttr("disabled")
+            }
+        })
+        $.ajax({
+            url: "/Inventory/Inv_item/GetInventoryAccount?ItemId=" + ItemId,
+            method: "POST",
+            success: function (data) {
+                var TransactionRate = 1;
+                var Debit = 0,
+                    Credit = 0;
+                var PrevVal = $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvinvrow");
+               
+                if (
+                    PrevVal == "") {
+                    AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, data.AName, Amount, 0, Amount, false);
+
+                    $("#TBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvinvrow", GetDCLastIndexRowClass())
+                } else {
+                    SetDC(GetGlAccIndexRClass(PrevVal), Amount,false)
+                }
+               
+                Credit = Amount;
+                $("#TCGE-JEDate").removeAttr("disabled")
+            }
+        })
+    }
+    var ThisDeleteRow;
+    $(document).on("click", "#dmt", function () {
+        ThisDeleteRow = $(this).parents("tr").attr("class");
+    });
+
+    $(document).on("click", "#TCGE-ConfirmDeleteRecord", function () {
+        $("#TBody").find(".ItemId[data-jvinvrow='" + ThisDeleteRow + "']").attr("data-jvinvrow", "")
+        $("#TBody").find(".ItemId[data-jvinvrow='" + ThisDeleteRow + "']").attr("data-jvDamgerow", "")
+    });
+    $("#Create").click(function () {
+        var Valid = true;
+        $("#TBody").find("tr").each(function () {
+            if ($(this).find(".Diffrence").val() > 0) {
+                Valid = false;
+            }
+        })
+
+        if (Valid) {
+            InsertTransactionData(CompId, "@FabulousErp.Bussiness.Business.PostingToOrThrow()"
+            , $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), CompId, "1", "1", "InvStock", "InvStock", "", ""
+            , function (Jr,Po) {
+                $("#TBody").find("tr").each(function () {
+                    var Data = [];
+                    if ($(this).find(".Actual").val() ||
+                        $(this).find(".Damage").val()) {
+                        Data.push({
+                            Posting_num: Po,
+                            Po_id: $(this).find(".ItemId").attr("data-po"),
+                            Store_id: $("#Store_id").val(),
+                            Diffrence: $(this).find(".Diffrence").text(),
+                            Actual: $(this).find(".Actual").val(),
+                            Damage: $(this).find(".Damage").val(),
+                            Unit_cost: $(this).find(".UnitCost").text(),
+                            Item_id: $(this).attr("data-id")
+                        });
+                    }
+                    $.ajax({
+                        url: "/Inventory/Inv_stocking/Create",
+                        method: "POST",
+                        data: { Stock:Data},
+                        success: function (data) {
+                            RunAfterAjax(function () {
+                                window.location.reload();
+                            })
+                        }
+                    })
+                })
+            }, null, null, null, true);
+        }
+
+    })
+</script>

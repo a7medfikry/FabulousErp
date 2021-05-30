@@ -1,0 +1,34 @@
+﻿@model FabulousErp.Payable.Models.Assign_payable_doc
+
+@{
+    ViewBag.Title = "Assign Payable Doc";
+}
+
+
+@Html.Action("Edit", new { id = ViewBag.id, Partial = true })
+
+<script>
+    $(function () {
+        $(".TakenDiscount").trigger("change");
+        $(document).find("input").attr("disabled", "disabled");
+        $(document).find("select").attr("disabled", "disabled");
+        $(document).find("input[type='submit']").remove();
+        $(document).find("button").not(".Print").not(".ToggleTransAction").remove();
+        $("#JVSecCont").find("button").not(".MoreDetailsT").remove();
+    })
+</script>
+
+<section class="clearfix col-sm-12">
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+</section>
+
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>

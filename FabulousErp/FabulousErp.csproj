@@ -1,0 +1,2086 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.props" Condition="Exists('..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{05AF8E3B-ACEC-459D-B2E9-6C60C3EB7177}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FabulousErp</RootNamespace>
+    <AssemblyName>FabulousErp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>1</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.6.104\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.Mvc5.7.6.104\lib\net45\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Core, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Core.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization.Policy, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.Policy.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.Policy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Html.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Html.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Extensions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=2.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.ResponseCaching.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.1.0\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.CommandLine.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.EnvironmentVariables.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.EnvironmentVariables.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.1.1\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.2.1.0\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Console.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Debug, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Debug.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.1.1\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.ConfigurationExtensions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.1.1\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="SautinSoft.Document, Version=4.0.11.12, Culture=neutral, PublicKeyToken=e759c76c7515592a, processorArchitecture=MSIL">
+      <HintPath>..\packages\sautinsoft.document.4.0.11.12\lib\net461\SautinSoft.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Doc, Version=7.12.23.4046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.Doc.7.12.23\lib\net46\Spire.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License, Version=1.3.8.46, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.XLS.10.1.0\lib\net46\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf, Version=6.1.4.2046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.XLS.10.1.0\lib\net46\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=10.1.4.61046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.XLS.10.1.0\lib\net46\Spire.XLS.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Pipelines, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.4.5.2\lib\netstandard2.0\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.4.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.6.0\lib\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Cng, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Cng.4.5.0\lib\net461\System.Security.Cryptography.Cng.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.5.1\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.4\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.4\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc5, Version=1.4.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc5.1.4.0\lib\net45\Unity.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.5.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.5.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.5.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.5.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.5.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\FixedAssets\Business\Business.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Additional_informationController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\AssetsController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Assets_accountsController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Assets_classController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Assets_mainController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\BooksController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\DeletedAssetsController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\DeprecationsController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Deprecation_recordController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Deprecation_SettingController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Depreication_assets_connectionController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Depreication_assets_id_connectionController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Fixed_assets_disposelController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Fixed_assets_renewalController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Fixed_assets_revaluateController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\New_assets_transactionController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\PostToGLController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\PPartialController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\FixedAssets\Controllers\Stoking_assetsController.cs" />
+    <Compile Include="Areas\FixedAssets\FixedAssetsAreaRegistration.cs" />
+    <Compile Include="Areas\Installment\Controllers\Custom_installmentController.cs" />
+    <Compile Include="Areas\Installment\Controllers\Installment_contractController.cs" />
+    <Compile Include="Areas\Installment\Controllers\Installment_settingController.cs" />
+    <Compile Include="Areas\Installment\Controllers\RptController.cs" />
+    <Compile Include="Areas\Installment\InstallmentAreaRegistration.cs" />
+    <Compile Include="Areas\Inventory\Controllers\BussnissController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\InvBus.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_adjustmentController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_gorup_gl_accountsController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_itemController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_items_serialController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_item_gl_accountsController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_item_groupController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_item_optionController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_item_store_siteController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_movment_GSController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_poController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_po_GSController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_po_itemsController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_pricelistController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_purchaseController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_purchase_requestController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_purchase_request_itemsController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_quotation_receivingController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_quotation_requestController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_quotation_request_itemController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_receive_poController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_receive_po_itemsController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_salesController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_sales_GSController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_sales_invoiceController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_stockingController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_storeController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_store_siteController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Inv_transfer_itemsController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\RptController.cs" />
+    <Compile Include="Areas\Inventory\Controllers\Unit_of_measureController.cs" />
+    <Compile Include="Areas\Inventory\InventoryAreaRegistration.cs" />
+    <Compile Include="Areas\Payable\Business\Business.cs" />
+    <Compile Include="Areas\Payable\Controllers\Address_infoController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Aging_periodController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Assign_payable_docController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Bank_infoController.cs" />
+    <Compile Include="Areas\Payable\Controllers\CommonController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Creditor_settingController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Genral_settingController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Group_settingController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Legal_infoController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Other_optionController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Password_optionController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Payable_gl_accountController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Payable_paymentController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Payable_transactionController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Payment_termController.cs" />
+    <Compile Include="Areas\Payable\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\Payable\Controllers\Shipping_methodController.cs" />
+    <Compile Include="Areas\Payable\Controllers\VoidController.cs" />
+    <Compile Include="Areas\Payable\PayableAreaRegistration.cs" />
+    <Compile Include="Areas\Receivable\Business\Business.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Receivable_address_infoController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Aging_periodController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Assign_Receivable_docController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Bank_infoController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\CommonController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Creditor_settingController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Genral_settingController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Group_settingController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Receivable_legal_infoController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Other_optionController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Password_optionController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Receivable_gl_accountController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Receivable_paymentController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Receivable_transactionController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Payment_termController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\Shipping_methodController.cs" />
+    <Compile Include="Areas\Receivable\Controllers\VoidController.cs" />
+    <Compile Include="Areas\Receivable\ReceivableAreaRegistration.cs" />
+    <Compile Include="Bussiness\BusController.cs" />
+    <Compile Include="Bussiness\Business.cs" />
+    <Compile Include="Bussiness\ConverDocxToHtml.cs" />
+    <Compile Include="Bussiness\DigitToText.cs" />
+    <Compile Include="Bussiness\Extenisons.cs" />
+    <Compile Include="Bussiness\HtmlHelper.cs" />
+    <Compile Include="Bussiness\MyDbContext.cs" />
+    <Compile Include="CommonPartial\CommonController.cs" />
+    <Compile Include="Controllers\API\CheckBookAPIsController.cs" />
+    <Compile Include="Controllers\API\FavouriteAPIController.cs" />
+    <Compile Include="Controllers\API\TransactionApiController.cs" />
+    <Compile Include="Controllers\API\TranslateController.cs" />
+    <Compile Include="Controllers\BPCController.cs" />
+    <Compile Include="Controllers\Compression.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\ChartOfAccounts\Inquiry_IBCOAController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\ChartOfAccounts\Inquiry_ICCOAController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\ChartOfAccounts\Inquiry_IFCOAController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\ChartOfAccount\Inquiry_AccountChartController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\CurrenciesDefinition\Inquiry_CurrencyListController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Branch\B_Analytic\Inquiry_BranchAnalyticController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Branch\B_Analytic\Inquiry_BranchAnalyticDistributionController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Branch\B_CostCenter\Inquiry_BranchCostCenterAccountsController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Branch\B_CostCenter\Inquiry_BranchCostCenterController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Company\C_Analytic\Inquiry_CompanyAnalyticController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Company\C_Analytic\Inquiry_CompanyAnalyticDistributionController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Company\C_CostCenter\Inquiry_CompanyCostCenterAccountsController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Company\C_CostCenter\Inquiry_CompanyCostCenterController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Factory\F_Analytic\Inquiry_FactoryAnalyticController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Factory\F_Analytic\Inquiry_FactoryAnalyticDistributionController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Factory\F_CostCenter\Inquiry_FactoryCostCenterAccountsController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Accounting\_Factory\F_CostCenter\Inquiry_FactoryCostCenterController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\C_B_F_Setup\Inquiry_CompanySetupController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\FiscalPeriods\AllFiscalPeriodsController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\Tax\Inquiry_BranchTaxController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\Tax\Inquiry_CompanyTaxController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\Tax\Inquiry_FactoryTaxController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\Tax\Inquiry_TaxScheduleController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UGFormsAccess\Inquiry_FormsAccessController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UserAccess\Inquiry_BranchAccessController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UserAccess\Inquiry_CompanyAccessController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UserAccess\Inquiry_FactoryAccessController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UserAccount\Inquiry_UserDataController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UserAccount\Inquiry_UserProfileController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\GeneralSetting\UserGroup\Inquiry_GroupAccessController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Inquiry_CheckbookSettingController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Inquiry_CheckbookTransactionsController.cs" />
+    <Compile Include="Controllers\Inquiry\Financial\Inquiry_CompanyJETransactionsDetailsController.cs" />
+    <Compile Include="Controllers\LicenseController.cs" />
+    <Compile Include="Controllers\MainPages\ErrorController.cs" />
+    <Compile Include="Controllers\MainPages\HomePage\HomeController.cs" />
+    <Compile Include="Controllers\ReciptsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\Reports\Financial\_Company\C_ReportsController.cs" />
+    <Compile Include="Controllers\Reports\Financial\_Company\C_ReportsPrintController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CreateChartOfAccount\CompanyChartAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CreateChartOfAccount\CreateAccountChartController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CreateChartOfAccount\CreateAccountGroupController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CurrenciesDefinition\CurrenciesDefinitionController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CurrenciesDefinition\CurrencyFormateSettingController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CurrenciesDefinition\ExchangeCurrenciesSetupController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\CurrenciesDefinition\UserEditTRateController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Account\B_AddCostAccountToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Account\B_AddDistToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Account\B_CreateAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Account\B_LinkCDtoBAController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Analytic\B_AnalyticAccountDistributionController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Analytic\B_CreateAnalyticAccountsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_Analytic\B_LinkAnalyticToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_CheckBook\B_CheckBookSettingController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CreateCostCenterAccountsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CreateCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CreateMainCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Branch\B_CostCenter\B_UpdateMainCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_Account\C_AddCostAccountToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_Account\C_AddDistToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_Account\C_CreateAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_Analytic\C_AnalyticAccountDistributionController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_Analytic\C_CreateAnalyticAccountsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_Analytic\C_LinkAnalyticToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_CheckBook\C_CheckBookSettingController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_CostCenter\C_CreateCostCenterAccountsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_CostCenter\C_CreateCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_CostCenter\C_CreateMainCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Company\C_CostCenter\C_UpdateMainCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Account\F_AddCostAccountToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Account\F_AddDistToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Account\F_CreateAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Account\F_LinkCDtoFAController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Analytic\F_AnalyticAccountDistributionController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Analytic\F_CreateAnalyticAccountsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_Analytic\F_LinkAnalyticToAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_CheckBook\F_CheckBookSettingController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CreateCostCenterAccountsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CreateCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CreateMainCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\Accounting\_Factory\F_CostCenter\F_UpdateMainCostCenterController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranchInfo\CompanyBranchController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactoryInfo\CompanyFactoryController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyInformation\MainCompanyController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\FiscalPeriods\CloseFiscalYearController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\FiscalPeriods\CompanyFiscalYearController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\FiscalPeriods\CreateNewYearController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalDefController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalPeriodsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\FiscalPeriods\OpenAndClosFiscalPeriodsController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\Post\AccessOfUserPostController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\Post\CreatePostingSetupController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\Post\PrintDocumentSettingController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\Tax\TaxController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UGFormsAccess\Company\UGFormsAccessController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccess\BranchPremissionAccessController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccess\CompanyPremissionAccessController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccess\FactoryPremissionAccessController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccount\AccountProfileInfoController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccountController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccount\ListOfUserController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccount\UserChangePasswordController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserAccount\UserLoginController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserGroup\AccountGroupInfoController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserGroup\CreateNewGroupController.cs" />
+    <Compile Include="Controllers\Settings\Financial\GeneralSetting\UserGroup\ListOfGroupController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Branch\Accounting\B_CreateBatchController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Accounting\C_CreateBatchController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Accounting\C_GeneralEntryTransactionController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Accounting\C_TaxTransactionController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Accounting\TaxRptController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\BankReconcileController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\CheckbookRevaluateController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\CheckbookTransferController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\C_BankCheckOutController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\C_BankCheckReceivedController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\C_CashRecieptController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\C_CashWithdrawController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\C_CheckbookVoidController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Company\Checkbook\C_CheckTransferController.cs" />
+    <Compile Include="Controllers\Transaction\Financial\Factory\Accounting\F_CreateBatchController.cs" />
+    <Compile Include="Controllers\TranslatesController.cs" />
+    <Compile Include="Controllers\UploadFileController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="LocalResources\Resource.ar-SA.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.ar-SA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LocalResources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LocalResources\Resource.en-GB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.en-GB.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MyRoleProvider\AuthorizationFilter.cs" />
+    <Compile Include="MyRoleProvider\BranchSecurityFilter.cs" />
+    <Compile Include="MyRoleProvider\CustomAuthorize.cs" />
+    <Compile Include="MyRoleProvider\FactorySecurityFilter.cs" />
+    <Compile Include="MyRoleProvider\SiteRole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Business\BusinessController.cs" />
+    <Compile Include="Repository\Business\RSelectBusiness.cs" />
+    <Compile Include="Repository\Interface\IRepetitionBusiness.cs" />
+    <Compile Include="Repository\test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\FixedAssets\Scripts\AssetsClass.js" />
+    <Content Include="Areas\FixedAssets\Scripts\AssetsMain.js" />
+    <Content Include="Areas\FixedAssets\Scripts\AssetsScript.js" />
+    <Content Include="Areas\Inventory\Script\CommonInventory.js" />
+    <Content Include="Areas\Inventory\Script\PoRecive.js" />
+    <Content Include="Areas\Inventory\Views\Inv_adjustment\Adjustment.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_out\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_out\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_out\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_out\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_out\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_reciept\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_reciept\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_reciept\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_reciept\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_goods_reciept\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_gorup_gl_accounts\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_gorup_gl_accounts\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_gorup_gl_accounts\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_gorup_gl_accounts\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_gorup_gl_accounts\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_items_serial\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_items_serial\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_items_serial\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_items_serial\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_items_serial\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item\AddRecipe.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_gl_accounts\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_gl_accounts\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_gl_accounts\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_gl_accounts\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_gl_accounts\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_group\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_group\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_group\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_group\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_group\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_option\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_option\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_option\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_option\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_option\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_store_site\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_store_site\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_store_site\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_store_site\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_item_store_site\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_movment_GS\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_movment_GS\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_movment_GS\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_movment_GS\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_movment_GS\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_adjustment\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_GS\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_GS\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_GS\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_GS\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_GS\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_items\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_items\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_items\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_items\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_po_items\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_pricelist\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_pricelist\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_pricelist\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_pricelist\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_pricelist\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request_items\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request_items\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request_items\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request_items\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_purchase_request_items\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_receiving\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_receiving\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_receiving\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_receiving\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_receiving\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request_item\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request_item\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request_item\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request_item\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_quotation_request_item\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po\GetPoInvoice.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\GetReceivePoItems.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\GetSalesItems.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_receive_po_items\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_GS\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_GS\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_GS\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_GS\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_GS\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_invoice\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_invoice\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_invoice\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_invoice\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_invoice\GetSalesInvoice.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_sales_invoice\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store_site\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store_site\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store_site\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store_site\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_store_site\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Inquery.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\InqueryRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Inv_transfer_items\Transfer.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\AdjustmentRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\AjustmentInquery.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\AjustmentInqueryRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\CardRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\CardRptRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\CompareQutation.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\CompareRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\CustomerSalesRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\CustomerSalesRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\DailySalesRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\DailySalesRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\GrandProfitRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\GrandProfitRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\ItemStockDetails.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\ItemStockDetailsRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\ItemStockingInquery.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\ItemStockingInqueryRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\MonthlySalesRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\MonthlySalesRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\PoItemsPrint.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\Purchase.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\PurchaseInvoice.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\QtyAvaliable.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\QtyAvaliableRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\Sales.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\Stocking - Copy.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\StockingInquery.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\StockingInqueryRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\StockingRes - Copy.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\StockRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\StockRptRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\Stoking.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\TrnsferItem.cshtml" />
+    <Content Include="Areas\Inventory\Views\Unit_of_measure\Create.cshtml" />
+    <Content Include="Areas\Inventory\Views\Unit_of_measure\Delete.cshtml" />
+    <Content Include="Areas\Inventory\Views\Unit_of_measure\Details.cshtml" />
+    <Content Include="Areas\Inventory\Views\Unit_of_measure\Edit.cshtml" />
+    <Content Include="Areas\Inventory\Views\Unit_of_measure\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\web.config" />
+    <Content Include="Areas\Payable\Scripts\CreditorJs.js" />
+    <Content Include="Areas\Payable\Scripts\Payable_transaction.js" />
+    <Content Include="Areas\Receivable\Scripts\CreditorJs.js" />
+    <Content Include="Areas\Receivable\Scripts\CustomerData.js" />
+    <Content Include="Areas\Receivable\Scripts\Receivable_transaction.js" />
+    <Content Include="Fonts\feather.hxd" />
+    <Content Include="Fonts\feather.svg" />
+    <Content Include="Fonts\fontawesome-webfont-1.hxd" />
+    <Content Include="Fonts\fontawesome-webfont.hxd" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\GoogleFont.css" />
+    <Content Include="Fonts\icofont.hxd" />
+    <Content Include="Fonts\icofont.svg" />
+    <Content Include="Images\amrica.png" />
+    <Content Include="Images\bg.jpg" />
+    <Content Include="Images\Egypt.png" />
+    <Content Include="Images\File.png" />
+    <Content Include="Images\Globe.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\loginp.png" />
+    <Content Include="Images\loginpp.png" />
+    <Content Include="Images\Logo-small-bottom.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\logo1-no-back2.png" />
+    <Content Include="Images\ThumgLogo.png" />
+    <Content Include="Images\ThumgLogoW.png" />
+    <Content Include="Report.html" />
+    <Content Include="Scripts\html2canvas.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-3.5.1.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\New\All.js" />
+    <Content Include="Scripts\New\All.min.js">
+      <DependentUpon>All.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\New\BarChart.js" />
+    <Content Include="Scripts\New\bootstrap.min.js" />
+    <Content Include="Scripts\New\Bundle.js" />
+    <Content Include="Scripts\New\Bundle.min.js">
+      <DependentUpon>Bundle.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\New\buttons.print.min.js" />
+    <Content Include="Scripts\New\Chart.bundle.js" />
+    <Content Include="Scripts\New\Chart.bundle.min.js" />
+    <Content Include="Scripts\New\Charts\animated.js" />
+    <Content Include="Scripts\New\Charts\charts.js" />
+    <Content Include="Scripts\New\Charts\core.js" />
+    <Content Include="Scripts\New\common-pages.js" />
+    <Content Include="Scripts\New\css-scrollbars.js" />
+    <Content Include="Scripts\New\custom-prism.js" />
+    <Content Include="Scripts\New\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\New\dataTables.buttons.min.js" />
+    <Content Include="Scripts\New\dataTables.responsive.min.js" />
+    <Content Include="Scripts\New\DesignBundle.js" />
+    <Content Include="Scripts\New\DesignBundle.min.js">
+      <DependentUpon>DesignBundle.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\New\horizontal-layout.min.js" />
+    <Content Include="Scripts\New\i18next.min.js" />
+    <Content Include="Scripts\New\i18nextBrowserLanguageDetector.min.js" />
+    <Content Include="Scripts\New\i18nextXHRBackend.min.js" />
+    <Content Include="Scripts\New\jquery-i18next.min.js" />
+    <Content Include="Scripts\New\jquery-ui.min.js" />
+    <Content Include="Scripts\New\jquery.mCustomScrollbar.concat.min.js" />
+    <Content Include="Scripts\New\jquery.min.js" />
+    <Content Include="Scripts\New\jquery.slimscroll.js" />
+    <Content Include="Scripts\New\menu-rtl.js" />
+    <Content Include="Scripts\New\menu-sidebar-static.js" />
+    <Content Include="Scripts\New\modernizr.js" />
+    <Content Include="Scripts\New\pcoded.min.js" />
+    <Content Include="Scripts\New\popper.min.js" />
+    <Content Include="Scripts\New\script.js" />
+    <Content Include="Styles\All.css" />
+    <Content Include="Styles\All.min.css">
+      <DependentUpon>All.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\Arabic.css" />
+    <Content Include="Styles\bootstrap.min.css" />
+    <Content Include="Styles\Bundle.css" />
+    <Content Include="Styles\Bundle.min.css">
+      <DependentUpon>Bundle.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\buttons.dataTables.min.css" />
+    <Content Include="Styles\dataTables.bootstrap4.min.css" />
+    <Content Include="Styles\DesignBundle.css" />
+    <Content Include="Styles\DesignBundle.min.css">
+      <DependentUpon>DesignBundle.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\English.css" />
+    <Content Include="Styles\feather.css" />
+    <Content Include="Styles\font-awesome.min.css" />
+    <Content Include="Styles\icofont.css" />
+    <Content Include="Styles\jquery.mCustomScrollbar.css" />
+    <Content Include="Styles\MyStyle.css" />
+    <Content Include="Styles\pcoded-horizontal.min.css" />
+    <Content Include="Styles\PrintBundle.css" />
+    <Content Include="Styles\PrintBundle.min.css">
+      <DependentUpon>PrintBundle.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\prism.css" />
+    <Content Include="Styles\responsive.bootstrap4.min.css" />
+    <Content Include="Styles\style.css" />
+    <Content Include="Styles\StyleSheet1.css" />
+    <Content Include="Styles\themify-icons.css" />
+    <Content Include="Styles\_pcmenu.css">
+      <DependentUpon>_pcmenu.scss</DependentUpon>
+    </Content>
+    <Content Include="Styles\_pcmenu.min.css">
+      <DependentUpon>_pcmenu.css</DependentUpon>
+    </Content>
+    <Content Include="_Content\Styles\Chart.min.css" />
+    <Content Include="_Content\CommonScript.js" />
+    <Content Include="Areas\FixedAssets\Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Areas\FixedAssets\Scripts\jquery.validate.min.js" />
+    <Content Include="Areas\FixedAssets\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap4-dataTables.css" />
+    <Content Include="Content\bootstrap4-responsive.css" />
+    <Content Include="Content\fixedHeader.bootstrap4.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\swiper.css" />
+    <Content Include="Content\swiper.min.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\themes\datatables.css" />
+    <Content Include="Content\themes\datatables.min.css" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_glass_20_555555_1x400.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_glass_40_0078a3_1x400.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_gloss-wave_25_333333_500x100.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_inset-soft_25_000000_1x100.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-bg_inset-soft_30_f58400_1x100.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-icons_a83300_256x240.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\themes\ui-darkness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\ui-darkness\jquery-ui-1.8.16.custom.css" />
+    <Content Include="Content\themes\ui-darkness\jquery-ui-1.8.23.custom.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.all.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.base.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.button.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.core.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.slider.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\ui-darkness\jquery.ui.theme.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap4-dataTables.js" />
+    <Content Include="Scripts\datatables-fixedheader.js" />
+    <Content Include="Scripts\datatables-responsive.js" />
+    <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\swiper.min.js" />
+    <Content Include="_Content\BootstrapSelect\bootstrap-select.min.css" />
+    <Content Include="_Content\BootstrapSelect\bootstrap-select.min.js" />
+    <Content Include="_Content\BootstrapSelect\popper.min.js" />
+    <Content Include="_Content\jquery.mask.min.js" />
+    <Content Include="_Content\jquery.table2excel.js" />
+    <Content Include="_Content\jquery.tabletoCSV.js" />
+    <Content Include="_Content\JS\attrchange.js" />
+    <Content Include="_Content\JS\datatables.min.js" />
+    <Content Include="_Content\JS\datatables.minRowGrouping.js" />
+    <Content Include="_Content\JS\FileUpload\canvas-to-blob.min.js" />
+    <Content Include="_Content\JS\FileUpload\jquery-ui.min.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.blueimp-gallery.min.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.fileupload-image.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.fileupload-process.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.fileupload-ui.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.fileupload-validate.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.fileupload.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.iframe-transport.js" />
+    <Content Include="_Content\JS\FileUpload\jquery.ui.widget.js" />
+    <Content Include="_Content\JS\FileUpload\load-image.all.min.js" />
+    <Content Include="_Content\JS\FileUpload\MainInvItem.js" />
+    <Content Include="_Content\JS\FileUpload\MainDataBaseBak.js" />
+    <Content Include="_Content\JS\FileUpload\Main.js" />
+    <Content Include="_Content\JS\FileUpload\tmpl.min.js" />
+    <Content Include="_Content\JS\Home\CheckFavourites.js" />
+    <Content Include="_Content\JS\Home\SearchHome.js" />
+    <Content Include="_Content\JS\Important\printSetting.js" />
+    <Content Include="_Content\JS\Important\_StyleMenu.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\ChartOfAccounts\Inquiry_ICOA.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\ChartOfAccount\Inquiry_AccountChart\ListAccountChart.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\CurrenciesDefinition\Inquiry_CurrencyList.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\Financial-Accounting.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Branch\B_Analytic\B_AnalyticAccountDistribution\Inquiry_BranchAnalyticAccountDistribution.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Branch\B_Analytic\Inquiry_BranchAnalytic.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Branch\B_CostCenter\Inquiry_BranchCostCenter.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Company\C_Analytic\C_AnalyticAccountDistribution\Inquiry_CompanyAnalyticAccountDistribution.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Company\C_Analytic\Inquiry_CompanyAnalytic.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Company\C_CostCenter\Inquiry_CompanyCostCenter.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Factory\F_Analytic\F_AnalyticAccountDistribution\Inquiry_FactoryAnalyticAccountDistribution.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Factory\F_Analytic\Inquiry_FactoryAnalytic.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Accounting\_Factory\F_CostCenter\Inquiry_FactoryCostCenter.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\C_B_F_Setup\Inquiry_CompanySetup.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\Tax\Inquiry_BranchTax.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\Tax\Inquiry_CompanyTax.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\Tax\Inquiry_FactoryTax.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\Tax\Inquiry_TaxSchedule.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UGFormsAccess\Inquiry_FormsAccess.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UserAccess\Inquiry_BranchAccess.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UserAccess\Inquiry_CompanyAccess.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UserAccess\Inquiry_FactoryAccess.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UserAccount\Inquiry_Accountprofile\Inquiry_Accountprofile.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UserAccount\Inquiry_Listofusers\Inquiry_AccountInfo.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\UserGroup\Inquiry_GroupAccess.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Inquiry_CheckbookSetting.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\Inquiry_CheckbookTransactions.js" />
+    <Content Include="_Content\JS\Inquiry\Inquiry_JETransaction.js" />
+    <Content Include="_Content\JS\Inquiry\Inquiry_print.js" />
+    <Content Include="_Content\JS\jQuery.print.min.js" />
+    <Content Include="_Content\JS\jquery.serializeToJSON.js" />
+    <Content Include="_Content\JS\MainTransactions.js" />
+    <Content Include="_Content\JS\memory_cache.js" />
+    <Content Include="_Content\JS\parallel.js" />
+    <Content Include="_Content\JS\PublicTransaction.js" />
+    <Content Include="_Content\JS\Reports\Financial\_Company\Reports_Script.js" />
+    <Content Include="_Content\JS\Settings\CheckbookReconsile_Script.js" />
+    <Content Include="_Content\JS\Settings\CheckbookTransactionVoid_Script.js" />
+    <Content Include="_Content\JS\Settings\CheckbookTransfer.js" />
+    <Content Include="_Content\JS\Settings\CheckbookTransaction_Script.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CreateChartOfAccount\CreateAccountGroup\CreateAccountsGroup.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CurrencyDefinition\CurrencyFormateSetting\jquery.maskMoney.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_Account\B_AddCostAccountToAccount\BranchAccountAddCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_Account\B_AddDistToAccount\BranchAccountAddDist.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_Account\B_CreateAccount\BranchCreateAccount.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_Analytic\B_AnalyticAccountDistribution\AddBranchDistribution.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_Analytic\B_CreateAnalyticAccounts\AddAnalyicToBranch.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_CheckBook\B_CheckBookSetting.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CreateCostCenterAccounts\BranchCCAccounts.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CreateCostCenter\BranchCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_CostCenter\B_CreateMainCostCenter\BranchMainCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_CostCenter\B_UpdateMainCostCenter\BranchUpdateMainCC.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_Account\C_AddCostAccountToAccount\CompAccountAddCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_Account\C_AddDistToAccount\CompAccountAddDist.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_Account\C_CreateAccount\CompanyCreateAccount.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_Analytic\C_AnalyticAccountDistribution\AddCompanyDistribution.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_Analytic\C_CreateAnalyticAccounts\AddAnalytic.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CreateChartOfAccount\CompanyChartAccount\AddAccountChartToComp.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CreateChartOfAccount\CreateAccountChart\SaveAccountChart.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CurrencyDefinition\CurrenciesDefinition\GetCurrenciesDefinition.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CurrencyDefinition\CurrencyFormateSetting\SaveSFormate.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\CurrencyDefinition\ExchangeCurrenciesSetup\GetCurrencyRates.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_CheckBook\C_CheckBookSetting.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_CostCenter\C_CreateCostCenterAccounts\CompCCAccounts.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_CostCenter\C_CreateCostCenter\CompCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_CostCenter\C_CreateMainCostCenter\CompMainCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Company\C_CostCenter\C_UpdateMainCostCenter\CompUpdateMainCC.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Branch\B_Account\AddCurrencyDeToBAccount.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_Account\AddCurrencyDeToFAccount.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_Account\F_AddCostAccountToAccount\FactoryAccountAddCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_Account\F_AddDistToAccount\FactoryAccountAddDist.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_Account\F_CreateAccount\FactoryCreateAccount.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_Analytic\F_AnalyticAccountDistribution\AddFactoryDistribution.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_Analytic\F_CreateAnalyticAccounts\AddAnalyticToFactory.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_CheckBook\F_CheckBookSetting.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CreateCostCenterAccounts\FactoryCCAccounts.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CreateCostCenter\FactoryCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_CostCenter\F_CreateMainCostCenter\FactoryMainCostCenter.js" />
+    <Content Include="_Content\JS\Settings\Financial\Accounting\_Factory\F_CostCenter\F_UpdateMainCostCenter\FactoryUpdateMainCC.js" />
+    <Content Include="_Content\JS\Settings\CheckbookRevaluate_Script.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_ClearBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_CommunicationBtns.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_DropChange.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_Form.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_FormLoad.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_PrintBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_SaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_SearchBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_UpdateBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_ValFocusOut.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyBranch\B_Validation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_CommunicationBtns.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_DropChange.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_Form.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_FormLoad.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_ClearBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_PrintBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_SaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_SearchBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_UpdateBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_ValFocusOut.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\CompanyFactory\F_Validation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_ClearBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_CommunicationBtns.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_Downloads.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_Form.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_FormLoad.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_PrintBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_SaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_SearchBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_UpdateBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\C_Validation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\C_B_F_Setup\MainCompany\F_ValFocusOut.js" />
+    <Content Include="_Content\JS\Home\Home.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\FiscalPeriods\CloseFiscalYear\CloseYear.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\FiscalPeriods\CompanyFiscalYear\C_Fiscal_Validation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\FiscalPeriods\CreateNewYear\FDCreateNew.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalDef\Validation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\FiscalPeriods\FiscalYearPeriods\Validation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\FiscalPeriods\OpenAndClosFiscalPeriods\OpenAndColsePeriods.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\Tax\tax-setting.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UGFormAccess\Company\HandleRB.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UGFormAccess\Company\SaveBtnAccess.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UGFormAccess\Company\UserCopyAccess.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccess\BranchPremissionAccess\BPA_SaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccess\BranchPremissionAccess\BPA_DropDownChange.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccess\CompanyPremissionAccess\CPA_SaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccess\CompanyPremissionAccess\CPA_DropDownChange.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccess\FactoryPremissionAccess\FPA_DropDownChange.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccess\FactoryPremissionAccess\FPA_SaveBtn.js" />
+    <Content Include="_Content\JS\Inquiry\Financial\GeneralSetting\FiscalPeriods\ShowFiscalPeriods\Search.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\AccountProfileInfo\GetAccountInfo.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\AccountProfileInfo\SaveAccountInfo.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\EditableComboBox.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\NewAccClearBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\NewAccUpdateBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\SaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\SearchBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\Validations.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\ListOfUser\DeleteAlert.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserChangePassword\ChangePassValid.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserChangePassword\UpdatePassBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserLogin\Login_form.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserLogin\LoginBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserLogin\LoginClock.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserLogin\LoginRB.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserLogin\LoginValidation.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserAccount\UserLogin\Login_load.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserGroup\AccountGroupInfo\GetGroupInfo.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserGroup\CreateNewGroup\GroupSaveBtn.js" />
+    <Content Include="_Content\JS\Settings\Financial\GeneralSetting\UserGroup\ListOfGroup\DeleteAlert.js" />
+    <Content Include="_Content\JS\Settings\Setting_Script.js" />
+    <Content Include="_Content\JS\Settings\TaxTransaction_Script.js" />
+    <Content Include="_Content\JS\Settings\Transaction_Script.js" />
+    <Content Include="_Content\JS\Settings\VoidTransaction.js" />
+    <Content Include="_Content\JS\ShowTransaction.js" />
+    <Content Include="_Content\JS\Translate.js" />
+    <Content Include="_Content\moment.js" />
+    <Content Include="_Content\Pictures\ajax-loader.gif" />
+    <Content Include="_Content\Pictures\background.bmp" />
+    <Content Include="_Content\Pictures\datepic.png" />
+    <Content Include="_Content\Pictures\Denied.png" />
+    <Content Include="_Content\Pictures\dot.png" />
+    <Content Include="_Content\Pictures\excel.ico.png" />
+    <Content Include="_Content\Pictures\inquiry.png" />
+    <Content Include="_Content\Pictures\key.svg" />
+    <Content Include="_Content\Pictures\locked.png" />
+    <Content Include="_Content\Pictures\profile.png" />
+    <Content Include="_Content\Pictures\report.png" />
+    <Content Include="_Content\Pictures\settings.png" />
+    <Content Include="_Content\Pictures\timepic.png" />
+    <Content Include="_Content\Pictures\transactions.png" />
+    <Content Include="_Content\Pictures\wrong-access.png" />
+    <Content Include="_Content\Styles\animations.css" />
+    <Content Include="_Content\Styles\dark.css" />
+    <Content Include="_Content\Styles\datatables.min.css" />
+    <Content Include="_Content\Styles\FileUpload\blueimp-gallery.min.css" />
+    <Content Include="_Content\Styles\FileUpload\jquery-ui.min.css" />
+    <Content Include="_Content\Styles\FileUpload\jquery.fileupload-ui.css" />
+    <Content Include="_Content\Styles\FileUpload\jquery.fileupload.css" />
+    <Content Include="_Content\Styles\Important\AccessDenied.css" />
+    <Content Include="_Content\Styles\Important\BranchReport.css" />
+    <Content Include="_Content\Styles\Important\_CompanyReport.css" />
+    <Content Include="_Content\Styles\Important\_FactoryReport.css" />
+    <Content Include="_Content\Styles\Important\_Layout.css" />
+    <Content Include="_Content\Styles\Inquiry\Inquiry_print.css" />
+    <Content Include="_Content\Styles\Omain .css" />
+    <Content Include="_Content\Styles\main.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\___Layout.cshtml" />
+    <Content Include="Views\CompanyBranch\BranchInformation.cshtml" />
+    <Content Include="Views\MainCompany\CompanyInformation.cshtml" />
+    <Content Include="Views\CompanyFactory\FactoryInformation.cshtml" />
+    <Content Include="_Content\Styles\print.css" />
+    <Content Include="_Content\Styles\Settings\Financial\GeneralSetting\UserAccount\AccountProfileInfo\ValidProfileInfo.css" />
+    <Content Include="_Content\Styles\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\EditableComboBox.css" />
+    <Content Include="_Content\Styles\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\NewAccStyle.css" />
+    <Content Include="_Content\Styles\Settings\Financial\GeneralSetting\UserAccount\CreateNewAccount\Validation.css" />
+    <Content Include="_Content\Styles\Settings\Financial\GeneralSetting\UserAccount\UserChangePassword\ChangePassValidation.css" />
+    <Content Include="_Content\Styles\Loginform.css" />
+    <Content Include="_Content\Styles\Settings\Financial\GeneralSetting\UserAccount\UserLogin\LoginValidation.css" />
+    <Content Include="_Content\Styles\StyleSheet1.css" />
+    <Content Include="_Content\Styles\util.css" />
+    <Content Include="_Content\Styles\validations.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\FixedAssets\Models\" />
+    <Folder Include="Areas\Installment\Models\" />
+    <Folder Include="Areas\Installment\Views\Payable_address_info\" />
+    <Folder Include="Areas\Installment\Views\Shared\" />
+    <Folder Include="Areas\Inventory\Models\" />
+    <Folder Include="Areas\Inventory\Views\Bussniss\" />
+    <Folder Include="Areas\Inventory\Views\Inv_stocking\" />
+    <Folder Include="Areas\Inventory\Views\Shared\" />
+    <Folder Include="Areas\Payable\Models\" />
+    <Folder Include="Areas\Receivable\Models\" />
+    <Folder Include="backup\" />
+    <Folder Include="Controllers\Inquiry\Financial\Checkbook\" />
+    <Folder Include="InvItems\" />
+    <Folder Include="Reports\Render\" />
+    <Folder Include="Views\Business\" />
+    <Folder Include="Views\Common\" />
+    <Folder Include="Views\C_CheckbookTransferVoid\" />
+    <Folder Include="Views\ReportsPrint\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Areas\FixedAssets\Models.rar" />
+    <Content Include="Areas\FixedAssets\Views\Additional_information\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Additional_information\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Additional_information\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Additional_information\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Additional_information\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets\GetAssetWithNumberOfUnit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_accounts\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_accounts\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_accounts\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_accounts\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_accounts\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_class\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_class\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_class\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_class\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_class\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_main\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_main\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_main\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_main\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Assets_main\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecations\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecations\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecations\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecations\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecations\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_Setting\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_Setting\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_Setting\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_Setting\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_Setting\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_connection\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_connection\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_connection\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_connection\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_connection\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_id_connection\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_id_connection\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_id_connection\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_id_connection\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Depreication_assets_id_connection\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_disposel\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_disposel\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_disposel\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_disposel\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_disposel\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_renewal\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_renewal\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_renewal\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_renewal\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_renewal\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_revaluate\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_revaluate\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_revaluate\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_revaluate\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Fixed_assets_revaluate\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Home\About.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Home\Contact.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Home\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\New_assets_transaction\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\New_assets_transaction\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\New_assets_transaction\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\New_assets_transaction\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\New_assets_transaction\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\PostToGL\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\Create.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\Delete.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\Details.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\Edit.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\Index.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\Test.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Web.config" />
+    <Content Include="Areas\FixedAssets\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\Bookreport.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Books\BookreportRpt.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Reports\Year.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Reports\YearRpt.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\DeletedAssets\DeleteAssets.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\DeletedAssets\DeleteAssetsClass.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\DeletedAssets\DeleteAssetsMain.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\DeletedAssets\DeleteRenwal.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\DeletedAssets\Deletedisposel.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\DeletedAssets\DeleteRevaluate.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\PPartial\VoidPartial.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Stoking_assets\StockingReport.cshtml" />
+    <Content Include="Areas\Payable\Views\Address_info\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Address_info\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Address_info\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Address_info\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Address_info\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Aging_period\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Aging_period\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Aging_period\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Aging_period\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Aging_period\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\BelowTable.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Assign_payable_doc\IndexPartial.cshtml" />
+    <Content Include="Areas\Payable\Views\Bank_info\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Bank_info\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Bank_info\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Bank_info\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Bank_info\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Common\ReportSearch.cshtml" />
+    <Content Include="Areas\Payable\Views\Creditor_setting\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Creditor_setting\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Creditor_setting\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Creditor_setting\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Creditor_setting\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Genral_setting\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Genral_setting\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Genral_setting\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Genral_setting\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Genral_setting\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Group_setting\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Group_setting\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Group_setting\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Group_setting\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Group_setting\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Legal_info\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Legal_info\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Legal_info\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Legal_info\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Legal_info\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Other_option\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Other_option\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Other_option\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Other_option\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Other_option\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Password_option\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Password_option\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Password_option\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Password_option\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Password_option\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_gl_account\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_gl_account\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_gl_account\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_gl_account\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_gl_account\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\IndexPartial.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_payment\PartialCreate.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_transaction\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_transaction\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_transaction\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_transaction\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_transaction\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Payable_transaction\IndexPartial.cshtml" />
+    <Content Include="Areas\Payable\Views\Payment_term\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Payment_term\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Payment_term\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Payment_term\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Payment_term\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\AgingRpt.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\AgingRptTbl.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\ClasicAging.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\ClasicAgingRes.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\VendoreBalance.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\VendoreBalanceRes.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\VendoreCurrentActivtiy.cshtml" />
+    <Content Include="Areas\Payable\Views\Reports\VendoreCurrentActivtiyRes.cshtml" />
+    <Content Include="Areas\Payable\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Payable\Views\Shipping_method\Create.cshtml" />
+    <Content Include="Areas\Payable\Views\Shipping_method\Delete.cshtml" />
+    <Content Include="Areas\Payable\Views\Shipping_method\Details.cshtml" />
+    <Content Include="Areas\Payable\Views\Shipping_method\Edit.cshtml" />
+    <Content Include="Areas\Payable\Views\Shipping_method\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\Void\Index.cshtml" />
+    <Content Include="Areas\Payable\Views\web.config" />
+    <Content Include="Areas\Payable\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_address_info\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_address_info\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_address_info\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_address_info\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_address_info\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Aging_period\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Aging_period\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Aging_period\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Aging_period\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Aging_period\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\BelowTable.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Assign_Receivable_doc\IndexPartial.cshtml" />
+    <Content Include="Areas\Receivable\Views\Bank_info\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Bank_info\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Bank_info\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Bank_info\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Bank_info\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Common\ReportSearch.cshtml" />
+    <Content Include="Areas\Receivable\Views\Creditor_setting\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Creditor_setting\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Creditor_setting\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Creditor_setting\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Creditor_setting\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Genral_setting\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Genral_setting\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Genral_setting\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Genral_setting\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Genral_setting\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Group_setting\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Group_setting\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Group_setting\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Group_setting\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Group_setting\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_legal_info\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_legal_info\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_legal_info\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_legal_info\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_legal_info\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Other_option\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Other_option\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Other_option\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Other_option\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Other_option\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Password_option\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Password_option\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Password_option\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Password_option\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Password_option\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_gl_account\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_gl_account\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_gl_account\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_gl_account\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_gl_account\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\IndexPartial.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_payment\PartialCreate.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_transaction\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_transaction\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_transaction\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_transaction\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_transaction\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Receivable_transaction\IndexPartial.cshtml" />
+    <Content Include="Areas\Receivable\Views\Payment_term\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Payment_term\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Payment_term\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Payment_term\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Payment_term\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\AgingRpt.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\AgingRptTbl.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\ClasicAging.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\ClasicAgingRes.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\VendoreBalance.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\VendoreBalanceRes.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\VendoreCurrentActivtiy.cshtml" />
+    <Content Include="Areas\Receivable\Views\Reports\VendoreCurrentActivtiyRes.cshtml" />
+    <Content Include="Areas\Receivable\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Receivable\Views\Shipping_method\Create.cshtml" />
+    <Content Include="Areas\Receivable\Views\Shipping_method\Delete.cshtml" />
+    <Content Include="Areas\Receivable\Views\Shipping_method\Details.cshtml" />
+    <Content Include="Areas\Receivable\Views\Shipping_method\Edit.cshtml" />
+    <Content Include="Areas\Receivable\Views\Shipping_method\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\Void\Index.cshtml" />
+    <Content Include="Areas\Receivable\Views\web.config" />
+    <Content Include="Areas\Receivable\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\Index_temp.cshtml" />
+    <Content Include="Areas\FixedAssets\Views\Deprecation_record\MainEdit.cshtml" />
+    <Content Include="Areas\Installment\Views\web.config" />
+    <Content Include="Areas\Installment\Views\Installment_setting\Create.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_setting\Delete.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_setting\Details.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_setting\Edit.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_setting\Index.cshtml" />
+    <Content Include="Areas\Installment\Views\Custom_installment\Create.cshtml" />
+    <Content Include="Areas\Installment\Views\Custom_installment\Delete.cshtml" />
+    <Content Include="Areas\Installment\Views\Custom_installment\Details.cshtml" />
+    <Content Include="Areas\Installment\Views\Custom_installment\Edit.cshtml" />
+    <Content Include="Areas\Installment\Views\Custom_installment\Index.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_setting\InstallmentRelation.cshtml" />
+    <Content Include="Areas\Installment\Views\Rpt\InstallmentRpt.cshtml" />
+    <Content Include="Areas\Installment\Views\Rpt\GetInstallments.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_contract\Create.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_contract\Delete.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_contract\Details.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_contract\Edit.cshtml" />
+    <Content Include="Areas\Installment\Views\Installment_contract\Index.cshtml" />
+    <Content Include="Fonts\icofont.ttf" />
+    <Content Include="Fonts\icofont.woff" />
+    <Content Include="Fonts\feather.ttf" />
+    <Content Include="Fonts\feather.woff" />
+    <Content Include="Fonts\Material-Design-Icons.eot" />
+    <Content Include="Areas\Installment\Views\Rpt\DelayRptRes.cshtml" />
+    <Content Include="Areas\Installment\Views\Rpt\DelayRpt.cshtml" />
+    <Content Include="Areas\Inventory\Views.rar" />
+    <Content Include="Areas\Inventory\Views\Rpt\Rpt.rar" />
+    <Content Include="Areas\Inventory\Views\Rpt\Stocking.cshtml" />
+    <Content Include="Areas\Inventory\Views\Rpt\StockingRes.cshtml" />
+    <Content Include="Areas\Inventory\Views\Unit_of_measure\Unit_of_measure.rar" />
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Fonts\cyrillic-ext.woff2" />
+    <Content Include="Fonts\cyrillic.woff2" />
+    <Content Include="Fonts\greek-ext.woff2" />
+    <Content Include="Fonts\greek.woff2" />
+    <Content Include="Fonts\vietnamese.woff2" />
+    <Content Include="Fonts\latin-ext.woff2" />
+    <Content Include="Fonts\latin.woff2" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Fonts\Material-Design-Icons iefix.eot" />
+    <Content Include="Fonts\Material-Design-Icons.woff" />
+    <Content Include="Fonts\Material-Design-Icons.ttf" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="PrintDocument\نموذج02.docx" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Reports\TTT.xlsx" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Home\Financial_Home.cshtml" />
+    <Content Include="Views\CreateNewAccount\NewAccountInfo.cshtml" />
+    <Content Include="Views\FiscalDef\FiscalYearDef.cshtml" />
+    <Content Include="Views\FiscalPeriods\FiscalYearPeriods.cshtml" />
+    <Content Include="Views\UserChangePassword\ChangePassword.cshtml" />
+    <Content Include="Views\AllFiscalPeriods\ShowFiscalPeriods.cshtml" />
+    <Content Include="Views\AccountProfileInfo\AccountInfo.cshtml" />
+    <Content Include="Views\CompanyFiscalYear\AddCompanyFiscalYear.cshtml" />
+    <Content Include="Views\ListOfUser\GetUsers.cshtml" />
+    <Content Include="Views\CreateNewGroup\NewGroupInfo.cshtml" />
+    <Content Include="Views\ListOfGroup\GetGroups.cshtml" />
+    <Content Include="Views\AccountGroupInfo\AddUserToGroup.cshtml" />
+    <Content Include="Views\CompanyPremissionAccess\UACompPremission.cshtml" />
+    <Content Include="Views\BranchPremissionAccess\UABranchPremission.cshtml" />
+    <Content Include="Views\FactoryPremissionAccess\UAFactoryPremission.cshtml" />
+    <Content Include="Views\UGFormsAccess\FormsAccess.cshtml" />
+    <Content Include="Views\CurrencyFormateSetting\FormateSetting.cshtml" />
+    <Content Include="Views\CreateNewYear\NewYear.cshtml" />
+    <Content Include="Views\CurrenciesDefinition\CurrenciesTypes.cshtml" />
+    <Content Include="Views\Shared\_BranchReport.cshtml" />
+    <Content Include="Views\Shared\_FactoryReport.cshtml" />
+    <Content Include="Views\Shared\_CompanyReport.cshtml" />
+    <Content Include="Views\Shared\_PageHeader.cshtml" />
+    <Content Include="Views\Shared\_PageFooter.cshtml" />
+    <Content Include="Views\Shared\_FavouritesNavbar.cshtml" />
+    <Content Include="Views\Shared\_CompanyNavbar.cshtml" />
+    <Content Include="Views\ExchangeCurrenciesSetup\ExchangeCurrencies.cshtml" />
+    <Content Include="Views\CreateAccountChart\AccountChart.cshtml" />
+    <Content Include="Views\Inquiry_UserData\ShowListofUsers.cshtml" />
+    <Content Include="Views\Inquiry_UserProfile\Accountprofile.cshtml" />
+    <Content Include="Views\Inquiry_CompanySetup\CompanyInformation.cshtml" />
+    <Content Include="Views\CompanyChartAccount\AddChartToCompany.cshtml" />
+    <Content Include="Views\Inquiry_AccountChart\ListAccountChart.cshtml" />
+    <Content Include="Views\C_CreateAnalyticAccounts\CompanyAnalyticAccounts.cshtml" />
+    <Content Include="Views\B_CreateAnalyticAccounts\BranchAnalyticAccounts.cshtml" />
+    <Content Include="Views\F_CreateAnalyticAccounts\FactoryAnalyticAccounts.cshtml" />
+    <Content Include="Views\C_CreateCostCenter\CompanyCostCenter.cshtml" />
+    <Content Include="Views\B_CreateCostCenter\BranchCostCenter.cshtml" />
+    <Content Include="Views\F_CreateCostCenter\FactoryCostCenter.cshtml" />
+    <Content Include="Views\Shared\_DateNavbar.cshtml" />
+    <Content Include="Views\CreateAccountGroup\AccountGroup.cshtml" />
+    <Content Include="Views\C_CreateAccount\CompanyAccount.cshtml" />
+    <Content Include="Views\Inquiry_CompanyAccess\CompanyAccess.cshtml" />
+    <Content Include="Views\Inquiry_BranchAccess\BranchAccess.cshtml" />
+    <Content Include="Views\Inquiry_FactoryAccess\FactoryAccess.cshtml" />
+    <Content Include="Views\CloseFiscalYear\CloseYear.cshtml" />
+    <Content Include="Views\Inquiry_GroupAccess\GroupAccess.cshtml" />
+    <Content Include="Views\Inquiry_FormsAccess\FormsAccess.cshtml" />
+    <Content Include="Views\Inquiry_CurrencyList\CurrencyList.cshtml" />
+    <Content Include="Views\Inquiry_CompanyAnalytic\CompanyAnalyticAccount.cshtml" />
+    <Content Include="Views\Inquiry_BranchAnalytic\BranchAnalyticAccount.cshtml" />
+    <Content Include="Views\Inquiry_FactoryAnalytic\FactoryAnalyticAccount.cshtml" />
+    <Content Include="Views\Inquiry_CompanyCostCenter\CompanyCostCenter.cshtml" />
+    <Content Include="Views\B_AnalyticAccountDistribution\BranchAnalyticDistribution.cshtml" />
+    <Content Include="Views\F_AnalyticAccountDistribution\FactoryAnalyticDistribution.cshtml" />
+    <Content Include="Views\C_AnalyticAccountDistribution\CompanyAnalyticDistribution.cshtml" />
+    <Content Include="Views\B_CreateMainCostCenter\BranchMainCostCenter.cshtml" />
+    <Content Include="Views\F_CreateMainCostCenter\FactoryMainCostCenter.cshtml" />
+    <Content Include="Views\C_CreateMainCostCenter\CompMainCostCenter.cshtml" />
+    <Content Include="Views\B_UpdateMainCostCenter\BranchUpdateGroupCC.cshtml" />
+    <Content Include="Views\F_UpdateMainCostCenter\FactoryUpdateGroupCC.cshtml" />
+    <Content Include="Views\C_UpdateMainCostCenter\CompUpdateGroupCC.cshtml" />
+    <Content Include="Views\B_CreateCostCenterAccounts\BranchCCAccounts.cshtml" />
+    <Content Include="Views\F_CreateCostCenterAccounts\FactoryCCAccounts.cshtml" />
+    <Content Include="Views\C_CreateCostCenterAccounts\CompCCAccounts.cshtml" />
+    <Content Include="Views\UGFormsAccess\BranchFormsAccess.cshtml" />
+    <Content Include="Views\UGFormsAccess\FactoryFormsAccess.cshtml" />
+    <Content Include="Views\Inquiry_BranchCostCenter\BranchCostCenter.cshtml" />
+    <Content Include="Views\Inquiry_FactoryCostCenter\FactoryCostCenter.cshtml" />
+    <Content Include="Views\C_AddDistToAccount\DistToCompAccount.cshtml" />
+    <Content Include="Views\C_AddCostAccountToAccount\CostAccountToCompAccount.cshtml" />
+    <Content Include="Views\Shared\_StyleMenu.cshtml" />
+    <Content Include="UploadedFiles\CompanyAccounts.xlsx" />
+    <Content Include="Views\UserLogin\Login_OldDesign.cshtml" />
+    <Content Include="Views\Shared\_BranchNavbar.cshtml" />
+    <Content Include="Views\B_CreateAccount\BranchAccount.cshtml" />
+    <Content Include="Views\B_AddDistToAccount\DistToBranchAccount.cshtml" />
+    <Content Include="Views\B_AddCostAccountToAccount\CostAccountToBranchAccount.cshtml" />
+    <Content Include="Views\F_CreateAccount\FactoryAccount.cshtml" />
+    <Content Include="Views\F_AddDistToAccount\DistToFactoryAccount.cshtml" />
+    <Content Include="Views\F_AddCostAccountToAccount\CostAccountToFactoryAccount.cshtml" />
+    <Content Include="UploadedFiles\BranchAccounts.xlsx" />
+    <Content Include="UploadedFiles\FactoryAccounts.xlsx" />
+    <Content Include="Views\Inquiry_CompanyAnalyticDistribution\CompanyAnalyticDistribution.cshtml" />
+    <Content Include="Views\Inquiry_BranchAnalyticDistribution\BranchAnalyticDistribution.cshtml" />
+    <Content Include="Views\Inquiry_FactoryAnalyticDistribution\FactoryAnalyticDistribution.cshtml" />
+    <Content Include="Views\OpenAndClosFiscalPeriods\OpenClosePeriods.cshtml" />
+    <Content Include="Views\Inquiry_CompanyCostCenterAccounts\CompanyCenterAccounts.cshtml" />
+    <Content Include="Views\Inquiry_BranchCostCenterAccounts\BranchCenterAccounts.cshtml" />
+    <Content Include="Views\Inquiry_FactoryCostCenterAccounts\FactoryCenterAccounts.cshtml" />
+    <Content Include="Views\AccessOfUserPost\UserPost.cshtml" />
+    <Content Include="Views\CreatePostingSetup\PostingSetup.cshtml" />
+    <Content Include="Views\PrintDocumentSetting\PrintDocument.cshtml" />
+    <Content Include="Views\C_CreateBatch\CompanyCreateBatch.cshtml" />
+    <Content Include="Views\B_CreateBatch\BranchCreateBatch.cshtml" />
+    <Content Include="Views\F_CreateBatch\FactoryCreateBatch.cshtml" />
+    <Content Include="Views\Shared\_FactoryNavbar.cshtml" />
+    <Content Include="Views\Shared\_CompanyHome.cshtml" />
+    <Content Include="Views\Shared\_BranchHome.cshtml" />
+    <Content Include="Views\Shared\_FactoryHome.cshtml" />
+    <Content Include="Views\UserEditTRate\UEditRate.cshtml" />
+    <Content Include="Views\Dashboard\dashboard.cshtml" />
+    <Content Include="Views\Shared\_Dashboard.cshtml" />
+    <Content Include="Views\Home\Purchasing_Home.cshtml" />
+    <Content Include="Views\Shared\_FinancialCompany.cshtml" />
+    <Content Include="Views\Shared\_FinancialBranch.cshtml" />
+    <Content Include="Views\Shared\_FinancialFactory.cshtml" />
+    <Content Include="Views\Shared\_PurchasingCompany.cshtml" />
+    <Content Include="Views\Shared\_PurchasingBranch.cshtml" />
+    <Content Include="Views\Shared\_PurchasingFactory.cshtml" />
+    <Content Include="Views\Home\Sales_Home.cshtml" />
+    <Content Include="Views\Shared\_SalesCompany.cshtml" />
+    <Content Include="Views\Shared\_SalesBranch.cshtml" />
+    <Content Include="Views\Shared\_SalesFactory.cshtml" />
+    <Content Include="Views\Home\Inventory_Home.cshtml" />
+    <Content Include="Views\Shared\_InventoryCompany.cshtml" />
+    <Content Include="Views\Shared\_InventoryBranch.cshtml" />
+    <Content Include="Views\Shared\_InventoryFactory.cshtml" />
+    <Content Include="Views\C_GeneralEntryTransaction\CompanyGETransaction.cshtml" />
+    <Content Include="Views\Shared\_printSheet.cshtml" />
+    <Content Include="Views\Tax\Tax_Setting.cshtml" />
+    <Content Include="Views\Inquiry_TaxSchedule\TaxSchedule.cshtml" />
+    <Content Include="Views\Inquiry_CompanyTax\CompanyTax.cshtml" />
+    <Content Include="Views\Inquiry_BranchTax\BranchTax.cshtml" />
+    <Content Include="Views\Inquiry_FactoryTax\FactoryTax.cshtml" />
+    <Content Include="Views\C_CheckBookSetting\CompanyCheckBook.cshtml" />
+    <Content Include="Views\B_CheckBookSetting\BranchCheckBook.cshtml" />
+    <Content Include="Views\F_CheckBookSetting\FactoryCheckBook.cshtml" />
+    <Content Include="Views\C_CashReciept\CompanyCashReciept.cshtml" />
+    <Content Include="Views\C_CashWithdraw\CompanyCashWithdraw.cshtml" />
+    <Content Include="Views\C_BankCheckOut\CompanyBankCheckOut.cshtml" />
+    <Content Include="Views\C_BankCheckReceived\CompanyBankCheckReceived.cshtml" />
+    <Content Include="Views\Shared\_MainTransaction.cshtml" />
+    <Content Include="Views\Inquiry_ICCOA\CompanyChartOfAccounts.cshtml" />
+    <Content Include="Views\Inquiry_IBCOA\BranchChartOfAccounts.cshtml" />
+    <Content Include="Views\Inquiry_IFCOA\FactoryChartOfAccounts.cshtml" />
+    <Content Include="Views\C_LinkAnalyticToAccount\CompanyLinkAnalyticToAccount.cshtml" />
+    <Content Include="Views\B_LinkAnalyticToAccount\BranchLinkAnalyticToAccount.cshtml" />
+    <Content Include="Views\F_LinkAnalyticToAccount\FactoryLinkAnalyticToAccount.cshtml" />
+    <Content Include="Views\B_LinkCDtoBA\CurrencyDefinitionToBranchAccount.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookSetting\CompanyCB.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookSetting\BranchCB.cshtml" />
+    <Content Include="Views\F_LinkCDtoFA\CurrencyDefinitionToFactoryAccount.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookSetting\FactoryCB.cshtml" />
+    <Content Include="Views\Shared\CompanyOrBranch.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\Cash.cshtml" />
+    <Content Include="Views\C_CreateBatch\CompanyBatchApproval.cshtml" />
+    <Content Include="Views\C_GeneralEntryTransaction\CompanyShowTransactions.cshtml" />
+    <Content Include="Views\Shared\_GETransactionHeader.cshtml" />
+    <Content Include="Views\CheckbookTransfer\Index.cshtml" />
+    <Content Include="Views\CheckbookTransfer\CheckbookData.cshtml" />
+    <Content Include="Views\C_CreateBatch\CompanyMultiBatchesPost.cshtml" />
+    <Content Include="Views\BankReconcile\Index.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AccountDetails.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\SearchHeader.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AccountSummary.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\TransactionDetails.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\BatchSecurity.cshtml" />
+    <Content Include="Views\C_GeneralEntryTransaction\CompanyVoidTransactions.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\HistoricalSearchHeader.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AccountDetailsBody.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\HistoricalAccountDetails.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\HistoricalAccountSummary.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AccountSummaryBody.cshtml" />
+    <Content Include="Views\CheckbookRevaluate\Revaluate.cshtml" />
+    <Content Include="Views\UGFormsAccess\FormsAccessHeader.cshtml" />
+    <Content Include="Views\Shared\_MainVoidTransaction.cshtml" />
+    <Content Include="Views\C_TaxTransaction\CompanyTaxTransaction.cshtml" />
+    <Content Include="Views\C_CheckbookVoid\Cash.cshtml" />
+    <Content Include="Views\C_CheckbookVoid\Bank.cshtml" />
+    <Content Include="Views\C_CheckbookVoid\Transfer.cshtml" />
+    <Content Include="Views\C_CheckbookVoid\TransferData.cshtml" />
+    <Content Include="Views\C_Reports\TrailBalance.cshtml" />
+    <Content Include="Views\C_Reports\AccountDetails.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\CashInquiry.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\BankInquiry.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\Transfer.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\TransferData.cshtml" />
+    <Content Include="Views\C_CheckTransfer\CompanyCheckTransfer.cshtml" />
+    <Content Include="Views\C_Reports\AvailableCash.cshtml" />
+    <Content Include="Views\C_CheckbookVoid\Check.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\CheckInquiry.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\CashVoidInquiry.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\BankVoidInquiry.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\TransferVoidInquiry.cshtml" />
+    <Content Include="Views\Inquiry_CheckbookTransactions\CheckVoidInquiry.cshtml" />
+    <Content Include="Views\C_Reports\GetAvailableCashData.cshtml" />
+    <Content Include="Views\C_ReportsPrint\ReportsPrintHeader.cshtml" />
+    <Content Include="Views\C_ReportsPrint\ReportsPrintFooter.cshtml" />
+    <Content Include="Views\Shared\GeneralEntry_Print.cshtml" />
+    <Content Include="Views\C_ReportsPrint\Done.cshtml" />
+    <Content Include="Views\C_GeneralEntryTransaction\AdjustmentGETransaction.cshtml" />
+    <Content Include="Views\Shared\_AdjGETransactionheader.cshtml" />
+    <Content Include="Views\OpenAndClosFiscalPeriods\AdjOpenClosePeriods.cshtml" />
+    <Content Include="Views\Shared\SetCommonViewBag.cshtml" />
+    <Content Include="Views\C_CashReciept\CurrencyAndCheckBook.cshtml" />
+    <Content Include="Views\UGFormsAccess\GetPagesWithUserAcess.cshtml" />
+    <Content Include="Views\BPC\RowSettings.cshtml" />
+    <Content Include="Views\BPC\RowList.cshtml" />
+    <Content Include="Views\BPC\BalanceSheetReport.cshtml" />
+    <Content Include="Views\BPC\GetBalanceSheetReport.cshtml" />
+    <Content Include="Views\PLReport\RowSettings.cshtml" />
+    <Content Include="Views\BPC\UpdateRows.cshtml" />
+    <Content Include="Views\C_TaxTransaction\C_TTP.cshtml" />
+    <Content Include="Views\TaxRpt\Purchase.cshtml" />
+    <Content Include="Views\TaxRpt\PurchaseRes.cshtml" />
+    <Content Include="Views\TaxRpt\WithHoldingTrans.cshtml" />
+    <Content Include="Views\TaxRpt\WithHoldingTransRes.cshtml" />
+    <Content Include="Views\C_TaxTransaction\MainTax.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AnalyticsRpt.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AnalyticsRptSearchHeader.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\AnalyticsRptSearchBody.cshtml" />
+    <Content Include="Views\UploadFile\UploadFile.cshtml" />
+    <Content Include="Views\C_TaxTransaction\TaxTable.cshtml" />
+    <Content Include="Views\Report\Word.cshtml" />
+    <Content Include="Views\Recipts\CheckBook2.cshtml" />
+    <Content Include="Views\Recipts\Recipt.cshtml" />
+    <Content Include="Views\SysReports\Reconcile.cshtml" />
+    <Content Include="Views\Recipts\PayRecRecipts.cshtml" />
+    <Content Include="Views\Recipts\PayRecReciptsOld.cshtml" />
+    <Content Include="Views\Translates\Create.cshtml" />
+    <Content Include="Views\Translates\Delete.cshtml" />
+    <Content Include="Views\Translates\Details.cshtml" />
+    <Content Include="Views\Translates\Edit.cshtml" />
+    <Content Include="Views\Translates\Index.cshtml" />
+    <Content Include="Views\CurrenciesDefinition\SetCurrencyUnit.cshtml" />
+    <Content Include="Views\Bus\RestoreData.cshtml" />
+    <Content Include="Views\License\Index.cshtml" />
+    <Content Include="Views\License\RenewLicense.cshtml" />
+    <Content Include="Views\Bus\Reports.cshtml" />
+    <Content Include="Views\Home\Accounting.cshtml" />
+    <Content Include="Views\Home\CheckBook.cshtml" />
+    <Content Include="Views\Home\FixedAssets.cshtml" />
+    <Content Include="Views\Home\Installment.cshtml" />
+    <Content Include="Views\Home\Inventory.cshtml" />
+    <Content Include="Views\Home\Payable.cshtml" />
+    <Content Include="Views\Home\Receivable.cshtml" />
+    <Content Include="Views\UploadFile\GeneralFileUpload.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\CostRpt.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\CostRptSearchHeader.cshtml" />
+    <Content Include="Views\C_AddCostAccountToAccount\ConnectCostCenterToAccount.cshtml" />
+    <Content Include="Views\C_AddCostAccountToAccount\CostCenterAccounts.cshtml" />
+    <Content Include="Views\Inquiry_CompanyJETransactionsDetails\JvCostCenterRpt.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\UserLogin\Login.cshtml" />
+    <Content Include="Views\Shared\_Translate.cshtml" />
+    <Content Include="Views\Shared\_Models.cshtml" />
+    <Content Include="Views\Shared\_Setting.cshtml" />
+    <Content Include="Views\Shared\_SAS.cshtml" />
+    <Content Include="Views\Shared\_NavBar.cshtml" />
+    <Content Include="Views\Home\__Financial_Home.cshtml" />
+    <Content Include="Views\Shared\_UpperNav.cshtml" />
+    <Content Include="Styles\_pcmenu.scss" />
+    <Content Include="Views\Shared\_DesignSAS.cshtml" />
+    <Content Include="Views\Shared\_UpperNav2.cshtml" />
+    <Content Include="Views\Shared\_LayoutPrint.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index2.cshtml" />
+    <Content Include="Views\Dashboard\Index3.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FabulousDB\FabulousDB.csproj">
+      <Project>{ef3434c6-c61d-489a-b762-2b7b92df0ebf}</Project>
+      <Name>FabulousDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FabulousModels\FabulousModels.csproj">
+      <Project>{7e229c04-620d-4934-a1af-76f6a039c5ef}</Project>
+      <Name>FabulousModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LocalResources\Resource.ar-SA.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.ar-SA.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocalResources\Resource.en-GB.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.en-GB.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocalResources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>61367</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:61367/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.targets" Condition="Exists('..\packages\Microsoft.Extensions.Configuration.UserSecrets.2.1.1\build\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Inventory Home";
+}
+<style>
+    .body-header {
+        display: none;
+    }
+
+</style>
+
+<!-- Main Content -->
+@if (FabulousErp.Business.GetCompanyId() != null)
+{
+    @Html.Partial("_InventoryCompany")
+}

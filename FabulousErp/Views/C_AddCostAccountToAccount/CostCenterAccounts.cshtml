@@ -1,0 +1,33 @@
+﻿@model IEnumerable<FabulousModels.Inventory.CostCenterAccount>
+@{ 
+    Layout = null;
+}
+
+    <table class="table table-hover">
+        <thead>
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Account_name)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.Exist)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Account_name)
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => item.Exist,"Exist", "Exist", new { htmlAttributes = new { @class = "Exist",name= "Exist" ,data_CCID=$"{item.Cost_center}",data_CAID=$"{item.C_aid}" } })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>

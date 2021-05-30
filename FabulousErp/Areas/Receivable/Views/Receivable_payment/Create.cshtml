@@ -1,0 +1,451 @@
+﻿@{
+    if (ViewBag.IsInstallment == "true")
+    {
+        ViewBag.Title = "Receivable Installment Payment";
+    }
+    else
+    {
+        ViewBag.Title = "Receivable Payment";
+
+    }
+}
+@if (@ViewBag.D == "D")
+{
+    <button id="PrintBtn" onclick="PrintThis('Sec', false, false, null, null, 'Receivable Payment', true, true, null);" class="btn btn-primary Print hide">Print</button>
+    if (ViewBag.Void != null)
+    {
+        @Html.Raw(ViewBag.Void)
+    }
+}
+<section class="ReceivablePayment" id="ReceivablePayment">
+    @Html.Action("PartialCreate", new { id = ViewBag.Id, IsTransaction = true,IsInstallment= ViewBag.IsInstallment })
+</section>
+<script>
+    $(function () {
+        if (getParameterByName("Installment") == "true") {
+            $(".MyHide").hide();
+            $(".MyHide").addClass("hide");
+        }
+    })
+</script>
+<section id="InstallmentSec" style="margin-top:40px;"></section>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" id="SubmitPaymentOBtn" class="btn btn-success" />
+    </div>
+    <div class="form-group WAuto d-inline-block">
+        <button type="button" class="btn btn-primary ToggleTransAction">Show Jv</button>
+        @if (@ViewBag.D == "D")
+        {
+            <span>Journal Entry @ViewBag.JE</span>
+        }
+    </div>
+</div>
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(document).find(".hidePayment").hide();
+    $("#ReceivablePayment").on("change", "#Currency_id", function () {
+        MaskMoneyTxt("@ViewBag.companyID", null, $(this).find("option:selected").text())
+    });
+    $(function () {
+
+        $(".PayTransactionDiv").removeClass("hide");
+        $("#Transaction_idDrop").removeClass("hide");
+
+        if (getParameterByName("Installment") != "true") {
+            $(".PayTransactionDiv").before(' <div class="form-group MyHide" >'
+                + '<select class="form-control valid" id="DocType" name="DocType" style="width:70%;display:inline-block;">'
+                + '<option value="@Doc_type.Invoice">@Doc_type.Invoice.ToString()</option>'
+                + '<option value="@Doc_type.Debit_Memo">@Doc_type.Debit_Memo.ToString()</option>'
+                + '</select>'
+                + '</div>');
+        } else {
+            $(".PayTransactionDiv").addClass("hide");
+            $("#OCBTI").parents(".form-group").hide();
+            $("#CBTI").parents(".form-group").hide();
+        }
+
+        DisableAjax($(document).find("#SubmitPaymentOBtn"))
+
+    })
+    $("#SubmitPaymentOBtn").click(function () {
+        $("#PaymentForm").validate();
+        $("#PaymentForm").valid();
+        if (!$("#PaymentForm").valid()) {
+            return false;
+        } else {
+            BatchId = "";
+            InsertTransactionData($("#TCGE-CompanyID").text(), $("#BostingToORThrow").val(), $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), $("#TCGE-CurrencyID").val(), $("#TCGE-SystemRate").val(), $("#TCGE-TransactionRate").val(), "RecPay", "RecPay", BatchId, "",
+                function (JournalEntryNumber) {
+                    $(document).find(".Journal_number").val(JournalEntryNumber)
+                    $("#Trx_trans_doc_type_id").val($("#Transaction_idDrop").val());
+                    if (getParameterByName("Installment") == "true") {
+                        $("#IsInstallment").val(true);
+                    }
+                    $("#SubmitPayment").trigger("click");
+
+                    RedirectInt(window.location.href);
+                }, null, true,null,true)
+        }
+    });
+    $(function () {
+        var FirstTrDate = $("#ReceivablePayment").find("#Transaction_date").val();
+        var FirstPoDate = $("#ReceivablePayment").find("#Posting_date").val();
+        $("#ReceivablePayment").find("#Transaction_date").replaceWith($("#JVSecCont").find("#TCGE-JEDate"));
+        $("#ReceivablePayment").find("#TCGE-JEDate").attr("name", "Transaction_date")
+        $("#ReceivablePayment").find("#Posting_date").replaceWith($("#JVSecCont").find("#TCGE-PostingDate"));
+        $("#ReceivablePayment").find("#TCGE-PostingDate").attr("name", "Posting_date");
+        $(document).find("#TCGE-JEDate").val(FirstTrDate);
+        $(document).find("#TCGE-PostingDate").val(FirstPoDate);
+
+        var attr = $("#ReceivablePayment").find("#TCGE-PostingDate").attr('disabled');
+
+
+        if (typeof attr !== typeof undefined && attr !== false) {
+            $("#ReceivablePayment").find("#TCGE-PostingDate").removeAttr("disabled");
+            $("#ReceivablePayment").find("#TCGE-PostingDate").attr("readonly", "readonly");
+        }
+
+        $("#ReceivablePayment").find("#VendoreDiv").before('<span id="ReplaceWithTrans"></span>');
+        $(document).find("#ReceivablePayment").find("#ReplaceWithTrans").replaceWith($("#JVSecCont").find("#TCCR-rateField"))
+        $(document).find(".GlAddedBatch").hide();
+        MaskMoneyTxt("@ViewBag.companyID",null)
+    })
+    $(document).on("click", "#TCGE-JEDate", function () {
+          @if (@ViewBag.D != "D")
+        {
+            <text>
+        $("#ReceivablePayment").find("#Currency_id").val("");
+        $("#ReceivablePayment").find("#Check_book_id").val("");
+            </text>
+
+        }
+
+    })
+    $("#ReceivablePayment").on("change focusout", "#Currency_id", function () {
+        $("#TCGE-CurrencyID").val($(this).val())
+        $("#TCGE-CurrencyID").trigger("change")
+        $("#ReceivablePayment").find("#TCGE-SystemRate").trigger("change")
+        $("#ReceivablePayment").find("#TCGE-TransactionRate").trigger("change")
+        //if (!$("#ReceivablePayment").find("#TCGE-SystemRate").is(":visible")) {
+        //    $("#ReceivablePayment").find("#Transaction_rate").val(1)
+        //}
+        //if (!$("#ReceivablePayment").find("#TCGE-TransactionRate").is(":visible")) {
+        //    $("#ReceivablePayment").find("#System_rate").val(1)
+        //}
+
+    })
+    $(document).on("change focusout", "#TCGE-SystemRate", function () {
+        $("#ReceivablePayment").find("#System_rateMask").val($(this).val())
+
+    })
+    $(document).on("change focusout", "#TCGE-TransactionRate", function () {
+        $("#ReceivablePayment").find("#Transaction_rateMask").val($(this).val())
+    })
+
+    $("#ReceivablePayment").on("change focusout", "#Reference", function () {
+        $(document).find("#TCGE-Describtion").val($(this).val())
+        $(document).find("#TCGE-Reference").val($(this).val())
+        $(document).find("#Orginal_amountMask").trigger("focusout")
+    })
+
+
+    $(document).on("change", "#Vendor_id,#Check_book_id,#Orginal_amountMask,#Taken_discountMask", function () {
+
+        if ($(document).find("#Vendor_id").val()) {
+
+            var Orginal_amount = GetMaskNumber($(document).find("#Orginal_amountMask").val())
+                , Receivable = 0, BookId = 0;
+            var Taken_discount = GetMaskNumber($(document).find("#Taken_discountMask").val());
+
+            var TransactionRate = GetMaskNumber($(document).find("#Transaction_rate").val());
+            if (TransactionRate == 0) {
+                TransactionRate = 1;
+            }
+            BookId = $(document).find("#Check_book_id").val();
+
+
+            Receivable = parseFloat((parseFloat(Orginal_amount) + parseFloat(Taken_discount)) * TransactionRate)
+
+
+            var Url = "@Url.Action("GetPaymentAccount", "Receivable_gl_account")"
+                + "?VendorId=" + $(document).find("#Vendor_id").val()
+                + "&Discount=" + Taken_discount * TransactionRate
+                + "&Orginal_amount=" + parseFloat(Orginal_amount) * TransactionRate
+                + "&Receivable=" + Receivable
+                + "&CheckBookId=" + BookId
+                + "&Transaction_rate=" + TransactionRate
+                + "&CurrencyIso=" + $("#Currency_id").find("option:selected").text()
+
+            GetPaymentJv(Url,true)
+        }
+    })
+
+</script>
+<script>
+    var VendoreValid;
+    $(document).on("change","#Vendor_id",function () {
+        var Vendor_id =$(this).find("option:selected").val()
+        $.ajax({
+            url: "@Url.Action("HasPassword", "Creditor_setting")?id=" + Vendor_id,
+            method: "POST",
+            success: function (HasPassword) {
+                if (HasPassword) {
+                    ModelMsg("<div class='col-sm-12'><label>Enter Password</label><input type='password' class='GroupSettingPas form-control'  /></div>", "Enter Password"
+                        , false,
+                        function () {
+                            $.ajax({
+                                url: "@Url.Action("CheckPass", "Creditor_setting")?Id=" + Vendor_id + "&Password=" + $(document).find(".GroupSettingPas").val(),
+                                method: "POST",
+                                success: function (data) {
+                                    if (data) {
+                                        GetThisCreditorName(Vendor_id)
+                                        VendoreValid = true;
+                                    } else {
+                                        ModelMsg("<h4>Wrong Password</h4>", "Wrong Password", true)
+                                        $(document).find("#Vendor_id").val("");
+                                        VendoreValid = false;
+
+                                    }
+                                }
+                            })
+                        }, function () {
+                                if (!VendoreValid) {
+                                    $("#Vendor_id").val("");
+                                }
+                        })
+                } else {
+                    GetThisCreditorName(Vendor_id)
+                }
+            }
+        })
+        GetTransaction();
+    })
+    $(document).on("change","#DocType",function () {
+        GetTransaction();
+    })
+    function GetTransaction() {
+
+        $.ajax({
+            url: "@Url.Action("GetTranstion")?DT=" + $("#DocType").find("option:selected").val() + "&VendoreId=" + $("#Vendor_id").find("option:selected").val(),
+            method: "POST",
+            beforeSend: function () {
+                $("select#Transaction_idDrop").empty();
+            },
+            success: function (data) {
+                $("select#Transaction_idDrop").append("<option value=''></option>")
+
+                $.each(data, function (k,i) {
+                    $("select#Transaction_idDrop").append("<option value='" + i.Id + "'>" + i.Counter+"</option>")
+                });
+            }
+        })
+    }
+    $(document).on("change", "#Taken_discount", function () {
+        var attr = $("#Orginal_amountMask").attr('disabled');
+
+        // For some browsers, `attr` is undefined; for others,
+        // `attr` is false.  Check for both.
+        if (ThisInvoicePur != 0) {
+            if (typeof attr !== typeof undefined && attr !== false) {
+                var TK = parseFloat($("#Taken_discount").val());
+                $("#Orginal_amountMask").val(ThisInvoicePur - TK).trigger("mask.maskMoney")
+            }
+        }
+    })
+    function GetThisCreditorName(Id, CallBack = null) {
+         $.ajax({
+             url: "@Url.Action("GetNameAndCBookById", "Creditor_setting")?id=" + Id,
+             success: function (data) {
+                 $("#VendorNamelbl").text(data.Name);
+                 $("#ReceivablePayment").find("#Check_book_id").val(data.CBook);
+                 $("#ReceivablePayment").find("#Check_book_id").trigger("change");
+
+                 if (data.PaymentPer == "@Payment_per.Invoice") {
+                     $(document).find("#Orginal_amountMask").attr("disabled", "disabled");
+                     $(document).find("#Taken_discountMask").attr("disabled", "disabled");
+                     $("#Transaction_idDrop").removeClass("hide");
+                     $("#Taken_discountMask").parents(".form-group").removeClass("hide");
+                     $(document).find(".MyHide").removeClass("hide");
+
+                     $(document).find(".PayTransactionDiv").show();
+
+                 } else {
+                    // $(document).find("#Taken_discountMask").attr("disabled", "disabled");
+                     $(document).find(".MyHide").addClass("hide");
+
+                     $(document).find("#DocType").hide();
+                     $(document).find(".PayTransactionDiv").hide();
+
+                       @if (@ViewBag.D != "D")
+                     {
+                         <text>
+                          $(document).find("#Orginal_amountMask").removeAttr("disabled");
+                     $(document).find("#Taken_discountMask").removeAttr("disabled");
+                         </text>
+                     }
+                     //$("#Transaction_idDrop").addClass("hide");
+                    // $("#Taken_discount").parents(".form-group").addClass("hide");
+
+                 }
+                 if (CallBack != null) {
+                     CallBack(data.CBook);
+                 }
+            },
+            method:"POST"
+        })
+    }
+</script>
+<script>
+    $("#Check_book_id,#TCGE-PostingDate").change(function () {
+        $.ajax({
+            url: "@Url.Action("GetCheckBookCurrency")?Id=" + $("#Check_book_id").find("option:selected").val(),
+            method: "POST",
+            success: function (data) {
+                $(document).find("#Currency_id").val(data).trigger("change");
+                $(document).find("#Orginal_amountMask").trigger("keyup");
+                $("#System_rateMask").trigger("change")
+                $("#Transaction_rateMask").trigger("change")
+            }
+        })
+    })
+    $("#TCGE-PostingDate").change(function () {
+        $("#Transaction_idDrop").val("");
+
+    })
+    $(function () {
+        $(document).find(".Cash_type").first().trigger("click")
+    })
+    var ThisInvoicePur = 0;
+    $("#Transaction_idDrop").change(function () {
+        if ($(document).find("#Check_book_id").find("option:selected").val()) {
+            $.ajax({
+                url: "@Url.Action("GetTransactionAmount", "Receivable_transaction")?Id=" + $("#Transaction_idDrop option:selected").val() + "&CheckBookId=" + $("#Check_book_id").find("option:selected").val(),
+                method: "POST",
+                success: function (data) {
+                    if (data.msg) {
+                        alert(data.msg);
+                        $("#Transaction_idDrop").val("")
+                        $(document).find("#Orginal_amount").val("")
+                        $(document).find("#Orginal_amountMask").val("").trigger('mask.maskMoney')
+
+                    } else {
+                        $(document).find("#Orginal_amount").val(data.Amount)
+                        $(document).find("#Orginal_amountMask").val(data.Amount).trigger('mask.maskMoney');
+                        ThisInvoicePur = data.Amount;
+                    }
+                    $("#ReceivablePayment").find("#Transaction_id").val($("#Transaction_idDrop option:selected").val())
+
+                    $("#ReceivablePayment").find("#Check_book_id").trigger("change")
+                    $("#ReceivablePayment").find("#Check_book_id").trigger("focusout")
+                    CalcCustomerBalance();
+                    //if (new Date(data.TrxDate) < new Date($("#TCGE-PostingDate").val())) {
+                    //    alert("Transaction Posting Date is " + new moment(data.TrxDate).format('DD-MM-YYYY') + " Earlier Than Payment Date");
+                    //    $("#Transaction_idDrop").val("")
+                    //    $(document).find("#Orginal_amount").val("")
+                    //    $(document).find("#Orginal_amountMask").val("").trigger('mask.maskMoney')
+
+                    //    $("#ReceivablePayment").find("#Check_book_id").trigger("change")
+                    //    $("#ReceivablePayment").find("#Check_book_id").trigger("focusout")
+
+                    //} else {
+
+                    //}
+
+                }
+            })
+
+        } else {
+            Talert("Please Choose CheckBook First")
+            $("#Transaction_idDrop").val("")
+            return;
+        }
+
+    })
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@if (@ViewBag.D == "D")
+{
+    <script>
+        $("#PrintBtn").removeClass("hide")
+
+        $(function () {
+            var CheckBook = $("#Check_book_id").find("option:selected").text();
+            $("#Check_book_id").trigger("change")
+            $("#Check_book_id").hide();
+
+            $("#Check_book_id").after("<label class='form-control' style='background:#EEEEEE !important;color:brown;'>" + CheckBook + "</label>")
+            var VendorId = $("#Vendor_id").find("option:selected").val();
+            $(document).find("input").attr("disabled", "disabled");
+            $(document).find("#Orginal_amountMask").attr("disabled", "disabled");
+            $(document).find("select").attr("disabled", "disabled");
+            $(document).find("input[type='submit']").remove();
+            $(document).find("button").not(".Print").not(".ToggleTransAction").hide();
+            setTimeout(function () {
+                GetThisCreditorName(VendorId, function (CheckBook) {
+                    $("#Check_book_id").attr("disabled", "disabled");
+                    $(document).find("input").attr("disabled", "disabled");
+                    $(document).find(".GlAddedBatch").nextUntil(".mt-2").hide();
+                    $("#JVSecCont").attr("style", "display:block;");
+                });
+            }, 500)
+        })
+        $(document).on("change", "#Currency_id", function () {
+            $(document).find("#TCGE-TransactionRate").attr("disabled", "disabled");
+            $(document).find("#TCGE-TransactionRate").attr("disabled", "disabled");
+        });
+    </script>
+}
+@if (@ViewBag.D != "D")
+{
+    <script>
+        $(document).on("change", "#Currency_id", function () {
+                TransactionRateStatus("@Business.FinancialForms.Receivable_payment")
+        });
+    </script>
+}
+<script>
+    $("#Check_book_id").change(function () {
+        if ($(this).find("option:selected").attr("data-type") == "@Cash_type.Cash") {
+            $(document).find("#Cheque_number").parents(".form-group").hide();
+            $("#ReceivablePayment").find("#Due_date").parents(".form-group").hide();
+        } else if ($(this).find("option:selected").attr("data-type") == "Bank" || $(this).find("option:selected").attr("data-type") == "Check") {
+            $(document).find("#Cheque_number").parents(".form-group").show();
+            $("#ReceivablePayment").find("#Due_date").parents(".form-group").show();
+        }
+    });
+    function GetPaymentJv(Url, EmptyJv = false, CallBack = null) {
+        $.ajax({
+            url: Url,
+            method: "POST",
+            success: function (data) {
+                if (EmptyJv) {
+                    EmptyGlTransaction();
+                }
+                $.each(data, function (k, i) {
+                    ManyJvAction(i);
+                })
+                if (CallBack != null) {
+                    CallBack(data);
+                }
+            }
+        })
+    }
+    $(function () {
+        if (getParameterByName("Installment") == "true") {
+            $(".InstDiv").show();
+            $(".InstmentsDiv").show();
+        }
+    })
+</script>
+@Html.IncludeVersionedJs("/Areas/Receivable/Scripts/Receivable_transaction.js")

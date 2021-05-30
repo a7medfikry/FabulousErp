@@ -1,0 +1,143 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_store>
+
+@{
+    ViewBag.Title = "Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Store_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Store_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact_person)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Next_gr_no)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.Next_goods_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inactive)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Store_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Store_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact_person)
+            </td>
+            <td>
+                @if (item.Next_gr_no == 0)
+                {
+                    <span>1</span>
+                }
+                else
+                {
+                    @item.Next_gr_no
+                }
+            </td>
+            <td>
+                @if (item.Next_goods_no == 0)
+                {
+                    <span>1</span>
+                }
+                else
+                {
+                    @item.Next_goods_no
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inactive)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                <button  data-id="@item.Id" date-name="@item.Store_name" class="btn btn-link Delete">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    $(".Delete").click(function(){
+        $("#DeleteModel").find("#Pra").text($("#DeleteModel").find("#Pra").text().replace("{{StoreName}}", $(this).attr("date-name")));
+        $("#ModelDelete").attr("data-id", $(this).attr("data-id"));
+        $("#DeleteModel").modal("show")
+    })
+    $(document).on("click", "#ModelDelete",function () {
+        $.ajax({
+            url: "@Url.Action("Delete")?id=" + $(this).attr("data-id"),
+            method: "POST",
+            success: function (data) {
+                if (data == 0) {
+                    alert("This Store Has Site You Can't Delete it")
+                } else {
+                    RedirectInt(window.location.href);
+                }
+            }
+        })
+    })
+</script>
+<!-- Modal -->
+<div id="DeleteModel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="Pra">Are You Sure You Want To Delete {{StoreName}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="ModelDelete" >Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

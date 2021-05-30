@@ -1,0 +1,460 @@
+﻿@{
+    ViewBag.Title = "Factory Create Account";
+    ViewBag.FormCode = "SFCA";
+}
+
+<div class="container">
+    @*<div style="text-align:center;"><img id="loading" src="../_Content/Pictures/ajax-loader.gif" alt="" /></div>*@
+    <div class="row">
+        <div class="col-md col-md-12 mb-2">
+            <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" aria-expanded="false" data-target="#collapseFirst" aria-controls="collapseFirst">Open&Close</button>
+            <div class="collapse" id="collapseFirst">
+                <div class="card br-15">
+                    <div class="card-body p-2 br-15" style="background:#f8f9fa;">
+                        <div class="row mb-1">
+                            <div class="col-md-2">
+                                <label> Company ID : </label>
+                                <label class="text-danger bg-forname" id="CompanyID">@ViewBag.CompanyList</label>
+                            </div>
+                            <div class="col-md-4">
+                                <label> Company Name : </label>
+                                <label class="text-danger bg-forname" id="CompanyName"></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label> Chart Account ID : </label>
+                                <label class="text-danger bg-forname" id="ChartAccountID"></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label> Chart Account Name : </label>
+                                <label class="text-danger bg-forname" id="ChartAccountName"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label> Chart Format : </label>
+                            </div>
+                            <div class="col-md-10">
+                                <label class="text-danger bg-forname" id="ChartFormat"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md col-md-8 mb-2">
+            <div class="card">
+                <div class="card-body p-2">
+                    <div class="row">
+                        <!-- check errors -->
+                        <div class="col-md-12">
+                            <span id="CheckLength" class="hide-normal"></span>
+                            <span id="GlobalError" class="text-error"></span>
+                        </div>
+                        @if (FabulousErp.Business.GetCompanyId() != null )
+                        {
+                            <div class="col-md-4">
+                                <label> Factory ID : <i class="star">*</i> </label>
+                                @Html.DropDownList("FactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "FactoryID", @class = "dropdown-list" })
+                            </div>
+                            <div class="col-md-8">
+                                <label>
+                                    Factory Name :
+                                </label>
+                                <label class="text-danger bg-forname" id="FactoryName"></label>
+                            </div>
+                        }
+                      
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label> Company Account: </label>
+                            @Html.DropDownList("CompanyAccountID", new SelectList(""), "-Choose-", new { @id = "CompanyAccountID", @class = "dropdown-list", @disabled = "disabled" })
+                        </div>
+
+                        <div class="col-md-8">
+                            <label> Branch Account: </label>
+                            @Html.DropDownList("BranchAccountID", new SelectList(""), "-Choose-", new { @id = "BranchAccountID", @class = "dropdown-list", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <label> Account ID : <i class="star">*</i> </label>
+                            <div class="segments" id="SegmentsTexts">
+                            </div>
+                        </div>
+                    </div>
+                    @*Edit*@
+
+                    @*Edit*@
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label> Choose For Search : </label>
+                        </div>
+                        @*<div class="col-md-3">
+                                <button type="button" class="btn btn-danger btn-sm" id="CompAccountSearchBtn"> <i class="fa fa-search"></i> Search </button>
+                            </div>*@
+                        <div class="col-md-4">
+                            @Html.DropDownList("SearchAccountID", new SelectList(""), "-Choose-", new { @id = "SearchAccountID", @class = "form-control form-control-sm" })
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" id="prevSearch" class="btn btn-secondary btn-sm"> < </button>
+                            <button type="button" id="nextSearch" class="btn btn-secondary btn-sm ml-2"> > </button>
+                        </div>
+                        <div class="col-md-3">
+                            <label id="AccountIDError" class="text-error"></label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row mb-2">
+                        <div class="col-md-7">
+                            <label> Account Name : <i class="star">*</i> </label>
+                            @Html.TextBox("AccountName", null, new { @id = "AccountName" })
+                        </div>
+
+                        <div class="col-md-5">
+                            <label> Account Group : <i class="star">*</i> </label>
+                            @Html.DropDownList("AccountsGroup", new SelectList(""), "-Choose-", new { @id = "AccountsGroup", @class = "dropdown-list" })
+                        </div>
+                    </div>
+                    <div class="row" id="FTHide">
+                        <div class="col-md-2">
+                            <label> From : </label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="bg-forname" id="GroupFrom"></label>
+                        </div>
+                        <div class="col-md-2">
+                            <label> To : </label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="bg-forname" id="GroupTo"></label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row mb-2">
+                        @*<div class="col-md-6">
+                                <label> Currency : <i class="star">*</i> </label>
+                                @Html.DropDownList("Currency", ViewBag.CurrencyIDList as SelectList, "-Choose-", new { @id = "Currency", @class = "dropdown-list" })
+
+                            </div>*@
+                        <div class="col-md-5">
+                            <div class="custom-control custom-checkbox">
+                                <input id="DisActive" type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label" for="DisActive">Dis-Active</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label> Account Type : </label>
+                            <div class="d-block">
+                                <div class="custom-control customradio">
+                                    <input id="Debit" name="AccountType" type="radio" class="custom-control-input">
+                                    <label class="custom-control-label" for="Debit">Debit</label>
+                                </div>
+                                <div class="custom-control customradio">
+                                    <input id="Credit" name="AccountType" type="radio" class="custom-control-input">
+                                    <label class="custom-control-label" for="Credit">Credit</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label> Posting Type : </label>
+                            <div class="d-block">
+                                <div class="custom-control customradio">
+                                    <input id="BallanceSheet" name="PostingType" type="radio" class="custom-control-input">
+                                    <label class="custom-control-label" for="BallanceSheet">Ballance Sheet</label>
+                                </div>
+                                <div class="custom-control customradio">
+                                    <input id="PL" name="PostingType" type="radio" class="custom-control-input">
+                                    <label class="custom-control-label" for="PL">P & L</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md col-md-4">
+            <div class="card">
+                <div class="card-body p-3 bg-light100">
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <label> Area : </label>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input id="AllArea" type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="AllArea">All</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="custom-control custom-checkbox">
+                                        <input id="FinancialArea" type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="FinancialArea">Financial</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="custom-control custom-checkbox">
+                                        <input id="SalesArea" type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="SalesArea">Sales</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <input id="PurshacingArea" type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="PurshacingArea">Purshacing</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <input id="InventoryArea" type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="InventoryArea">Inventory</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-2 border-dark">
+
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="d-block">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="ReconcileAccount" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="ReconcileAccount">Reconsile Account</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="AllowAdjusment" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="AllowAdjusment">Allow Adjusment</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="Reevaluate" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="Reevaluate"> Reevaluate</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="ConslidationAccount" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="ConslidationAccount">Conslidation Account</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="SupportDocument" type="checkbox" class="custom-control-input">
+                                    <label class="custom-control-label" for="SupportDocument">Support Document</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-2 border-dark">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label> Maximum Amount per Transaction : </label>
+                            @Html.TextBox("MaxAmountPerTransaction", null, new { @id = "MaxAmountPerTransaction" })
+                        </div>
+                        <div class="col-md-12">
+                            <label> Minimum Amount per Transaction : </label>
+                            @Html.TextBox("MinAmountPerTransaction", null, new { @id = "MinAmountPerTransaction" })
+                        </div>
+                    </div>
+                    <hr class="mb-2 bg-dark">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label> Analytic Account ID : </label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("AnalyticAccountID", new SelectList(""), "-Choose-", new { @id = "AnalyticAccountID", @class = "dropdown-list" })
+                        </div>
+                        <div class="col-md-8">
+                            <label class="bg-forname text-danger" id="AnalyticAccountName"></label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-block">
+                                <div class="custom-control customradio">
+                                    <input id="CostCenter" name="CostOrMain" type="radio" class="custom-control-input">
+                                    <label class="custom-control-label" for="CostCenter">Cost Center</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-block">
+                                <div class="custom-control customradio">
+                                    <input id="MainCostCenter" name="CostOrMain" type="radio" class="custom-control-input">
+                                    <label class="custom-control-label" for="MainCostCenter">Main Cost Center</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hide-normal" id="SHCC">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label> Cost Center ID : </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownList("CostCenterID", new SelectList(""), "-Choose-", new { @id = "CostCenterID", @class = "dropdown-list" })
+                            </div>
+                            <div class="col-md-8">
+                                <label class="bg-forname text-danger" id="CostCenterName"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hide-normal" id="SHMCC">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label> Main Cost Center ID : </label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownList("MainCostCenterID", new SelectList(""), "-Choose-", new { @id = "MainCostCenterID", @class = "dropdown-list" })
+                            </div>
+                            <div class="col-md-8">
+                                <label class="bg-forname text-danger" id="MainCostCenterName"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="card-footer">
+                    <div class="row mb-1">
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-success btn-sm" id="ComAccountSaveBtn">Save</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-secondary btn-sm" id="ComAccountClearBtn">Clear</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" id="ComAccountUpdateBtn" class="btn btn-info btn-sm hide-normal">Update</button>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-sm" id="ImportExcel">Import Accounts From Excel</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-sm" id="AddCurrToAcc">Add Currencies To Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import from Excell pop-up modal-->
+    <div class="modal fade" id="PUImportExcel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Import Accounts Via Excel</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="control-label col-md-4">Download Format:</div>
+                            <div class="col-md-10">
+                                <a href="/F_CreateAccount/DownloadExcel/"><img src="~/_Content/Pictures/excel.ico.png" width="25" height="25" title="Download Excel format" alt="excel" /></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="control-label col-md-2">Excel:</div>
+                        <div class="col-md-10">
+                            @Html.TextBox("AccountsExcel", null, new { @type = "file", @id = "AccountsExcel" })
+                        </div>
+                    </div>
+
+                    <div id="UploadError" class="text-error"></div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger btn-sm" id="ConfirmImport">Import</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="PUAddCurrencies">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Add Currencies To Account</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </div>
+                <div class="modal-body">
+
+                    @if (FabulousErp.Business.GetCompanyId() != null)
+                    {
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label>Branch ID :</label>
+                                @Html.DropDownList("CurrFactoryID", ViewBag.FactoryList as SelectList, "-Choose-", new { @id = "CurrFactoryID", @class = "form-control form-control-sm" })
+                            </div>
+                            <div class="col-md-6">
+                                <label>Branch Name :</label>
+                                <label class="text-danger bg-forname" id="CurrFactoryName"></label>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-row mb-2">
+                        <label class="col-md-4"> Sort Accounts By : </label>
+                        <div class="col-md-6">
+                            <select class="form-control form-control-sm" id="SortAccountID">
+                                <option value="" selected> -Choose- </option>
+                                <option value="1"> Account ID </option>
+                                <option value="2"> Account Name </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-2">
+                        <div class="col-md-6">
+                            <label> Account ID : </label>
+                            @Html.DropDownList("CurrAccountID", new SelectList(""), "-Choose-", new { @id = "CurrAccountID", @class = "form-control form-control-sm" })
+                        </div>
+
+                        <div class="col-md-6">
+                            <label> Account Name : </label>
+                            <input type="text" id="CurrAccountName" class="form-control form-control-sm" disabled />
+                        </div>
+                    </div>
+
+                    <div id="dvCheckBoxListControl"></div>
+                    <div class="form-row">
+                        <button type="button" id="prev" class="btn btn-secondary btn-sm">Previous</button>
+                        <button type="button" id="next" class="btn btn-secondary btn-sm ml-2">Next</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">OK</button>
+                    @*<button type="button" class="btn btn-danger btn-sm" id="SaveCurrToAcc">Save</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_Account/F_CreateAccount/FactoryCreateAccount.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/CurrencyDefinition/CurrencyFormateSetting/jquery.maskMoney.js")

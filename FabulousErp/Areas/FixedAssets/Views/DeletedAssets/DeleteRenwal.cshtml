@@ -1,0 +1,88 @@
+﻿@model IEnumerable<FabulousDB.Models.Deleted_fixed_assets_renewal>
+
+@{
+    ViewBag.Title = "DeleteRenwal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DeleteRenwal</h2>
+<section style="overflow:auto;">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Renewal_no)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descroption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assets_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Renewal_amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deprecation_rate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gl_transaction_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Use_life)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Renwal_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Delete_date)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renewal_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descroption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renewal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deprecation_rate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gl_transaction_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Use_life)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renwal_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Delete_date)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</section>

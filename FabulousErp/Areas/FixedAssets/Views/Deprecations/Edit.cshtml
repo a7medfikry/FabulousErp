@@ -1,0 +1,149 @@
+﻿@model FabulousDB.Models.Deprecation
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Ajax.BeginForm("Edit", new AjaxOptions { OnSuccess = "SubmitOther" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Deprecation</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deprecation_no, "Depr. no", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Deprecation_no, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Deprecation_no, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction_date, "Transaction date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Transaction_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.Transaction_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deprecation_date, "Depr. date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Deprecation_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.Deprecation_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Period, "Period", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Period", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Period, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Acquisition_cost, "Acquisition cost", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Acquisition_cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Acquisition_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Depreciation_accumulated, "Depr. accumulated", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Depreciation_accumulated, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Depreciation_accumulated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Adjustment_cost, "Adjustment cost", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Adjustment_cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Adjustment_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deprecation_rate, "Depre. Rate", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Deprecation_rate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Deprecation_rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Depreication_cost, "Depr. Cost", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Depreication_cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Depreication_cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Special_depreication, "Special Depr.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Special_depreication, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Special_depreication, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" id="FirstForm" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+@*<section id="AssetsIdSection">
+    <h4>Depreication assets</h4>
+    <hr />
+    @foreach (FixedAssets.Models.Depreication_assets_id_connection item in Model.Depreication_assets_id_connection)
+    {
+        Html.RenderAction("Edit", "Depreication_assets_id_connection", new { id = item.Id });
+    }
+</section>
+<section id="AssetsClassSection">
+    <h4>Depreication assets class</h4>
+    <hr />
+    @foreach (FixedAssets.Models.Depreication_assets_connection item in Model.Depreication_assets_connection)
+    {
+        Html.RenderAction("Edit", "Depreication_assets_connection", new { id = item.Id });
+    }
+</section>*@
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Edit" id="Edit" class="btn btn-success" />
+    </div>
+</div>
+@*@Ajax.ActionLink("Add New Assets", "Edit", "Depreication_assets_id_connection", new { id = Request.Url.Segments[Request.Url.Segments.Count()-1] }, new AjaxOptions { UpdateTargetId = "AssetsIdSection", InsertionMode = InsertionMode.InsertAfter }, new { @class = "btn btn-primary" })
+@Ajax.ActionLink("Add New Assets Class", "Edit", "Depreication_assets_connection", new { id = Request.Url.Segments[Request.Url.Segments.Count() - 1] }, new AjaxOptions { UpdateTargetId = "AssetsClassSection", InsertionMode = InsertionMode.InsertAfter }, new { @class = "btn btn-primary" })*@
+<script>
+    $("#Edit").click(function () {
+        $("#FirstForm").trigger("click")
+    })
+    function SubmitOther(Id) {
+        $("#AssetsIdSection").find("form").submit();
+        $("#AssetsClassSection").find("form").submit();
+        RedirectInt();
+    }
+    function RedirectInt() {
+        setInterval(function () {
+            if ($.active <= 0) {
+                location.href = "/Deprecations";
+
+            }
+        }, 1000)
+    }
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

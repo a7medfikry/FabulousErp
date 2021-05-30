@@ -1,0 +1,63 @@
+﻿@model IEnumerable<FabulousDB.DB_Tabels.Transaction.Financial.Company.Accounting.C_SaveCostCenter_Table>
+
+
+    <table class="table NoDataTable">
+        <thead>
+
+            <tr>
+                <th>
+                    CostCenter Name
+                </th>
+                <th>
+                    AccountID
+                </th>
+              
+                <th>
+                    Group Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Describtion)
+                </th>
+                <th>
+                     Percentage
+                </th>
+                <th>
+                    Amount
+                </th>
+              
+                <th>
+                    Cost Center Percentage
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.C_CostCenter_Table.C_CostCenterName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.C_CreateAccount_Table.AccountID)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.C_MainCostCenter_Table.C_CostCenterGroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Describtion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.C_Percentage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.C_Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostCenterPercentage)
+                </td>
+            </tr>
+        }
+
+    </table>

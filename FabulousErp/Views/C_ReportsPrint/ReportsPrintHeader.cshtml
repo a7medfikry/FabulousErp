@@ -1,0 +1,73 @@
+﻿<header>
+    <div class="header-logo col-sm-2" style="float:left;">
+        <img src="@ViewBag.Logo" alt="Company-logo" style="width:120px" />
+    </div>
+    <div class="header-details col-sm-10" style="width:80%;">
+        <section style="        width: 49%;
+        display: inline-block;
+        float: left;">
+            <div style="width:100%;margin-bottom:20px;">
+                <div style="width:30%;display:inline-block;"><span>@Business.Translate("Company") :</span>  </div>
+                <div style="width:69%;display:inline-block;">
+                    <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" readonly />
+                </div>
+            </div>
+            <div style="width:100%">
+                <div style="width:30%;display:inline-block;"><span>@Business.Translate("User ID") : </span> </div>
+                <div style="width:69%;display:inline-block;">
+                    <input type="text" class="form-control form-control-sm" value="@ViewBag.UserID" readonly />
+                </div>
+            </div>
+        </section>
+        <section style="width:49%;display:inline-block;float:left;">
+            <div class="" style="width:100%;margin-bottom:20px;">
+                <div style="width: 30%; display: inline-block;"><span>@Business.Translate("User Name")</span> </div>
+                <div style="width:69%;display:inline-block;">
+                    <input type="text" class="form-control form-control-sm" value="@ViewBag.UserName" readonly />
+                </div>
+            </div>
+            <div style="width:100%">
+                <div style="width:30%;display:inline-block;"><span>@Business.Translate("DateTime")</span> </div>
+                <div style="width:69%;display:inline-block;">
+                    <input type="text" class="form-control form-control-sm" value="@ViewBag.DateTime" readonly />
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</header>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    header {
+        /*padding: 8px 40px;
+        background: #e9ecef;
+        overflow: hidden;*/
+        display: flex;
+        justify-content: space-between
+    }
+
+    .header-details {
+        width: 80%;
+    }
+
+    .header-logo {
+        width: 20%;
+        text-align: center;
+    }
+
+        .header-logo img {
+            width: 120px;
+            height: 100px;
+        }
+
+    header input {
+        outline: 0 !important;
+        border:none !important;
+    }
+</style>

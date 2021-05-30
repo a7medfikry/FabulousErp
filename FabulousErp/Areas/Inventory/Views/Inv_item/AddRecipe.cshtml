@@ -1,0 +1,94 @@
+﻿@model List<FabulousDB.Models.Inv_item_recipe>
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-4">@BusController.Translate("Select Item")</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Item_id", null, "", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-sm-2-5">
+        <label id="ItemName" style="width:100%;"></label>
+    </div>   
+    <div class="form-group" style="width:20%;">
+        <label class="col-md-2">UOM</label>
+        <label id="UOM" class="col-md-5"></label>
+    </div> 
+    <div class="form-group" style="width:20%;">
+        <label class="col-md-4">Qty</label>
+        <input id="Qty" class="col-md-5" type="number"/>
+    </div>
+    <div class="d-inline-block">
+        <button class="btn btn-primary" id="AddRecips">Add</button>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Item Id</th>
+            <th>Item Name</th>
+            <th>UOM</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody id="RecipeTbl">
+        @foreach (FabulousDB.Models.Inv_item_recipe i in Model)
+        {
+            <tr>
+                <td>@i.Recipe_item.Item_id</td>
+                <td>@i.Recipe_item.Short_description</td>
+                <td>@i.Recipe_item.Unit_of_measure.Unit_id</td>
+                <td>@i.Qty</td>
+                <td class="fa fa-times RmTr" data-id="@i.Id" style="height:100%;"></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $("#AddRecips").click(function () {
+        if (!$("#Qty").val()) {
+            NotValid($("#Qty"));
+            return false;
+        }
+        if (!$("#RecipeSec").find("#Item_id").val()) {
+            NotValid($("#RecipeSec").find("#Item_id"));
+            return false;
+        }
+        $("#RecipeTbl").append("<tr>" 
+            + "<td class='ItemId' data-id='" + $("#RecipeSec").find("#Item_id").val() + "'>" + $("#ItemName").text()+"</td>"
+            + "<td>" + $("#ItemName").text()+"</td>"
+            + "<td>" + $("#UOM").text()+"</td>"
+            + "<td class='Qty'> " + $("#Qty").val() + "</td > "
+            + "<td class='fa fa-times v-middle RmTr' data-id='0' style='height:100%;'></td>"
+            + "</tr>")
+        $("#RecipeSec").find("#Item_id").val("");
+        $("#ItemName").text("")
+        $("#UOM").text("")
+        $("#Qty").val("")
+    });
+    function GetItemRecipe() {
+        var RecipeTbl = [];
+        $("#RecipeTbl").find("tr").each(function () {
+            RecipeTbl.push({
+                Recipe_item_id: $(this).find(".ItemId").attr("data-id"),
+                Qty: $(this).find(".Qty").text(),
+                Id: $(this).find(".RmTr").attr("data-id")
+            });
+        })
+        return RecipeTbl;
+    }
+    $(document).on("click", ".RmTr",function () {
+        if ($(this).attr("data-id") != 0) {
+            $.ajax({
+                url: "/Inventory/Inv_item/RmRecipeItem?Id=" + $(this).attr("data-id"),
+                method: "POST",
+                success: function (data) {
+                    if (data) {
+                        $(this).parent("tr").remove();
+                    }
+                }
+            })
+        } else {
+            $(this).parent("tr").remove();
+        }
+    })
+</script>

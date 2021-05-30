@@ -1,0 +1,89 @@
+﻿@model FabulousDB.Models.Fixed_assets_revaluate
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Fixed_assets_revaluate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Revaluate_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Revaluate_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Transaction_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transaction_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Revaluate_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Revaluate_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Old_cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Old_cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Old_use_life)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Old_use_life)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adjustment_cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adjustment_cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Net_profit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Net_profit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Asset.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Asset.Description)
+        </dd>
+
+    </dl>
+
+    @Html.Action("VoidPartial", "PPartial", new { area = "FixedAssets", Controller = "Fixed_assets_revaluate",
+    Currency = ViewBag.Currency,
+    PostingToOrThrow = ViewBag.PostingToOrThrow,
+    PostingNum = ViewBag.PostingNum,
+    Id = Request.Url.AbsolutePath.Split('/').LastOrDefault(),
+    TransactionDate = ViewBag.TransactionDate
+
+})
+</div>

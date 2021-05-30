@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Bookreport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bookreport</h2>
+
+@using (Ajax.BeginForm("BookreportRpt", "Books", new AjaxOptions {OnBegin="EmptyDiv", UpdateTargetId = "BookRpt",OnSuccess="ReTranslate" }))
+{
+
+<div class="row">
+    <div class="col-sm-4">
+        <label class="col-sm-4">Date From</label>
+        <div class="col-sm-6 d-inline-block">
+            <input type="date" class="form-control" name="DateFrom" />
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <label class="col-sm-4">Date To</label>
+        <div class="col-sm-6 d-inline-block">
+            <input type="date" class="form-control" name="DateTo" />
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <label class="col-sm-4">Class</label>
+        <div class="col-sm-6 d-inline-block">
+            @Html.DropDownList("Class_id", null,FabulousErp.BusController.Translate("All Classes"), new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <button class="btn btn-success" type="submit">Search</button>
+    </div>
+</div>
+}
+
+<div id="BookRpt">
+
+</div>
+<script>
+    function EmptyDiv() {
+        $("#BookRpt").empty();
+    }
+</script>

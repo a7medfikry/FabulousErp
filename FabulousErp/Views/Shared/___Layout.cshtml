@@ -1,0 +1,718 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 , minimum-scale=1.0" />
+    <title> @ViewBag.Title </title>
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Styles.Render("~/Content/css")
+
+    <!--Fixed Assets Script Start-->
+    @Scripts.Render("~/Common")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Html.IncludeVersionedJs("/_Content/JS/datatables.minRowGrouping.js")
+    @Html.IncludeVersionedJs("/_Content/JS/jquery.serializeToJSON.js")
+    <link href="~/_Content/BootstrapSelect/bootstrap-select.min.css" rel="stylesheet" />
+
+    @RenderSection("scripts", required: false)
+    <!--Fixed Assets Script End-->
+    @{
+        FabulousDB.DB_Context.DBContext db = new FabulousDB.DB_Context.DBContext();
+    }
+    <script>
+        var ChooseTxt = "@FabulousErp.BusController.Translate("-Choose-")"
+        var CompId = "@FabulousErp.Business.GetCompanyId()"
+        var MainIso = "@FabulousErp.Business.GetCompanyId()"
+        var NoExistData = "@FabulousErp.BusController.Translate("Not Exist Data To this Account..!")"
+        var DecimalPoint=@FabulousErp.Business.GetDecimalPointNumber();
+    </script>
+</head>
+<body>
+    @if (FabulousErp.Business.GetLanguage() == FabulousDB.Models.Langs.Arabic.ToString())
+    {
+        <div id="loader" style="position:fixed;top:0;right:0;left:0;bottom:0;margin:0;background:#fff;z-index:999;"></div>
+
+    }
+
+    <!--Search Navbar-->
+    @if (FabulousErp.Business.GetCompanyId() != null)
+    {
+        @Html.Partial("_CompanyNavbar")
+    }
+    else
+    {
+        if (Request.Path != "/" && !Request.Url.AbsolutePath.StartsWith("/License"))
+        {
+            Response.Redirect("/");
+        }
+    }
+ 
+    <!--Html Body Content-->
+    <div id="wrapper">
+        <!-- Left Side-bar -->
+        <div class="favourites-navbar" style="display:none;position:absolute;z-index:99;">
+            @Html.Partial("_FavouritesNavbar")
+        </div>
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- Breadcrumbs / page header -->
+                <div class="body-header" style="background: #b83232;height: 28px;display: block;margin-bottom:20px;">
+                    @Html.Partial("_PageHeader")
+                </div>
+                <!-- Page Content -->
+                <div class="overlay"></div>
+                @RenderBody()
+            </div>
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+            <div class="footer">
+                @Html.Partial("_PageFooter")
+            </div>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded-circle NoTrans" href="#">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+
+
+    @Html.IncludeVersionedJs("/Scripts/jquery-ui-1.12.1.min.js")
+    @Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/CurrencyDefinition/CurrencyFormateSetting/jquery.maskMoney.js")
+    @Html.IncludeVersionedJs("/_Content/JS/Home/CheckFavourites.js")
+    @Html.IncludeVersionedJs("/_Content/JS/Home/SearchHome.js")
+    @Html.IncludeVersionedJs("/_Content/jquery.table2excel.js")
+    <!-- DataTable scripts -->
+    @*
+        @Html.IncludeVersionedJs("/Scripts/datatables.js")
+        @Html.IncludeVersionedJs("/Scripts/bootstrap4-dataTables.js")
+        @Html.IncludeVersionedJs("/Scripts/datatables-fixedheader.js")
+        @Html.IncludeVersionedJs("/Scripts/datatables-responsive.js")
+    *@
+    <!-- Modal -->
+    <div id="LoaderModel" class="modal fade" role="dialog" style="z-index:9999;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body center" style="background: #d7d7d6;">
+                    <h2 class="">
+                        @FabulousErp.BusController.Translate("Please Wait...")
+                    </h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="Modal" class="modal fade" role="dialog" style="z-index:2000;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" style="margin:0;" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success Submit" id="ModelSubmit" data-dismiss="modal">@FabulousErp.BusController.Translate("Submit")</button>
+                    <button type="button" class="btn btn-default" id="ModelClose" data-dismiss="modal">@FabulousErp.BusController.Translate("Close")</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $("#Currency_id").change(function () {
+            if (window.location.href.indexOf("/Payable/Payable_transaction/Create") <= 0
+                || window.location.href.indexOf("/Receivable/Receivable_transaction/Create")<=0) {
+               var Txt = $(this).find("option:selected").text()
+               MaskMoneyTxt("@FabulousErp.Business.GetCompanyId()",null, Txt)
+            }
+        });
+        $(document).ready(function () {
+            //$(document).ajaxError(function (event, jqxhr, settings, exception) {
+            //    if (jqxhr.status == 401) {
+            //        location.reload();
+            //    }
+            //});
+
+            $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+                var $el = $(this);
+                var $parent = $(this).offsetParent(".dropdown-menu");
+                if (!$(this).next().hasClass('show')) {
+                    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+                }
+                var $subMenu = $(this).next(".dropdown-menu");
+                $subMenu.toggleClass('show');
+
+                $(this).parent("li").toggleClass('show');
+
+                $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                    $('.dropdown-menu .show').removeClass("show");
+                });
+
+                if (!$parent.parent().hasClass('navbar-nav')) {
+                    $el.next().css({ "top": $el[0].offsetTop, "left": $parent.outerWidth() - 4 });
+                }
+
+                return false;
+            });
+
+            /*******************************************************************************/
+            $("#sidebarToggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+                $(".favourites-navbar").toggle();
+                $(".nav-left").find("i").remove();
+               // $('.nav-left .card-header').parent('.card').children('.collapse').collapse('hide');
+            });
+            if (window.location.pathname == "/Dashboard/dashboard") {
+                $("wrapper").removeClass("toggled");
+            } else {
+                $("#wrapper").toggleClass("toggled");
+            }
+            /*******************************************************************************/
+
+            //Check to see if the window is top if not then display button
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 30) {
+                    $('.scroll-to-top').fadeIn();
+                } else {
+                    $('.scroll-to-top').fadeOut();
+                }
+            });
+
+            //Click event to scroll to top screen
+            $('.scroll-to-top').click(function () {
+                $('html, body').animate({ scrollTop: 0 }, 400);
+                return false;
+            });
+            /**************************************************************************/
+        });
+
+    </script>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+   
+
+    @*if (Request.Url.PathAndQuery.Contains("FixedAssets"))
+        {*@
+  
+    <script>
+        $(document).find("select").parent(".col-md-4").not(".NoOrinted").addClass("col-md-11").removeClass("col-md-4");
+    </script>
+    @*}*@
+    <script>
+      
+        var TWords =@Html.Raw(Json.Encode(db.Translates.Select(x=>new { Key=x.Key, Txt=x.Arabic }).ToList()));
+
+    </script>
+
+
+
+    <script>
+        $(function () {
+            if (window.location.pathname.startsWith("/Payable")) {
+                $.ajax({
+                    url: "/UGFormsAccess/AddPage",
+                    method: "POST",
+                    data: { Link: window.location.pathname, Name: $(".breadcrumb").text().trim(), Sec: "Payable" }
+                })
+            }
+            if (window.location.pathname.startsWith("/Receivable")) {
+                $.ajax({
+                    url: "/UGFormsAccess/AddPage",
+                    method: "POST",
+                    data: { Link: window.location.pathname, Name: $(".breadcrumb").text().trim(), Sec: "Receivable" }
+                })
+            }
+        })
+
+        function Talert(message, Mdata = "", message2 = "", Mdata2 = "") {
+            var Message = "";
+
+            if (message) {
+                Message = message;
+            }
+            if (Mdata && typeof (Mdata) != "object") {
+                Message += " " + Mdata;
+            }
+            if (message2) {
+                Message += " " + message2;
+            }
+            if (Mdata2 && typeof (Mdata2) != "object") {
+                Message += " " + Mdata2;
+            }
+            alert(Message)
+        }
+    </script>
+    @if (FabulousErp.Business.GetLanguage() == FabulousDB.Models.Langs.Arabic.ToString())
+    {
+
+        <script>
+
+            var Keys = [];
+
+            function PushKeys(Txt, Elm, Tag) {
+                Txt = Txt.replace(SpecialChar, "").replace(":", "").trim();
+                if (Txt != "") {
+                    var ThisTrans = null;
+                    try {
+                        if (!Keys.find(e => e.Key == Txt && e.Tag == Tag)) {
+                            ThisTrans = TWords.find(x => x.Key.trim() == Txt);
+                            if (ThisTrans.Txt != null) {
+                                Keys.push({ Key: Txt, Txt: ThisTrans.Txt, Tag: Tag })
+                            }
+                        } else {
+                        }
+
+                    } catch (err) {
+                    }
+
+                    // Keys.push({ Word: Txt.trim(), Elm: Elm, Tag: Tag })
+                }
+            }
+            function SetTransKeys() {
+                $(document).find(".Trans").each(function () {
+                    PushKeys($(this).text().replace(/\d/g, '').trim(), $(this))
+                });
+            }
+            function SetTransKeysTag(Tag) {
+                $(document).find(Tag).not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), Tag)
+                });
+            }
+
+            function ReTranslate() {
+                //  Keys = [];
+                SetTransKeysTag("th");
+                SetTransKeysTag("span");
+                SetTransKeysTag("label");
+                $(document).find(".Trans").each(function () {
+                    SetTransKeysTag($(this).prop("tagName").toLowerCase());
+                    SetValues(Keys, $(this).prop("tagName").toLowerCase(), "t")
+                })
+                SetValues(Keys, "th", "t")
+                SetValues(Keys, "span", "t")
+                SetValues(Keys, "label", "t")
+                if (TdCheck()) {
+                    SetTransKeysTag("td");
+                    SetValues(Keys, "td", "t")
+                }
+                DataTable()
+                $(document).find(".MaskTxt").each(function () {
+                    if (!isNaN($(this).text())) {
+                        $(this).text(MaskThisMoney($(this).text()));
+                    }
+                })
+            }
+            function ReTranslateTh() {
+                //  Keys = [];
+                SetTransKeysTag("th");
+                SetValues(Keys, "th", "t")
+                if (TdCheck()) {
+                    SetTransKeysTag("td");
+                    SetValues(Keys, "td", "t")
+                }
+                DataTable()
+                $(document).find(".MaskTxt").each(function () {
+                    if (!isNaN($(this).text())) {
+                        $(this).text(MaskThisMoney($(this).text()));
+                    }
+                })
+            }
+            function ReTranslateSpan() {
+                SetTransKeysTag("span");
+                SetValues(Keys, "span", "t")
+            }
+            function Translate(CallBack = null) {
+                SetTransKeys();
+
+                //SetValues(Keys, "li", "t")
+                //SetValues(Keys, "div", "t")
+
+                SetValues(Keys, "span", "h")
+                SetValues(Keys, "label", "h")
+                SetValues(Keys, "a", "h")
+                SetValues(Keys, "h1", "h")
+                SetValues(Keys, "h2", "h")
+                SetValues(Keys, "h3", "h")
+                SetValues(Keys, "h4", "h")
+                SetValues(Keys, "h5", "h")
+                SetValues(Keys, "h6", "h")
+                SetValues(Keys, "h7", "h")
+                SetValues(Keys, "h8", "h")
+                SetValues(Keys, "input[type='submit']", "v")
+                SetValues(Keys, "input[type='button']", "v")
+                SetValues(Keys, "button", "t")
+                SetValues(Keys, "option", "t")
+                SetValues(Keys, ".Trans", "t")
+                SetValues(Keys, ".card-header", "t")
+                SetValues(Keys, "p", "t")
+                SetValues(Keys, "sub", "t")
+                SetValues(Keys, "th", "t")
+                if (TdCheck()) {
+                    SetValues(Keys, "td", "t")
+                }
+
+                $("#loader").remove();
+                if (CallBack != null) {
+                    CallBack();
+                }
+            }
+            function GetWords(CallBack = null) {
+                $(document).find("span:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "span")
+                });
+                $(document).find("label").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "label")
+                });
+                $(document).find(".card-header").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), ".card-header")
+                });
+                $(document).find("a").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "a")
+                });
+                $(document).find("h1:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "h1")
+                });
+                $(document).find("h2:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "h2")
+                });
+                $(document).find("h3:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "h3")
+                });
+                $(document).find("h4:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "h4")
+                });
+                $(document).find("h5:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "h5")
+                });
+                $(document).find("h6:visible").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "h6")
+                });
+                $(document).find("p:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    if ($(this).find("a").length <= 0) {
+                        PushKeys($(this).text(), $(this), "p")
+                    }
+                });
+                $(document).find("sub:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "sub")
+                });
+                $(document).find("button").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "button")
+                });
+                $(document).find("input[type='submit']:visible").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).val(), $(this), "input[type='submit']")
+                });
+                $(document).find("input[type='button']").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).val(), $(this), "input[type='button']")
+                });
+                $(document).find("th").not(".hide-normal").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "th")
+                });
+                if (TdCheck()) {
+                    $(document).find("td").not(".hide-normal").not(".NoTrans").each(function () {
+                        PushKeys($(this).text(), $(this), "td")
+                    });
+                }
+                //$(document).find("li").not(".hide-normal").not(".NoTrans").each(function () {
+                //    PushKeys($(this).text(), $(this), "li")
+                //});
+                //$(document).find("div").not(".hide-normal").not(".NoTrans").each(function () {
+                //    PushKeys($(this).text(), $(this), "div")
+                //});
+                $(document).find("option").not(".NoTrans").each(function () {
+                    PushKeys($(this).text(), $(this), "option")
+                });
+                $(document).find(".Trans").each(function () {
+                    PushKeys($(this).text(), $(this), ".Trans")
+                });
+                if (CallBack != null) {
+                    CallBack();
+                }
+            }
+            function TdCheck() {
+                if (window.location.href.indexOf("Rpt") > -1 ||
+                    window.location.href.indexOf("Report") > -1 ||
+                    window.location.href.indexOf("/Installment/Installment_setting") > -1 ||
+                    window.location.href.indexOf("/ListOfUser/GetUsers") > -1 ||
+                    window.location.href.indexOf("/Inquiry_TaxSchedule/TaxSchedule") > -1 ||
+                    window.location.href.indexOf("/Inventory/Inv_item_group/") > -1 ||
+                    window.location.href.indexOf("/Inquiry_ICCOA/CompanyChartOfAccounts") > -1 ||
+                    ($(document).find("table").length > -1 && $(document).find("a:contains('Create New')").length > -1)
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            async function SetValues(data, Elm, TOR) {
+                var MyData = $.grep(data, function (a) {
+                    return a.Tag == Elm
+                });
+
+                $.each(MyData, function (k, i) {
+                    var Extra = "";
+                    if (Elm == "label") {
+                        if ($(Elm + ":textEquals('" + i.Key + "')").text().indexOf("*") > 0) {
+                            Extra = "<span style='color:red;'>*</span>";
+                        }
+                    } else if (Elm == "a") {
+                        if ($("a:textEquals('" + i.Key + "')").find("i").length > 0) {
+                            Extra = $("a:textEquals('" + i.Key + "')").find("i")[0].outerHTML;
+                        }
+                    }
+                    if (TOR == "h") {
+                        $(Elm + ":textEquals('" + i.Key + "')").not(".NoTrans")
+                            .html(i.Txt + " " + Extra);
+                    } else if (TOR == "v") {
+                        $(Elm + ":textEquals('" + i.Key + "')").not(".NoTrans")
+                            .val(i.Txt);
+                    } else {
+                        if (i.Key.indexOf("(") > -1) {
+                            $(Elm + ":contains('" + i.Key + "')").not(".NoTrans")
+                                .text(i.Txt + " " + Extra);
+                        } else {
+                            $(Elm + ":textEquals('" + i.Key + "')").not(".NoTrans")
+                                .text(i.Txt + " " + Extra);
+                        }
+
+                    }
+                })
+            }
+            if (window.location.pathname.indexOf("Done") < 0
+                && window.location.pathname.indexOf("/Translates/Index") != 0) {
+                GetWords(Translate);
+            } else {
+                $("#loader").remove();
+            }
+            function stripHtml(html) {
+                // Create a new div element
+                var temporalDivElement = document.createElement("div");
+                // Set the HTML content with the providen
+                temporalDivElement.innerHTML = html;
+                // Retrieve the text property of the element (cross-browser support)
+                return temporalDivElement.textContent || temporalDivElement.innerText || "";
+            }
+
+
+        </script>
+        @*<section id="Rpt"></section>*@
+        if (Request.Url.PathAndQuery.Contains("Rpt") || Request.Url.PathAndQuery.Contains("Report"))
+        {
+            <text>
+                <script>
+                    $(document).ajaxComplete(function () {
+                        ReTranslate();
+                    })
+                </script>
+            </text>
+        }
+        <style>
+            * {
+                text-align: right;
+                direction: rtl;
+            }
+
+            #TCGE-GTbl {
+                direction: ltr;
+            }
+
+                #TCGE-GTbl tfoot th {
+                    text-align: center !important;
+                }
+
+            .home-page > div {
+                float: right;
+                margin-right: 0px;
+            }
+
+                .home-page > div:nth-child(odd) {
+                    margin-left: 20px;
+                }
+
+            form-check-inline .form-check-input {
+                position: static;
+                margin-top: 0;
+                margin-right: 0;
+                margin-left: .3125rem;
+            }
+
+            .dropdown-menu {
+                right: 0;
+                left: unset;
+            }
+        </style>
+        <input value="@FabulousErp.Business.GetLanguage()" id="Language" type="hidden" />
+        <script>
+            $(function () {
+                $("i").not(".fa-chevron-up").css("float", "right")
+                $("i").not(".fa-chevron-up").css("margin-left", "10px")
+            })
+
+
+        </script>
+        <style>
+            .nav-left {
+                left: unset;
+            }
+
+            .MyNav {
+                left: 0;
+            }
+
+            #PageABar {
+                float: left;
+            }
+        </style>
+    }
+    else
+    {
+        <style>
+            #PageABar {
+                float: right;
+            }
+
+            .MyNav {
+                left: unset;
+                right: 0;
+            }
+        </style>
+        <script>
+            function ReTranslate() {
+                DataTable();
+            }
+            function ReTranslateTh() {
+                DataTable()
+            }
+        </script>
+    }
+<script>
+    var RemoveClass = [];
+    $(document).ready(function () {
+        DataTable();
+        $(document).find("select").each(function () {
+            if (!$(this).hasClass("selectpicker")) {
+                if (!$(this).hasClass("NoSelect")) {
+                    $(this).addClass("selectpicker");
+                    $(this).attr("data-live-search", "true");
+                    $(this).selectpicker();
+                    RefreshSelcetPicker($(this));
+                    var Class = $(this).attr("class");
+                    $.each(Class.split(" "), function (k, i) {
+                        if (i != "form-control"
+                            && i != "selectpicker" && i != "form-control-sm"
+                            && i != "input-sm"
+                            && i !="dropdown-list") {
+                            if (!RemoveClass.find(x => x == i)) {
+                                RemoveClass.push(i);
+                            }
+                        }
+                        
+                    })
+                    // shown.bs.select
+                    $(this).on("loaded.bs.select", function () {
+                        $.each(RemoveClass, function (k, i) {
+                            $(document).find("div." + i).removeClass(i);
+                        });
+                    })
+                }
+            }
+        })
+        if ($.active > 0) {
+            RunAfterAjax(function () {
+                $(this).on("loaded.bs.select", function () {
+                    $.each(RemoveClass, function (k, i) {
+                        $(document).find("div." + i).removeClass(i);
+                    });
+                })
+                ForceRefreshPicker();
+            })
+        }
+    });
+
+    function DataTable() {
+        try {
+             $('table').not("table[id^='TCGE']").not(".NoDataTable").each(function () {
+                 if ($.fn.DataTable.isDataTable($(this))) {
+                     $(this).find(".dataTables_empty").parent("tr").remove();
+                var table = $(this).DataTable();
+                table
+                    .rows()
+                    .remove();
+                $(this).find("tbody").find("tr").each(function () {
+                    table.rows.add($(this));
+                })
+                table.draw();
+            }
+        })
+        if ($(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").length > 0) {
+            //if ($(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("thead").length <= 0) {
+            //    $(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("tr").first().wrap("<thead/>")
+            //}
+            //if ($(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("tbody").length <= 0) {
+            //    $(document).find("table").not("table[id^='TCGE']").not(".NoDataTable").find("tr").eq(1).wrap("<tbody/>")
+            //}
+            //if ($('table').not("table[id^='TCGE']").not(".NoDataTable").parents("#Res").length <= 0)
+            {
+                $('table').not("table[id^='TCGE']").not(".NoDataTable").each(function () {
+                    if (!$.fn.DataTable.isDataTable($(this))) {
+                        if (window.location.pathname == "/Inventory/Rpt/CardRpt") {
+                            $(this).DataTable({
+                                "pageLength": 100,
+                                rowGroup: {
+                                    dataSrc: 0
+                                },
+                                "columnDefs": [
+                                    {
+                                        "targets": [0],
+                                        "visible": false,
+                                        "searchable": false
+                                    }
+                                ],
+                                "oLanguage": {
+                                    "sSearch": "<span> @Business.Translate("Search"): </span>"
+                                },
+                                "order": []
+                            });
+                        } else {
+                            $(this).DataTable({
+                                "pageLength": 100,
+                                "oLanguage": {
+                                    "sSearch": "<span> @Business.Translate("Search"): </span>"
+                                },
+                                "order": []
+                            });
+                        }
+                        $(document).find(".dtrg-group").text("");
+                        $(document).find("input[type='search']").prev();
+                    }
+                })
+            }
+        }
+        } catch (err) {
+
+        }
+        RunAfterAjax(function () {
+            $(".dataTables_empty").parents("tr").remove();
+        })
+    }
+    $(document).on('click', "button.dropdown-toggle", function () {
+        console.log($(this).prev("select").attr("disabled"));
+        if (!$(this).prev("select").attr("disabled")) {
+            $(this).removeClass("disabled")
+            if (!$(this).next("div").hasClass("show")) {
+                $(this).trigger("click")
+            }
+        } else {
+            $(this).addClass("disabled")
+        }
+    });
+</script>
+</body>
+</html>

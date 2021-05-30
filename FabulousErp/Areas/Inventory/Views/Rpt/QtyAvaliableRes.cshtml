@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FabulousModels.Inventory.QtyAvaliable>
+
+
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UOM)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total_qty_in)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total_qty_out)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Qty_avaliable)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Item_id
+                    </td>
+                    <td>
+                        @item.Item_name
+                    </td>
+                    <td>
+                        @item.UOM
+                    </td>
+                    <td>
+                        @item.Total_qty_in
+                    </td>
+                    <td>
+                        @item.Total_qty_out
+                    </td>
+                    <td>
+                        @item.Qty_avaliable
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,94 @@
+﻿@model  FabulousModels.ViewModels.Settings.Financial.GeneralSetting.UserGroup.Account_Group_Info
+@{
+    ViewBag.Title = "Add user to Group";
+    ViewBag.FormCode = "SAGI";
+}
+
+<div class="container-fluid">
+    <span class="text-danger font-weight-bold" id="GroupDisactiveError"></span>
+    <div class="form-row mb-1">
+        <div class="col-md-4">
+            <label class="col-form-label col-form-label-sm"> Group ID : </label>
+            @Html.DropDownListFor(x => x.GroupID, ViewBag.GroupList as SelectList, "-Choose-", new { @id = "GroupID", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-4">
+            <label class="col-form-label col-form-label-sm"> Group Name : </label>
+            <input type="text" class="form-control form-control-sm" id="GroupName" disabled />
+        </div>
+        <div class="col-md-4">
+            <label class="col-form-label col-form-label-sm"> Date Of Creation Group : </label>
+            <input type="text" class="form-control form-control-sm" id="CreationGroupDate" disabled />
+        </div>
+        <span id="FromCBF" class="hide-normal"></span>
+    </div>
+
+    <!-- Add Button -->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div id="Popupbtn" class="hide-normal">
+                <button class="btn btn-primary btn-sm" onclick="AddUserToGroup()">Add User to this Group</button>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap" id="main-table" style="width:100%">
+        <thead>
+            <tr>
+                <th> User ID </th>
+                <th> User Name </th>
+                <th> Date of assign to the Group </th>
+                <th> Action (Delete) </th>
+            </tr>
+        </thead>
+        <tbody id="SetUserList"></tbody>
+    </table>
+
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="ModalTitle"></h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        @Html.HiddenFor(x => x.ID, new { @id = "ID" })
+                        <div class="form-group">
+                            User ID :
+                            @Html.DropDownListFor(x => x.UserID, ViewBag.UserList as SelectList, "---Choose---", new { @id = "UserID", @class = "form-control dropdown" })
+                        </div>
+                        <div class="form-group">
+                            User Name :
+                            <label id="UserName"></label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-block btn-success" id="SaveRecord">Save</button>
+                            <span id="UserAccessError" class="text-danger font-weight-bold"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Delete User From Group</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <label id="UserIDH" class="hide-normal"></label>
+                </div>
+                <div class="modal-body">
+                    <p>Are You Sure? You Want To Delete This User From This Group.. This Will Not able The User To Access To any Page..!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="ConfirmDelete()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserGroup/AccountGroupInfo/GetGroupInfo.js")

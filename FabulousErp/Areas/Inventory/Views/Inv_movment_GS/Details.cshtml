@@ -1,0 +1,67 @@
+﻿@model FabulousDB.Models.Inv_movment_GS
+
+@{
+    ViewBag.Title = "Movment GS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+      
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_adjustment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_adjustment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Next_adjustment_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Next_adjustment_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_Transfer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Allow_Transfer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Next_transfer_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Next_transfer_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adjustment_password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adjustment_password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Transfer_password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transfer_password)
+        </dd>
+
+      
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

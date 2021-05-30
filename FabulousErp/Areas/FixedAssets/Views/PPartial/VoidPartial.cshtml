@@ -1,0 +1,168 @@
+﻿@{
+    Layout = null;
+}
+@Scripts.Render("~/VoidCommon")
+
+<input type="hidden" value="@ViewBag.TransactionDate" id="Transactiondate" />
+<span id="TCGE-GlobalError" class="text-error"></span>
+
+@using (Ajax.BeginForm($"{ViewBag.SubmitAction}", $"{ViewBag.SubmitController}", new AjaxOptions { OnBegin = "BeforeSend", OnSuccess = "VoidTrans", OnFailure = "Alert", Url = $"{ViewBag.SubmitUrl}" }, new { area = $"{ViewBag.MyArea}", id = "VoidForm" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value="@ViewBag.Id" name="Id" />
+    <div class="form-group col-sm-12">
+        Transaction Date
+
+        <label id="DTranactionDate"></label>
+
+    </div>
+    <div class="form-group col-sm-12">
+        Posting Date
+        <label id="DPostingDate"></label>
+    </div>
+    <div class="form-group col-sm-12">
+        Reference
+        <label id="DRef"></label>
+    </div>
+    @Html.Raw(ViewBag.AdditinolParm)
+    <div class="form-actions no-color" style="margin:20px;">
+        <input type="submit" id="DeleteBtn" value="void" class="btn btn-danger" />
+    </div>
+}
+
+<script>
+        function CheckInputs() {
+            if (!$("#TCGE-CurrencyID").val()) {
+               $("#TCGE-CurrencyID").val("@ViewBag.Currency")
+            }
+            $("#TCGE-PostingDate").trigger("focusout")
+
+    }
+    function BeforeSend() {
+        if ($("#TCGE-GlobalError").text().trim() != "") {
+            Talert($("#TCGE-GlobalError").text())
+            return false;
+        }
+        if (!$("#TCGE-CurrencyID").val()) {
+            Talert("Please Enter Currency Id")
+            return false;
+        }
+    }
+        function Alert(data) {
+            Talert("Some thing went wrong please contact administration",data)
+        }
+    function VoidTrans(GlTransaction) {
+        if (!isNaN(GlTransaction)) {
+            var Link = "@ViewBag.RedirectLink"
+
+            if ($("#TCGE-GlobalError").text().trim() == "") {
+                InsertTransactionData($("#TCGE-CompanyID").text(), @ViewBag.PostingToOrThrow, $("#TCGE-PostingDate").val(), $("#TCGE-JEDate").val(), $("#TCGE-Reference").val(), $("#TCGE-CurrencyID").val(), $("#TCGE-SystemRate").val(), $("#TCGE-TransactionRate").val(), "@ViewBag.PostingKey", "@ViewBag.PostingKey", "", GlTransaction,
+                    function () {
+                        if (!Link) {
+                            window.location.href = window.location.href.substring(0, window.location.href.indexOf("Delete")) + "?section=Transactions";
+                        } else {
+                            RedirectInt(Link);
+                        }
+                    },
+                    function () {
+                        Talert("The Action Has Been Deleted But The Gl Transaction Hasn't Voided")
+                    },
+                    function () {
+                        Talert("error")
+                    }, function () {
+                        if (!Link) {
+                            window.location.href = window.location.href.substring(0, window.location.href.indexOf("Delete")) + "?section=Transactions";
+                        } else {
+                            window.location.href = Link;
+                        }
+                    },
+                    function () {
+                        if (!Link) {
+                            window.location.href = window.location.href.substring(0, window.location.href.indexOf("Delete")) + "?section=Transactions";
+                        } else {
+                            window.location.href = Link;
+                        }
+                    })
+            }
+
+        } else {
+            alert(GlTransaction);
+        }
+        }
+    $(document).on("change", "#TCGE-Reference", function () {
+            $("#TCGE-Describtion").val($(this).val())
+        });
+    $(function () {
+        $(document).find("#DTranactionDate").replaceWith($("#TCGE-JEDate"))
+        $(document).find("#TCGE-JEDate").attr("name","Transaction_date")
+        $(document).find("#DPostingDate").replaceWith($("#TCGE-PostingDate"))
+        $(document).find("#TCGE-PostingDate").attr("name","Posting_date")
+
+        $(document).find("#DRef").replaceWith($("#TCGE-Reference"));
+
+        $(document).find("#TCGE-PostingDate").attr("required", "required")
+        $(document).find("#TCGE-JEDate").attr("required", "required")
+        $(document).find("#TCGE-Reference").attr("required", "required")
+
+        $(document).find("#TCGE-CurrencyID").val("@ViewBag.Currency")
+            GetTransaction("@ViewBag.PostingNum")
+        function GetTransaction(PostingNum) {
+            try {
+                if (PostingNum!="0") {
+                    GetJvTransactionVoid(PostingNum, "@ViewBag.CompanyID")
+                } else {
+                    RunAfterAjax(function () {
+                       $("#TCGE-JEDate").val("@Convert.ToDateTime(ViewBag.TransactionDate).ToString("yyyy-MM-dd")");
+                       $("#TCGE-PostingDate").val("@Convert.ToDateTime(ViewBag.TransactionDate).ToString("yyyy-MM-dd")");
+                    })
+                 }
+            } catch(err){
+
+            }
+
+                //$.ajax({
+                //    url: "/api/TransactionApi/GetTransactionData?postingNumber=" + PostingNum,
+                //    method: "GET",
+                //    success: function (data) {
+                //        ManyJvAction(data)
+                //    }
+                //});
+            }
+    })
+    $(document).on("focusout", "#TCGE-JEDate", function () {
+        var ThisDate = new Date($(this).val());
+        var TransDate = new Date($("#Transactiondate").val())
+        if (ThisDate < TransDate) {
+            Talert("This Date Are earlier Than Transaction Date " , $("#Transactiondate").val());
+            $("#TCGE-JEDate").val("");
+        }
+       CheckInputs()
+    })
+</script>
+<section id="JVSecCont form-group">
+    <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @{Html.RenderAction("GetBatchHeader", "C_GeneralEntryTransaction", new { TCS_JENum = true, area = "" });}
+
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<!-- Pop-up Modal For System-Rates -->
+<div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Choose The System Rate </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+    </div>
+</div>

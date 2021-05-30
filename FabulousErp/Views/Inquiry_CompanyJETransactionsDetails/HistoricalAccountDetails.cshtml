@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Historical Account Details Inquiry";
+    ViewBag.FormCode = "IHADI";
+}
+
+<div class="container-fluid">
+    <section>
+        @{Html.RenderAction("HistoricalSearchHeader"); }
+    </section>
+    <section>
+        @Html.Partial("AccountDetailsBody")
+    </section>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")
+

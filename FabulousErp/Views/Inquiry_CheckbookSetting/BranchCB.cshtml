@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Inquiry Branch Checkbook Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IBCBS";
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="IBCBS-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="IBCBS-BranchID"></span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : </label>
+        <div class="col-md-3">
+           @Html.Partial("CompanyOrBranch")
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+        <div class="col-md-5">
+            @if (FabulousErp.Business.GetCompanyId() != null)
+            {
+                <input type="text" class="form-control form-control-sm" id="IBCBS-branchName" disabled />
+            }
+          
+        </div>
+    </div>
+    <!-- table Area Start -->
+    <table class="table table-bordered table-striped display nowrap" id="IBCBS-table">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Name </th>
+                <th> Type </th>
+                <th> Status </th>
+                <th> Currency </th>
+                <th> Account ID </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- table Area End -->
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookSetting.js")

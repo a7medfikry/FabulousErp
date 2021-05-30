@@ -1,0 +1,69 @@
+﻿@model FabulousModels.Inventory.ItemStockingInquery
+@{
+    Layout = null;
+}
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-4">Item Id</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@Model.Item_id</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">Item Name</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@Model.Item_name</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">UOM</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@Model.UOM</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">Avaliable</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@Model.Avaliable</label>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-sm-4">Pur. Date</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@Model.PurchaseDate.ToShortDateString()</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">Pur. W. Start</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@(Model.Pur_ws?.ToShortDateString())</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">Pur. W. End</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@(Model.Pur_we?.ToShortDateString())</label>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label class="col-sm-4">Sales Date</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@(Model.SalesDate.HasValue? Model.SalesDate?.ToShortDateString() :"In Stock") </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">Sales W. Start</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@(Model.Sales_ws?.ToShortDateString())</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4">Sales W. End</label>
+            <div class="col-sm-7 d-inline-block">
+                <label class="col-sm-12">@(Model.Sales_we?.ToShortDateString())</label>
+            </div>
+        </div>
+    </div>

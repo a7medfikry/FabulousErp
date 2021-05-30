@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset class="container-fluid home-page">
+    <!-- Transactions Field -->
+    <div class="transactions-field">
+        <div class="transactions-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Transactions
+                </div>
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                  
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="transactions-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                            
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                  
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="transactions-checkbook" data-parent=".transactions-accordion">
+                                        <li> <a href="/C_CashReciept/CompanyCashReciept"> Cash Reciept </a> </li>
+                                        <li> <a href="/C_CashWithdraw/CompanyCashWithdraw"> Cash Withdraw </a> </li>
+                                        <li> <a href="/C_BankCheckReceived/CompanyBankCheckReceived"> Bank Check-Received </a> </li>
+                                        <li> <a href="/C_BankCheckOut/CompanyBankCheckOut"> Bank Check-Out </a> </li>
+                                        <li> <a href="/CheckbookTransfer/Index"> Cash Transfer </a> </li>
+                                        <li> <a href="/C_CheckTransfer/CompanyCheckTransfer"> Check Transfer</a> </li>
+                                        <li> <a href="/BankReconcile/Index"> Bank Reconcile </a> </li>
+                                        <li> <a href="/CheckbookRevaluate/Revaluate"> Checkbook Revaluate </a> </li>
+                                        <li> <a href="/C_CheckbookVoid/Cash"> Cash Reciept/Withdraw Void </a> </li>
+                                        <li> <a href="/C_CheckbookVoid/Bank"> Bank Check-out/Received Void</a> </li>
+                                        <li> <a href="/C_CheckbookVoid/Transfer"> Cash Transfer Void</a> </li>
+                                        <li> <a href="/C_CheckbookVoid/Check"> Check Void Transfer</a> </li>
+                                    </ul>
+                                </li>
+                            
+                            </ul>
+                        </div>
+
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ****** Setting Field ****** -->
+    <div class="setting-field">
+        <div class="setting-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Setting
+                </div>
+                <div class="card-header">
+                   
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Accounting -->
+                        <div id="accounting-company" class="active tab-pane fade show container">
+                            <ul class="list-unstyled p-1">
+                           
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                  
+                                    <ul class=" list-group list-unstyled" data-toggle="" data-parent=".setting-accordion" id="setting-checkbook">
+                                        <li> <a href="/C_CheckBookSetting/CompanyCheckBook"> <i class=""></i> Company Checkbook Setting </a></li>
+                                    </ul>
+                                </li>
+                               
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Inquiry Field ********** -->
+    <div class="inquiry-field">
+        <div class="inquiry-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Inquiry
+                </div>
+               
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="inquiry-company" class="tab-pane active show fade container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                          
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="inquiry-checkbook" data-parent=".inquiry-accordion">
+                                        <li> <a href="/Inquiry_CheckbookSetting/CompanyCB"> <i class=""></i> Inquiry OF Checkbook </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/Cash"> <i class=""></i> Inquiry OF Checkbook Transactions </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CashInquiry"> <i class=""></i> Cash Reciept/Withdraw Transactions </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CashVoidInquiry"> <i class=""></i> Cash Reciept/Withdraw Void Transactions </a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/BankInquiry"> <i class=""></i> Bank Check-out/Received Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/BankVoidInquiry"> <i class=""></i> Bank Check-out/Received Void Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/Transfer"> <i class=""></i> Checkbook Transfer Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/TransferVoidInquiry"> <i class=""></i> Checkbook Transfer Void Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CheckInquiry"> <i class=""></i> Inquiry Of Check Transactions</a></li>
+                                        <li> <a href="/Inquiry_CheckbookTransactions/CheckVoidInquiry"> <i class=""></i> Inquiry Of Check Void Transactions</a></li>
+                                    </ul>
+                                </li>
+                      
+                            </ul>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Report Field ********** -->
+    <div class="report-field">
+        <div class="report-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Reports
+                </div>
+               
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="report-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                              
+                                <li class="mb-1 p-1 bg-light">
+                                  
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="report-checkbook" data-parent=".report-accordion">
+                                        <li> <a href="/C_Reports/AvailableCash"> <i class=""></i> Available Cash </a></li>
+                                    </ul>
+                                </li>
+                              
+                            </ul>
+                        </div>
+
+                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+

@@ -1,0 +1,103 @@
+﻿@model FabulousErp.Payable.Models.Payable_gl_account
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("Edit", "Gl_account", new AjaxOptions { OnSuccess = "AccountCreated" }, new { id = "AccountForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h5 style="font-weight:bold;">
+     <span>  Gl_account</span>
+    </h5>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Account_payable_id, "Account Payable", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Account_payable_id", null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+            @Html.ValidationMessageFor(model => model.Account_payable_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Purchase_id, "Purchase", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Purchase_id", null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+            @Html.ValidationMessageFor(model => model.Purchase_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Taken_discount_id, "Taken Discount", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Taken_discount_id", null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+            @Html.ValidationMessageFor(model => model.Taken_discount_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Purchase_variance_id, "Purchase Var.", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Purchase_variance_id", null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+            @Html.ValidationMessageFor(model => model.Purchase_variance_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Accrued_purchase_id, "Purchase Accr.", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Accrued_purchase_id", null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+            @Html.ValidationMessageFor(model => model.Accrued_purchase_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Returne_id, "Returne", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Returne_id", null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+            @Html.ValidationMessageFor(model => model.Returne_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Payable_Group_setting_id, "Group Setting ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Payable_Group_setting_id, null, new { htmlAttributes = new { @class = "form-control",id= "Group_setting_id" } })
+            @Html.ValidationMessageFor(model => model.Payable_Group_setting_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        @Html.LabelFor(model => model.Creditor_setting_id, "Creditor Setting ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Creditor_setting_id, null, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Creditor_setting_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group hide">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" id="GlAccountEdit" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<script>
+    function AccountCreated() {
+        var Red = window.location.href;
+        if (window.location.href.indexOf("/Create") > -1) {
+            Red = window.location.href.substring(0, window.location.href.indexOf("/Create"));
+
+        }
+        if (window.location.href.indexOf("/Edit") > -1) {
+            Red = window.location.href.substring(0, window.location.href.indexOf("/Edit"));
+
+        }
+        RedirectInt(Red);
+    }
+</script>

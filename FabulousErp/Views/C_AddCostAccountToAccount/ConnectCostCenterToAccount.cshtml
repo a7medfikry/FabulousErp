@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Connect CostCenter To Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        <span class="text-error" id="GlobalError"></span>
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label col-md-2"> Cost Account ID </label>
+                <div class="col-md-10">
+                    <select id="CompCostCenterID">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2"> Cost Account Name  </label>
+                <div class="col-md-10">
+                    <label id="CostAccountName"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label col-md-2"> Group Cost Center </label>
+                <div class="col-md-10">
+                    <select id="GroupId">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2"> Group Name </label>
+                <div class="col-md-10">
+                    <label id="GroupName"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+<section id="Accounts">
+
+</section>
+<script>
+    $(function () {
+        FilterCostCenterByComp();
+        RunAfterEveryAjax(function () {
+            ReTranslateTh();
+        })
+    })
+    function FilterCostCenterByComp(CompanyID) {
+        $.ajax({
+            type: "GET",
+            url: "/C_UpdateMainCostCenter/FilterCostCenterIDForComp?CompanyID=" + CompanyID,
+            success: function (data) {
+
+                $("#CompCostCenterID").empty();
+
+                if (data.length == 0) {
+
+                    $("#CompCostCenterName").val("");
+
+                    $("#CompCostCenterID").append($('<option/>', {
+                        value: -1,
+                        text: "No Cost Center Created in this Company!"
+
+                    })
+                    );
+
+                } else {
+
+                    $("#CompCostCenterName").val("");
+
+                    $("#CompCostCenterID").append($('<option/>', {
+                        value: -1,
+                        text: "-Choose-"
+
+                    })
+                    );
+
+                    $.each(data, function (index, row) {
+
+                        $("#CompCostCenterID").append("<option value='" + row.CostCenterID + "'>" + row.CostCenterID + "</option>");
+
+                    });
+                }
+            }
+        });
+        $.ajax({
+            url: "/C_AddCostAccountToAccount/GetCostGroups",
+            method: "POST",
+            success: function (data) {
+                $("#GroupId").append("<option value='-1'>-Choose-</option>")
+
+                $.each(data, function (k, i) {
+                    $("#GroupId").append("<option value='" + i.GroupID + "'>" + i.GroupID +"</option>")
+                })
+            }
+        })
+    }
+
+    $("#CompCostCenterID").change(function () {
+        $("#GroupId").val("-1");
+        $("#GroupName").text("");
+        $.ajax({
+            url: "/C_AddCostAccountToAccount/GetCostCenterName?Id=" + $(this).val(),
+            method: "POST",
+            success: function (data) {
+                $("#CostAccountName").text(data);
+            }
+        })
+        $.get("/C_AddCostAccountToAccount/CostCenterAccounts?CCId="+$(this).val(), function (data) {
+            $("#Accounts").html(data);
+        })
+    });
+
+    $("#GroupId").change(function () {
+        $("#CompCostCenterID").val("-1");
+        $("#CostAccountName").text("")
+        $.ajax({
+            url: "/C_AddCostAccountToAccount/GetCostGroupName?GroupId=" + $(this).val(),
+            method: "POST",
+            success: function (data) {
+                $("#GroupName").text(data);
+            }
+        })
+        $.get("/C_AddCostAccountToAccount/CostCenterGroupAccounts?GroupId="+$(this).val(), function (data) {
+            $("#Accounts").html(data);
+        })
+    });
+    
+    $(document).on("click", ".Exist", function () {
+        if ($("#CompCostCenterID").val() != "-1") {
+            $.ajax({
+                url: "/C_AddCostAccountToAccount/AddAccountToCostCenter?CCID=" + $(this).attr("data-ccid") + "&CAID=" + $(this).attr("data-caid") + "&Exist=" + $(this).is(":checked"),
+                method: "POST",
+            })
+        }
+        else if ($("#GroupId").val() != "-1") {
+            $.ajax({
+                url: "/C_AddCostAccountToAccount/AddAccountToCostCenterGroup?CCID=" + $(this).attr("data-ccid") + "&CAID=" + $(this).attr("data-caid") + "&Exist=" + $(this).is(":checked"),
+                method: "POST",
+            })
+        }
+        
+    })
+</script>

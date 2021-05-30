@@ -1,0 +1,54 @@
+﻿
+<div class="form-row mb-2">
+    <label class="col-md-1 col-form-label col-form-label-sm"> Date : </label>
+    <div class="col-md-1">
+        <div class="custom-control custom-radio">
+            <input type="radio" name="date" id="IADI-allDate" class="custom-control-input" />
+            <label class="custom-control-label" for="IADI-allDate">All</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="custom-control custom-radio">
+            <input type="radio" name="date" id="IADI-fromDate" class="custom-control-input" />
+            <label class="custom-control-label" for="IADI-fromDate">From / To :</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <input type="date" class="form-control form-control-sm" id="IADI-startDate" disabled />
+    </div>
+    <div class="col-md-2">
+        <input type="date" class="form-control form-control-sm" id="IADI-endDate" disabled />
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-primary btn-sm" id="IADI-search" disabled> Search <i class="fa fa-search"></i> </button>
+        <label class="text-danger font-weight-bold" id="IADI-searchError"></label>
+    </div>
+</div>
+@{ 
+    string NoDataTalb = "NoDataTable";
+    if (Request.Url.AbsolutePath== "/Inquiry_CompanyJETransactionsDetails/AccountDetails"
+        || Request.Url.AbsolutePath == "/Inquiry_CompanyJETransactionsDetails/HistoricalAccountDetails")
+    {
+        NoDataTalb = "";
+    }
+}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped @NoDataTalb" id="MyAccountTbl">
+        <thead>
+            <tr>
+                <th> V </th>
+                <th> Date </th>
+                <th> JE Num. </th>
+                <th> Posting Key </th>
+                <th> Currency </th>
+                <th> Original Amount </th>
+                <th> Transaction Rate </th>
+                <th> Describtion </th>
+                <th style="width:15%;"> Debit </th>
+                <th style="width:15%;"> Credit </th>
+                <th style="width:8%;"> Action </th>
+            </tr>
+        </thead>
+        <tbody id="IADI-tblBody"></tbody>
+    </table>
+</div>

@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Company Permission";
+    ViewBag.FormCode = "SUACP";
+}
+<div class="container-fluid">
+    <div class=" col-md-5 d-inline-block">
+        <label class="col-md-5"> User ID : <span class="star">*</span> </label>
+        <div class="col-md-7">
+            @Html.DropDownList("UserIDD", ViewBag.UserList as SelectList, "--Choose--", new { @id = "UserID", @class = "dropdown-list" })
+        </div>
+        <label class="col-md-5"> User Name : </label>
+        <div class="col-md-7">
+            <input type="text" id="UserName" disabled />
+        </div>
+    </div>
+
+    <div class=" col-md-5 d-inline-block">
+        <label class="col-md-5"> Company ID : <span class="star">*</span> </label>
+        <div class="col-md-7">
+            @Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "--Choose--", new { @id = "CompanyID", @class = "dropdown-list" })
+        </div>
+        <label class="col-md-5"> Company Name : </label>
+        <div class="col-md-7">
+            <input type="text" id="CompanyName" disabled />
+        </div>
+    </div>
+
+    <div id="SaveBtn" >
+        <button type="button" class="btn btn-primary " onclick="Addbtn()">Add</button>
+        <label id="UserAlreadyExistError" style="color:red"></label>
+    </div>
+    <!-- Table Area Start -->
+    <div class="mt-2">
+        <table class="table table-bordered table-striped display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th width="15%">User ID</th>
+                    <th width="35%">User Name</th>
+                    <th width="15%">Company ID</th>
+                    <th width="35%">Company Name</th>
+                </tr>
+            </thead>
+            <tbody id="SetUserList"></tbody>
+        </table>
+    </div>
+    <!-- Table Area End -->
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccess/CompanyPremissionAccess/CPA_DropDownChange.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/UserAccess/CompanyPremissionAccess/CPA_SaveBtn.js")
+

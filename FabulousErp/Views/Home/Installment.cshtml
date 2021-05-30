@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset class="container-fluid home-page">
+    <!-- Transactions Field -->
+    <div class="transactions-field">
+        <div class="transactions-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Transactions
+                </div>
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        @*<li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-itPayem">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>*@
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="transactions-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                   
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="Installment" data-parent=".transactions-accordion">
+                                        <li>
+                                            <a href="/Installment/Installment_setting/">Installment setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Installment/Installment_contract/Create?IsPay=true">Installment contract Payable</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Installment/Installment_contract/Create?IsPay=false">Installment contract Receviable</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                        </div>
+
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ****** Setting Field ****** -->
+    <div class="setting-field">
+        <div class="setting-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Setting
+                </div>
+                <div class="card-header">
+                    <!-- Links -->
+                    @*<ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>
+                        </ul>*@
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Accounting -->
+                        <div id="accounting-company" class="active tab-pane fade show container">
+                            <ul class="list-unstyled p-1">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Inquiry Field ********** -->
+    <div class="inquiry-field">
+        <div class="inquiry-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Inquiry
+                </div>
+                @*<div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>
+                        </ul>
+                    </div>*@
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="inquiry-company" class="tab-pane active show fade container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Report Field ********** -->
+    <div class="report-field">
+        <div class="report-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Reports
+                </div>
+                @*<div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" >Company</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true" >Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" >Factory</a>
+                            </li>
+                        </ul>
+                    </div>*@
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="report-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+

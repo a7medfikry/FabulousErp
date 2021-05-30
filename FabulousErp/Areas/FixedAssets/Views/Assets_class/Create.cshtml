@@ -1,0 +1,78 @@
+﻿@model FabulousDB.Models.Assets_class
+
+@{
+    ViewBag.Title = "Create Asset Class";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Ajax.BeginForm("Create", new AjaxOptions { OnSuccess = "SubmitAccounts", OnBegin = "return ValidateAccountForm()" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Class_id, "Class id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Class_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Class_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deprecation_method, "Depr. method", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Deprecation_method", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Deprecation_method)), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Deprecation_method, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group DeprecationRateDiv">
+            @Html.LabelFor(model => model.Deperecation_rate, "Depr. Rate", htmlAttributes: new { @class = "control-label col-md-2",max="100" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Deperecation_rate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Deperecation_rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2 v-middle">
+                <span class="v-middle">In Active</span>
+                @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @class = "v-middle" } })
+
+            </div>
+          
+           
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="FirstForm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<section id="Assets_accountsDiv">
+    @{ Html.RenderAction("Create", "Assets_accounts");}
+</section>
+
+@Html.IncludeVersionedJs("/Areas/FixedAssets/Scripts/AssetsClass.js")
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" id="Create" class="btn btn-success" />
+    </div>
+</div>
+<script>
+   
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

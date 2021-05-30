@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Tax Schedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "ITS";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm hide"> Company ID : </label>
+        <div class="col-md-2 hide">
+            @Html.DropDownList("ITS-companyID", ViewBag.CompanyID as SelectList, "-Choose-", new { @id = "ITS-companyID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="ITS-companyname" disabled />
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-striped table-bordered display nowrap">
+        <thead>
+            <tr>
+                <th> Tax Code </th>
+                <th> Group </th>
+                <th> Describtion </th>
+                <th> Percentage % </th>
+            </tr>
+        </thead>
+        <tbody id="ITS-tbody-append"></tbody>
+    </table>
+</div>
+<script>
+    $(function () {
+        TaxSchdule();
+    })
+</script>
+<!-- Scripts here -->
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/Tax/Inquiry_TaxSchedule.js")

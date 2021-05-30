@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Clasic Aging";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Clasic Aging</h2>
+<button class="btn btn-info" onclick="ExportToExcel('Clasic Aging',null)">Export To Excel</button>
+
+<section>
+    <div class="form-group">
+        <label class="control-label col-md-2">Customer</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Vendore", ViewBag.Vendore as SelectList, "", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Year</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Year", ViewBag.Years as SelectList, "", new { @class = "form-control" })
+        </div>
+    </div>
+    <div>
+        <button id="Search" class="btn btn-success">Search</button>
+    </div>
+</section>
+<section id="Tbl"></section>
+<script>
+    $("#Search").click(function(){
+        $.ajax({
+            url: "@Url.Action("ClasicAgingRes")?VendoreId=" + $("#Vendore").find("option:selected").val() + "&Year=" + $("#Year").find("option:selected").text(),
+            contentType: "html",
+            beforeSend: function () {
+                $("#Tbl").empty()
+            },
+            success: function (data) {
+                $("#Tbl").html(data)
+                ReTranslate();
+            },
+        })
+    })
+</script>

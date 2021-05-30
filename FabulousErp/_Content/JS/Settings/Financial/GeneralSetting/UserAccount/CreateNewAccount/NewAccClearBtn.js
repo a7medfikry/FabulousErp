@@ -1,0 +1,3 @@
+﻿function ClearBtn() {
+    location.reload();
+}

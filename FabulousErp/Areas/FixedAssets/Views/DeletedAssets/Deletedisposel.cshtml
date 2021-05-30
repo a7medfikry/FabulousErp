@@ -1,0 +1,88 @@
+﻿@model IEnumerable<FabulousDB.Models.Delete_fixed_assets_disposel>
+
+@{
+    ViewBag.Title = "Deletedisposel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Deletedisposel</h2>
+<section style="overflow:auto;">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Disposal_no)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disposal_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Depreication_up_to_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assets_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disposal_amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gl_transaction_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reference)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Delete_date)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disposal_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transaction_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disposal_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Depreication_up_to_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disposal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gl_transaction_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reference)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Delete_date)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</section>

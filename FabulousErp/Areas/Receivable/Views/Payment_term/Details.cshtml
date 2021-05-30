@@ -1,0 +1,74 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_payment_term
+
+@{
+    ViewBag.Title = "Payment Term";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Terms_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Terms_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Net_Days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Net_Days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_option)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_option)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

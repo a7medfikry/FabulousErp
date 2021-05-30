@@ -1,0 +1,98 @@
+﻿@model IEnumerable<FabulousModels.Inventory.CardRpt>
+
+@{
+    ViewBag.Title = "Stock Rpt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <button onclick="PrintThis('Rpt', false, false, null, null, '', false, true);" class="btn btn-primary">Print</button>
+    <button class="btn btn-info" onclick="ExportToExcel('Stock Rpt')">Export To Excel</button>
+    <br />
+
+    <div class="form-group">
+        @Html.Label("", "Store Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control Store_id", required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Site Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id", required = "required" })
+        </div>
+    </div>
+    <div class="form-group hide">
+        @Html.Label("", "Item Group", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Item_group", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+    <div class="form-group hide">
+        <label class="control-label col-md-2">Item</label>
+        <div class="col-md-10">
+            @Html.DropDownList("MainSel", null, "", new { @class = "form-control" })
+        </div>
+    </div>
+</section>
+<section id="Rpt"></section>
+<script>
+    $("#MainSel").change(function () {
+        SetRes(getParameterByName("Type"), $("#MainSel").val());
+    })
+    $(".Store_id").change(function () {
+        var Id = $(this).val();
+        RunAfterAjax(function () {
+             $.ajax({
+                 url: "/inventory/Inv_item/GetStoreItems?StoreId=" + Id,
+                method: "POST",
+                success: function (data) {
+                    SetItems(data);
+                }
+            })
+            SetRes("Store", Id)
+        })
+       
+    })
+    $(".Site_id").change(function () {
+        var Id = $(this).val();
+
+        RunAfterAjax(function () {
+            $.ajax({
+                url: "/inventory/Inv_item/GetSiteItems?SiteId=" + Id,
+                method: "POST",
+                success: function (data) {
+                    SetItems(data);
+                }
+            })
+            SetRes("Site", Id)
+        })
+    })
+    $("#Item_group").change(function () {
+        $.ajax({
+            url: "/inventory/Inv_item/GetGroupItems?GroupId=" + $("#Item_group").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+        SetRes("Group", $("#Item_group").val())
+    })
+    function SetItems(data) {
+        $("#MainSel").empty();
+        $("#MainSel").append("<option value=''></option>")
+
+        $.each(data, function (k, i) {
+            $("#MainSel").append("<option value='" + i.Id + "'>" + i.Item_id + "</option>")
+        })
+    }
+    function SetRes(Type,Id) {
+        $("#Rpt").html("")
+        $.get("/inventory/Rpt/StockRptRes?Type=" + Type + "&Id=" + Id
+            , function (data) {
+                $("#Rpt").html(data);
+                ReTranslate();
+            })
+    }
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

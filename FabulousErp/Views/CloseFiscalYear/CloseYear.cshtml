@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "Close Fiscal Year";
+    ViewBag.FormCode = "SCY";
+}
+<section id="JVSecCont" class="hide">
+    <section id="OtherHeader">
+        <h3 class="text-center">Close Year</h3>
+        <div class="form-row mb-1">
+            <label class="col-form-label col-form-label-sm col-md-2"> Batch ID : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="BatchId" readonly />
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-form-label col-form-label-sm col-md-2"> Journal Number : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="JVNumb" readonly />
+            </div>
+            <label class="col-form-label col-form-label-sm col-md-2"> Transaction Date : </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="JVDate" readonly />
+            </div>
+            <label class="col-form-label col-form-label-sm col-md-2"> Posting Date : </label>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="PostingDate" readonly />
+            </div>
+        </div>
+        <div class="form-row mb-1">
+            <label class="col-form-label col-form-label-sm col-md-2"> Currency : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="CurrencyId" readonly />
+            </div>
+            <label class="col-form-label col-form-label-sm col-md-2"> System Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="SysRate" readonly />
+            </div>
+            <label class="col-form-label col-form-label-sm col-md-2"> Transaction Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TransRate" readonly />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-form-label col-form-label-sm col-md-2"> Reference : </label>
+            <div class="col-md col-md-10">
+                <input type="text" class="form-control form-control-sm" id="Ref" readonly />
+            </div>
+        </div>
+    </section>
+
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<div class="container-fluid">
+    <input type="text" id="SCY-GurrencyFormate" class="hide-normal" />
+    <span class="hide-normal" id="SCY-companyID">@FabulousErp.Business.GetCompanyId()</span>
+    <div class="row d-flex">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <span id="GlobalError" class="text-error"></span>
+                    <div class="form-row mb-2">
+                        <label class="col-md-1"> Year : </label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("SCY-YearID", ViewBag.yearsList as SelectList, "-Choose-", new { @id = "SCY-YearID", @class = "form-control form-control-sm" })
+                        </div>
+                        <label class="col-md-2">P&L GL Account : </label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("SCY-bsAccountID", ViewBag.accountBSList as SelectList, "-Choose-", new { @id = "SCY-bsAccountID", @class = "form-control form-control-sm" })
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" id="SCY-preview" value="" class="btn btn-primary btn-sm">Preview</button>
+                        </div>
+                        <label class="col-md-2 text-danger font-weight-bold" id="SCY-PreviewError"></label>
+                    </div>
+                    <div class="mb-2 hide" id="SCY-tbl">
+                        <label class="text-danger font-weight-bold">P & L Accounts</label>
+                        <table class="table table-bordered table-responsive-md table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Account ID</th>
+                                    <th>Account Name</th>
+                                    <th class="SCY-sDebitTbl">Debit</th>
+                                    <th class="SCY-sCreditTbl">Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody id="SCY-tblBody"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2" style="text-align:right">Total</th>
+                                    <th style="text-align:center" id="SCY-DebitTblFoot"></th>
+                                    <th style="text-align:center" id="SCY-CreditTblFoot"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="text-align:right">Difference</th>
+                                    <th colspan="2" style="text-align:center" id="SCY-DiffOfDAC"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="mb-2 hide-normal" id="SCY-BStbl">
+                        <label class="text-danger font-weight-bold">Ballance Sheet Accounts</label>
+                        <table class="table table-bordered table-responsive-md table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Account ID</th>
+                                    <th>Account Name</th>
+                                    <th class="SCY-sDebitTbl">Debit</th>
+                                    <th class="SCY-sCreditTbl">Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody id="SCY-BStblBody"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2" style="text-align:right">Total</th>
+                                    <th style="text-align:center" id="SCY-BSDebitTblFoot"></th>
+                                    <th style="text-align:center" id="SCY-BSCreditTblFoot"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="text-align:right">Difference</th>
+                                    <th colspan="2" style="text-align:center" id="SCY-BSDiffOfDAC"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-md-9">
+                                <div class="d-block">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="SCY-CBClose" class="custom-control-input" />
+                                        <label class="custom-control-label" for="SCY-CBClose"> Close </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="card-footer">
+                    <button id="SCY-CloseYearBtn" class="btn btn-primary btn-block hide-normal" type="button">Close</button>
+                    <span class="text-danger font-weight-bold" id="SCY-CloseError"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/CloseFiscalYear/CloseYear.js")
+@Html.IncludeVersionedJs("/_Content/JS/PublicTransaction.js")

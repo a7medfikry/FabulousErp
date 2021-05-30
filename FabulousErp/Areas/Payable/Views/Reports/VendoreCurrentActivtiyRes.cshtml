@@ -1,0 +1,133 @@
+﻿@using Payable.Controllers
+@model List<VendoreCurrentActivtiy>
+@{
+                /**/
+
+                Layout = null;
+}
+
+
+<div class="MyTable">
+    @if (ViewBag.GetlastYear)
+    {
+        <h4>This Year</h4>
+        <style>
+            .MyTable {
+                width: 48%;
+                display: inline-table;
+            }
+        </style>
+    }
+    else
+    {
+        <style>
+            .MyTable {
+                width: 100%;
+            }
+        </style>
+    }
+        <table style="width:100%;">
+            <thead>
+                <tr>
+                    <th>
+                        Document Type
+                    </th>
+                    <th>
+                        Number
+                    </th>
+                    <th>
+                        Value
+                    </th>
+                    <th>
+                        Unassigned amount
+                    </th>
+                </tr>
+            </thead>
+            @foreach (VendoreCurrentActivtiy i in Model.Where(x => x.LastYear == false))
+            {
+                <tr>
+                    <td>
+                        @i.DocType
+                    </td>
+                    <td>
+                        @i.Number
+                    </td>
+                    <td>
+                        @i.Value.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.UnassignedAmount.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+
+            }
+            <tr style="background:transparent;" class="hide">
+                <td colspan="2">
+                    Total
+                </td>
+                <td>
+                    @Model.Where(x => x.LastYear == false).Sum(x => x.Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+                <td>
+                    @Model.Where(x => x.LastYear == false).Sum(x => x.UnassignedAmount).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+            </tr>
+        </table>
+
+</div>
+
+@if (ViewBag.GetlastYear)
+{
+<div class="MyTable">
+    <h4>Last Year</h4>
+
+    <table style="width:100%;">
+        <thead>
+            <tr>
+                <th>
+                    Document Type
+                </th>
+                <th>
+                    Number
+                </th>
+                <th>
+                    Value
+                </th>
+                <th>
+                    Unassigned amount
+                </th>
+            </tr>
+        </thead>
+        @foreach (VendoreCurrentActivtiy i in Model.Where(x => x.LastYear == true))
+        {
+            <tr>
+                <td>
+                    @i.DocType
+                </td>
+                <td>
+                    @i.Number
+                </td>
+                <td>
+                    @i.Value.ToString("0.00")
+                </td>
+                <td>
+                    @i.UnassignedAmount.ToString("0.00")
+                </td>
+            </tr>
+
+        }
+        <tr style="background:transparent;" class="hide">
+            <td colspan="2">
+                Total
+            </td>
+            <td>
+                @Model.Where(x => x.LastYear == true).Sum(x=>x.Value).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td> 
+            <td>
+                @Model.Where(x => x.LastYear == true).Sum(x=>x.UnassignedAmount).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+    </table>
+</div>
+
+}

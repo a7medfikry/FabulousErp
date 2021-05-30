@@ -1,0 +1,185 @@
+﻿@model IEnumerable<FabulousModels.Inventory.ItemStockDetails>
+@using FabulousErp.Bussiness
+
+<table class="table center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Serial_no)
+            </th>
+            <th class="center">
+                Warranty Start
+            </th> 
+            <th class="center">
+                Warranty End
+            </th>
+            <th colspan="4" class="center">
+                <span>Warranty End</span>
+                <table class="table" style="border:none;">
+                    <thead>
+                        <tr style="border:none;">
+                            <th style="border:none;width:25%;">
+                                0-3
+                            </th>
+                            <th style="border:none;width:25%;">
+                                4-7
+                            </th>
+                            <th style="border:none;width:25%;">
+                                8-30
+                            </th>
+                            <th style="border:none;width:25%;">
+                                Ended
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </th>
+            @*<th colspan="4" class="center">
+                <span>Expiery Date</span>
+                <table class="table" style="border:none;">
+                    <thead>
+                        <tr style="border:none;">
+                            <th style="border:none;width:25%;">
+                                0-3
+                            </th>
+                            <th style="border:none;width:25%;">
+                                4-7
+                            </th>
+                            <th style="border:none;width:25%;">
+                                8-30+
+                            </th>
+                            <th style="border:none;width:25%;">
+                               Ended
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </th>*@
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Serial_no)
+            </td>
+            <td style="width:10%">
+                @if (item.Warranty_start.HasValue)
+                {
+                    <span>@item.Warranty_start.Value.ToShortDateString()</span>
+                }
+            </td>
+            <td>
+                @if (item.Warranty_end.HasValue)
+                {
+                    <span>@item.Warranty_end.Value.ToShortDateString()</span>
+                }
+            </td>
+            <td style="width:10%">
+                @if (item.Warranty_end.HasValue &&
+                   item.Warranty_end.Value.Subtract(DateTime.Now).TotalDays > 0
+                   && item.Warranty_end.Value.Subtract(DateTime.Now).TotalDays <= 3)
+                {
+                    <span>*</span>
+                }
+
+            </td>
+            <td style="width:10%">
+                @if (item.Warranty_end.HasValue &&
+                     item.Warranty_end.Value.Subtract(DateTime.Now).TotalDays > 3 &&
+                     item.Warranty_end.Value.Subtract(DateTime.Now).TotalDays <= 7)
+                {
+                    <span>*</span>
+                }
+            </td>
+            <td style="width:10%">
+                @if (item.Warranty_end.HasValue &&
+                    item.Warranty_end.Value.Subtract(DateTime.Now).TotalDays > 7)
+                {
+                    <span>*</span>
+                }
+            </td>
+            <td style="width:10%">
+                @if (item.Warranty_end.HasValue &&
+                   item.Warranty_end.Value.Subtract(DateTime.Now).TotalDays <= 0)
+                {
+                    <span>*</span>
+                }
+            </td>
+            @*<td style="width:10%">
+                    <span>@item.Expiery_date.Count(x=> 
+                     Business.PostiveSubtract(x.Date, DateTime.Now) > 0
+                   && Business.PostiveSubtract(x.Date, DateTime.Now) <= 3)</span>
+            </td>
+            <td style="width:10%">
+                
+                <span>
+                    @item.Expiery_date.Count(x =>
+                               Business.PostiveSubtract(x.Date, DateTime.Now) > 3
+                             && Business.PostiveSubtract(x.Date, DateTime.Now) <= 7)
+                 </span>
+            </td>
+            <td style="width:10%">
+               
+                <span>
+                    @item.Expiery_date.Count(x =>
+                       Business.PostiveSubtract(x.Date, DateTime.Now) > 7 &&
+                    Business.PostiveSubtract(x.Date, DateTime.Now) <= 30)
+                </span>
+            </td>
+            <td style="width:10%">
+                <span>
+                    @item.Expiery_date.Count(x =>
+                 Business.PostiveSubtract(x.Date, DateTime.Now) > 30)
+                </span>
+            </td>*@
+        </tr>
+    }
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @Model.Where(x => x.Warranty_end.HasValue && Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) > 0
+               && Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) <= 3).Count()
+            </td>
+            <td>
+                @Model.Where(x => x.Warranty_end.HasValue && Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) >= 4 &&
+                     Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) <= 7).Count()
+            </td>
+            <td>
+                @Model.Where(x => x.Warranty_end.HasValue && Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) >= 8 &&
+                    Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) <= 30).Count()
+            </td>
+            <td>
+                @Model.Where(x => x.Warranty_end.HasValue && Business.PostiveSubtract(x.Warranty_end.Value, DateTime.Now) > 30).Count()
+            </td> 
+            @*@{ 
+                List<FabulousDB.Models.Inv_receive_expiry> Ex =
+                    Model.SelectMany(x => x.Expiery_date).ToList().DefaultIfEmpty(new FabulousDB.Models.Inv_receive_expiry { })
+                    .ToList();
+            }
+            <td>
+                @Ex.Count(x => Business.PostiveSubtract(x.Date, DateTime.Now) > 0
+               && Business.PostiveSubtract(x.Date, DateTime.Now) <= 3)
+            </td>
+            <td>
+                @Ex.Count(x =>Business.PostiveSubtract(x.Date, DateTime.Now) >= 4 &&
+                     Business.PostiveSubtract(x.Date, DateTime.Now) <= 7)
+            </td>
+            <td>
+                @Ex.Count(x => Business.PostiveSubtract(x.Date, DateTime.Now) >= 8 &&
+                    Business.PostiveSubtract(x.Date, DateTime.Now) <= 30)
+            </td>
+            <td>
+                @Ex.Count(x =>  Business.PostiveSubtract(x.Date, DateTime.Now) > 30)
+            </td>*@
+        </tr>
+    </tfoot>
+</table>
+<script>
+    $(function(){
+        ReTranslate();
+    })
+</script>

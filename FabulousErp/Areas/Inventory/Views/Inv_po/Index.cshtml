@@ -1,0 +1,63 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_po>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency.CurrencyName)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Vendore.Vendor_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Po_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.System_rate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transaction_rate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Difference)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Currency.CurrencyName)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Vendore.Vendor_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Po_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.System_rate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Transaction_rate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Difference)
+        </td>
+    </tr>
+}
+
+</table>

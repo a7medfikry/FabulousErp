@@ -1,0 +1,52 @@
+﻿<!-- Span For Void-Transaction -->
+<span class="C_DocumentType" hidden></span>
+<span class="C_CBT" hidden></span>
+<span class="recieptCheck" hidden></span>
+<span class="paymentCheck" hidden></span>
+<span class="C_Balance" hidden></span>
+<input type="text" class="TCGE-HardGurrencyFormate" hidden />
+
+<div class="form-row mb-1">
+    <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : </label>
+    <div class="col-md-2">
+        @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "...", new { @class = "form-control form-control-sm CBT-checkbookID", @disabled = "disabled" })
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm CBT-checkbookName" disabled />
+    </div>
+    <label class="col-md-2 col-form-label col-form-label-sm"> Currency : </label>
+    <div class="col-md-2">
+        @Html.DropDownList("TCVT-CurrencyID", ViewBag.CurrencyIDList as SelectList, "...", new { @class = "form-control form-control-sm CBT-CurrencyID", @disabled = "disabled" })
+    </div>
+</div>
+<div class="hide-normal TCCR-rateField">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> System Rate : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm CBT-SystemRate" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm CBT-TransactionRate" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Difference : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm CBT-DiffrenceRate" disabled />
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <label class="col-md-2 col-form-label col-form-label-sm"> Description : </label>
+    <div class="col-md">
+        <input type="text" class="form-control form-control-sm CBT-Reference" disabled />
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm"> Amount : </label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm CBT-amount" disabled />
+    </div>
+</div>

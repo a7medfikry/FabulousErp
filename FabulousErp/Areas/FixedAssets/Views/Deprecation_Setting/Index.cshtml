@@ -1,0 +1,51 @@
+﻿@model IEnumerable<FabulousDB.Models.Deprecation_Setting>
+
+@{
+    ViewBag.Title = "Depr. Setting";
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            Depreciation
+        </th>
+        <th>
+            Deprecation Calcualtion
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Deprecation_jv)
+        </th>*@
+        <th>
+            Change Deprecation Method
+        </th>
+        <th>
+            Can Add Assets Info
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Enum.GetName(typeof(FabulousDB.Models.Auto_or_manual), item.Auto_or_manual)
+        </td>
+        <td>
+            @Enum.GetName(typeof(FabulousDB.Models.Deprecation_calcualtion), item.Deprecation_calcualtion)
+        </td>
+        @*<td>
+            @Enum.GetName(typeof(FixedAssets.Business.Business.Deprecation_jv), item.Deprecation_jv)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Change_deprecation_method)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Can_add_assets_info)
+        </td>
+        <td>
+            @Html.ActionLink("Update", "Edit", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

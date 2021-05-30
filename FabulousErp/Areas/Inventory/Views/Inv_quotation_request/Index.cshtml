@@ -1,0 +1,63 @@
+﻿@model IEnumerable<FabulousDB.Models.Inv_quotation_request>
+
+@{
+    ViewBag.Title = "Quotation Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Vendore.Vendor_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Request_for_qut_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Within_days)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Delivery_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Request_from)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vendore.Vendor_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request_for_qut_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Within_days)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Delivery_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request_from)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Create", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

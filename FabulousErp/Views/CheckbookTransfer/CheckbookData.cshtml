@@ -1,0 +1,66 @@
+﻿<!-- **** For Checks **** -->
+<span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+<span class="hide-normal" id="TCGE-FJEPer">@ViewBag.FJEPer</span>
+<span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+<span class="hide-normal" id="TCGE-AllowUserERate">@ViewBag.AllowUserERate</span>
+<span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+<span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+<span class="hide-normal" id="CBT-PT">@ViewBag.PT</span>
+
+<!-- Get Min-Amount && Max-Amount for Amount Check -->
+<span class="hide-normal" id="CBT-minAmount"></span>
+<span class="hide-normal" id="CBT-maxAmount"></span>
+
+<!-- Get The Last Transfer Number -->
+<span class="hide-normal" id="CBT-transferNumber">@ViewBag.TransferNumber</span>
+
+<!-- **** For Errors **** -->
+<span class="text-error" id="TCGE-GlobalError"></span>
+
+<input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+<input type="text" id="TCGE-HardGurrencyFormateTransfer" class="hide-normal" />
+
+<div class="form-row mb-1">
+    <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : <span class="star">*</span> </label>
+    <div class="col-md-2">
+        @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @class = "form-control form-control-sm CBT-checkbookID" })
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm CBT-checkbookName" id="" disabled />
+    </div>
+    <label class="col-md-2 col-form-label col-form-label-sm"> Currency : </label>
+    <div class="col-md-2 MyCur">
+        @Html.DropDownList("TCGE-CurrencyID", new SelectList(""), "", new { @class = "form-control form-control-sm TCGE-CurrencyID", @disabled = "disabled" })
+    </div>
+</div>
+<div class="hide-normal TCCR-rateField">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> System Rate : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm TCGE-SystemRate" id="" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm TCGE-TransactionRate" id="transactionRate" disabled />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Difference : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm TCGE-DiffrenceRate" id="" disabled />
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <label class="col-md-2 col-form-label col-form-label-sm"> Description : <span class="star">*</span> </label>
+    <div class="col-md">
+        <input type="text" class="form-control form-control-sm CBT-description" />
+    </div>
+
+    <label class="col-md-2 col-form-label col-form-label-sm"> Amount : <span class="star">*</span> </label>
+    <div class="col-md-2">
+        <input type="text" class="form-control form-control-sm CBT-amount" />
+    </div>
+</div>

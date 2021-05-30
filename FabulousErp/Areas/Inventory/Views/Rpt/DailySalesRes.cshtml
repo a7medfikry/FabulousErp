@@ -1,0 +1,225 @@
+﻿@model IEnumerable<FabulousModels.Inventory.DailySales>
+
+@if (!ViewBag.IsReturn)
+{
+    if (Model.Any())
+    {
+
+    foreach (List<FabulousModels.Inventory.DailySales> i in Model.Where(x => x.Doc_type != FabulousDB.Models.Doc_type.Return).GroupBy(x => x.Period_no).Select(x => x.ToList()))
+    {
+        <h4 class="text-right">@i.FirstOrDefault().Period_no</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Doc_type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Doc_no)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @if (!ViewBag.IsPay)
+                        {
+                            @Html.DisplayNameFor(model => model.Customer_name)
+                        }
+                        else
+                        {
+                            <span> Vendore Name </span>
+                        }
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sales)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Discount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Net_amount)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in i)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Doc_type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Doc_no)
+                        </td>
+                        <td>
+                            @item.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.Customer_name
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sales)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Net_amount)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        Total
+                    </td>
+                    <td>
+                        @i.Sum(x => x.Sales).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Sum(x => x.Discount).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Sum(x => x.Net_amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        }
+    }
+    else
+    {
+        <h2>No Data Found</h2>
+    }
+
+}
+else
+{
+    if (Model.Any())
+    {
+        if (Model.Where(x => x.Doc_type == FabulousDB.Models.Doc_type.Return).GroupBy(x => x.Period_no).Select(x => x.ToList()).Any())
+        {
+            foreach (List<FabulousModels.Inventory.DailySales> i in Model.Where(x => x.Doc_type == FabulousDB.Models.Doc_type.Return).GroupBy(x => x.Period_no).Select(x => x.ToList()))
+            {
+            <h4 class="text-right">@i.FirstOrDefault().Period_no</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Doc_type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Doc_no)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @if (!ViewBag.IsPay)
+                            {
+                                @Html.DisplayNameFor(model => model.Customer_name)
+                            }
+                            else
+                            {
+                                <span> Vendore Name </span>
+                            }
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sales)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Discount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Net_amount)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in i)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Doc_type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Doc_no)
+                            </td>
+                            <td>
+                                @item.Date.ToShortDateString()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Sales)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Discount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Net_amount)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            Total
+                        </td>
+                        <td>
+                            @i.Sum(x => x.Sales).ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                        <td>
+                            @i.Sum(x => x.Discount).ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                        <td>
+                            @i.Sum(x => x.Net_amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            }
+
+        }
+        else
+        {
+        <table class="table">
+            <thead>
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Doc_type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Doc_no)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Customer_name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sales)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Discount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Net_amount)
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        }
+    }
+    else
+    {
+        <h2>No Data Found</h2>
+    }
+}

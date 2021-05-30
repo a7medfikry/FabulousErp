@@ -1,0 +1,216 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_Group_setting
+
+@{
+    /**/
+
+    ViewBag.Title = "Group Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("Edit", "Group_setting", new AjaxOptions { OnSuccess = "CreateAccounts" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Group_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Group_id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Group_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group Width60">
+            @Html.LabelFor(model => model.Group_description, "Description", htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+            <div class="col-md-10 Width789">
+                @Html.EditorFor(model => model.Group_description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Group_description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Currency_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Currency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Payment_terms, "Payment Terms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Payment_terms", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Payment_terms, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Def_Checkbook, "Def. Checkbook", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Def_Checkbook", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Def_Checkbook, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Minimum_transaction, "Min. Trans.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Minimum_transaction, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Minimum_transaction, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Maximum_transaction, "Max. Trans.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Maximum_transaction, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Maximum_transaction, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shipping_method_id, "Shipping", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Shipping_method_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Shipping_method_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tax_group_id, "Tax Group Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Tax_group_id", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Tax_group_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Inactive, htmlAttributes: new { @class = "control-label col-md-2 Margin0 v-middle" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Inactive, new { htmlAttributes = new { @class = "v-middle" } })
+                    @Html.ValidationMessageFor(model => model.Inactive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group w-100">
+            @Html.LabelFor(model => model.Credit_limit, htmlAttributes: new { @class = "col-md-15" })
+            <div class="col-md-10">
+
+                @foreach (var value in Business.GetEnumValues<Credit_limit_enum>())
+                {
+
+                    @Html.RadioButtonFor(m => m.Credit_limit, value, new { @class = "v-middle" })
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+
+                }
+            </div>
+        </div>
+
+        <div class="form-group w-100 hide">
+            @Html.LabelFor(model => model.Minimum_payment, "Min. Payment", htmlAttributes: new { @class = "col-md-15" })
+            <div class="col-md-10">
+                @foreach (var value in Business.GetEnumValues<Minimum_payment>())
+                {
+
+                    @Html.RadioButtonFor(m => m.Minimum_payment, value, new { @class = "v-middle" })
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+
+                }
+            </div>
+
+        </div>
+
+        <div class="form-group w-100">
+            @Html.LabelFor(model => model.Payment_per, htmlAttributes: new { @class = "col-md-15" })
+            <div class="col-md-10">
+                @foreach (var value in Business.GetEnumValues<Payment_per>())
+                {
+                    @Html.RadioButtonFor(m => m.Payment_per, value, new { @class = "v-middle" })
+                    @Html.Label(value.ToString().Replace("_", " "), new { @class = "text-capitalize height100 v-middle Margin0" })
+                    <span style="margin-left:20px;"></span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Revaluate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @if (!Model.Revaluate.HasValue)
+                    {
+                        Model.Revaluate = false;
+                    }
+                    @Html.CheckBox("Revaluate", Model.Revaluate.Value, new { @class = "v-middle" })
+                    @Html.ValidationMessageFor(model => model.Revaluate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" id="Edit" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+@try
+{
+    <div id="AccountsDiv">
+        @Html.Action("Edit", "Receivable_gl_account", new { GroupSetting = Model.Id })
+    </div>
+
+}
+catch
+{
+
+}
+
+<script>
+    function CreateAccounts(Id) {
+        if (Id != -1) {
+            $(document).find("#AccountsDiv").find("#Group_setting_id").val(Id);
+            $(document).find("#AccountsDiv").find("#GlAccountEdit").trigger("click")
+        }
+    }
+    $(document).on("click", "#Submit", function () {
+        $("#AccountsDiv").find("form").validate();
+
+        if ($("#AccountsDiv").find("form").valid()) {
+            $("#Edit").trigger("click")
+        }
+    })
+    $("#Minimum_transaction,#Maximum_transaction").on("focusout", function () {
+        if ($("#Maximum_transaction").val()
+            && $("#Minimum_transaction").val()) {
+            if (parseFloat($("#Maximum_transaction").val()) < parseFloat($("#Minimum_transaction").val())) {
+                ModelMsg("Your Maximum Amount Can't Be More Than Minimum Amount", "", true)
+                $("#Maximum_transaction").val("")
+            }
+        }
+       
+    })
+</script>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Save" id="Submit" class="btn btn-success" />
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

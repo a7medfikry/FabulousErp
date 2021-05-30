@@ -1,0 +1,391 @@
+﻿
+@using (Html.BeginForm())
+{
+    <fieldset class="container-fluid home-page">
+        <!-- Transactions Field -->
+        <div class="transactions-field">
+            <div class="transactions-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Transactions
+                    </div>
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#transactions-branch">Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" href="#transactions-factory">Factory</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+
+                            <!-- Branch Content -->
+                            <div id="transactions-branch" class="container tab-pane fade active show">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#transactions-Baccounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-Baccounting" data-parent=".transactions-accordion">
+                                            <li> <a href="/B_CreateBatch/BranchCreateBatch"> Branch Create Batch </a> </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#transactions-Bfixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-Bfixedasets" data-parent=".transactions-accordion"></ul>
+                                    </li>
+                                    <li class="p-1 bg-light">
+                                        <a href="#transactions-Bcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-Bcheckbook" data-parent=".transactions-accordion"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Factory Content -->
+                            <div id="transactions-factory" class="container tab-pane fade">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#transactions-Faccounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-Faccounting" data-parent=".transactions-accordion">
+                                            <li> <a href="/F_CreateBatch/FactoryCreateBatch"> Factory Create Batch </a> </li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#transactions-Ffixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-Ffixedasets" data-parent=".transactions-accordion"></ul>
+                                    </li>
+                                    <li class="p-1 bg-light">
+                                        <a href="#transactions-Fcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="transactions-Fcheckbook" data-parent=".transactions-accordion"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ****** Setting Field ****** -->
+        <div class="setting-field">
+            <div class="setting-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Setting
+                    </div>
+                    <div class="card-header">
+                        <!-- Links -->
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#setting-branch">Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" href="#setting-factory">Factory</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Branch Accounting -->
+                            <div id="setting-branch" class="tab-pane fade container show active">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Baccount" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Account
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Baccount" data-parent=".setting-accordion">
+                                            <li> <a href="/B_CreateAccount/BranchAccount"> <i class=""></i> Branch Create Account </a></li>
+                                            <li> <a href="/B_LinkCDtoBA/CurrencyDefinitionToBranchAccount"> <i class=""></i> Link Currency Definition To Branch Account </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Banalytic" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Analytic
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Banalytic" data-parent=".setting-accordion">
+                                            <li> <a href="/B_CreateAnalyticAccounts/BranchAnalyticAccounts"> <i class=""></i> Branch Analytic Account </a></li>
+                                            <li> <a href="/B_AnalyticAccountDistribution/BranchAnalyticDistribution"> <i class=""></i> Create Analytic Branch Distribution </a></li>
+                                            <li> <a href="/B_AddDistToAccount/DistToBranchAccount"> <i class=""></i> Add Distribution Account To Branch Account </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Bcost" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Cost
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Bcost" data-parent=".setting-accordion">
+                                            <li> <a href="/B_CreateCostCenter/BranchCostCenter"> <i class=""></i> Branch Cost Center </a></li>
+                                            <li> <a href="/B_CreateCostCenterAccounts/BranchCCAccounts"> <i class=""></i> Create Cost Center Account </a></li>
+                                            <li> <a href="/B_CreateMainCostCenter/BranchMainCostCenter"> <i class=""></i> Create Main Cost Center </a></li>
+                                            <li> <a href="/B_UpdateMainCostCenter/BranchUpdateGroupCC"> <i class=""></i> Update Main Cost Center </a></li>
+                                            <li> <a href="/B_AddCostAccountToAccount/CostAccountToBranchAccount"> <i class=""></i> Add Cost Account To Branch Account </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Bfixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Bfixedasets"></ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Bcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Bcheckbook">
+                                            <li> <a href="/B_CheckBookSetting/BranchCheckBook"> <i class=""></i> Branch Checkbook Setting </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Factory Accounting -->
+                            <div id="setting-factory" class="tab-pane fade container">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Faccount" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Account
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Faccount" data-parent=".setting-accordion">
+                                            <li> <a href="/F_CreateAccount/FactoryAccount"> <i class=""></i> Factory Create Account </a></li>
+                                            <li> <a href="/F_LinkCDtoFA/CurrencyDefinitionToFactoryAccount"> <i class=""></i> Link Currency Definition To Factory Account </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Fanalytic" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Analytic
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Fanalytic" data-parent=".setting-accordion">
+                                            <li> <a href="/F_CreateAnalyticAccounts/FactoryAnalyticAccounts"> <i class=""></i> Factory Analytic Account </a></li>
+                                            <li> <a href="/F_AnalyticAccountDistribution/FactoryAnalyticDistribution"> <i class=""></i> Create Analytic Factory Distribution </a></li>
+                                            <li> <a href="/F_AddDistToAccount/DistToFactoryAccount"> <i class=""></i> Add Distribution Account To Factory Account </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Fcost" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Cost
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="setting-Fcost" data-parent=".setting-accordion">
+                                            <li> <a href="/F_CreateCostCenter/FactoryCostCenter"> <i class=""></i> Factory Cost Center </a></li>
+                                            <li> <a href="/F_CreateCostCenterAccounts/FactoryCCAccounts"> <i class=""></i> Create Cost Center Account </a></li>
+                                            <li> <a href="/F_CreateMainCostCenter/FactoryMainCostCenter"> <i class=""></i> Create Main Cost Center </a></li>
+                                            <li> <a href="/F_UpdateMainCostCenter/FactoryUpdateGroupCC"> <i class=""></i> Update Main Cost Center </a></li>
+                                            <li> <a href="/F_AddCostAccountToAccount/CostAccountToFactoryAccount"> <i class=""></i> Add Cost Account To Factory Account </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Ffixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Ffixedasets"></ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#setting-Fcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" data-parent=".setting-accordion" id="setting-Fcheckbook">
+                                            <li> <a href="/F_CheckBookSetting/FactoryCheckBook"> <i class=""></i> Factory Checkbook Setting </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Inquiry Field ********** -->
+        <div class="inquiry-field">
+            <div class="inquiry-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Inquiry
+                    </div>
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#inquiry-branch">Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" href="#inquiry-factory">Factory</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Branch Content -->
+                            <div id="inquiry-branch" class="container tab-pane fade active show">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#inquiry-Baccounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-Baccounting" data-parent=".inquiry-accordion">
+                                            <li> <a href="/Inquiry_IBCOA/BranchChartOfAccounts"> <i class=""></i> Branch Chart Of Accounts </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#inquiry-Bfixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-Bfixedasets" data-parent=".inquiry-accordion"></ul>
+                                    </li>
+                                    <li class="p-1 bg-light">
+                                        <a href="#inquiry-Bcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-Bcheckbook" data-parent=".inquiry-accordion">
+                                            <li> <a href="/Inquiry_CheckbookSetting/BranchCB"> <i class=""></i> Inquiry OF Branch Checkbook </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Factory Content -->
+                            <div id="inquiry-factory" class="container tab-pane fade">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#inquiry-Faccounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-Faccounting" data-parent=".inquiry-accordion">
+                                            <li> <a href="/Inquiry_IFCOA/FactoryChartOfAccounts"> <i class=""></i> Factory Chart Of Accounts </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#inquiry-Ffixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-Ffixedasets" data-parent=".inquiry-accordion"></ul>
+                                    </li>
+                                    <li class="p-1 bg-light">
+                                        <a href="#inquiry-Fcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="inquiry-Fcheckbook" data-parent=".inquiry-accordion">
+                                            <li> <a href="/Inquiry_CheckbookSetting/FactoryCB"> <i class=""></i> Inquiry OF Factory Checkbook </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Report Field ********** -->
+        <div class="report-field">
+            <div class="report-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Reports
+                    </div>
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" role="tab" aria-selected="true" href="#report-branch">Branch</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" href="#report-factory">Factory</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+
+                            <!-- Branch Content -->
+                            <div id="report-branch" class="container tab-pane fade active show">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#report-Baccounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Baccounting" data-parent=".report-accordion"></ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#report-Bfixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Bfixedasets" data-parent=".report-accordion"></ul>
+                                    </li>
+                                    <li class="p-1 bg-light">
+                                        <a href="#report-Bcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Bcheckbook" data-parent=".report-accordion"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Factory Content -->
+                            <div id="report-factory" class="container tab-pane fade">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#report-Faccounting" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Faccounting" data-parent=".report-accordion"></ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light">
+                                        <a href="#report-Ffixedasets" data-toggle="collapse" role="link" aria-expanded="true">
+                                            Fixed Asets
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Ffixedasets" data-parent=".report-accordion"></ul>
+                                    </li>
+                                    <li class="p-1 bg-light">
+                                        <a href="#report-Fcheckbook" data-toggle="collapse" role="link" aria-expanded="true">
+                                            CheckBook
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class="collapse list-group list-unstyled" data-toggle="collapse" id="report-Fcheckbook" data-parent=".report-accordion"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+

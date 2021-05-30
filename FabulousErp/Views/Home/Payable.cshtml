@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<fieldset class="container-fluid home-page">
+    <!-- Transactions Field -->
+    <div class="transactions-field">
+        <div class="transactions-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Transactions
+                </div>
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                     
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="transactions-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                               
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                   
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="Payable" data-parent=".transactions-accordion">
+
+                                        <li>
+                                            <a href="/Payable/Payable_transaction/Create">Payable transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Payable_payment/Create">Payable payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Assign_payable_doc/Create">Assign Payable Doc</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Payable_transaction?section=void">Void Payable Transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Payable_payment?section=void">Void Payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Assign_payable_doc?section=void">Void Assign</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                    
+                            
+                            </ul>
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ****** Setting Field ****** -->
+    <div class="setting-field">
+        <div class="setting-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Setting
+                </div>
+                <div class="card-header">
+                  
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Accounting -->
+                        <div id="accounting-company" class="active tab-pane fade show container">
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                 
+                                    <ul class=" list-group list-unstyled" data-toggle="" data-parent=".setting-accordion" id="setting-payble">
+                                        <li>
+                                            <a href="/Payable/Genral_setting/Edit">Genral setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Group_setting">Payable Group setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Creditor_setting">Vendore setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Payment_term">Payment term</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Shipping_method">Shipping Method</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+  
+                               
+                            </ul>
+                        </div>
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Inquiry Field ********** -->
+    <div class="inquiry-field">
+        <div class="inquiry-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Inquiry
+                </div>
+            
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="inquiry-company" class="tab-pane active show fade container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                 
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="Payable-Inquiry" data-parent=".transactions-accordion">
+                                        <li>
+                                            <a href="/Payable/Payable_transaction?section=Inquiry">Today Payable transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Payable_payment?section=Inquiry">Today Payable payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Assign_payable_doc?section=Inquiry">Today Assign Doc</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Reports/VendoreBalance?section=Report">Vendor Payable Balance</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Reports/VendoreCurrentActivtiy?section=Report">Vendore Current Activtiy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Reports/VendoreCurrentActivtiy?section=Report&LastYear=true">Vendore Last Activtiy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Installment/Rpt/InstallmentRpt?Sec=Pay">Installment Inquiry</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******** Report Field ********** -->
+    <div class="report-field">
+        <div class="report-accordion">
+            <div class="card">
+                <div class="card-header">
+                    Reports
+                </div>
+              
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <!-- Company Content -->
+                        <div id="report-company" class="tab-pane active container">
+                            <!-- Links -->
+                            <ul class="list-unstyled p-1">
+                                <li class="mb-1 p-1 bg-light NoTrans">
+                                
+                                    <ul class=" list-group list-unstyled" data-toggle="" id="report-Payable" data-parent=".report-accordion">
+                                        <li>
+                                            <a href="/Payable/Payable_transaction?section=Report">Daily Payable transaction</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Payable_payment?section=Report">Daily Payable payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Assign_payable_doc?section=Report">Daily Assign Doc</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Reports/AgingRpt">Aging Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Payable/Reports/ClasicAging">Clasic Aging Report</a>
+                                        </li>
+                                    </ul>
+                                </li>
+         
+                              
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+

@@ -1,0 +1,4 @@
+﻿@if (FabulousErp.Business.GetCompanyId() != null)
+{
+    @Html.DropDownList("UserSearch", FabulousErp.Controllers.Inquiry.Financial.Accounting._Branch.B_Analytic.Inquiry_BranchAnalyticController.BranchID() as SelectList, "-Choose-", new { @id = "InquiryBranchID", @class = "form-control form-control-sm" })
+}

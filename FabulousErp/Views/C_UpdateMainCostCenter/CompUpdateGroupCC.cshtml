@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Update Company Main Cost Center";
+    ViewBag.FormCode = "SUMCC";
+}
+<div class="container-fluid">
+    <span class="text-error" id="AccessError"></span>
+
+    <div class="form-row mb-1 hide" id="CompMainCC">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : <i class="star">*</i> </label>
+        <div class="col-md-2">
+            @*@Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class = "dropdown-list" })*@
+            <input type="text" id="CompanyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-3 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-5">
+            <input type="text" class="form-control form-control-sm" id="CompanyName" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <div id="FilterCostCenterGroupIDComp">
+        <div class="form-row mb-1">
+            <label class="col-md-2"> Cost Center Group ID : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CompCostCenterGroupID", new SelectList(""), "-Choose-", new { @id = "CompCostCenterGroupID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-3"> Cost Center Group Name : <i class="star">*</i> </label>
+            <div class="col-md-5">
+                <input type="text" class="form-control form-control-sm" id="CompCostCenterGroupName" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div id="FilterCostCenterGlobal" class="hide-normal">
+        <div id="FilterCostCenterIDComp" class="hide-normal">
+            <div class="form-row mb-1">
+                <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : <i class="star">*</i> </label>
+                <div class="col-md-2">
+                    @Html.DropDownList("CompCostCenterID", new SelectList(""), "-Choose-", new { @id = "CompCostCenterID", @class = "form-control form-control-sm" })
+                </div>
+                <label class="col-md-3 col-form-label col-form-label-sm"> Cost Center Name : <i class="star">*</i> </label>
+                <div class="col-md-5">
+                    <input type="text" class="form-control form-control-sm" id="CompCostCenterName" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-md-2"> Percentage % : <i class="star">*</i> </label>
+            <div class="col-md-2">
+                @Html.TextBox("Percentage", null, new { @class = "form-control form-control-sm", @id = "Percentage", @type = "number", @onkeydown = "javascript: return event.keyCode == 69 ? false : true", @min = "0", @onkeypress = "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="hide-normal" id="CompAddBtn">
+                <button class="btn btn-danger" id="CompAddCostCenterID">Add</button>
+            </span>
+
+            <span id="ComparePercentage" class="hide-normal">
+                <label id="TakedPercentage"></label> % - From 100 %
+            </span>
+
+            <span class="text-error" id="PercentageError"></span>
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap" id="TestTable">
+        <thead>
+            <tr>
+                <th width="20%">Cost Center ID</th>
+                <th width="40%">Cost Center Name</th>
+                <th width="20%">percentage %</th>
+                <th width="20%">Action (Delete)</th>
+            </tr>
+        </thead>
+        <tbody id="CostCenterGroupTbl"></tbody>
+    </table>
+    <!-- Table Area Start -->
+
+    <div class="form-group col-md-12">
+        <div class="hide-normal" id="CompUpdateBtn">
+            <button class="btn btn-primary btn-sm" id="CompUpdateCostCenterGroup">Update</button>
+        </div>
+
+        <span class="text-error" id="SaveError"></span>
+        <span class="text-success" id="SaveSuccess"></span>
+    </div>
+</div>
+
+<div class="modal UpdateAccounts" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+               <button class="btn btn-secondary">Add Accounts</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Company/C_CostCenter/C_UpdateMainCostCenter/CompUpdateMainCC.js")

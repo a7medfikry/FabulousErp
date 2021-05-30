@@ -1,0 +1,52 @@
+﻿body {
+}
+
+.star {
+    color: red;
+}
+
+#ErrorUserID, #ErrorUserName, #ErrorPassword, #ErrorConfirmPass, #GroupDisactiveError {
+    color: red;
+}
+
+.input-error {
+    border: 2px solid;
+    border-color: red;
+    border-radius: 5px;
+}
+
+.input-success {
+    border: 3px solid;
+    border-color: #125f2b;
+    border-radius: 8px;
+}
+
+.newaccount .left .pswd_info {
+    width: 210px;
+    padding: 5px;
+    background: #fefefe;
+    font-size: .875em;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px #ccc;
+    border: 1px solid #ddd;
+}
+
+.invalid {
+    padding-left: 22px;
+    color: #ec3f41;
+}
+
+.valid {
+    padding-left: 22px;
+    color: #3a7d34;
+}
+
+.pswd_info {
+    display: none;
+}
+
+.error {
+    font-size: 11px;
+    font-style: italic;
+    color: red;
+}

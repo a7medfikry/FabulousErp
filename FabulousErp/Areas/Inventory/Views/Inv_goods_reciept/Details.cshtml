@@ -1,0 +1,73 @@
+﻿@model FabulousDB.Models.Inv_goods_reciept
+
+@{
+    ViewBag.Title = "Goods Reciept";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+  
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Site.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Store.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Store.Store_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gr_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gr_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pr_no_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pr_no_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendor_doc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendor_doc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Po_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Po_no)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

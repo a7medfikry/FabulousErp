@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/site.css" rel="stylesheet" />
+    <link href="/_Content/Styles/main.css" rel="stylesheet" />
+    <link href="/_Content/Styles/print.css" rel="stylesheet" />
+
+    <!--Fixed Assets Script Start-->
+    @Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.min.js")
+    @Html.IncludeVersionedJs("/_Content/BootstrapSelect/popper.min.js")
+    @Html.IncludeVersionedJs("/_Content/CommonScript.js")
+    @Html.IncludeVersionedJs("/_Content/JS/jQuery.print.min.js")
+    @Html.IncludeVersionedJs("/_Content/moment.js")
+    @Html.IncludeVersionedJs("/_Content/BootstrapSelect/bootstrap-select.min.js")
+    @Html.IncludeVersionedJs("/_Content/jquery.tabletoCSV.js")
+    @Html.Partial("_Translate")
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

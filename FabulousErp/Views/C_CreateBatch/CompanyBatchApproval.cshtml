@@ -1,0 +1,128 @@
+﻿@model List<FabulousModels.ViewModels.BatchApproval>
+
+@{
+    ViewBag.Title = "Company Batch Approval";
+    ViewBag.FormCode = "TCBA";
+}
+
+@using (Html.BeginForm("CompanyBatchApproval", "C_CreateBatch", FormMethod.Post))
+{
+
+    <div class="container-fluid">
+
+        <span class="hide-normal" id="TCBA-PSExist">@ViewBag.PSExist</span>
+
+        <div class="form-row mb-1">
+
+            <div class="col-md-3 input-group">
+                <div class="input-group-append">
+                    <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+                    <a href="/C_GeneralEntryTransaction/CompanyShowTransactions" class="btn btn-secondary btn-sm" target="_blank">Show Details</a>
+                    <input type="button" value="Reset" class="btn btn-secondary btn-sm" id="TCBA-resetBtn" />
+                </div>
+            </div>
+
+            <div class="custom-control custom-checkbox col-md-2">
+                <input type="checkbox" class="custom-control-input" id="TCBA-checkAllApp" />
+                <label class="custom-control-label" for="TCBA-checkAllApp">Check All Approval</label>
+            </div>
+
+            <div class="custom-control custom-checkbox col-md-2">
+                <input type="checkbox" class="custom-control-input" id="TCBA-checkAllNotApp" />
+                <label class="custom-control-label" for="TCBA-checkAllNotApp">Check All Not Approval</label>
+            </div>
+
+        </div>
+
+        <table class="table table-bordered table-striped table-responsive-md" id="TCBA-BatchAppTbl">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>From</th>
+                    <th>Module</th>
+                    <th>Description</th>
+                    <th>Creation Date</th>
+                    <th>Approval </th>
+                    <th>Not Approval</th>
+                    <th>No. of Trx</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td class="hide-normal">@Html.HiddenFor(x => x[i].CBID)</td>
+                        <td>@Html.DisplayFor(x => x[i].BatchID)</td>
+                        <td>@Html.DisplayFor(x => x[i].BatchLocation)</td>
+                        <td>@Html.DisplayFor(x => x[i].Module)</td>
+                        <td>@Html.DisplayFor(x => x[i].Description)</td>
+                        <td>@Html.DisplayFor(x => x[i].CreationDate)</td>
+                        <td>@Html.CheckBoxFor(x => x[i].Approval, new { @class = "app" })</td>
+                        <td>@Html.CheckBoxFor(x => x[i].NotApproval, new { @class = "notApp" })</td>
+                        <td>@Html.DisplayFor(x=>x[i].NumOfTransactions)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+}
+
+
+
+<script>
+    $(document).ready(function () {
+
+        var existPS = $('#TCBA-PSExist').text();
+        if (existPS === "False") {
+            alert("This Company in Financial Module Not have Posting Setup..!");
+            window.location.href = "/Home/Financial_Home";
+        } else if (existPS === "C1") {
+            alert("Posting Setup Not Rquire Batch Approval..!");
+            window.location.href = "/Home/Financial_Home";
+        }
+
+        $("input[type='checkbox']").click(function () {
+
+            if ($(this).prop('checked') == true && $(this).attr('class') == 'app') {
+                $(this).closest("tr").find("input[type='checkbox']").each(function () {
+                    $(this).prop('checked', false);
+                });
+                $(this).prop('checked', true);
+            } else {
+                $(this).closest("tr").find("input[type='checkbox']").each(function () {
+                    $(this).closest('.app').prop('checked', false);
+                });
+            }
+
+        });
+
+        $('#TCBA-checkAllApp').click(function () {
+
+            if ($(this).prop('checked') == true) {
+                $('#TCBA-checkAllNotApp').prop('checked', false);
+                $('.app').prop('checked', true);
+                $('.notApp').prop('checked', false);
+            } else {
+                $('.app').prop('checked', false);
+            }
+        });
+
+        $('#TCBA-checkAllNotApp').click(function () {
+
+            if ($(this).prop('checked') == true) {
+                $('#TCBA-checkAllApp').prop('checked', false);
+                $('.notApp').prop('checked', true);
+                $('.app').prop('checked', false);
+            } else {
+                $('.notApp').prop('checked', false);
+            }
+        });
+
+        $('#TCBA-resetBtn').click(function () {
+            location.reload();
+        });
+
+    });
+</script>

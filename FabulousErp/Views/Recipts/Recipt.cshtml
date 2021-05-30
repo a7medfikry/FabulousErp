@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Recipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .Print{
+        margin:20px 40px 20px 40px;
+    }
+</style>
+<section class="Print" id="Print">
+    @if (!ViewBag.OneRecipt)
+    {
+        if (ViewBag.Action1 != null)
+        {
+            @Html.Action($"{ViewBag.Action1}", "Recipts", new { RModel = ViewBag.Model1 })
+        }
+        <br />
+        if (ViewBag.Action2 != null)
+        {
+            @Html.Action($"{ViewBag.Action2}", "Recipts", new { RModel = ViewBag.Model2 })
+        }
+    }
+    else
+    {
+        @Html.Action($"{ViewBag.Action1}", "Recipts", new { RModel = ViewBag.Model1 })
+    }
+</section>
+<script>
+    $(function () {
+        PrintThis("Print", true, false,false,null,"",true,true,null, ".Fram {outline: 5px solid #000;border: 1px solid #000;outline-offset: 3px;background: #fff;}.col-md-6 {width: 48 %;display: inline-block;}.Fram * {direction: rtl;font-size: 28px;}.right {float: right}",false)
+       // JustPrintThis("Print", "",null, ".Fram {outline: 5px solid #000;border: 1px solid #000;outline - offset: 3px;background: #fff;}.col - md - 6 {width: 48 %;display: inline - block;}.Fram * {direction: rtl;font-size: 28px;}.right {float: right}")
+//$(".Print").print();
+    })
+</script>

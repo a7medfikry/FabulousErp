@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "CheckVoidInquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Document No : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("CBI-docNumber", ViewBag.DocumentNumber as SelectList, "-Choose-", new { @id = "CBI-docNumber", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> JV Number : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("documentNumberVoid", ViewBag.JVNumber as SelectList, "-Choose-", new { @id = "TCGV-JENum", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="C_TransactionDate" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="C_PostingDate" disabled />
+        </div>
+    </div>
+    <div class="form-row mb-1" id="transferFrom">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "CBT-checkbookID", @class = "form-control form-control-sm CBT-checkbookID", @disabled = "disabled" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+        <div class="col-md">
+            <input type="text" class="form-control form-control-sm CBT-checkbookName" disabled />
+        </div>
+    </div>
+    <div class="form-row mb-1" id="transferTo">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Bank ID : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            @Html.DropDownList("CBT-checkbookID", ViewBag.CheckbookID as SelectList, "-Choose-", new { @id = "CBT-checkbookID", @class = "form-control form-control-sm CBT-checkbookID", @disabled = "disabled" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Bank Name : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm CBT-checkbookName" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="TCGE-TransactionRate" disabled />
+        </div>
+    </div>
+
+
+    @Html.Partial("_MainVoidTransaction")
+
+
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/ShowTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/VoidTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransactionVoid_Script.js")
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Inquiry_CheckbookTransactions.js")

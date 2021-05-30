@@ -1,0 +1,598 @@
+﻿
+@{
+    ViewBag.Title = "Ajustment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+@*@using (Ajax.BeginForm("AdjustmentRes", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes",OnSuccess="ShowTrDates" }))
+    {
+
+
+    }*@
+<section class="clearfix col-sm-12" id="JvDates">
+    <div class="form-group">
+        @Html.Label("", "Store Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control Store_id" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Site Id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id" })
+        </div>
+    </div>
+    <br />
+    <div class="col-md-3 d-inline-block hide">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Transaction date</label>
+        <div class="col-md-10 Transaction_dateDiv">
+            <input type="date" class="form-control" name="TCGE-JEDate" id="TCGE-JEDate" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Posting date</label>
+        <div class="col-md-10 Posting_dateDiv">
+            <input type="date" class="form-control" name="TCGE-PostingDate" id="TCGE-PostingDate" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        @Html.Label("", "Item_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Item_id", null, "", htmlAttributes: new { @class = "form-control Item_id" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label id="ItemName"></label>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "UOM_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("UOM_id", null, "", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Orginal_Qty", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 Orginal_Qty">
+
+        </div>
+    </div>
+
+    <div class="form-group Width60">
+        <label class="control-label col-md-2" style="width:20.5%;">Description</label>
+        <div class="col-md-10 ">
+            <input class="form-control" name="TCGE-Reference" id="Desc" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Damage</label>
+        <div class="col-md-10 ">
+            <input class="form-control " type="number" name="Damage" id="Damage" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Damage Amount</label>
+        <div class="col-md-10 ">
+            <input class="form-control maskmoney" name="DamageUnit" id="DamageUnit" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Damage Total</label>
+        <div class="col-md-10 ">
+            <input class="form-control " name="DamageAmount" id="DamageAmount" disabled="disabled" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label class="control-label col-md-2">Loss</label>
+        <div class="col-md-10 ">
+            <input class="form-control " type="number" name="Loss" id="Loss" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Loss Amount</label>
+        <div class="col-md-10 ">
+            <input class="form-control maskmoney" name="LossUnit" id="LossUnit" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Loss Total</label>
+        <div class="col-md-10 ">
+            <input class="form-control " name="LossAmount" id="LossAmount" disabled="disabled" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label class="control-label col-md-2">Earn</label>
+        <div class="col-md-10 ">
+            <input class="form-control " type="number" name="Earn" id="Earn" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Earn Amount</label>
+        <div class="col-md-10 ">
+            <input class="form-control maskmoney" name="EarnUnitMask" id="EarnUnitMask"  />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Earn Total</label>
+        <div class="col-md-10 ">
+            <input class="form-control " name="EarnAmount" id="EarnAmount" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group WAuto">
+        <button type="submit" class="btn btn-primary" id="Add">Add</button>
+    </div>
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+</section>
+
+<section id="Res" style="margin-top:20px;">
+    <table class="table NoDataTable">
+        <thead>
+            <tr>
+                <th>
+                    Item_id
+                </th>
+                <th>
+                    UOM
+                </th>
+                <th>
+                    Damge
+                </th>
+                <th>
+                    Loss
+                </th>
+                <th>
+                    Earn
+                </th>
+                <th>
+                    Damge Amount
+                </th>
+                <th>
+                    Loss Amount
+                </th>
+                <th>
+                    Earn Amount
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+        </tbody>
+    </table>
+</section>
+<button id="Create" class="btn btn-success">Create</button>
+<script src="~/Areas/Inventory/Script/CommonInventory.js"></script>
+
+<section id="JVSecCont">
+    <label id="TCGE-GlobalError"></label>
+    <input id="TCGE-CurrencyID" class="hide" value="@FabulousErp.Business.GetCompanyId()" />
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(function () {
+        if ("@ViewBag.AllowAdjust"== "false") {
+            ModelMsg("@Business.Translate("Adjustment Is Not Allowed")", "", true, function () {
+                window.location.href = "/Home/Financial_Home";
+            }, function () {
+                    window.location.href = "/Home/Financial_Home";
+            })
+        }
+        DisableAjax($("#Create"));
+        DisableAjax($("#Add"));
+    })
+    $(document).on("change", "#UOM_id", function () {
+        $("#Earn").trigger("focusout")
+        $("#Damage").trigger("focusout")
+        $("#Loss").trigger("focusout")
+    })
+    //$(document).on("focusout", "#EarnUnitMask,#UOM_id,#Earn",function () {
+    //    $("#EarnAmount").val(GetMaskNumber($("#EarnUnitMask").val()) * $("#UOM_id").find("option:selected").attr("date-eq"));
+    //})
+    //$(document).on("focusout", "#LossUnitMask,#UOM_id,#Loss",function () {
+    //    $("#LossAmount").val(GetMaskNumber($("#LossUnitMask").val()) * $("#UOM_id").find("option:selected").attr("date-eq"));
+    //})
+    //$(document).on("focusout", "#DamageUnitMask,#UOM_id,#Damage",function () {
+    //    $("#DamageAmount").val(GetMaskNumber($("#DamageUnitMask").val()) * $("#UOM_id").find("option:selected").attr("date-eq"));
+    //})
+    $(function () {
+        //$("#JVSecCont").find("#TCGE-Describtion").remove();
+        MaskMoneyTxt();
+    })
+    $(document).on("change", "#Site_id", function () {
+        $.ajax({
+            url: "/inventory/Inv_po/GetPoItems?StoreId=" + $("#Store_id").val() + "&SiteId=" + $("#Site_id").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+    })
+    function SetItems(data) {
+        $("select#Item_id").empty();
+        $("select#Item_id").append("<option value=''></option>")
+        $.each(data, function (k, i) {
+            $("select#Item_id").append("<option value='" + i.Id + "' data-PoId='" + i.Po_id + "'>" + i.Item_id + "</option>")
+        })
+    }
+    UOMDropDown = true;
+
+    $(document).on("change", "#Item_id", function () {
+        var ItemId = $(this).val();
+        var PoId = $(this).find("option:selected").attr("data-PoId");
+        //$.ajax({
+        //    url: "/Inventory/Inv_item/GetItemName?Item_id=" + $(this).val(),
+        //    success: function (data) {
+        //        $("#ItemName").text(data)
+        //    },
+        //    method: "POST"
+        //});
+
+        $.ajax({
+            url: "/Inventory/Inv_receive_po_items/GetPoItemQty?ItemId=" + ItemId + "&Store=" + $("#Store_id").val(),
+            method: "POST",
+            success: function (data) {
+                $(".Orginal_Qty").text(data);
+            }
+        });
+        UOMDropDown = true;
+    })
+
+    $(document).on("change", "#TCGE-CurrencyID", function () {
+        $(this).val(CompId)
+    })
+    $(document).on("focusout", "#Damage", function () {
+        CalcItemDetils(false, $("#Item_id").val(), $("#Store_id").val(), $("#Damage").val(),
+            $("#UOM_id").val(), $("#Loss").val(), $("#Damage"), $("#DamageUnitMask"), null,
+            function (Q, C, E) {
+                var ThisEqQty = $("#Damage").val() * E;
+                var Damage = GetMaskNumber($("#Damage").val());
+                $("#DamageUnitMask").attr("data-value", RoundNumber(GetMaskNumber(C / Damage)))
+                $("#DamageUnitMask").val(RoundNumber(GetMaskNumber(C / Damage)))
+                $("#DamageAmount").val(MaskThisMoney($("#DamageUnitMask").val() * $("#Damage").val()));
+                $("#Damage").attr("data-qty", ThisEqQty);
+            }, "@BusController.Translate("Not Enough Inventory")");
+    })
+    $(document).on("focusout", "#Loss", function () {
+        CalcItemDetils(false, $("#Item_id").val(), $("#Store_id").val(), $("#Loss").val(),
+            $("#UOM_id").val(), $("#Damage").val(), $("#Loss"), $("#LossUnitMask"), null,
+            function (Q, C, E) {
+                var ThisEqQty = $("#Loss").val() * E;
+                var Loss = GetMaskNumber($("#Loss").val());
+                $("#LossUnitMask").attr("data-value", RoundNumber(GetMaskNumber(C / Loss)))
+                $("#LossUnitMask").val(RoundNumber(GetMaskNumber(C / Loss)))
+                $("#LossAmount").val(MaskThisMoney($("#LossUnitMask").val() * $("#Loss").val()));
+                $("#Loss").attr("data-qty", ThisEqQty);
+            }, "@BusController.Translate("Not Enough Inventory")");
+     })
+    $(document).on("focusout", "#Earn", function () {
+        $.ajax({
+            url: "/Inventory/Inv_receive_po_items/GetUnitPruce?ItemId=" + $("#Item_id").val()
+                + "&StoreId=" + $("#Store_id").val() + "&UOM=" + $("#UOM_id").val()
+                + "&Qty=" + $("#Earn").val(),
+            method: "POST",
+            success: function (data) {
+                var ThisEqQty = $("#Earn").val() * data.EqQty;
+                var Earn = GetMaskNumber($("#Earn").val());
+                $("#EarnUnitMask").attr("data-value", RoundNumber(GetMaskNumber(data.Total / Earn)))
+                $("#EarnUnitMask").val(RoundNumber(GetMaskNumber(data.Total / Earn)))
+                $("#EarnAmount").val(MaskThisMoney($("#EarnUnitMask").val() * $("#Earn").val()));
+                $("#Earn").attr("data-qty", ThisEqQty);
+            }
+        })
+    })
+    function CalcJv(Tr) {
+        Tr = $("#itemsBody").find("tr").last().index();
+        var Actual = 0;//GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".Actual").val());
+        var ItemId = $("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-value");//GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".Actual").val());
+        var UnitCost = GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".UnitCost").text());
+        var Loss = parseFloat($("#itemsBody").find("tr:eq(" + Tr + ")").find(".Loss").text());
+        var LossAmount = GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".LossAmount").text());
+        var Damamge = parseFloat($("#itemsBody").find("tr:eq(" + Tr + ")").find(".Damge").text());
+        var DamamgeAmount = GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".DamgeAmount").text());
+        var Earn = parseFloat($("#itemsBody").find("tr:eq(" + Tr + ")").find(".Earn").text());
+        var EarnAmount = GetMaskNumber($("#itemsBody").find("tr:eq(" + Tr + ")").find(".EarnAmount").text());
+
+        var IsDebit;
+
+        InsertInventoryLossJv(ItemId, Tr, false, LossAmount)
+        InsertInventoryLossJv(ItemId, Tr, false, DamamgeAmount)
+        InsertDamgeJv(ItemId, Tr,  DamamgeAmount);
+        InsertEarnJv(ItemId, Tr, EarnAmount);
+    }
+    function ReCalcAllJv() {
+        EmptyGlTransaction();
+        $("#itemsBody").find("tr").each(function () {
+            CalcJv($(this).index());
+        })
+    }
+    function ShowTrDates() {
+        EmptyGlTransaction();
+        $("#JvDates").show();
+    }
+    function InsertInventoryLossJv(ItemId, Tr, IsDebit, Amount) {
+        $.ajax({
+            url: "/Inventory/Inv_item/GetInventoryAccount?ItemId=" + ItemId,
+            method: "POST",
+            success: function (data) {
+                var TransactionRate = 1;
+                var Debit = 0,
+                    Credit = 0;
+                var PrevVal = $("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvLossrow");
+
+                AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), Amount, 0, Amount, false);
+                $("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvLossrow", GetDCLastIndexRowClass())
+
+                //if (!PrevVal) {
+                //}
+                //else {
+                //    SetDCBool(GetGlAccIndexRClass(PrevVal),
+                //        GetMaskNumber(GetDcByRowClass(PrevVal)) + Amount, false)
+                //}
+                Credit = Amount;
+
+                $("#TCGE-JEDate").removeAttr("disabled")
+                MergJv();
+            }
+        })
+    }
+    function InsertDamgeJv(ItemId, Tr, Amount) {
+        $.ajax({
+            url: "/Inventory/Inv_item/GetDamageAccount?ItemId=" + ItemId,
+            method: "POST",
+            success: function (data) {
+                var TransactionRate = 1;
+                var Debit = 0,
+                    Credit = 0;
+                var PrevVal = false; //$("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvdamgerow");
+
+                AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), Amount, Amount, 0, false);
+                $("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvdamgerow", GetDCLastIndexRowClass())
+
+                //if (!PrevVal) {
+                    
+                //} else {
+                //    SetDCBool(GetGlAccIndexRClass(PrevVal),
+                //        GetMaskNumber(GetDcByRowClass(GetDcByRowClass)) + Amount, true)
+                //}
+                Debit = Amount;
+                $("#TCGE-JEDate").removeAttr("disabled")
+                MergJv();
+
+            }
+        })
+    }
+    function InsertEarnJv(ItemId, Tr, Amount) {
+        $.ajax({
+            url: "/Inventory/Inv_item/GetInventoryAccount?ItemId=" + ItemId,
+            method: "POST",
+            success: function (data) {
+                var TransactionRate = 1;
+                var Debit = 0,
+                    Credit = 0;
+                var PrevVal = false; //$("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvinvrow");
+
+                AddToMainTbl(data.AC_Id, data.AName, "SED", data.AId, $("#Desc").val(), Amount, Amount, 0, false);
+                $("#itemsBody").find("tr:eq(" + Tr + ")").find(".ItemId").attr("data-jvinvrow", GetDCLastIndexRowClass())
+
+                //if (!PrevVal) {
+                //} else {
+                //    SetDC(GetGlAccIndexRClass(PrevVal),
+                //        GetMaskNumber(GetDcByRowClass(GetDcByRowClass)) + Amount, false)
+                //}
+                Credit = Amount;
+                $("#TCGE-JEDate").removeAttr("disabled")
+                MergJv();
+
+            }
+        })
+    }
+    var ThisDeleteRow;
+    $(document).on("click", "#dmt", function () {
+        ThisDeleteRow = $(this).parents("tr").attr("class");
+    });
+
+    $(document).on("click", "#TCGE-ConfirmDeleteRecord", function () {
+        $("#itemsBody").find(".ItemId[data-jvinvrow='" + ThisDeleteRow + "']").attr("data-jvinvrow", "")
+        $("#itemsBody").find(".ItemId[data-jvinvrow='" + ThisDeleteRow + "']").attr("data-jvDamgerow", "")
+    });
+    function InsertTransfer() {
+        var AdjsutmentData = [];
+        InsertTransactionData(CompId, "@FabulousErp.Business.PostingToOrThrow()", $("#TCGE-PostingDate").val(),
+            $("#TCGE-JEDate").val(), $("#Desc").val(), CompId, "1", "1", "InvAdj", "InvAdj", "",
+            null, function (Jn,Pn) {
+                $("#itemsBody").find("tr").each(function () {
+                    AdjsutmentData.push({
+                        Item_id: $(this).find(".ItemId").attr("data-value"),
+                        Store_id: $(this).find(".ItemId").attr("data-storeid"),
+                        Site_id: $(this).find(".ItemId").attr("data-siteid"),
+                        Damage_qty: parseFloat($(this).find(".Damge").text()),
+                        Loss_qty: parseFloat($(this).find(".Loss").text()),
+                        Earn_qty: parseFloat($(this).find(".Earn").text()),
+                        Damage_amount: GetMaskNumber($(this).find(".DamgeAmount").text()),
+                        Loss_amount: GetMaskNumber($(this).find(".LossAmount").text()),
+                        Earn_amount: GetMaskNumber($(this).find(".EarnAmount").text()),
+                        Transaction_date: $("#TCGE-JEDate").val(),
+                        Posting_date: $("#TCGE-PostingDate").val(),
+                        Desc: $("#Desc").val(),
+                        Transfer_date: $("#Transfer_date").val(),
+                        UOM_id: $(this).find(".UOM").attr("data-value"),
+                        Adjustment_date: $("#TCGE-JEDate").val(),
+                        Posting_num:Pn
+                    });
+                });
+
+                $.ajax({
+                    url: "/Inventory/Rpt/PostAdjustment/",
+                    data: {
+                        Items: AdjsutmentData
+                        //, Serial: GetSerials()
+                    },
+                    method: "POST",
+                    success: function (data) {
+                         //$.each(data, function (k, i) {
+                         //       window.open(
+                         //           '/Inventory/Rpt/PoItemsPrint?PoId=' + i.Po + "&IsPo=true&Doc_type=Invoice&IsSales=false",
+                         //           '_blank'
+                         //       );
+                         //       //window.open(
+                         //       //    '/Inventory/Rpt/PoItemsPrint?PoId=' + i.Sales + "&IsPo=true&Doc_type=Invoice&IsSales=false",
+                         //       //    '_blank'
+                         //       //);
+                         //})
+                        window.open(
+                            '/Inventory/Rpt/AjustmentInquery?Print=true&AdjustNum=' + data.AdjustNum,
+                            '_blank'
+                        );
+                            RunAfterAjax(function () {
+                                window.location.reload();
+                            })
+                    }
+                })
+        },null,null,null,true)
+
+    }
+    $("#Create").click(function () {
+        InsertTransfer();
+    })
+
+    $("#Add").click(function () {
+        if (!$("#Desc").val()) {
+            NotValid($("#Desc"))
+            return;
+        }
+        if (!$("#TCGE-JEDate").val()) {
+            NotValid($("#TCGE-JEDate"))
+            return;
+        }
+        if (!$("#TCGE-PostingDate").val()) {
+            NotValid($("#TCGE-PostingDate"))
+            return;
+        }
+        var Damge = $("#Damage").val();
+        var  Loss = $("#Loss").val();
+        var Earn = $("#Earn").val();
+        if (!Damge) {
+            Damge = 0;
+        }
+        if (!Loss) {
+            Loss = 0;
+        }
+        if (!Earn) {
+            Earn = 0;
+        }
+        var OrginalAmount = parseFloat($("#UOM_id").find("option:selected").attr("date-eq"));
+        var BodyTmp = $("#BodyTmp").text()
+            .replace("{{StoreId}}", $("#Store_id").val())
+            .replace("{{SiteId}}", $("#Site_id").val())
+            .replace("{{ItemId}}", $("#Item_id").val())
+            .replace("{{ItemTxt}}", $("#Item_id").find("option:selected").text())
+            .replace("{{UOMId}}", $("#UOM_id").val())
+            .replace("{{UOMTxt}}", $("#UOM_id").find("option:selected").text())
+            .replace("{{Damge}}", Damge)
+            .replace("{{Loss}}", Loss)
+            .replace("{{Earn}}", Earn)
+            .replace("{{DamgeCount}}", parseFloat(Damge) * OrginalAmount)
+            .replace("{{LossCount}}", parseFloat(Loss) * OrginalAmount)
+            .replace("{{EarnCount}}", parseFloat(Earn) * OrginalAmount)
+            .replace("{{DamgeAmount}}", $("#DamageAmount").val())
+            .replace("{{LossAmount}}", $("#LossAmount").val())
+            .replace("{{EarnAmount}}", $("#EarnAmount").val())
+            .replace("{{DamgeAmountOr}}", GetMaskNumber($("#DamageUnitMask").val()))
+            .replace("{{LossAmountOr}}", GetMaskNumber($("#LossUnitMask").val()))
+            .replace("{{EarnAmountOr}}", GetMaskNumber($("#EarnUnitMask").val()))
+
+        $("#itemsBody").append(BodyTmp);
+        $("#Transfer_qty").val("");
+        $(".Orginal_Qty").text("");
+        $("#UnitCostMask").val("");
+        $("#UnitCostMask").attr("data-value");
+        $("#Total").text("");
+        $("#Item_id").val("");
+        $("#UOM_id").val("");
+        $("#DamageUnitMask").val("").trigger("change")
+        $("#LossUnitMask").val("").trigger("change")
+        $("#EarnUnitMask").val("").trigger("change")
+
+        $("#DamageAmount").val("")
+        $("#LossAmount").val("")
+        $("#EarnAmount").val("")
+
+        $("#Damage").val("");
+        $("#Loss").val("");
+        $("#Earn").val("");
+        CalcJv($("#itemsBody").find("tr").last().index())
+    })
+</script>
+<script id="BodyTmp" type="text/html">
+    <tr>
+        <td class="ItemId" data-storeid="{{StoreId}}" data-siteid="{{SiteId}}" data-value="{{ItemId}}">
+            {{ItemTxt}}
+        </td>
+        <td class="UOM" data-value="{{UOMId}}">
+            {{UOMTxt}}
+        </td>
+        <td class="Damge" data-jvDamgerow="" data-value="{{DamgeCount}}">
+            {{Damge}}
+        </td>
+        <td class="Loss" data-jvLossrow="" data-value="{{LossCount}}">
+            {{Loss}}
+        </td>
+        <td class="Earn" data-jvinvrow="" data-value="{{EarnCount}}">
+            {{Earn}}
+        </td>
+        <td class="DamgeAmount" data-value="{{DamgeAmountOr}}">
+            {{DamgeAmount}}
+        </td>
+        <td class="LossAmount" data-value="{{LossAmountOr}}">
+            {{LossAmount}}
+        </td>
+        <td class="EarnAmount" data-value="{{EarnAmountOr}}">
+            {{EarnAmount}}
+        </td>
+        <td>
+            <button class="btn btn-secondary btn-sm mr-1 " disabled="disabled"><span class="fa fa-edit"></span></button>
+            <button class="btn btn-danger btn-sm DeleteItem"> <span class="fa fa-trash-o"></span></button>
+        </td>
+    </tr>
+</script>
+<script>
+    $(document).on("click", ".DeleteItem", function () {
+        $(this).parents("tr").remove();
+        ReCalcAllJv();
+    })
+    $(document).on("click", ".EditItem", function () {
+        var Tr = $(this).parents("tr").index();
+
+        var asd = $(Tr).find(".DamgeAmount").text();
+        var ssax = parseFloat($(Tr).find(".Damge").text());
+        $("#Store_id").val($(Tr).find(".ItemId").attr("data-storeid")).trigger("change");
+        $("#Site_id").val($(Tr).find(".ItemId").attr("data-siteid")).trigger("change");
+        ForceRefreshPicker();
+        RunAfterAjax(function () {
+            $("#Item_id").val($(Tr).find(".ItemId").attr("data-value"));
+        })
+        $("#DamageUnitMask").val(GetMaskNumber($(Tr).find(".DamgeAmount").text()) / parseFloat($(Tr).find(".Damge").text()))
+        $("#EarnUnitMask").val(GetMaskNumber($(Tr).find(".EarnAmount").text()) / parseFloat($(Tr).find(".Earn").text()))
+        $("#LossUnitMask").val(GetMaskNumber($(Tr).find(".LossAmount").text()) / parseFloat($(Tr).find(".Loss").text()))
+
+        $("#Damage").val($(Tr).find(".Damge").text()).trigger("change");
+        $("#Earn").val($(Tr).find(".Earn").text()).trigger("change");
+        $("#Loss").val($(Tr).find(".Damge").text()).trigger("change");
+
+    })
+</script>

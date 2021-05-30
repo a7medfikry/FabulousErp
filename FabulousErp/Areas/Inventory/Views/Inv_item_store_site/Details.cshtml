@@ -1,0 +1,43 @@
+﻿@model FabulousDB.Models.Inv_item_store_site
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "null";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inv_item_store_site</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.Item_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Site.Site_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site.Site_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Store.Store_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Store.Store_id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

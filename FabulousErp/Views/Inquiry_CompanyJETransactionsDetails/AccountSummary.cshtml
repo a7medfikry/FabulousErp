@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Account Summary Inquiry";
+    ViewBag.FormCode = "IASI";
+}
+
+<div class="container-fluid">
+    <section>
+        @{Html.RenderAction("SearchHeader"); }
+    </section>
+
+    <section>
+        @Html.Partial("AccountSummaryBody")
+    </section>
+
+</div>
+
+<style>
+    label{
+        text-align:left;
+    }
+</style>
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")
+

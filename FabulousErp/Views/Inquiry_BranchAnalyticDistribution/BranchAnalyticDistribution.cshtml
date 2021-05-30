@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "List of Branch Analytic Distribution";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IBADA";
+}
+<div class="container-fluid">
+    <span class="hide-normal" id="IBADA-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="IBADA-BranchID"></span>
+
+    <div class="form-row mb-1">
+        <span class="col-md-12 text-error" id="IBADA-errors"></span>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : </label>
+        <div class="col-md-2">
+            @Html.Partial("CompanyOrBranch")
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+        <div class="col-md-6">
+            @if (FabulousErp.Business.GetCompanyId() != null)
+            {
+                <input type="text" class="form-control form-control-sm" id="IBADA-branchname" disabled />
+            }
+            
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("BranchAnalyticID", new SelectList(""), "-Choose-", new { @id = "IBADA-BranchAnalyticID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="IBADA-analyticname" disabled />
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="30%"> Account Distribution ID </th>
+                <th width="70%"> Account Distribution Name </th>
+            </tr>
+        </thead>
+        <tbody id="IBADA-append-data"></tbody>
+    </table>
+</div>
+
+
+<!-- Scripts here -->
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Branch/B_Analytic/B_AnalyticAccountDistribution/Inquiry_BranchAnalyticAccountDistribution.js")

@@ -1,0 +1,106 @@
+﻿@model List<FabulousDB.Models.Inv_item_adjustment>
+@{
+    Layout = null;
+}
+
+
+<div style="margin-top:20px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item Id
+                </th>
+                <th>
+                    Item Name
+                </th>
+
+                <th>
+                    UOM
+                </th>
+
+                <th>
+                    Earn Qty
+                </th>
+                <th>
+                    Earn Amount
+                </th>
+                <th>
+                    Loss Qty
+                </th>
+                <th>
+                    Loss Amount
+                </th>
+                <th>
+                    Damage Qty
+                </th>
+                <th>
+                    Damage Amount
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+            @foreach (FabulousDB.Models.Inv_item_adjustment i in Model)
+            {
+                <tr>
+                    <td>
+                        @i.Item.Item_id
+                    </td>
+                    <td>
+                        @i.Item.Short_description
+                    </td>
+                    <td>
+                        @i.UOM.Unit_id
+                    </td>
+
+                    <td>
+                        @i.Earn_qty
+                    </td>
+                    <td>
+                        @i.Earn_amount.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Damage_qty
+                    </td>
+                    <td>
+                        @i.Damage_amount.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @i.Loss_qty
+                    </td>
+                    <td>
+                        @i.Loss_amount.ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (Request["Print"] != "true")
+{
+    <section id="PoRecItems">
+        @*@Html.Action("Create", "Inv_receive_po_items", new { Sales = ViewBag.Sales })*@
+        <label id="ShowError" class="col-sm-12 text-danger"></label>
+    </section>
+    <div class="form-group col-md-3 ">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+    <h4 id="TCGE-GlobalError"></h4>
+    <section id="JVSecCont">
+        <section id="JVTransactionSec" style="display:none;">
+            @Scripts.Render("~/MainTransaction")
+            <section class="DebitCreditSection">
+                @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+            </section>
+        </section>
+    </section>
+
+    <script>
+    $(function () {
+          EmptyGlTransaction();
+          GetJvTransactionEdit("@ViewBag.PostingNumber", "@FabulousErp.Business.GetCompanyId()",null,false);
+    })
+    </script>
+}

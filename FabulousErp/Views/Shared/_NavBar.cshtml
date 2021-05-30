@@ -1,0 +1,574 @@
+﻿<nav class="pcoded-navbar NoTrans">
+    <div class="pcoded-inner-navbar main-menu">
+       
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="">
+                <a class="NoTrans " href="/Dashboard/Index">
+                    <span class="pcoded-micon"><i class=""></i></span>
+                    <span class="pcoded-mtext">Dashboard</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="NoTrans " href="/Home/Financial_Home">
+                    <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                    <span class="pcoded-mtext">Home</span>
+                </a>
+                @*<ul class="pcoded-submenu">
+                <li class="">
+                    <a class="NoTrans " href="index-1.htm">
+                        <span class="pcoded-mtext">Default</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a class="NoTrans " href="dashboard-crm.htm">
+                        <span class="pcoded-mtext">CRM</span>
+                    </a>
+                </li>
+                <li class=" ">
+                    <a class="NoTrans " href="dashboard-analytics.htm">
+                        <span class="pcoded-mtext">Analytics</span>
+                        <span class="pcoded-badge label label-info ">NEW</span>
+                    </a>
+                </li>
+            </ul>*@
+            </li>
+            <li class="pcoded-hasmenu">
+                <a class="NoTrans " href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="fa fa-cog"></i></span>
+                    <span class="pcoded-mtext">G.S</span>
+                    @*<span class="pcoded-badge label label-warning">NEW</span>*@
+                </a>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Users</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/CreateNewAccount/NewAccountInfo"> <i class="fa fa-plus-circle"></i>@Business.Translate("Create User")</a></li>
+                            <li> <a class="NoTrans " href="/CreateNewGroup/NewGroupInfo"> <i class="fa fa-users"></i>@Business.Translate("Create Group Of user")</a></li>
+                            <li> <a class="NoTrans " href="/ListOfUser/GetUsers"> <i class="fa fa-list-ul"></i>@Business.Translate("Manage users")</a></li>
+                            <li> <a class="NoTrans " href="/ListOfGroup/GetGroups"> <i class="fa fa-list-ul"></i>@Business.Translate("Manage Groups")</a></li>
+                            <li> <a class="NoTrans " href="/AccountGroupInfo/AddUserToGroup"> <i class="fa fa-plus-square"></i>@Business.Translate("Add user to Group")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Accessibility</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/UGFormsAccess/FormsAccess"> <i class="fa fa-shield"></i>@Business.Translate("Company Forms Access") </a></li>
+                            @*<li> <a class="NoTrans " href="/UGFormsAccess/BranchFormsAccess"> <i class="fa fa-shield"></i>@Business.Translate("Branch Forms Access")</a></li>*@
+                            @*<li> <a class="NoTrans " href="/UGFormsAccess/FactoryFormsAccess"> <i class="fa fa-shield"></i>@Business.Translate("Factory Forms Access")</a></li>*@
+                            <li> <a class="NoTrans " href="/CompanyPremissionAccess/UACompPremission"> <i class="fa fa-universal-access"></i>@Business.Translate("Company Access")</a></li>
+                            @*<li> <a class="NoTrans " href="/BranchPremissionAccess/UABranchPremission"> <i class="fa fa-universal-access"></i>@Business.Translate("Branch Access")</a></li>*@
+                            @*<li> <a class="NoTrans " href="/FactoryPremissionAccess/UAFactoryPremission"> <i class="fa fa-universal-access"></i>@Business.Translate("Factory Access")</a></li>*@
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Organization</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/MainCompany/CompanyInformation"> <i class="fa fa-building"></i>@Business.Translate("New Company")</a></li>
+                            <li> <a class="NoTrans " href="/Inventory/Inv_store/"><i class="fa fa-building"></i>@Business.Translate("Create New")Store</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Fiscal Year</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/FiscalDef/FiscalYearDef"> <i class="fa fa-file"></i>@Business.Translate("Fiscal year Definition")</a></li>
+                            <li> <a class="NoTrans " href="/CreateNewYear/NewYear"> <i class="fa fa-file"></i>@Business.Translate("New Year")</a></li>
+                            <li> <a class="NoTrans " href="/CloseFiscalYear/CloseYear"> <i class="fa fa-file"></i>@Business.Translate("Close Year")</a></li>
+                            <li> <a class="NoTrans " href="/CompanyFiscalYear/AddCompanyFiscalYear"> <i class="fa fa-file"></i>@Business.Translate("Fiscal Year To Company")</a></li>
+                            <li> <a class="NoTrans " href="/OpenAndClosFiscalPeriods/OpenClosePeriods"> <i class="fa fa-file"></i>@Business.Translate("Open/Close periods")</a></li>
+                            <li> <a class="NoTrans " href="/OpenAndClosFiscalPeriods/AdjOpenClosePeriods"> <i class="fa fa-file"></i>@Business.Translate("Adjustment Open/Close periods")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Currency</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/CurrenciesDefinition/CurrenciesTypes"> <i class="fa fa-money"></i>@Business.Translate("Currency Definition")</a></li>
+                            <li> <a class="NoTrans " href="/CurrencyFormateSetting/FormateSetting"> <i class="fa fa-money"></i>@Business.Translate("Formate Setting")</a></li>
+                            <li> <a class="NoTrans " href="/ExchangeCurrenciesSetup/ExchangeCurrencies"> <i class="fa fa-gg"></i>@Business.Translate("Exchange Currency")</a></li>
+                            <li> <a class="NoTrans " href="/UserEditTRate/UEditRate"> <i class="fa fa-gg"></i>@Business.Translate("User Edit Transaction Rate ")</a></li>
+                            <li> <a class="NoTrans " href="/CurrenciesDefinition/SetCurrencyUnit"> <i class="fa fa-gg"></i>@Business.Translate("Set Currency Unit Name ")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Chart Of Account</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/CreateAccountChart/AccountChart"> <i class="fa fa-bar-chart"></i>@Business.Translate("Chart Of Account")</a></li>
+                            <li> <a class="NoTrans " href="/CompanyChartAccount/AddChartToCompany"> <i class="fa fa-bar-chart"></i>@Business.Translate("Add Chart Of Account to Company")</a></li>
+                            <li> <a class="NoTrans " href="/CreateAccountGroup/AccountGroup"> <i class=""></i>@Business.Translate("Create Account Group")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Tax</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/Tax/Tax_Setting"> <i class=""></i>@Business.Translate("Tax Setting")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_TaxSchedule/TaxSchedule"> <i class=""></i>@Business.Translate("Inquiry Tax Schedule")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyTax/CompanyTax"> <i class=""></i>@Business.Translate("Inquiry Company Tax")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Post</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/CreatePostingSetup/PostingSetup"> <i class=""></i>@Business.Translate("Posting Setup")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Installment</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/Installment/Installment_setting"> <i class=""></i>@Business.Translate("Installment Setting")</a></li>
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Logistics</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/Inventory/Unit_of_measure/Create"> <i class=""></i>@Business.Translate("Unit of measure")</a></li>
+                            <li> <a class="NoTrans " href="/Inventory/Inv_movment_GS/Create">Inventory General Setting</a></li>
+                            <li> <a class="NoTrans " href="/Inventory/Inv_po_GS/Create">PO General Setting</a></li>
+                            <li> <a class="NoTrans " href="/Inventory/Inv_sales_GS/Create">Sales General Setting</a></li>
+                            <li>
+                                <a class="NoTrans " href="/Inventory/Inv_pricelist/Create">Price list</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">DataBase</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/Bus/TakeBackup"> <i class=""></i>@Business.Translate("Take Backup")</a></li>
+                            <li> <a class="NoTrans " href="/Bus/RestoreData"> <i class=""></i>@Business.Translate("Restore Backup")</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="pcoded-hasmenu">
+                <a class="NoTrans " href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class=" fa fa-cog"></i></span>
+                    <span class="pcoded-mtext">@FabulousErp.BusController.Translate("Setting")</span>
+                    @*<span class="pcoded-badge label label-warning">NEW</span>*@
+                </a>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Account</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/C_CreateAccount/CompanyAccount"> <i class=""></i>@Business.Translate("Company Create Account")</a></li>
+                            <li> <a class="NoTrans " href="/BPC/RowSettings?RptType=BallanceSheet"> <i class=""></i>@Business.Translate("Balance Sheet Setting")</a></li>
+                            <li> <a class="NoTrans " href="/BPC/RowSettings?RptType=PL"> <i class=""></i>@Business.Translate("PL Setting")</a></li>
+                            <li> <a class="NoTrans " href="/BPC/RowSettings?RptType=CashFlow"> <i class=""></i>@Business.Translate("Cash Flow Setting")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Analytic</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/C_CreateAnalyticAccounts/CompanyAnalyticAccounts"> <i class=""></i>@Business.Translate("Company Analytic Account")</a></li>
+                            <li> <a class="NoTrans " href="/C_AnalyticAccountDistribution/CompanyAnalyticDistribution"> <i class=""></i>@Business.Translate("Create Analytic Company Distribution")</a></li>
+                            <li> <a class="NoTrans " href="/C_AddDistToAccount/DistToCompAccount"> <i class=""></i>@Business.Translate("Add Distribution Account To Company")</a></li>
+                            <li> <a class="NoTrans " href="/C_LinkAnalyticToAccount/CompanyLinkAnalyticToAccount"> <i class=""></i>@Business.Translate("Company Link Analytic To Account ID")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Fixed Assets</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>@Html.ActionLink("Assets_class", "Index", "Assets_class", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Assets_main", "Index", "Assets_main", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Assets", "Index", "Assets", new { area = "FixedAssets", Setting = "Edit" }, new { })</li>
+                            <li>@Html.ActionLink("Book", "Create", "Books", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Deprecation Setting", "Index", "Deprecation_Setting", new { area = "FixedAssets" }, new { })</li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">CheckBook</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/C_CheckBookSetting/CompanyCheckBook"> <i class=""></i>@Business.Translate("Company Checkbook Setting")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Payable</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/Payable/Genral_setting/Edit">Genral setting</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Group_setting">Payable Group setting</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Creditor_setting">Vendore setting</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payment_term">Payment term</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Shipping_method">Shipping Method</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Receivable</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Genral_setting/Edit">Genral setting</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Group_setting">Receivable Group setting</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Creditor_setting">Customer setting</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Payment_term">Payment term</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Shipping_method">Shipping Method</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="pcoded-hasmenu">
+                <a class="NoTrans " href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="fa fa-exchange"></i></span>
+                    <span class="pcoded-mtext">@FabulousErp.BusController.Translate("Transactions")</span>
+                    @*<span class="pcoded-badge label label-warning">NEW</span>*@
+                </a>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Accounting</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/C_CreateBatch/CompanyCreateBatch"> Company Create Batch </a> </li>
+                            <li> <a class="NoTrans " href="/C_CreateBatch/CompanyBatchApproval"> Company Batch Approval </a></li>
+                            <li> <a class="NoTrans " href="/C_CreateBatch/CompanyMultiBatchesPost"> Company Multi Batches Post </a></li>
+                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/CompanyGETransaction"> General Entry Transaction </a> </li>
+                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/AdjustmentGETransaction"> Adjustment General Entry Transaction </a> </li>
+                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/CompanyShowTransactions"> Show Company Transactions </a> </li>
+                            <li> <a class="NoTrans " href="/C_GeneralEntryTransaction/CompanyVoidTransactions"> Company Void General Transactions </a> </li>
+                            <li> <a class="NoTrans " href="/C_TaxTransaction/CompanyTaxTransaction"> Purchase tax </a> </li>
+                            <li> <a class="NoTrans " href="/C_TaxTransaction/CompanyTaxTransaction?Tax=Sales"> Sales tax </a> </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext"> Fixed Assets</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>@Html.ActionLink("Create Assets", "Create", "Assets", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Fixed assets renewal", "Create", "Fixed_assets_renewal", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Fixed assets disposel", "Create", "Fixed_assets_disposel", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Depreciation", "Create", "Deprecations", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Fixed assets revaluate", "Create", "Fixed_assets_revaluate", new { area = "FixedAssets" }, new { })</li>
+
+
+                            <li>@Html.ActionLink("Void Assets", "Index", "Assets", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+
+                            <li>@Html.ActionLink("Void Fixed assets renewal", "Index", "Fixed_assets_renewal", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                            <li>@Html.ActionLink("Void Fixed assets disposel", "Index", "Fixed_assets_disposel", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                            <li>@Html.ActionLink("Void Depreciation", "Index", "Deprecations", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+                            <li>@Html.ActionLink("Void Fixed assets revaluate", "Index", "Fixed_assets_revaluate", new { area = "FixedAssets", section = "Transactions" }, new { })</li>
+
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">CheckBook</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/C_CashReciept/CompanyCashReciept"> Cash Reciept </a> </li>
+                            <li> <a class="NoTrans " href="/C_CashWithdraw/CompanyCashWithdraw"> Cash Withdraw </a> </li>
+                            <li> <a class="NoTrans " href="/C_BankCheckReceived/CompanyBankCheckReceived"> Bank Check-Received </a> </li>
+                            <li> <a class="NoTrans " href="/C_BankCheckOut/CompanyBankCheckOut"> Bank Check-Out </a> </li>
+                            <li> <a class="NoTrans " href="/CheckbookTransfer/Index"> Cash Transfer </a> </li>
+                            <li> <a class="NoTrans " href="/C_CheckTransfer/CompanyCheckTransfer"> Check Transfer</a> </li>
+                            <li> <a class="NoTrans " href="/BankReconcile/Index"> Bank Reconcile </a> </li>
+                            <li> <a class="NoTrans " href="/CheckbookRevaluate/Revaluate"> Checkbook Revaluate </a> </li>
+                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Cash"> Cash Reciept/Withdraw Void </a> </li>
+                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Bank"> Bank Check-out/Received Void</a> </li>
+                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Transfer"> Cash Transfer Void</a> </li>
+                            <li> <a class="NoTrans " href="/C_CheckbookVoid/Check"> Check Void Transfer</a> </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Payable</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payable_transaction/Create">Payable transaction</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payable_payment/Create">Payable payment</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Assign_payable_doc/Create">Assign Payable Doc</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payable_transaction?section=void">Void Payable Transaction</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payable_payment?section=void">Void Payment</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Assign_payable_doc?section=void">Void Assign</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Receivable</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Receivable_transaction/Create">Receivable transaction</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Receivable_payment/Create">Receivable payment</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc/Create">Assign Receivable Doc</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Receivable_transaction?section=void">Void Receivable Transaction</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Receivable_payment?section=void">Void Payment</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc?section=void">Void Assign</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="pcoded-hasmenu">
+                <a class="NoTrans " href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="fa fa-tv"></i></span>
+                    <span class="pcoded-mtext">@FabulousErp.BusController.Translate("Inquriy")</span>
+                    @*<span class="pcoded-badge label label-warning">NEW</span>*@
+                </a>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Financial</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="dropdown-header text-center ul-header">General Setting</li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanySetup/CompanyInformation"> <i class=""></i>@Business.Translate("Company Setup")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyAccess/CompanyAccess"> <i class=""></i>@Business.Translate("Company Access")</a></li>
+                            @*<li> <a class="NoTrans " href="/Inquiry_BranchAccess/BranchAccess"> <i class=""></i>@Business.Translate("Branch Access")</a></li>*@
+                            @*<li> <a class="NoTrans " href="/Inquiry_FactoryAccess/FactoryAccess"> <i class=""></i>@Business.Translate("Factory Access")</a></li>*@
+                            <li> <a class="NoTrans " href="/Inquiry_UserData/ShowListofUsers"> <i class=""></i>@Business.Translate("List of users")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_UserProfile/Accountprofile"> <i class=""></i>@Business.Translate("Accounts Profile")</a></li>
+                            <li> <a class="NoTrans " href="/AllFiscalPeriods/ShowFiscalPeriods"> <i class=""></i>@Business.Translate("Show Fiscal Periods")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_TaxSchedule/TaxSchedule"> <i class=""></i>@Business.Translate("Tax Schedule")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyTax/CompanyTax"> <i class=""></i>@Business.Translate("Company Tax")</a></li>
+                            @*<li> <a class="NoTrans " href="/Inquiry_BranchTax/BranchTax"> <i class=""></i>@Business.Translate("Branch Tax")</a></li>
+                        <li> <a class="NoTrans " href="/Inquiry_FactoryTax/FactoryTax"> <i class=""></i>@Business.Translate("Factory Tax")</a></li>*@
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Accounting</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="dropdown-header text-danger font-weight-bold bg-header">Company</li>
+                            <li> <a class="NoTrans " href="/Inquiry_AccountChart/ListAccountChart"> <i class=""></i>@Business.Translate("Chart Of Account List ")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyAnalytic/CompanyAnalyticAccount"> <i class=""></i>@Business.Translate("Company Analytic")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyCostCenter/CompanyCostCenter"> <i class=""></i>@Business.Translate("Company Cost Center")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CurrencyList/CurrencyList"> <i class=""></i>@Business.Translate("List Of Currencies")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyAnalyticDistribution/CompanyAnalyticDistribution"> <i class=""></i>@Business.Translate("Company Analytic Distribution")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyCostCenterAccounts/CompanyCenterAccounts"> <i class=""></i>@Business.Translate("Company Cost Center Accounts ")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_ICCOA/CompanyChartOfAccounts"> <i class=""></i>@Business.Translate("Company Chart Of Accounts")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookSetting/CompanyCB"> <i class=""></i>@Business.Translate("Inquiry OF Checkbook")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/Cash"> <i class=""></i>@Business.Translate("Inquiry OF Checkbook Transactions")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CashInquiry"> <i class=""></i>@Business.Translate("Cash Reciept/Withdraw Transactions")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CashVoidInquiry"> <i class=""></i>@Business.Translate("Cash Reciept/Withdraw Void Transactions")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/BankInquiry"> <i class=""></i>@Business.Translate("Bank Check-out/Received")Transactions</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/BankVoidInquiry"> <i class=""></i>@Business.Translate("Bank Check-out/Received Void")Transactions</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/Transfer"> <i class=""></i>@Business.Translate("Checkbook Transfer")Transactions</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/TransferVoidInquiry"> <i class=""></i>@Business.Translate("Checkbook Transfer Void")Transactions</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/AccountDetails"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Account Details")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountDetails"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Historical Account Details")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/AccountSummary"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Account Summary")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountSummary"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Historical Account Summary")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/TransactionDetails"> <i class=""></i>@Business.Translate("Inquiry OF Company Transaction Details")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CompanyJETransactionsDetails/BatchSecurity"> <i class=""></i>@Business.Translate("Inquiry OF Company Batches Security")</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CheckInquiry"> <i class=""></i>@Business.Translate("Inquiry Of Check")Transactions</a></li>
+                            <li> <a class="NoTrans " href="/Inquiry_CheckbookTransactions/CheckVoidInquiry"> <i class=""></i>@Business.Translate("Inquiry Of Check Void")Transactions</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="pcoded-hasmenu">
+                <a class="NoTrans " href="javascript:void(0)">
+                    <span class="pcoded-micon"><i class="fa fa-print"></i></span>
+                    <span class="pcoded-mtext">@FabulousErp.BusController.Translate("Report")</span>
+                    @*<span class="pcoded-badge label label-warning">NEW</span>*@
+                </a>
+                <ul class="pcoded-submenu ">
+                    <li class=" pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Accounting</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li> <a class="NoTrans " href="/C_Reports/TrailBalance"> <i class=""></i>@Business.Translate("Trail Balance")</a></li>
+                            <li> <a class="NoTrans " href="/C_Reports/AccountDetails"> <i class=""></i>@Business.Translate("Account Details")</a></li>
+                            <li> <a class="NoTrans " href="/C_Reports/AvailableCash"> <i class=""></i>@Business.Translate("Available Cash")</a></li>
+                            <li> <a class="NoTrans " href="/BPC/BalanceSheetReport?RptType=BallanceSheet"> <i class=""></i>@Business.Translate("Balance Sheet Report")</a></li>
+                            <li> <a class="NoTrans " href="/BPC/BalanceSheetReport?RptType=PL"> <i class=""></i>@Business.Translate("PL Report")</a></li>
+                            <li> <a class="NoTrans " href="/BPC/BalanceSheetReport?RptType=CashFlow"> <i class=""></i>@Business.Translate("Cash Flow Report")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class="pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Fixed Assets</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>@Html.ActionLink("Stoking_assets", "Create", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Stocking Report", "StockingReport", "Stoking_assets", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Deprecation_record", "Index", "Deprecation_record", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                            <li>@Html.ActionLink("Year report", "Year", "Reports", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Delete Assets", "DeleteAssets", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Delete Assets Class", "DeleteAssetsClass", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                            <li>@Html.ActionLink("Delete Assets Main", "DeleteAssetsMain", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Delete Renwal", "DeleteRenwal", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                            <li>@Html.ActionLink("Delete disposel", "Deletedisposel", "DeletedAssets", new { area = "FixedAssets", section = "Reports" }, new { })</li>
+                            <li>@Html.ActionLink("Delete Revaluate", "DeleteRevaluate", "DeletedAssets", new { area = "FixedAssets" }, new { })</li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class="pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">CheckBook</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>@Html.ActionLink("Books Report", "Bookreport", "Books", new { area = "FixedAssets" }, new { })</li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class="pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Payable</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payable_transaction?section=Report">Daily Payable transaction</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Payable_payment?section=Report">Daily Payable payment</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Assign_payable_doc?section=Report">Daily Assign Doc</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Reports/AgingRpt">Aging Report</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Payable/Reports/ClasicAging">Clasic Aging Report</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class="pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Receivable</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Receivable_transaction?section=Report">Daily Receivable transaction</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Receivable_payment?section=Report">Daily Receivable payment</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Assign_Receivable_doc?section=Report">Daily Assign Doc</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Reports/AgingRpt">Aging Report</a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/Receivable/Reports/ClasicAging">Clasic Aging Report</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pcoded-submenu ">
+                    <li class="pcoded-hasmenu">
+                        <a class="NoTrans " href="javascript:void(0)">
+                            <span class="pcoded-mtext">Tax</span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a class="NoTrans " href="/TaxRpt/Purchase">Purchase Vat Tax Report </a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/TaxRpt/Purchase?Tax=Sales">Sales Vat Tax Report </a>
+                            </li>
+                            <li>
+                                <a class="NoTrans " href="/TaxRpt/WithHoldingTrans">With Holdeing Transaction </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</nav>

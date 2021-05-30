@@ -1,0 +1,41 @@
+﻿@model FabulousDB.Models.Inv_item_store_site
+
+
+
+@using (Ajax.BeginForm("Create", "Inv_item_store_site",new AjaxOptions { }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Item_id, "Item_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="Item_id" name="Item_id" class="hide Item_id" />
+                @Html.ValidationMessageFor(model => model.Item_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Store_id,BusController.Translate("Store Id"), htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Store_id", null,"", htmlAttributes: new { @class = "form-control AddedStore_id" })
+                @Html.ValidationMessageFor(model => model.Store_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Site_id,FabulousErp.BusController.Translate("Site_id"), htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Site_id", null, htmlAttributes: new { @class = "form-control AddedSite_id" })
+                @Html.ValidationMessageFor(model => model.Site_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

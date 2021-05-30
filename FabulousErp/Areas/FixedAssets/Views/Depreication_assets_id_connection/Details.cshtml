@@ -1,0 +1,42 @@
+﻿@model FabulousDB.Models.Depreication_assets_id_connection
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Depreication_assets_id_connection</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Asset.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Asset.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Deprecation.Id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Deprecation.Id)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

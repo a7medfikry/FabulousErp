@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title</title>
+    @{
+        Layout = null;
+    }
+    @Html.IncludeVersionedJs("/Scripts/New/DesignBundle.min.js")
+    <link href="~/Styles/DesignBundle.min.css" rel="stylesheet" />
+</head>
+<body class="fix-menu">
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+        <div class="ball-scale">
+            <div class='contain'>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+                <div class="ring"><div class="frame"></div></div>
+            </div>
+        </div>
+    </div>
+    <!-- Pre-loader end -->
+
+    <section class="login-block">
+        <!-- Container-fluid starts -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Authentication card start -->
+
+                    <form class="md-float-material form-material" action="/UserLogin/ULogin">
+
+                        <div class="auth-box card">
+                            <div class="text-center">
+                                <img src="/Images/loginpp.png" />
+                            </div>
+                            <div class="card-block">
+                                <div class="row m-b-20">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">@Business.Translate("Sign In")</h3>
+                                    </div>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="text" name="UserID" class="form-control" required="required" placeholder="User Name">
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="password" name="Password" class="form-control" required="required" placeholder="Password">
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="row m-t-25 text-left">
+                                    <div class="col-12">
+                                        @*<div class="checkbox-fade fade-in-primary d-">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+                                                    <span class="text-inverse">Remember me</span>
+                                                </label>
+                                            </div>
+                                            <div class="forgot-phone text-right f-right">
+                                                <a href="auth-reset-password.htm" class="text-right f-w-600"> Forgot Password?</a>
+                                            </div>*@
+                                    </div>
+                                </div>
+                                <div class="row m-t-30">
+                                    <h4>@TempData["Error"]</h4>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Sign in</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <p class="text-inverse text-left m-b-0">@Business.Translate("Thank you").</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- end of form -->
+                </div>
+                <!-- end of col-sm-12 -->
+            </div>
+            <!-- end of row -->
+        </div>
+        <!-- end of container-fluid -->
+    </section>
+    <!-- Warning Section Starts -->
+    <!-- Warning Section Ends -->
+    <script>
+        $(function () {
+            RemoveLoader();
+        })
+    </script>
+</body>
+</html>

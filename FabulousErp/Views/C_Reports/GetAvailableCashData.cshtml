@@ -1,0 +1,56 @@
+﻿@model IEnumerable<FabulousErp.Controllers.Reports.Financial._Company.DisplayAccountDataWithSum>
+
+<table class="table table-striped table-bordered" id="RAC-tbl">
+    <thead>
+        <tr>
+            <th>
+                Description
+            </th>
+            <th>
+                Orginal Amount
+            </th>
+            <th>
+                Currency
+            </th>
+            <th>
+                Rate
+            </th>
+            <th>
+                Balance
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            foreach (var MyItem in item.Data.GroupBy(x => x.CheckBookId).ToList())
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => MyItem.FirstOrDefault().Description)
+                    </td>
+                    <td>
+                        @MyItem.Sum(x=>x.Orginal_amount).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => MyItem.FirstOrDefault().Currency)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => MyItem.FirstOrDefault().Rate)
+                    </td>
+                    <td>
+                        @MyItem.Sum(x => x.Balance).ToString(FabulousErp.Business.GetDecimalNumber())
+                    </td>
+                </tr>
+            }
+        }
+        <tr>
+            <td colspan="4">
+                Total
+            </td>
+            <td>
+                @Model.Sum(x=>x.Sum).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+    </tbody>
+</table>

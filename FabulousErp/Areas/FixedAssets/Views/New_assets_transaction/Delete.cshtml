@@ -1,0 +1,72 @@
+﻿@model FabulousDB.Models.New_assets_transaction
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>New_assets_transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Acquesation_cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acquesation_cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_of_orgin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_of_orgin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendor_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendor_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

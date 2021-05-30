@@ -1,0 +1,153 @@
+﻿@model List<FixedAssets.Controllers.YearRptC>
+@{
+    ViewBag.Title = "YearRpt";
+    Layout = null;
+}
+
+<h2>YearRpt</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Assets Class
+        </th>
+        @foreach (string C in Model.Select(x=>x.Classes))
+        {
+            <th>
+                @C
+            </th>
+        }
+        <th>Total</th>
+    </tr>
+    <tr>
+        <td> Beging_assets_cost </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Beging_assets_cost.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Beging_assets_cost).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Renwal </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Renwal.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Renwal).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Disposal </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Disposal.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Disposal).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Ending_assets_cost </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Ending_assets_cost.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Ending_assets_cost).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Beging_accumlated_cost </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Beging_accumlated_cost.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Beging_accumlated_cost).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Depreciation </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Depreciation.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Depreciation).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Ending_accumlate_cost </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Ending_accumlate_cost.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Ending_accumlate_cost).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Net_assets_this_year </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Net_assets_this_year.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Net_assets_this_year).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+    <tr>
+        <td> Net_assets_prev_year </td>
+
+        @foreach (var item in Model)
+        {
+            <td class="maskmoney">
+                @item.Equ.Net_assets_prev_year.ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+
+        }
+        <td class="maskmoney">
+            @Model.Sum(x => x.Equ.Net_assets_prev_year).ToString(FabulousErp.Business.GetDecimalNumber())
+        </td>
+    </tr>
+
+</table>
+<script>
+    $(function () {
+        MaskMoneyLbl(CompId,"",CompId)
+    })
+</script>

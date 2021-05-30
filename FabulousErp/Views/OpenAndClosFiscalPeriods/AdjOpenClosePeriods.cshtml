@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Adjustment Open/Close Periods";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "SAOCP";
+}
+<div class="container-fluid">
+    <div class="form-row">
+        <label class="col-md-2 col-form-label col-form-label-sm">Year Name :</label>
+        <div class="col-md-3">
+            @Html.DropDownList("adjYearName", ViewBag.YearList as SelectList, "-Choose-", new { @id = "adjYearName", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success btn-sm" id="FinishSaveAdjustmentBtn" disabled> Save </button>
+        </div>
+        <label class="col-md-5 text-success" id="SuccessSaved"></label>
+    </div>
+
+    <!-- Table Area Start -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped display nowrap" id="FiscalYearAdjusmentPeriodsTbl">
+            <caption class="Trans"> Fiscal Year Adjustment Period </caption>
+            <thead>
+                <tr>
+                    <th width="15%">Period No.</th>
+                    <th width="25%">Date</th>
+                    @foreach (string AreaName in FabulousErp.Business.GetAreasNames())
+                    {
+                        <th >@AreaName</th>
+
+                    }
+                    @*<th width="15%">Financial</th>
+                    <th width="15%">Purchasing</th>
+                    <th width="15%">Sales</th>
+                    <th width="15%">Inventory</th>*@
+                </tr>
+            </thead>
+            <tbody id="FiscalYearAdjusmentPeriodsBody"></tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/GeneralSetting/FiscalPeriods/OpenAndClosFiscalPeriods/OpenAndColsePeriods.js")

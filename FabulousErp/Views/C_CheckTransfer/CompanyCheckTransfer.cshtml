@@ -1,0 +1,488 @@
+﻿@{
+    ViewBag.Title = "Check Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCT";
+}
+<div class="container-fluid" id="MainDiv">
+    <!-- **** For Checks **** -->
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="CBT-PT">@ViewBag.PT</span>
+    <span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+    <span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+    <span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+
+    <span class="hide-normal" id="TCT-transferNumber">@ViewBag.TransferNumber</span>
+
+    <!-- **** For Errors and CurrencyFormate **** -->
+    <span class="text-error" id="TCGE-GlobalError"></span>
+    <input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+    <input type="text" id="TCGE-HardGurrencyFormateTransfer" class="hide-normal" />
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="TCT-date" />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="TCT-postingDate" />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cut Of Date : </label>
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="TCT-cutDate" />
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook ID : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCT-checkCheckBookID", ViewBag.CheckCheckbookID as SelectList, "-Choose-", new { @id = "TCT-checkCheckBookID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Checkbook Name : </label>
+        <div class="col-md">
+            <input type="text" class="form-control form-control-sm" id="TCT-checkCheckBookName" disabled />
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Bank ID : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCT-bankCheckBookID", ViewBag.BankCheckbookID as SelectList, "-Choose-", new { @id = "TCT-bankCheckBookID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Bank Name : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="TCT-bankCheckBookName" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="TCT-transactionRate" disabled />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered mb-2 NoDataTable" id="TCT-table">
+            <thead>
+                <tr>
+                    <th>@FabulousErp.BusController.Translate("Check Number")</th>
+                    <th>@FabulousErp.BusController.Translate("Due Date")</th>
+                    <th>@FabulousErp.BusController.Translate("Original Amount")</th>
+                    <th>@FabulousErp.BusController.Translate("Recieved From")</th>
+                    <th>@FabulousErp.BusController.Translate("Transfer")</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="btn-group btn-group-sm">
+                <button class="btn btn-success" id="TCT-transferJV">@FabulousErp.BusController.Translate("Transfer")</button>
+                <button class="btn btn-primary" id="TCT-showJV">@FabulousErp.BusController.Translate("Show JV")</button>
+                <button class="btn btn-secondary" id="TCT-clear">@FabulousErp.BusController.Translate("Clear")</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-light font-weight-bold"> Total Number Of Check : </span>
+                </div>
+                <input type="number" class="form-control" id="TCT-checkNumber" value="0" readonly />
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-light font-weight-bold"> Amount : </span>
+                </div>
+                <input type="text" class="form-control" id="TCT-checkAmount" value="0" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <div class="collapse table-responsive mt-1" id="TCT-showTransfer">
+        <table class="table table-bordered table-striped NoDataTable" id="TCGE-GTbl">
+            <thead>
+                <tr>
+                    <th>@FabulousErp.BusController.Translate("Action")</th>
+                    <th>@FabulousErp.BusController.Translate("Account Name")</th>
+                    <th>@FabulousErp.BusController.Translate("Document")</th>
+                    <th>@FabulousErp.BusController.Translate("Original Amount")</th>
+                    <th>@FabulousErp.BusController.Translate("Debit")</th>
+                    <th>@FabulousErp.BusController.Translate("Credit")</th>
+                </tr>
+            </thead>
+            <tbody id="TCGE-TTbl"></tbody>
+            <tfoot class="text-center">
+                <tr>
+                    <th colspan="4" style="text-align:right">Total</th>
+                    <th id="DebitTblFoot"></th>
+                    <th id="CreditTblFoot"></th>
+                </tr>
+                <tr>
+                    <th colspan="4" style="text-align:right">Difference</th>
+                    <th colspan="2" id="DiffOfDAC"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- Table Area End -->
+    <!-- Pop-up Modal For System-Rates -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Choose The System Rate </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pop-up Modal For More-Detail -->
+    <div class="modal fade" id="TCGE-PUMoreDetailsRecord">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label>Account ID :</label>
+                    <label id="TCGE-PUMDAccID"></label>
+                    <br />
+                    <label>Describtion :</label>
+                    <label id="TCGE-PUMDDes"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    /* --------- Global Varaibles ---------- */
+    var checkCurrencyID,
+        bankCurrencyID,
+        checkAID,
+        checkAccountID,
+        checkAccountName,
+        bankAID,
+        bankAccountID,
+        bankAccountName,
+        PTcheck = $("#CBT-PT").text(),
+        tbody = $('#TCGE-TTbl'),
+        companyID = $("#TCGE-CompanyID").text(),
+        transferNumber = $('#TCT-transferNumber').text();
+
+    Date.prototype.toDateInputValue = (function () {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+    });
+    $('#TCT-date').val(new Date().toDateInputValue());
+    $('#TCT-postingDate').val(new Date().toDateInputValue());
+    $('#TCT-cutDate').val(new Date().toDateInputValue());
+
+    $('#TCT-date').focusout(function () {
+        var date = $(this).val();
+        $('#TCT-postingDate').val(date);
+        hideTransferTable();
+    });
+
+    $('#TCT-checkCheckBookID').change(function () {
+        var checkCheckBookID = $(this).val(),
+            postingDate = $('#TCT-postingDate').val(),
+            cutDate = $('#TCT-cutDate').val(),
+            tableBody = $('#TCT-table > tbody');
+        hideTransferTable();
+        tableBody.empty();
+        if ($(this).val().length > 0) {
+            $.ajax({
+                type: 'GET',
+                url: '/C_CheckTransfer/GetCheckData?checkCheckBookID=' + checkCheckBookID + '&cutDate=' + cutDate,
+                success: function (result) {
+                    // Get Transaction Rate
+                    CheckPostingDateInPeriods(postingDate, function (checkPostingDate) {
+                        if (checkPostingDate !== true) {
+                            tableBody.append("<tr><td colspan='5'>" + "There's No Any Data" + "</td></tr>");
+                            $('#TCT-checkCheckBookID').val('');
+                        } else {
+                            if (result.length > 0) {
+                                $.each(result, function (index, res) {
+                                    $('#TCT-checkCheckBookName').val(res.CheckbookName);
+                                    checkCurrencyID = res.CurrencyID;
+                                    checkAID = res.C_AID;
+                                    checkAccountID = res.AccountID;
+                                    checkAccountName = res.AccountName;
+                                    var Data = "<tr>" +
+                                        "<td>" + res.CheckNumber + "</td>" +
+                                        "<td>" + res.Date + "</td>" +
+                                        "<td>" + res.Balance + "</td>" +
+                                        "<td>" + res.RecievedFrom + "</td>" +
+                                        "<td>" + '<input type="checkbox" class="TCT-transferBox" />' + "</td>" +
+                                        "</tr>";
+                                    tableBody.append(Data);
+                                });
+                                GetCurrencyRates(checkCurrencyID, postingDate);
+                            } else {
+                                tableBody.append("<tr><td colspan='5'>" + "There's No Any Data" + "</td></tr>");
+                                $('#TCT-checkCheckBookID').val('');
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    $('#TCT-bankCheckBookID').change(function () {
+        var bankCheckBookID = $(this).val();
+        hideTransferTable();
+        $.ajax({
+            type: 'GET',
+            url: '/C_CheckTransfer/GetBankData?bankCheckBookID=' + bankCheckBookID,
+            success: function (result) {
+                if (result.CurrencyID === checkCurrencyID) {
+                    $('#TCT-bankCheckBookName').val(result.CheckbookName);
+                    bankAID = result.C_AID;
+                    bankAccountID = result.AccountID;
+                    bankAccountName = result.AccountName;
+                } else {
+                    $('#TCT-bankCheckBookID').val('');
+                }
+            }
+        });
+    });
+
+    $(document).on('change', '.TCT-transferBox', function () {
+        var totalAmount = 0,
+            countCheckedCheckboxes = $('.TCT-transferBox').filter(':checked').length;
+        hideTransferTable();
+        $('#TCT-checkNumber').val(countCheckedCheckboxes);
+        $('.TCT-transferBox:checked').each(function () {
+            var rowID = $(this).closest('tr'),
+                amount = rowID.find('td:eq(2)').text();
+            totalAmount = parseFloat(totalAmount) + parseFloat(amount);
+            $('#TCT-checkAmount').val(totalAmount);
+        });
+        $('.TCT-transferBox:not(:checked)').each(function () {
+            var amount = 0;
+            totalAmount = parseFloat(totalAmount) + parseFloat(amount);
+            $('#TCT-checkAmount').val(totalAmount);
+        });
+    });
+
+    $('#TCT-showJV').click(function () {
+        tbody.empty();
+        GenerateFirstRow();
+        GenerateSecondRow();
+        SumDebitAndCredit();
+        $('#TCT-showTransfer').toggle();
+    });
+
+    $('#TCT-clear').click(function () {
+        location.reload();
+    });
+
+    $('#TCT-transferJV').click(function () {
+        if ($('#TCT-checkCheckBookID').val().length > 0 && $('#TCT-bankCheckBookID').val().length > 0 && $('#TCT-date').val().length > 0 && $('#TCT-postingDate').val().length > 0 && $('#TCT-cutDate').val().length > 0) {
+            updateReconcile();
+        } else {
+            return;
+        }
+    });
+
+
+    function GenerateFirstRow() {
+        var transactionRate = $('#TCT-transactionRate').val().replace(regRemoveCurrFormate, ""),
+            amount = $('#TCT-checkAmount').val(),
+            debit = 0,
+            credit,
+            description = 'Transfer Check To Bank'
+        tbodyData = "<tr>" +
+            "<td>" + '<button type="button" class="btn btn-sm mr-1 MoreDetailsT"><span class="fa fa-eye"></span></button>' + "</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td>SID</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td class='sDebitTbl'></td>" +
+            "<td class='sCreditTbl'></td>" +
+            "</tr>",
+            tbody = $('#TCGE-TTbl');
+
+        // Calculate Debit
+        credit = parseFloat(amount) * parseFloat(transactionRate);
+
+        tbody.append(tbodyData);
+        // fill Checkbook Row with data
+        tbody.find('tr').eq(0).find('td').eq(1).text(checkAID);
+        tbody.find('tr').eq(0).find('td').eq(2).text(checkAccountName);
+        tbody.find('tr').eq(0).find('td').eq(4).text(checkAccountID);
+        tbody.find('tr').eq(0).find('td').eq(5).text(description);
+        tbody.find('tr').eq(0).find('td').eq(6).text(amount);
+        tbody.find('tr').eq(0).find('td').eq(8).text(setSystemCurrFormate(+parseFloat(credit)));
+        tbody.find('tr').eq(0).find('td').eq(7).text(setSystemCurrFormate(+parseFloat(debit)));
+    }
+    function GenerateSecondRow() {
+        var transactionRate = $('#TCT-transactionRate').val().replace(regRemoveCurrFormate, ""),
+            amount = $('#TCT-checkAmount').val(),
+            credit = 0,
+            debit,
+            description = 'Transfer Check To Bank'
+        tbodyData = "<tr>" +
+            "<td>" + '<button type="button" class="btn btn-sm mr-1 MoreDetailsT"><span class="fa fa-eye"></span></button>' + "</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td>SID</td>" +
+            "<td class='hide-normal'></td>" +
+            "<td class='hide-normal'></td>" +
+            "<td></td>" +
+            "<td class='sDebitTbl'></td>" +
+            "<td class='sCreditTbl'></td>" +
+            "</tr>",
+            tbody = $('#TCGE-TTbl');
+
+        // Calculate Debit
+        debit = parseFloat(amount) * parseFloat(transactionRate);
+
+        tbody.append(tbodyData);
+        // fill Checkbook Row with data
+        tbody.find('tr').eq(1).find('td').eq(1).text(bankAID);
+        tbody.find('tr').eq(1).find('td').eq(2).text(bankAccountName);
+        tbody.find('tr').eq(1).find('td').eq(4).text(bankAccountID);
+        tbody.find('tr').eq(1).find('td').eq(5).text(description);
+        tbody.find('tr').eq(1).find('td').eq(6).text(amount);
+        tbody.find('tr').eq(1).find('td').eq(8).text(setSystemCurrFormate(+parseFloat(credit)));
+        tbody.find('tr').eq(1).find('td').eq(7).text(setSystemCurrFormate(+parseFloat(debit)));
+    }
+    function transferJV() {
+        var transferArray = [],
+            transactionDate = $('#TCT-date').val(),
+            postingDate = $('#TCT-postingDate').val(),
+            transactionRate = $('#TCT-transactionRate').val().replace(regRemoveCurrFormate, ""),
+            reference = 'Transfer Check To Bank',
+            documentType = 'SID',
+            postingKey = 'TCT';
+
+        var PTOR;
+        if (PTcheck === "A1") {
+            PTOR = 1;
+        } else {
+            PTOR = 2;
+        }
+
+        InsertTransactionData(companyID, PTOR, postingDate, transactionDate, reference, checkCurrencyID, transactionRate, transactionRate, postingKey, 'Check Transfer', '', '',
+            function (journalEntryNumber,PO) {
+                $('#TCT-table > tbody > tr').each(function () {
+                    var checkNumber = $(this).find('td:eq(0)').text(),
+                        dueDate = $(this).find('td:eq(1)').text(),
+                        originalAmount = $(this).find('td:eq(2)').text(),
+                        recievedFrom = $(this).find('td:eq(3)').text();
+
+                    if ($(this).find('td:eq(4)').find('.TCT-transferBox').is(':checked')) {
+                        transferArray.push(
+                            {
+                                C_PostingNumber: PO,
+                                C_TransactionDate: transactionDate,
+                                C_PostingDate: postingDate,
+                                C_CBSID: $('#TCT-checkCheckBookID').val(),
+                                CurrencyID: checkCurrencyID,
+                                C_SystemRate: transactionRate,
+                                C_TransactionRate: transactionRate,
+                                C_Difference: 0,
+                                C_Reference: reference,
+                                C_DocumentType: documentType,
+                                C_Payment: originalAmount,
+                                C_Reciept: 0,
+                                C_Balance: originalAmount,
+                                C_CheckNumber: checkNumber,
+                                C_PostingKey: postingKey,
+                                C_Payment_To_Recieved_From: recievedFrom
+                            },
+                            {
+                                C_PostingNumber: PO,
+                                C_TransactionDate: transactionDate,
+                                C_PostingDate: postingDate,
+                                C_CBSID: $('#TCT-bankCheckBookID').val(),
+                                CurrencyID: checkCurrencyID,
+                                C_SystemRate: transactionRate,
+                                C_TransactionRate: transactionRate,
+                                C_Difference: 0,
+                                C_Reference: reference,
+                                C_DocumentType: documentType,
+                                C_Payment: 0,
+                                C_Reciept: originalAmount,
+                                C_Balance: originalAmount,
+                                C_CheckNumber: checkNumber,
+                                C_PostingKey: postingKey,
+                                C_Payment_To_Recieved_From: recievedFrom
+                            });
+                    }
+                });
+                transferArray = JSON.stringify({ 'transferArray': transferArray });
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: "POST",
+                    url: "/C_CheckTransfer/CheckTransfer",
+                    data: transferArray,
+                    success: function (result) {
+                        if (result === "True") {
+                            alert('Transfer Number = ' + transferNumber);
+                            $("#MainDiv").find("button").not(".dropdown-toggle").hide();
+                            $("#TCT-table tbody tr").each(function () {
+                                if (!$(this).find(".TCT-transferBox").is(":checked")) {
+                                    $(this).remove();
+                                }
+                            })
+                            $('#TCT-showTransfer').hide();
+                            PrintAsImage("MainDiv", false, function () {
+                                $("#MainDiv").find("button").show();
+                                $("#TCT-checkCheckBookID").trigger("change");
+                            })
+                           // window.open("/Inquiry_CheckbookTransactions/CheckInquiry?Po=" + PO, "_blank")
+                        }
+                    }
+                });
+        }, null, null, null, true);
+
+      
+    }
+    function updateReconcile() {
+        var reconcileArray = [];
+        $('#TCT-table > tbody > tr').each(function () {
+            if ($(this).find('td:eq(4)').find('.TCT-transferBox').is(':checked')) {
+                reconcileArray.push(
+                    {
+                        C_CBSID: $('#TCT-checkCheckBookID').val(),
+                        ToC_CBSID: $("#TCT-bankCheckBookID").val(),
+                        C_CheckNumber: $(this).find('td:eq(0)').text()
+                    });
+            }
+        });
+        reconcileArray = JSON.stringify({ 'reconcileArray': reconcileArray });
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: "POST",
+            url: "/C_CheckTransfer/UpdateReconcile",
+            data: reconcileArray,
+            success: function (result) {
+                if (result === "True") {
+                    tbody.empty();
+                    GenerateFirstRow();
+                    GenerateSecondRow();
+                    SumDebitAndCredit();
+                    transferJV();
+                }
+            }
+        });
+    }
+    function hideTransferTable() {
+        tbody.empty();
+        $('#TCT-showTransfer').hide();
+    }
+
+
+
+
+</script>
+
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")

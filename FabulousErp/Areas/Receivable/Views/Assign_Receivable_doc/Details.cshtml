@@ -1,0 +1,19 @@
+﻿@model FabulousErp.Receivable.Models.Assign_Receivable_doc
+
+@{
+    ViewBag.Title = "Assign Receivable Doc";
+}
+
+
+@Html.Action("Edit",new { id= ViewBag.id,Partial=true })
+<script>
+    $(function () {
+        $(document).find("input").attr("disabled", "disabled");
+        $(document).find("select").attr("disabled", "disabled");
+        $(document).find("input[type='submit']").remove();
+        $(document).find("button").not(".Print").remove();
+
+        
+    })
+  
+</script>

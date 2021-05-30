@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Company Create Batch";
+    ViewBag.FormCode = "TCCB";
+}
+
+<div class="container-fluid">
+
+    <span class="hide-normal" id="TCCB-CheckPS">@ViewBag.PSExist</span>
+
+    <span id="TCCB-GlobalError" class="text-error"></span>
+
+    <div class="form-row form-group">
+        <div class="col-md-8">
+            <label class="col-form-label col-form-label-sm"> Company ID : <i class="star">*</i> </label>
+            @Html.DropDownList("TCCB-CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "TCCB-CompanyID", @class = "form-control form-control-sm", @tabindex = "1" })
+        </div>
+        <div class="col-md-8">
+            <label class="col-form-label col-form-label-sm"> Company Name : </label>
+            <input type="text" class="form-control form-control-sm" id="TCCB-CompanyName" disabled />
+        </div>
+        <div class="col-md-8">
+            <label class="col-form-label col-form-label-sm"> Module : <i class="star">*</i> </label>
+            @Html.DropDownList("Module", null, "-Choose-", new { @id = "TCCB-Module", @class = "form-control form-control-sm" })
+            @*new List<SelectListItem>
+                {
+                new SelectListItem{Text = "Financial" , Value = "Financial" },
+                new SelectListItem{Text = "Purshacing" , Value = "Purshacing" },
+                new SelectListItem{Text = "Sales" , Value = "Sales" },
+                new SelectListItem{Text = "Inventory" , Value = "Inventory" },
+                }*@
+        </div>
+        <div class="col-md-8">
+            <label class="col-form-label col-form-label-sm"> Batch ID <i class="star">*</i> </label>
+            @Html.TextBox("TCCB-BatchID", null, new { @id = "TCCB-BatchID", @maxlength = "5" ,@class="form-control form-control-sm"})
+        </div>
+    </div>
+
+    <div class="form-row col-md-12">
+        <label class="col-md-8 col-form-label col-form-label-sm"> Description : <i class="star">*</i> </label>
+        <div class="col-md-10">
+            @Html.TextArea("TCCB-BatchDescription", null, new { @id = "TCCB-BatchDescription", @maxlength = "100", @class= "textArea" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="p-2">
+            <button type="button" class="btn btn-success btn-sm" id="TCCB-SaveBatch">Save</button>
+            <button type="button" class="btn btn-danger btn-sm" id="TCCB-ResetPage">Clear</button>
+        </div>
+    </div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Setting_Script.js")

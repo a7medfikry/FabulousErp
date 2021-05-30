@@ -1,0 +1,884 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+header {
+    width: 100%;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height Over body content */
+    margin-bottom: 90px;
+    height: 100%;
+    width: 100%;
+    background: #F2F2F2;
+    font-family: Calibri;
+}
+
+.hide-normal {
+    display: none;
+}
+
+
+/* layout */
+.body-content {
+    width: auto;
+    height: 100%;
+    margin-top: 0;
+    padding-top: 15px;
+    padding-left: 40px;
+    padding-bottom: 20px;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #25405b;
+    border-radius: 5px;
+}
+/* Scroll Bar */
+
+
+
+/* display .overlay when it has the .active class */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 998;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+    .overlay.active {
+        display: block;
+        opacity: 0.3;
+    }
+/* display .overlay when it has the .active class */
+/***********************************************************************************/
+
+/******** Search Nav-bar ********/
+.navbar-light {
+    z-index: 100;
+    border-bottom: 2px solid rgb(95, 176, 228);
+}
+
+    .navbar-light .navbar-brand {
+        color: rgb(95, 176, 228);
+        font-size: 20px;
+    }
+
+        .navbar-light .navbar-brand:hover {
+            color: rgb(95, 176, 228);
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        display: block;
+        height: 100%;
+        color: #808080;
+        font-weight: bold;
+    }
+
+        .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+            color: rgb(95, 176, 228);
+        }
+
+    .navbar-light .searchbtn {
+        height: 30px;
+        width: 40px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: rgb(95, 156, 228);
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .navbar-light .searchbtn:hover {
+            background-color: rgb(95, 176, 228);
+        }
+
+    .navbar-light .financial-content {
+        width: 600px;
+        height: 400px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-left: 10px;
+    }
+
+    .navbar-light .Inquiry-content {
+        width: 480px;
+        height: 350px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-left: 8px;
+    }
+
+        .navbar-light .financial-content ul > li > a, .navbar-light .Inquiry-content ul > li > a {
+            display: block;
+            text-decoration: none;
+            color: #333333;
+            white-space: normal;
+            font-size: 13px;
+            padding: 3px 20px;
+            cursor: pointer;
+        }
+
+            .navbar-light .financial-content ul > li > a:hover, .navbar-light .Inquiry-content ul > li > a:hover {
+                color: #262626;
+                background-color: #f5f5f5;
+                border-left: 3px solid;
+                border-left-color: rgb(95, 176, 228);
+            }
+
+        .navbar-light .Inquiry-content .bg-header, .navbar-light .financial-content .bg-header {
+            background-color: #ddd;
+        }
+
+        .navbar-light .Inquiry-content .ul-header, .navbar-light .financial-content .ul-header {
+            color: #428bca;
+            font-size: 18px;
+        }
+
+/**************************************************************************************************/
+
+/* Favourites Nav-bar*/
+.nav-left {
+    height: 100%;
+    border-right: 1px solid #25405b;
+    position: fixed;
+    z-index: 1111;
+    top: 56px;
+    left: 0;
+    background: #337ab7;
+    display: inline-block;
+    white-space: nowrap;
+    width: 40px;
+    transition: width .5s;
+}
+
+    .nav-left .fa {
+        margin: 13px;
+        width: 20px;
+        color: #fff;
+    }
+
+    .nav-left i.fa {
+        font-size: 17px;
+        vertical-align: middle !important;
+    }
+
+    .nav-left i.fa-chevron-right {
+        font-size: 8px;
+        line-height: 18px;
+    }
+
+
+    /*********************************/
+    .nav-left .card {
+        background-color: transparent;
+        overflow: hidden;
+    }
+
+        .nav-left .card label {
+            font-size: 25px;
+            color: burlywood;
+        }
+
+        .nav-left .card .card-header {
+            height: 50px;
+            padding: 0;
+        }
+
+            .nav-left .card .card-header:hover {
+                background-color: #222;
+            }
+
+            .nav-left .card .card-header a {
+                display: block;
+                text-decoration: none;
+                color: #fff;
+            }
+
+        .nav-left .card .card-body {
+            max-height: 280px;
+            overflow-x: hidden;
+        }
+
+        .nav-left .card ul li {
+            padding-bottom: 6px;
+        }
+
+        .nav-left .card .card-body li a {
+            color: white;
+            text-decoration: none;
+        }
+
+            .nav-left .card .card-body li a:hover {
+                color: goldenrod;
+            }
+
+/* Favourites Nav-bar*/
+/**************************************************************************************************/
+
+/* Date & clock Nav-bar*/
+.navbar-expand-lg {
+    display: block;
+    display: flex;
+    justify-content: center;
+}
+
+.clock, .date {
+    color: black;
+    font-weight: bold;
+}
+/* Date & clock Nav-bar*/
+/**************************************************************************************************/
+
+/* Home */
+/*4 groups*/
+.setting-field, .transactions-field {
+    position: relative;
+    float: left;
+    width: 49%;
+    height: 340px;
+    margin-bottom: 2%;
+    overflow: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+}
+
+.inquiry-field, .report-field {
+    position: relative;
+    float: left;
+    width: 49%;
+    height: 340px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+}
+
+.transactions-field, .inquiry-field {
+    margin-right: 2%;
+}
+/*4 groups*/
+
+/**********************************************/
+/* card header style */
+.home-page .card-header:nth-child(1) {
+    height: 40px;
+    line-height: 18px;
+    text-align: center;
+    font-size: 18px;
+    font-family: Calibri;
+    background: #ddd;
+    border-bottom: 1px solid #808080;
+}
+
+.home-page .card-header:nth-child(n+2) {
+    cursor: pointer;
+}
+
+    .home-page .card-header:nth-child(n+2):hover {
+        background: #ddd
+    }
+/* card body style */
+.home-page .card-body {
+    background: rgb(252, 239, 239);
+}
+
+    .home-page .card-body ul {
+        padding-left: 10px;
+    }
+
+    .home-page .card-body .body-content {
+        width: 200px;
+        padding: 0;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+/************************************************/
+
+/* @Media for responsive */
+@media (max-width: 1000px) {
+    .transactions-field, .setting-field, .report-field, .inquiry-field {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (min-width: 1000px) {
+    .transactions-field, .setting-field, .report-field, .inquiry-field {
+    }
+}
+/* Media for responsive */
+/* Home */
+/**************************************************************************************************/
+
+/******** icons ********/
+.fa-home {
+    font-size: 22px;
+    color: rgb(95, 176, 228);
+}
+
+.fa-cog, .fa-print, .fa-exchange, .fa-tv, .fa-user {
+    font-size: 16px;
+    color: rgb(95, 176, 228);
+}
+
+.fa-plus {
+    color: cornflowerblue;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.fa-chevron-right {
+    color: cornflowerblue;
+    font-size: 10px;
+    line-height: 20px;
+}
+/***************************************************************************************************/
+
+/******** Input types ********/
+.navbar-light input[type=text] {
+    width: 160px;
+    height: 30px;
+    border: 2px solid #ddd;
+    outline: none;
+    font-size: 13px;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+}
+
+    .navbar-light input[type=text]:focus {
+        border-color: rgb(95, 176, 228);
+    }
+
+input[type=text], input[type=number] {
+    background-color: #FFFCF5;
+    padding: 10px 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border: 1px solid #CCC5B9;
+    box-shadow: 0 0 5px #e8e9eb inset;
+    width: 100%;
+    height: 32px;
+    font-size: 1em;
+    outline: 0;
+}
+
+input[type=date] {
+    background-color: #FFFCF5;
+    padding: 10px 10px;
+    border: 1px solid #CCC5B9;
+    border-radius: 5px;
+    height: 40px;
+    width: 100%;
+    outline: 0;
+}
+
+input[type=file] {
+    width: 100%;
+    display: inline-block;
+}
+
+.dropdown-list {
+    height: 25px;
+    width: 100%;
+    font-size: 15px;
+    font-family: Cambria;
+    background-color: #FFFCF5;
+    border: 2px solid #CCC5B9;
+    border-radius: 6px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+}
+
+.textArea {
+    width: 100%;
+    height: 80px;
+    resize: none;
+    padding: 10px;
+    border: 0 none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: Cambria;
+    background-color: rgb(238, 238, 238);
+    outline: 0;
+}
+
+    input[type=text]:focus, input[type=date]:focus, input[type=number]:focus, .dropdown:focus, .textArea:focus {
+        border-color: #4c9fcf;
+    }
+
+.segments {
+    background-color: rgb(213, 217, 218);
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    width: auto;
+}
+/***************************************************************************************************/
+
+/* Table Design */
+caption {
+    text-align: center;
+    background-color: #ddd;
+    color: black;
+    font-weight: bold;
+    caption-side: top;
+}
+
+table {
+    border-spacing: 1px;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+    margin: 10px;
+    position: relative;
+}
+
+
+    table thead tr {
+        background: #6c7ae0;
+        text-align: center;
+    }
+
+        table thead tr th {
+            font-family: Calibri;
+            font-size: 16px;
+            color: #fff;
+            line-height: 1.3;
+            font-weight: unset;
+        }
+
+    table tbody tr:hover {
+        background-color: rgb(236, 236, 255);
+    }
+
+    table tbody td {
+        text-align: center;
+        background-color: rgb(236, 236, 255);
+        font-family: Calibri;
+        font-size: 16px;
+        color: black;
+        line-height: 1.3;
+    }
+
+    table tbody .grouplabel th {
+        text-align: center;
+        background-color: rgb(236, 236, 255);
+        font-family: Calibri;
+        font-size: 16px;
+        color: black;
+        line-height: 1.3;
+        font-weight: bold;
+    }
+/* Table Design */
+/***************************************************************************************************/
+
+.Inqiry-form .profile-layer {
+    width: 100%;
+    background-color: rgb(233, 239, 243);
+    border-radius: 15px;
+}
+
+    .Inqiry-form .profile-layer fieldset {
+        background-color: #FFFFFF;
+        margin-top: 5px;
+        padding-left: 10px;
+        padding-right: 5px;
+    }
+
+    .Inqiry-form .profile-layer .left {
+        margin: 0 auto;
+        float: left;
+        width: 20%;
+        padding-right: 15px;
+        padding-top: 10px;
+    }
+
+    .Inqiry-form .profile-layer .right {
+        margin: 0 auto;
+        float: right;
+        width: 80%;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+
+        .Inqiry-form .profile-layer .right fieldset {
+            margin-top: 15px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 8px;
+        }
+
+    /*Account Information*/
+    .Inqiry-form .profile-layer .left input[type=text] {
+        background-color: rgb(244, 243, 243);
+        padding: 10px 10px;
+        border: 1px solid #d5d9da;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #e8e9eb inset;
+        width: 100%;
+        height: 30px;
+        font-size: 1em;
+        outline: 0;
+    }
+
+    .Inqiry-form .profile-layer .left label {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .Inqiry-form .profile-layer .left .userimage {
+        margin-left: 15%;
+        width: 150px;
+        height: 200px;
+    }
+
+    /*Account Information*/
+
+
+    /*profile Information*/
+    .Inqiry-form .profile-layer .right input[type=text] {
+        background-color: rgb(244, 243, 243);
+        padding: 10px 10px;
+        border: 1px solid #d5d9da;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #e8e9eb inset;
+        width: 100%;
+        height: 30px;
+        font-size: 1em;
+        outline: 0;
+    }
+
+    .Inqiry-form .profile-layer .right .dropdown {
+        height: 30px;
+        font-size: 13px;
+        background-color: rgb(244, 243, 243);
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        position: relative;
+    }
+
+.Inqiry-form .col-md-2 {
+    padding-bottom: 8px;
+}
+
+.Inqiry-form .profile-layer .right label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.Inqiry-form .profile-layer .right fieldset {
+    padding-top: 0;
+}
+
+    .Inqiry-form .profile-layer .right fieldset h5 {
+        border-bottom: 1px solid #808080;
+        color: #525050;
+        background: none;
+        margin-top: 0;
+        padding-left: 0;
+    }
+/*profile Information*/
+/******************************************************************************************/
+
+/* Form header */
+/* Header */
+.form-header {
+    width: 100%;
+    border-bottom: 1px solid #808080;
+    background: rgb(229, 228, 222);
+    color: rgb(65, 57, 50);
+    padding-top: 20px;
+    margin-top: 50px;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+    .form-header .formheader-name {
+        padding-left: 70px;
+    }
+
+        .form-header .formheader-name label {
+            font-size: 18px;
+        }
+
+    .form-header label {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .form-header .formheader-favadd {
+        margin-right: 20px;
+        color: #1c5ab1;
+    }
+
+    .form-header .formheader-code {
+        color: #1c5ab1;
+    }
+
+        .form-header .formheader-code .code {
+            color: #555555;
+        }
+
+/* Header */
+
+@media (max-width: 600px) {
+    /* Header */
+    .form-header {
+        border-bottom: 1px solid #808080;
+        color: #525050;
+        padding-left: 0;
+    }
+
+        .form-header label {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+    .formheader-favadd {
+        margin-left: 0%;
+        margin-right: 20px;
+        color: #1c5ab1;
+    }
+
+    .formheader-code {
+        color: #1c5ab1;
+    }
+    /* Header */
+}
+/*******************************************************************************************/
+
+/* Right Menu */
+.menu-right {
+    height: 60px;
+    position: fixed;
+    z-index: 1111;
+    top: 30%;
+    right: 0;
+    background-color: lightgrey;
+    opacity: 0.9;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 30px;
+    border-topleft-radius: 12px;
+    border-bottomleft-radius: 12px;
+    transition: ease-in-out 0.8s;
+}
+
+    .menu-right .fa {
+        font-size: 24px;
+        margin-left: 6px;
+        margin-top: 22px;
+        color: black;
+        -webkit-animation: gear-spin 3s linear infinite;
+        -moz-animation: gear-spin 3s linear infinite;
+        animation: gear-spin 3s linear infinite;
+    }
+
+    .menu-right .btn {
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        height: 25px;
+        width: 100%;
+        margin: 5px;
+    }
+
+    .menu-right .btn-cyan {
+        background-color: #5fb0e4;
+    }
+
+
+/*Animation*/
+@-moz-keyframes gear-spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes gear-spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes gear-spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+/******************************************************************************************/
+
+/* popUp Modal */
+.modal-content {
+    border: 2px solid #234409;
+    border-radius: 20px;
+}
+
+.modal-header {
+    background-color: rgb(31, 65, 74);
+    color: white;
+}
+
+.modal-body {
+    border-bottom: 1px solid black;
+}
+
+    .modal-body p {
+        font-family: Calibri;
+        font-size: 18px;
+    }
+
+.modal-footer {
+}
+
+/************************************************************************************************/
+/*Profile*/
+.profile-layer {
+    width: 100%;
+    background-color: rgb(233, 239, 243);
+    margin-top: 50px;
+    border-radius: 15px;
+}
+
+    .profile-layer fieldset {
+        background-color: #FFFFFF;
+        margin-top: 5px;
+        padding-left: 10px;
+        padding-right: 5px;
+    }
+
+    .profile-layer .left {
+        margin: 0 auto;
+        float: left;
+        width: 20%;
+        padding-right: 15px;
+        padding-top: 10px;
+    }
+
+    .profile-layer .right {
+        margin: 0 auto;
+        float: right;
+        width: 80%;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+
+        .profile-layer .right fieldset {
+            margin-top: 15px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 8px;
+        }
+
+    /*Account Information*/
+    .profile-layer .left label {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .profile-layer .left .userimage {
+        margin-left: 15%;
+        width: 150px;
+        height: 200px;
+    }
+
+.btn-primaryyyy {
+    width: 100%;
+    margin-top: 50px;
+    border-radius: 5px;
+}
+/*Account Information*/
+
+
+/*profile Information*/
+
+.profile-layer .right label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.profile-layer .right fieldset {
+    padding-top: 0;
+}
+
+    .profile-layer .right fieldset h5 {
+        border-bottom: 1px solid #808080;
+        color: #525050;
+        background: none;
+        margin-top: 0;
+        padding-left: 0;
+    }
+/*profile Information*/
+
+/* Responsive Screen */
+@media only screen and (max-width: 770px) {
+    .profile-layer .right {
+        width: 100%;
+    }
+
+    .profile-layer .left {
+        width: 100%;
+    }
+
+        .profile-layer .left .profile-picture {
+        }
+
+        .profile-layer .left .update-button {
+        }
+}
+/* Responsive Screen */
+
+/***********************************************************************************************/
+/* footer */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #808080;
+    line-height: 40px;
+    text-align: center;
+    background: rgb(229, 228, 222);
+    font-family: "Montserrat";
+    color: #c1c1c4;
+}
+/******************************************************************************************/

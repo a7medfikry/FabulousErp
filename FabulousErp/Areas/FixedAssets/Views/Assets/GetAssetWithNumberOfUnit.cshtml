@@ -1,0 +1,33 @@
+﻿@model List<FabulousDB.Models.Number_of_deprecation_units>
+@{ 
+    Layout = null;
+}
+<div>
+    <h4>Number_of_deprecation_units</h4>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr class="Head">
+                <td>
+                    Asset_description
+                </td>
+                <td>
+                    Deprecation_unit
+                </td>
+            </tr>
+        </thead>
+            @foreach (FabulousDB.Models.Number_of_deprecation_units item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Asset_description
+                    </td>
+                    <td>
+                        <input name="Deprecation_unit" data-id="@item.Asset_id" class="Deprecation_unit" value="" />
+
+                    </td>
+                </tr>
+            }
+    
+    </table>
+</div>

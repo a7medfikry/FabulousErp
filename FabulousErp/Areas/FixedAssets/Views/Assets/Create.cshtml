@@ -1,0 +1,582 @@
+﻿@model FabulousDB.Models.Asset
+@{
+    if (Request["Setting"] == null)
+    {
+        ViewBag.Title += "Create New assets";
+    }
+    else
+    {
+        ViewBag.Title += "Create Asset";
+
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string ShowMainSection = "display:none;";
+    string ShowMainSectionBtn = "display:none;";
+}
+
+<span class="hide-normal" id="TCGE-BatchAction">@ViewBag.BatchAction</span>
+<span class="hide-normal" id="TCGE-PostDateType">@ViewBag.PostDateType</span>
+<input class="CreditAccount" style="display:none;" />
+<input class="DebitAccount" style="display:none;" />
+@if (Request["Setting"] == null)
+{
+    <section id="NewAssetsTrnsSec">
+        @Html.Action("Create", "New_assets_transaction")
+    </section>
+    ShowMainSectionBtn = "";
+}
+else if (Request["Setting"] == "Edit")
+{
+    ShowMainSection = "";
+}
+@if ((ViewBag.CanAddTransaction && Request["Setting"] == null) || Request["Setting"] == "Edit")
+{
+    <button class="btn btn-primary" id="ShowHideAssetsSec" style="margin:20px;margin-top:0px;margin-bottom:0px; @ShowMainSectionBtn" data-toggle="Show">Setting Info.</button>
+    <section id="AssetsMainSection" style="@ShowMainSection">
+        @using (Ajax.BeginForm("Create", "Assets", new AjaxOptions { OnSuccess = "CheckAssetsAddResult", OnBegin = "CheckSerialNumber" }, new { id = "AssetsForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (Request["Setting"] == null)
+                {
+                    <div class="form-group hide">
+                        @Html.LabelFor(model => model.Assets_transaction_id, "Trx. No.", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Assets_transaction_id, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Assets_transaction_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                else if (Request["Setting"] == "Edit")
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Purchase_types, "Purchase types", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Purchase_types",ViewBag.Purchase_types as SelectList,"", htmlAttributes: new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Assets_transaction_id, "Trx. No.", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <select name="Assets_transaction_id" id="Assets_transaction_id" class = "form-control", required = "required">
+                                <option></option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.Assets_transaction_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                }
+
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2 v-bottom">
+                        <input type="radio" name="Serial" value="1" class="Serial v-middle" /> <span class="d-inline-block v-middle">Auto</span>
+                        <input type="radio" name="Serial" value="2" class="Serial v-middle" /> <span class="d-inline-block v-middle">Manual</span>
+                    </div>
+
+                </div>
+                <div class="form-group SerialNumberDiv">
+                    @Html.LabelFor(model => model.Assets_number, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Assets_number, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Assets_number, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Assets_class_id, "Assets class", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Assets_class_id", null, "", htmlAttributes: new { @class = "form-control", required = "required", @readonly = "readonly", id = "Assets_class_id_below" })
+                        @Html.ValidationMessageFor(model => model.Assets_class_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Assets_main_id, "Assets main", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Assets_main_id", null, "", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Assets_main_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div id="PartsSerialDiv">
+                    @{
+                        int Count = 0;
+                    }
+                    @foreach (FabulousDB.Models.Assets_part_serial i in Model.Assets_part_serial.OrderBy(x => x.Part_number))
+                    {
+                        <div class='form-group Parts'>
+                            <input name="PartsSerial[@Count].Id" value="@i.Id" class="AssetsPartId" type="hidden" />
+                            <label>Assets Part Number @i.Part_number</label>
+                            <input type='hidden' name='PartsSerial[@Count].Part_number' value='@i.Part_number' />
+                            <input placeholder='Part @i.Part_number' class='form-control col-sm-12 AssetsPartSerial' name='PartsSerial[@Count].Serial' value="@i.Serial" required='required' />
+                        </div>
+                        Count++;
+                    }
+
+                </div>
+
+                <div class="form-group Width60">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+                    <div class="col-md-10 MyDiv">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Foreign_name, "Foreign name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Foreign_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Foreign_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Type", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Assets_type)), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Proparty_type, "Proparty type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Proparty_type", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Property_type)), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Proparty_type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="@ShowMainSection">
+                    @Html.LabelFor(model => model.Acquisation_cost, "Acquisation cost", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Acquisation_cost, new { htmlAttributes = new { @class = "form-control", id = "AssetsAcquisation_cost" } })
+                        @Html.EditorFor(model => model.Acquisation_cost, new { htmlAttributes = new { @class = "form-control hide", id = "AcqCost_transactionTranslateValue", name = "Acquesation_costOrginalValue" } })
+
+                        @Html.ValidationMessageFor(model => model.Acquisation_cost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group" style="@ShowMainSection">
+                    @Html.LabelFor(model => model.Date_of_orgin, "Date of orgin", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Date_of_orgin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Date_of_orgin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Scrap_value, "Scrap value", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Scrap_value, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Scrap_value, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Deprecation_method, "Depr. method", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Deprecation_method", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Deprecation_method)), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Deprecation_method, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Start_use, "Start use", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Start_use, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Start_use, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Use life Years</label>
+                    <div class="col-md-10">
+                        <input id="MyUseLife" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Use_life, "End Use life", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Use_life, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Use_life, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Number Of Days</label>
+                    <div class="col-md-10 MyTotalDays">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Start_derecation_date, "Depr. Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Start_derecation_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Start_derecation_date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group Number_of_unitsDiv">
+                    @Html.LabelFor(model => model.Number_of_units, "Number of units", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Number_of_units, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Number_of_units, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Include_scerap_value, "Include scrap", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Include_scerap_value, new { htmlAttributes = new { @class = "v-middle" } })
+                            @Html.ValidationMessageFor(model => model.Include_scerap_value, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group DeprecationRateInputDiv" style="display:none;">
+                    @Html.LabelFor(model => model.Deprecation_rate, "Depr. rate", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Deprecation_rate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Deprecation_rate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group DeprecationRateDiv">
+                    @Html.LabelFor(model => model.Deprecation_rate, "Depr. rate", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <label class="control-label DeprecationRateText" style="width:100%;text-align: left;"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Book, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(x => x.Book_id, null, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Book_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Deactive_depraction, "Deactive Depr.", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Deactive_depraction, new { htmlAttributes = new { @class = "v-middle" } })
+                            @Html.ValidationMessageFor(model => model.Deactive_depraction, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group hide" id="OrginalFormBtnDiv">
+                    <div class="offset-3">
+                        <input type="submit" value="Create" id="SubmitAssetsForm" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+
+        }
+    </section>
+}
+
+@if (Request["Setting"] == null)
+{
+    <span class="text-error" id="TCGE-GlobalError"></span>
+    <div class="form-group WAuto">
+        <div class="offset-3 WAuto" style="margin-left:20px;">
+            <button type="submit" id="CreateAssetsForm" class="btn btn-success">Create</button>
+        </div>
+    </div>
+    <div class="form-group WAuto">
+        <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    </div>
+    <div class="form-group clearfix" style="width:auto;">
+        @Ajax.ActionLink("Additional Information", "Create", "Additional_information", new { area = "FixedAssets" }, new AjaxOptions { HttpMethod = "Get", Url = "/FixedAssets/Additional_information/Create", OnBegin = "Loader", OnSuccess = "CountFeildNo", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "AddtionalInfoDiv" }, new { @class = "btn btn-primary" })
+    </div>
+    <section @*class="hide"*@>
+        @{Html.RenderAction("GetBatchHeader", "C_GeneralEntryTransaction", new { TCS_JENum = true, area = "" });}
+        <section id="AddtionalInfoDiv"></section>
+        <div class="text-danger" id="Errors"></div>
+
+        <h4 class="Loader" style="display:none;">Please Wait</h4>
+    </section>
+
+    <script>
+        $("#Assets_class_id_below").click(function () {
+            $("#Assets_class_id_below").blur();
+            if ($("#Assets_class_id_below").nextAll("span").length == 1) {
+                $("#Assets_class_id_below").after("<span class='text-danger myerror'>you can't change Assets Class from here kindly change it from the above list</span>")
+            }
+        })
+    </script>
+}
+else
+{
+    <div class="form-group">
+        <div class="offset-3">
+            <button type="submit" id="CreateOnlyAssets" class="btn btn-success">Create</button>
+        </div>
+    </div>
+
+    <script>
+        $("#Assets_class_id_below").removeAttr("readonly")
+    </script>
+}
+
+@Html.IncludeVersionedJs("/Areas/FixedAssets/Scripts/AssetsScript.js?10")
+@Html.IncludeVersionedJs("/Scripts/moment.js")
+<input id="BostingToORThrow" class="hide" value="@ViewBag.PostingToOrThrow" />
+<script>
+    $(function () {
+        $("#collapseFirst").removeClass("show").addClass("hide");
+    })
+    function SubmitAssetsForm(TransactionId) {
+        var BatchId = "";
+
+        if (!isNaN(TransactionId)) {
+            if ($("#ShowHideAssetsSec").attr("data-toggle") == "Hide") {
+                $("#AssetsMainSection").find("#Assets_transaction_id").val(TransactionId);
+                $("#AssetsMainSection").find("form").submit();
+            } else {
+                window.location.reload();
+            }
+
+        }
+    }
+
+</script>
+<script>
+    $("#Assets_class_id_above").change(function () {
+        var ClassId= $(this).val();
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("GetAssetsClass")",
+            data:{Id:ClassId},
+            success: function (data) {
+                $("#Deprecation_method").val(data.Deprecation_method);
+                $("#Deprecation_rate").val(data.Deprecation_rate);
+            },
+        })
+    })
+
+    //$("#AcqCost_transaction").change(function () {
+
+    //})
+
+
+
+    //$("#DOO_trainsaction").focusout(function () {
+    //    $("#TCGE-JEDate").val($(this).val());
+    //    $("#TCGE-JEDate").focusout();
+    //})
+
+
+
+    function CheckSettings() {
+        if (!$(".CreditAccount").val() || !$(".DebitAccount").val()) {
+            Talert("No Accounts Are Found For That Assets Class")
+            return false;
+        }
+        if ($("#ShowHideAssetsSec").attr("data-toggle") == "Hide") {
+            $("#AssetsForm").validate();
+            if (!$("#AssetsForm").valid()) {
+                Talert("Assets Form Is Not Valid")
+                return false;
+            }
+        }
+    }
+
+    $("#Assets_class_id_above,#Currency_id,#AcqCost_transaction").change(function () {
+        var Url = "@Url.Action("GetDebitCreditAccount","Assets_class")" + "?AssetsClass=" + $("#Assets_class_id_above").val();
+        if ($("#Assets_class_id_above").val()) {
+            GetAccountsAndExchangeRate(Url, $("#AcqCost_transaction").val(), $("#TCGE-JEDate").val(), "Assets_class_id_above", true,function (xhr, opts) {
+                var Stop = false;
+                if (!$("#AcqCost_transaction").val()) {
+                    Talert("You Should Put Acquesation cost First")
+                    $("#Assets_class_id_above").val("")
+                    Stop = true;
+                }
+                else {
+                    if (!$("#Currency_id option:selected").val()) {
+                        Talert("You Should Choose Currency First")
+                        $("#Assets_class_id_above").val("")
+                        Stop = true;
+
+                    }
+                    else {
+                        if (!$("#TCGE-JEDate").val()) {
+                            Talert("You Should Choose Transaction Date First")
+                            $("#Assets_class_id_above").val("")
+                            Stop = true;
+
+                        }
+                        else {
+                            if (!$("#Reference").val()) {
+                                Talert("You Should Enter Reference First")
+                                $("#Assets_class_id_above").val("")
+                                Stop = true;
+
+                            }
+                        }
+                    }
+                }
+
+                if (Stop) {
+                    xhr.abort();
+                }
+                ValidatePeriod(function (Error) {
+                    if (Error) {
+                        xhr.abort();
+                    }
+                });
+
+            }, function () {
+                $("#Assets_class_id_above").val("")
+                }, function (Amount) {
+                    $("#AssetsTransactionForm").find("#AcqCost_transactionTranslateValue").val(Amount);
+                    $("#AssetsAcquisation_cost").val(Amount);
+                })
+
+            //$.ajax({
+            //    method: "POST",
+            //    url: Url,
+            //    beforeSend: function () {
+
+
+            //    },
+            //    success: function (data) {
+            //        if (data == "") {
+            //            Talert("No Accounts Are Found For That Assets Class")
+            //            $("#Assets_class_id_above").val("")
+            //        } else {
+            //            SetGlTbl($("#AcqCost_transaction").val(), data, true)
+            //            $.ajax({
+            //                method: "POST",
+            //                url: "/C_GeneralEntryTransaction/CalculateTransactionRate?CurrencyId=" + $("#Currency_id option:selected").val() + "&Amount=" + $("#AcqCost_transaction").val() + "&CompareDate=" + $("#DOO_trainsaction").val(),
+            //                success: function (data) {
+            //                    SetExchangeRate(data, data);
+            //                }
+            //            })
+
+            //        }
+            //    }
+            //})
+        }
+
+    })
+
+    $("#Assets_class_id_below").change(function () {
+        $("#Assets_class_id_below").parent("div").find(".myerror").remove();
+        var ClassId = $(this).val();
+        $.ajax({
+            url: "@Url.Action("GetMainByClass", "Assets_main")?ClassId=" + ClassId,
+            method: "POST",
+            beforeSend: function () {
+                $("#Assets_main_id").empty();
+            },
+            success: function (data) {
+                $("#Assets_main_id").append("<option value=''></option>")
+
+                $.each(data, function (k, i) {
+                    if (i.Id == 0) {
+                        i.Id = "";
+                    }
+                    $("#Assets_main_id").append("<option value='" + i.Id + "'>" +i.Description+"</option>")
+                })
+            }
+        })
+    })
+
+</script>
+
+@if (Request["Setting"] == null)
+{
+    <section id="JVSecCont">
+
+        <section id="JVTransactionSec" style="display:none;">
+            @Scripts.Render("~/MainTransaction")
+            <section class="DebitCreditSection">
+                @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+            </section>
+        </section>
+    </section>
+
+
+}
+<div>
+    @if (Request["Setting"] == null)
+    {
+        @Html.ActionLink("Back to List", "Index")
+
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index", new { Setting = "Edit" })
+
+    }
+</div>
+<!-- Pop-up Modal For System-Rates -->
+<div class="modal fade" tabindex="-1" role="dialog" id="TCGE-PUSeveralRates">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Choose The System Rate </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.DropDownList("CBT-systemRates", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Request["Setting"] == "Edit")
+{
+    <script>
+        $(document).on("change", "#Assets_transaction_id", function () {
+            Assets_transaction_id = $(this).find("option:selected").val();
+            $.ajax({
+                url: "/New_assets_transaction/DetailsJson/?id=" + Assets_transaction_id + "&P=" + $("#Purchase_types").val(),
+                method: "Post",
+                success: function (data) {
+                    var ThisDiv = $("#AssetsMainSection");
+                    $(ThisDiv).find("#AssetsAcquisation_cost").attr("readonly", "readonly");
+                    $(ThisDiv).find("#AssetsAcquisation_cost").val(data);
+                }
+            })
+        })
+    </script>
+
+}
+
+<script>
+    $(function () {
+        $("#Assets_transaction_id").find("option").hide();
+    })
+    $("#Purchase_types").change(function () {
+        $.ajax({
+            url: "@Url.Action("GetTransactions")?P=" + $("#Purchase_types").val(),
+            method: "POST",
+            beforeSend: function () {
+                $("#Assets_transaction_id").empty();
+            },
+            success: function (data) {
+                $("#Assets_transaction_id").append("<option ></option>")
+
+                $.each(data, function (k, i) {
+                    $("#Assets_transaction_id").append("<option value='" + i.Id + "'>" + i.Reference+"</option>")
+                });
+            }
+        })
+    })
+</script>
+<input id="TCGE-GurrencyFormate" type="hidden" value="" />
+<script type="text/html" id="AssetsPartSerial">
+    <div class='Parts form-group' style="display:inline-block;">
+        <input name="PartsSerial[{{Count}}].Id" value="0" class="AssetsPartId" type="hidden" />
+        <label class="control-label col-md-2">Serial {{Part_number}}</label>
+        <div class="col-md-10">
+            <input type='hidden' name='PartsSerial[{{Count}}].Part_number' value='{{Part_number}}' />
+            <input placeholder='Part {{Part_number}}' class='form-control col-sm-12 AssetsPartSerial' name='PartsSerial[{{Count}}].Serial' value="" />
+        </div>
+
+    </div>
+</script>
+<script>
+    $("#Currency_id").change(function () {
+        TransactionRateStatus("@FabulousErp.Business.FinancialForms.FixedAssets_Assets")
+    })
+</script>

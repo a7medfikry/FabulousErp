@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Branch Cost Center";
+    ViewBag.FormCode = "SBCC";
+}
+<div class="container-fluid">
+
+    <span class="text-error" id="GlobalError"></span>
+
+    <div class="form-row mb-2">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch ID : <i class="star">*</i> </label>
+            <div class="col-md-3">
+                @Html.DropDownList("BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "BranchID", @class = "form-control form-control-sm" })
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Branch Name : </label>
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="BranchName" disabled />
+            </div>
+        }
+      
+    </div>
+
+    <div class="form-row mb-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("CostCenterID", null, new { @id = "CostCenterID", @maxlength = "20", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("CostCenterName", null, new { @id = "CostCenterName", @maxlength = "100", @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary btn-sm" id="AddCostCenterToBranch">Save</button>
+            <span class="text-success" id="SaveSuccess"></span>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Cost Center ID</th>
+                <th>Cost Center Name</th>
+            </tr>
+        </thead>
+        <tbody id="BranchCostData"></tbody>
+    </table>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Branch/B_CostCenter/B_CreateCostCenter/BranchCostCenter.js")

@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "List Of Factory Analytic Account";
+    ViewBag.FormCode = "IFAA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryFactoryID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="factoryname" disabled />
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="20%"> Analytic Account ID </th>
+                <th width="80%"> Analytic Account Name </th>
+            </tr>
+        </thead>
+        <tbody id="factoryanalytic-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Factory/F_Analytic/Inquiry_FactoryAnalytic.js")

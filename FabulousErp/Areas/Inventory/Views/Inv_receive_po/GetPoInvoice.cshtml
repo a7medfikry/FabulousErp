@@ -1,0 +1,125 @@
+﻿@model FabulousDB.Models.Inv_receive_po
+@{
+    Layout = null;
+
+}
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Doc_type, htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Doc_type.ToString()}", htmlAttributes: new { @class = " col-md-12" })
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Store_id, "Store Id", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Store?.Store_id.ToString()}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Site_id, "Site Id", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Site?.Site_id.ToString()}", htmlAttributes: new { @class = " col-md-12" })
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction_date, "Date", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10 Transaction_dateDiv">
+                @Html.Label("", $"{Model.Payable.Transaction_date.ToShortDateString()}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+
+        <div class="form-group HideRecipt">
+            @Html.LabelFor(model => model.Posting_date, htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10 Posting_dateDiv">
+                @Html.Label("", $"{Model.Payable.Posting_date.ToShortDateString()}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+        <div class="form-group HideRecipt">
+            @Html.LabelFor(model => model.Currency_id, "Currency Id", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Currency?.ISOCode}", htmlAttributes: new { @class = " col-md-12" })
+
+            </div>
+        </div>
+        <div class="form-group HideRecipt">
+            @Html.LabelFor(model => model.Doc_date, htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Doc_date.ToShortDateString()}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+
+        @if (ViewBag.GoodsRecipts == true)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Vendore_doc_number, "V.Doc Num.", htmlAttributes: new { @class = " col-md-4" })
+                <div class="col-md-10">
+                    @Html.Label("", $"{Model.Payable.VDocument_number}", htmlAttributes: new { @class = " col-md-12" })
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.Label("", "Gr", htmlAttributes: new { @class = " col-md-4" })
+                <div class="col-md-10">
+                    @Html.Label("", $"{Model.Gr_num}", htmlAttributes: new { @class = " col-md-12" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vendore_id, "Vendore", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Payable.Vendor.Vendor_name}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+
+
+        <div class="form-group HideRecipt">
+            @Html.LabelFor(model => model.Payment_terms_id, "Pay. Terms", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Payment_terms?.Terms_id}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+        <div class="form-group Width60 HideRecipt">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = " col-md-4 MyLable" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Payable.Desc}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shipping_method_id, "Ship. Method", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Shipping_methods?.Ship_method}", htmlAttributes: new { @class = " col-md-12" })
+
+            </div>
+        </div>
+
+        <div class="form-group HideRecipt">
+            @Html.LabelFor(model => model.Profit_user_id, "Pur. User", htmlAttributes: new { @class = " col-md-4" })
+            <div class="col-md-10">
+                @Html.Label("", $"{Model.Profit_user?.UserName}", htmlAttributes: new { @class = " col-md-12" })
+            </div>
+        </div>
+
+    </div>
+<section>
+    @Html.Action("GetReceivePoItems", "Inv_receive_po_items", new { Po = ViewBag.Po })
+</section>
+<script>
+    $(function () {
+        $("#JNNumber").text("@ViewBag.Jn");
+        GetJvTransactionEdit("@ViewBag.PostringNumber", "@FabulousErp.Business.GetCompanyId()", null, false,true);
+    })
+</script>

@@ -1,0 +1,70 @@
+﻿@model FabulousDB.Models.Fixed_assets_disposel
+
+@{
+    ViewBag.Title = "Delete Disposel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Disposal No
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disposal_no)
+        </dd>
+
+        <dt>
+           Transaction Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Transaction_date)
+        </dd>
+
+        <dt>
+          Disposal Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disposal_date)
+        </dd>
+
+        <dt>
+          Depreication Uptodate
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Depreication_up_to_date)
+        </dd>
+
+        <dt>
+          Disposal Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disposal_amount)
+        </dd>
+
+        <dt>
+            Description
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Asset.Description)
+        </dd>
+
+    </dl>
+    @Html.Action("VoidPartial", "PPartial", new { area = "FixedAssets", Controller = "Fixed_assets_disposel",
+    Currency = ViewBag.Currency,
+    PostingToOrThrow = ViewBag.PostingToOrThrow,
+    PostingNum = ViewBag.PostingNum,
+    Id = Request.Url.AbsolutePath.Split('/').LastOrDefault(),
+    TransactionDate= ViewBag.TransactionDate,
+    SubmitUrl= "/FixedAssets/Fixed_assets_disposel/Delete"
+})
+</div>

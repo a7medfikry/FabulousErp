@@ -1,0 +1,119 @@
+﻿@model IEnumerable<FabulousModels.Inventory.GrandProfit>
+    @if (ViewBag.IsGrandProfit == null)
+    {
+        ViewBag.IsGrandProfit = true;
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                @if (!ViewBag.IsGrandProfit)
+                {
+                    <th>
+                        Doc num
+                    </th>
+                    <th>
+                        Doc Date
+                    </th>
+                    <th>
+                        Customer Name
+                    </th>
+                }
+                @if (ViewBag.IsGrandProfit)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item_id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item_name)
+                    </th>
+                }
+                <th>
+                    @Html.DisplayNameFor(model => model.Qty_out)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cost_of_qty_out)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total_Revenue_from_sales)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grand_profit)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @if (!ViewBag.IsGrandProfit)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Doc_num)
+                        </td>
+                        <td>
+                            @try
+                            {
+                                @item.Transaction_date.Value.ToShortDateString()
+                            }
+                            catch
+                            {
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Customer_name)
+                        </td>
+                    }
+                    @if (ViewBag.IsGrandProfit)
+                    {
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Item_id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Item_name)
+                        </td>
+                    }
+
+                    <td>
+                        @item.Qty_out
+                    </td>
+                    <td class="MaskTxt">
+                        @item.Cost_of_qty_out
+                    </td>
+                    <td class="MaskTxt">
+                        @item.Total_Revenue_from_sales
+                    </td>
+                    <td class="MaskTxt">
+                        @(item.Total_Revenue_from_sales-item.Cost_of_qty_out)
+                    </td>
+                </tr>
+            }
+        </tbody>
+        @if (!ViewBag.IsGrandProfit) 
+        { 
+            <tfoot>
+
+                <tr>
+                    <td colspan="3">
+                    </td>
+                    <td>
+                        @Model.Sum(x => x.Qty_out)
+                    </td>
+                    <td class="MaskTxt">
+                        @Model.Sum(x => x.Cost_of_qty_out)
+                    </td>
+                    <td class="MaskTxt">
+                        @Model.Sum(x => x.Total_Revenue_from_sales)
+                    </td>
+                    <td class="MaskTxt">
+                        @(Model.Sum(x => x.Total_Revenue_from_sales-x.Cost_of_qty_out))
+                    </td>
+                </tr>
+            </tfoot>
+        }
+    </table>
+<script>
+    $(function () {
+
+    })
+</script>

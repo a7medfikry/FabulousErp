@@ -1,0 +1,259 @@
+﻿@model IEnumerable<FabulousDB.Models.Deprecation_temp_record>
+
+@{
+    ViewBag.Title = "Depr. record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back To Depreciation", "Create", "Deprecations", new { area = "FixedAssets" }, new { })
+@*$('.DebitCreditSection').find('#TCGE-GTbl').parent('div').html()*@
+<button class="btn btn-success" onclick="InsertJv()">Post</button>
+
+@*<button onclick="PrintThis(null, true, true);" class="btn btn-primary">Print</button>*@
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<section style="overflow:auto;">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                Acq. Cost
+            </th>
+            <th>
+                Renewal Amount
+            </th>
+            <th>
+                Disposal Amount
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                Beginning Accum.
+            </th>
+            <th>
+                Depr.
+            </th>
+            <th>
+                Renewal Depr.
+            </th>
+            <th>
+                Ending Accum.
+            </th>
+            <th>
+                Net Cost
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Asset.Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.Date.HasValue)
+                    {
+                        @item.Date.Value.ToShortDateString()
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assets_acquisition_cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renewal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disposal_amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Beginning_deprecation_accumulated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Depreication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Renewal_depreication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ending_deprecication_accumulated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Net_assets_cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asset.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @*<span class="removeBeforePrint"> |</span>*@
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) <span class="removeBeforePrint"> |</span>*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</section>
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")
+<script>
+    $(function () {
+           $.ajax({
+                url: "/Deprecations/GetTempJV?DepTempId=" + @Model.FirstOrDefault().Deprecation_id,
+                method: "POST",
+                success: function (data) {
+                    var Count = 0;
+                    data.ShowHeader= data.SaveHeader;
+                    data.ShowHeader.ISO = "EGP";
+                    data.ShowHeader.DocType = "SED";
+                    data.ShowTransactions = data.SaveTransaction;
+
+                    $.each(data.ShowTransactions, function (k, i) {
+                        i.OriginalAmount = i.C_OriginalAmount
+                        i.Describtion = i.C_Describtion;
+                        i.AID = i.C_AID;
+                        i.Debit = i.C_Debit;
+                        i.Credit = i.C_Credit;
+                        i.AccountName = i.C_CreateAccount_Table.AccountName
+                        i.AccountID = i.C_CreateAccount_Table.AccountID
+                        i.Orginal_curr = "EGP";
+                        if (i.Debit == 0) {
+                            i.IsDebit = false;
+                        } else {
+                            i.IsDebit = true;
+                        }
+                    })
+                    var NewList = groupBy(data.ShowTransactions, x => x.AccountID);
+                    var NewData = {
+                        ShowHeader: {
+                            ISO: "EGP",
+                            DocType: "SED"
+                        },
+                        ShowTransactions: []
+                    };
+                    NewList.forEach(function (i, k) {
+                        var Amount = 0;
+
+
+                        var DebitObj = {};
+                        var CreditObj = {};
+                        DebitObj = $.grep(i, function (o, ok) {
+                            return o.IsDebit==true;
+                        })
+                        CreditObj =$.grep(i, function (o, ok) {
+                            return o.IsDebit == false;
+                        })
+                        var CreditAmount = 0;
+                        var DebitAmount = 0;
+                        $.each(CreditObj, function (kk, ii) {
+                            CreditAmount += ii.OriginalAmount;
+                        })
+
+                        $.each(DebitObj, function (kk, ii) {
+                            DebitAmount += ii.OriginalAmount;
+                        })
+                        if (DebitObj.length>0) {
+                            NewData.ShowTransactions.push({
+                                Orginal_debit: DebitAmount,
+                                Describtion: DebitObj[0].Describtion,
+                                AID: DebitObj[0].AID,
+                                Debit: DebitAmount,
+                                AccountName: DebitObj[0].AccountName,
+                                AccountID: DebitObj[0].AccountID,
+                                Orginal_curr: "EGP",
+                                DocType: "SED"
+
+                            })
+                        } else {
+                            NewData.ShowTransactions.push({})
+                        }
+                        if (CreditObj.length > 0) {
+                            NewData.ShowTransactions.push({
+                                Orginal_credit: CreditAmount,
+                                Describtion: CreditObj[0].Describtion,
+                                AID: CreditObj[0].AID,
+                                AccountName: CreditObj[0].AccountName,
+                                AccountID: CreditObj[0].AccountID,
+                                Orginal_curr: "EGP",
+                                Credit: CreditAmount,
+                                DocType:"SED"
+                            })
+                        } else {
+                            NewData.ShowTransactions.push({})
+                        }
+                    })
+                    ManyJvAction(NewData)
+                }
+            });
+
+    })
+    function InsertJv() {
+        InsertTransactionData("@ViewBag.CompId", $("#BostingToORThrow").val(), "@ViewBag.PostingDate", "@ViewBag.PostingDate", "Fixed Assets Deprecation", "@ViewBag.CompId", "1", "1", "FixDep", "FixDep", "", "",
+            function (JN, PO) {
+                $.ajax({
+                    url: "/Deprecation_record/SubmitDepreciation?Id=@ViewBag.DeprecationId&JN=" + PO,
+                    method: "POST",
+                    success: function (data) {
+                        RedirectInt("/FixedAssets/Deprecation_record?DeprecationId=" + data + "&section=Inquiry&print=true");
+                    }
+                })
+            }, null, null, null, true);
+    }
+</script>
+@if (Request["section"] != "Reports")
+{
+    <script>
+        var TblCost = [{
+            Credit: 0,
+            Debit: 0,
+            CreditAccNum: "",
+            DebitAccNum: "",
+            DebitAccName: "",
+            CreditAccName: "",
+            Describtion: "",
+            ISO: ""
+        }];
+    $(function () {
+        if ("@ViewBag.JlNumber") {
+           var JlNumber = "@ViewBag.JlNumber";
+            //$.ajax({
+            //    url: "/api/TransactionApi/GetTransactionData?postingNumber=" + JlNumber,
+            //    method: "GET",
+            //    success: function (data) {
+            //        var Count = 0;
+            //        data.ShowTransactions = data.ShowGeneralLedger;
+            //        ManyJvAction(data)
+            //    }
+            //});
+            $.ajax({
+                url: "/Deprecations/GetTempJV?DepTempId=" + @Model.FirstOrDefault().Deprecation_id,
+                method: "GET",
+                success: function (data) {
+                    var Count = 0;
+                    data.ShowTransactions = data.ShowGeneralLedger;
+                    ManyJvAction(data)
+                }
+            });
+
+
+        }
+
+    })
+
+    </script>
+    @Scripts.Render("~/MainTransaction")
+
+    <section class="DebitCreditSection">
+        @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+    </section>
+    <input id="TCGE-GurrencyFormate" type="hidden" value="" />
+
+}

@@ -1,0 +1,269 @@
+﻿
+
+@{
+    if (Request["Sales"] == "false")
+    {
+        ViewBag.Title = "Inquery Purchase Invoice";
+    }
+    if (Request["Sales"] == "false" && Request["GoodsRecipts"] == "true")
+    {
+        ViewBag.Title = "Inquery Goods Recipts";
+    }
+    if (Request["Sales"] == "true")
+    {
+        ViewBag.Title = "Inquery Sales Invoice";
+    }
+    if (Request["Sales"] == "true" && Request["GoodsOut"] == "true")
+    {
+        ViewBag.Title = "Inquery Goods Out";
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string VendoreLbl = "";
+    if (ViewBag.Sales == false)
+    {
+        VendoreLbl = "Vendore Id";
+    }
+    else
+    {
+        VendoreLbl = "Customer Id";
+    }
+}
+
+@if (ViewBag.Sales == false)
+{
+    if (ViewBag.GoodsRecipts == true)
+    {
+        using (Ajax.BeginForm("GetPoInvoice", "Inv_receive_po", new AjaxOptions { UpdateTargetId = "ReceivePoItems", OnBegin = "Empty", OnSuccess = "GettingRecive" }))
+        {
+            <div class="form-group">
+                @Html.Label("", "Store", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control MyStore", required = "required" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Gr</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("Gr", null, "", htmlAttributes: new { @class = "form-control", required = "required", Name = "Po" })
+                </div>
+            </div>
+            <input name="GoodsRecipts" type="hidden" value="@ViewBag.GoodsRecipts.ToString().ToLower()" />
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" style="vertical-align:text-bottom;">Search</button>
+            </div>
+        }
+    }
+    else
+    {
+        using (Ajax.BeginForm("GetPoInvoice", "Inv_receive_po", new AjaxOptions { UpdateTargetId = "ReceivePoItems", OnBegin = "Empty", OnSuccess = "GettingRecive" }))
+        {
+            <div class="form-group">
+                @Html.Label("", "Vendore", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Vendore_id", null, "", htmlAttributes: new { @class = "form-control MyVendore", required = "required" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Po</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("Po", null, "", htmlAttributes: new { @class = "form-control", required = "required", Name = "Po" })
+                </div>
+            </div>
+            <input name="GoodsRecipts" type="hidden" value="@ViewBag.GoodsRecipts.ToString().ToLower()" />
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" style="vertical-align:text-bottom;">Search</button>
+            </div>
+        }
+    }
+
+}
+else
+{
+    using (Ajax.BeginForm("GetSalesInvoice", "Inv_sales_invoice", new AjaxOptions { UpdateTargetId = "ReceivePoItems", OnBegin = "Empty", OnSuccess = "GettingRecive" }))
+    {
+        <div class="form-group">
+            @Html.Label("", "Customer", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Customer_id", null, "", htmlAttributes: new { @class = "form-control Customer_id" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.Label("", $"{VendoreLbl}", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Vendore_id", null, "", htmlAttributes: new { @class = "form-control MyVendore", required = "required" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            <label class="control-label col-md-2">Invoice Number</label>
+            <div class="col-md-10">
+                @Html.DropDownList("InvNum", null, "", htmlAttributes: new { @class = "form-control", required = "required", Name = "Id" })
+            </div>
+        </div>
+        @*<div class="form-group">
+            <label class="control-label col-md-2">Sales</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Po", null, "", htmlAttributes: new { @class = "form-control", required = "required" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" style="vertical-align:text-bottom;">Search</button>
+        </div>
+    }
+}
+<section id="ReceivePoItems">
+</section>
+<section style="margin-top:40px;" class="hide">
+    <div class="form-group">
+        <label class="control-label col-md-2"> Net Amount </label>
+        <div class="col-md-10">
+            <input id="TNetAmount" name="TNetAmount" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Trade Discount </label>
+        <div class="col-md-10">
+            <input id="TTradeDiscount" name="TTradeDiscount" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Tax </label>
+        <div class="col-md-10">
+            <input id="TTax" name="TTax" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Fright </label>
+        <div class="col-md-10">
+            <input id="TFright" name="TFright" class="form-control maskmoney" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"> Total </label>
+        <div class="col-md-10">
+            <input id="TTotal" name="TTotal" class="form-control maskmoney" disabled="disabled" />
+        </div>
+    </div>
+</section>
+<section id="PoRecItems">
+    @*@Html.Action("Create", "Inv_receive_po_items", new { Sales = ViewBag.Sales })*@
+    <label id="ShowError" class="col-sm-12 text-danger"></label>
+</section>
+<div class="form-group col-md-3 ">
+    <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+    <span>Journal Entry </span><span id="JNNumber"></span>
+</div>
+<h4 id="TCGE-GlobalError"></h4>
+<section id="JVSecCont">
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script>
+    $(function () {
+        MaskMoneyTxt("@FabulousErp.Business.GetCompanyId()", null, "EGP");
+    })
+
+    function Empty() {
+        $("#ReceivePoItems").empty();
+    }
+
+    $(document).on("click", ".AdjustQty", function () {
+        $.ajax({
+            url: "/Inventory/Inv_receive_po_items/AdjustPoItem?PoId=" + $(this).attr("data-id") + "&NewQty=" + $(this).parents("tr").find(".Qty").val(),
+            method: "POST",
+            success: function (data) {
+                ModelMsg("Updated", "Updated", true);
+            }
+        })
+    })
+    function GettingRecive() {
+        if (getParameterByName("GoodsRecipts") == "true"
+            || getParameterByName("GoodsOut") == "true") {
+            $(document).find(".HideRecipt").remove();
+            $(document).find(".ShowRecipt").show();
+        }
+
+        ReTranslate();
+    }
+    @if (ViewBag.Sales == false)
+    {
+        <text>
+    $("#Gr").empty();
+
+        $(".MyStore").change(function () {
+            $.ajax({
+                url: "/Inventory/Rpt/GetStoreGr?StoreId=" + $("#Store_id").val() + "&GoodsRecipts=" + getParameterByName("GoodsRecipts"),
+                method: "POST",
+                success: function (data) {
+                    $.each(data, function (k, i) {
+                        $("#Gr").append("<option value='" + i.Id + "'>" + i.Gr + "</option>");
+                    })
+                    $("#Gr").selectpicker("refresh")
+                }
+            })
+        })
+        </text>
+    }
+    else
+    {
+         <text>
+    $(".Customer_id").change(function () {
+        $("#InvNum").empty();
+            $.ajax({
+                url: "/Inventory/Inv_sales_invoice/GetCustomerInvoice?CustomerId=" + $("#Customer_id").val() + "&IsInstallment=false",
+                method: "POST",
+                success: function (data) {
+                    $.each(data, function (k, i) {
+                        $("#InvNum").append("<option value='" + i.Id + "'>" + i.Trx + "</option>");
+                    })
+                    $("#InvNum").selectpicker("refresh")
+                }
+            })
+        })
+        </text>
+    }
+
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/PoRecive.js")
+
+<section class="hide">
+    @Html.Action("MainTax", "C_TaxTransaction", new { area = "" })
+    <input id="TCT-taxGroupID" value="1" type="hidden" />
+    <input id="TaxTable" type="hidden" />
+    <input id="AllowTaxDuple" value="true" />
+</section>
+<script>
+    $("#Vendore_id").change(function () {
+        if (getParameterByName("Sales") != "true") {
+            $.ajax({
+                url: "/Inventory/Inv_receive_po/GetVendoreInvoice?VendoreId=" + $("#Vendore_id").val(),
+                method: "POST",
+                success: function (data) {
+                    $("select#Po").empty();
+                    $("select#Po").append("<option></option>")
+                    $.each(data, function (k, i) {
+                        $("select#Po").append("<option value='" + i.Id + "'>" + i.Trx + "</option>")
+                    })
+                    ForceRefreshPicker();
+                }
+            })
+        } else if (getParameterByName("Sales") == "true") {
+            $.ajax({
+                url: "/Inventory/Inv_sales_invoice/GetCustomerInvoice?CustomerId=" + $("#Vendore_id").val(),
+                method: "POST",
+                success: function (data) {
+                    $("select#Po").empty();
+                    $("select#Po").append("<option></option>")
+                    $.each(data, function (k, i) {
+                        $("select#Po").append("<option value='" + i.Id + "'>" + i.Trx + "</option>")
+                    })
+                    ForceRefreshPicker();
+                }
+            })
+        }
+    })
+</script>

@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Factory Access";
+    ViewBag.FormCode = "IFA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("UserSearch", ViewBag.CodeList as SelectList, "-Choose-", new { @id = "InquiryFactoryID", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th> Factory Name </th>
+                <th> User Name </th>
+                <th> User ID </th>
+            </tr>
+        </thead>
+        <tbody id="factory-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/GeneralSetting/UserAccess/Inquiry_FactoryAccess.js")

@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <fieldset class="container-fluid home-page">
+        <!-- Transactions Field -->
+        <div class="transactions-field">
+            <div class="transactions-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Transactions
+                    </div>
+                   
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="transactions-company" class="tab-pane active container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a data-toggle="" role="link" aria-expanded="true">
+                                            Accounting
+                                        </a>
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="transactions-accounting" data-parent=".transactions-accordion">
+                                            <li> <a href="/C_CreateBatch/CompanyCreateBatch"> Company Create Batch </a> </li>
+                                            <li> <a href="/C_CreateBatch/CompanyBatchApproval"> Company Batch Approval </a></li>
+                                            <li> <a href="/C_CreateBatch/CompanyMultiBatchesPost"> Company Multi Batches Post </a></li>
+                                            <li> <a href="/C_GeneralEntryTransaction/CompanyGETransaction"> General Entry Transaction </a> </li>
+                                            <li> <a href="/C_GeneralEntryTransaction/AdjustmentGETransaction"> Adjustment General Entry Transaction </a> </li>
+                                            <li> <a href="/C_GeneralEntryTransaction/CompanyShowTransactions"> Show Company Transactions </a> </li>
+                                            <li> <a href="/C_GeneralEntryTransaction/CompanyVoidTransactions"> Company Void General Transactions </a> </li>
+                                            <li> <a href="/C_TaxTransaction/CompanyTaxTransaction"> Purchase tax </a> </li>
+                                            <li> <a href="/C_TaxTransaction/CompanyTaxTransaction?Tax=Sales"> Sales tax </a> </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ****** Setting Field ****** -->
+        <div class="setting-field">
+            <div class="setting-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Setting
+                    </div>
+                    <div class="card-header">
+                        
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Accounting -->
+                            <div id="accounting-company" class="active tab-pane fade show container">
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        <a  data-toggle="" role="link" aria-expanded="true">
+                                            Account
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>
+                                        <ul class=" list-group list-unstyled" id="setting-account" data-parent=".setting-accordion">
+                                            <li> <a href="/C_CreateAccount/CompanyAccount"> <i class=""></i> Company Create Account </a></li>
+                                            <li> <a href="/BPC/RowSettings?RptType=BallanceSheet"> <i class=""></i> Balance Sheet Setting </a></li>
+                                            <li> <a href="/BPC/RowSettings?RptType=PL"> <i class=""></i> PL Setting </a></li>
+                                            <li> <a href="/BPC/RowSettings?RptType=CashFlow"> <i class=""></i> Cash Flow Setting </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        @*<a  data-toggle="" role="link" aria-expanded="true">
+                                            Analytic
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>*@
+                                        <ul class=" list-group list-unstyled" id="setting-analytic" data-parent=".setting-accordion">
+                                            <li> <a href="/C_CreateAnalyticAccounts/CompanyAnalyticAccounts"> <i class=""></i> Company Analytic Account </a></li>
+                                            <li> <a href="/C_AnalyticAccountDistribution/CompanyAnalyticDistribution"> <i class=""></i> Create Analytic Company Distribution </a></li>
+                                            <li> <a href="/C_AddDistToAccount/DistToCompAccount"> <i class=""></i> Add Distribution Account To Company </a></li>
+                                            <li> <a href="/C_LinkAnalyticToAccount/CompanyLinkAnalyticToAccount"> <i class=""></i> Company Link Analytic To Account ID </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        @*<a  data-toggle="" role="link" aria-expanded="true">
+                                            Cost
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>*@
+                                        <ul class=" list-group list-unstyled" data-toggle="" data-parent=".setting-accordion" id="setting-cost">
+                                            <li> <a href="/C_CreateCostCenter/CompanyCostCenter"> <i class=""></i> Company Cost Center </a></li>
+                                            <li> <a href="/C_CreateCostCenterAccounts/CompCCAccounts"> <i class=""></i> Create Cost Center Account </a></li>
+                                            <li> <a href="/C_CreateMainCostCenter/CompMainCostCenter"> <i class=""></i> Create Main Cost Center </a></li>
+                                            <li> <a href="/C_UpdateMainCostCenter/CompUpdateGroupCC"> <i class=""></i> Update Main Cost Center </a></li>
+                                            <li> <a href="/C_AddCostAccountToAccount/CostAccountToCompAccount"> <i class=""></i> Add Cost Account To Company Account </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Inquiry Field ********** -->
+        <div class="inquiry-field">
+            <div class="inquiry-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Inquiry
+                    </div>
+                 
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="inquiry-company" class="tab-pane active show fade container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        @*<a  data-toggle="" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>*@
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="inquiry-accounting" data-parent=".inquiry-accordion">
+                                            <li> <a href="/Inquiry_ICCOA/CompanyChartOfAccounts"> <i class=""></i> Company Chart Of Accounts </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/AccountDetails"> <i class=""></i> Inquiry OF Company Transaction Account Details </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountDetails"> <i class=""></i> Inquiry OF Company Transaction Historical Account Details </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/AccountSummary"> <i class=""></i> Inquiry OF Company Transaction Account Summary </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/HistoricalAccountSummary"> <i class=""></i> Inquiry OF Company Transaction Historical Account Summary </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/TransactionDetails"> <i class=""></i> Inquiry OF Company Transaction Details </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/BatchSecurity"> <i class=""></i> Inquiry OF Company Batches Security </a></li>
+                                            <li> <a href="/Inquiry_CompanyJETransactionsDetails/AnalyticsRpt"> <i class=""></i> Inquiry OF Company Analytics Account </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ******** Report Field ********** -->
+        <div class="report-field">
+            <div class="report-accordion">
+                <div class="card">
+                    <div class="card-header">
+                        Reports
+                    </div>
+                  
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <!-- Company Content -->
+                            <div id="report-company" class="tab-pane active container">
+                                <!-- Links -->
+                                <ul class="list-unstyled p-1">
+                                    <li class="mb-1 p-1 bg-light NoTrans">
+                                        @*<a  data-toggle="" role="link" aria-expanded="true">
+                                            Accounting
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>*@
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="report-accounting" data-parent=".report-accordion">
+                                            <li> <a href="/C_Reports/TrailBalance"> <i class=""></i> Trail Balance </a></li>
+                                            <li> <a href="/C_Reports/AccountDetails"> <i class=""></i> Account Details </a></li>
+                                            <li> <a href="/BPC/BalanceSheetReport?RptType=BallanceSheet"> <i class=""></i> Balance Sheet Report </a></li>
+                                            <li> <a href="/BPC/BalanceSheetReport?RptType=PL"> <i class=""></i> PL Report </a></li>
+                                            <li> <a href="/BPC/BalanceSheetReport?RptType=CashFlow"> <i class=""></i> Cash Flow Report </a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="p-1 bg-light NoTrans">
+                                        @*<a  data-toggle="" role="link" aria-expanded="true">
+                                            Tax
+                                            <i class="fa fa-chevron-right pull-right"></i>
+                                        </a>*@
+                                        <ul class=" list-group list-unstyled" data-toggle="" id="report-tax" data-parent=".report-accordion">
+                                            <li>
+                                                <a href="/TaxRpt/Purchase">Purchase Vat Tax Report </a>
+                                            </li>
+                                            <li>
+                                                <a href="/TaxRpt/Purchase?Tax=Sales">Sales Vat Tax Report </a>
+                                            </li>
+                                            <li>
+                                                <a href="/TaxRpt/WithHoldingTrans">With Holdeing Transaction </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>

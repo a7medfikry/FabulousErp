@@ -1,0 +1,67 @@
+﻿@model IEnumerable<FabulousDB.Models.Deleted_assets_class>
+
+@{
+    ViewBag.Title = "DeleteAssetsClass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DeleteAssetsClass</h2>
+
+<section style="overflow:auto;">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Class_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deprecation_method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deperecation_rate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deleted_date)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deprecation_method)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deperecation_rate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deleted_date)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</section>

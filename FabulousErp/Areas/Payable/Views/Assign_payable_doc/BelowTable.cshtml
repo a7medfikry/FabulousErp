@@ -1,0 +1,139 @@
+﻿@{ 
+    Layout = null;
+    List<Assign_payable_doc> Assign = Enumerable.Empty<Assign_payable_doc>().ToList();
+    DBContext db = new DBContext();
+    decimal Assigned = 0;
+    decimal Orginal = 0;
+}
+@model IEnumerable<FabulousErp.Payable.Models.Payable_transaction>
+
+
+<table class="table BelowTbl">
+    <tr class="Head">
+        <th>
+            Asign to
+        </th>  
+        <th>
+           Doc. Type
+        </th>
+        <th>
+           Doc. Num
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Due_date)
+        </th>
+        <th>
+            Amount
+        </th> 
+        <th>
+            Asigned
+            
+        </th> 
+        <th>
+            Asign
+        </th>
+        <th>
+             Remaining
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Taken_discount)
+        </th>
+        <th>
+            Currency
+        </th>
+        <th>
+            Rate
+        </th>
+        <th>
+            Earning or Lose
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    Assign = db.Assign_payable_docs.Where(x => x.Trans_doc_type_id_to == item.Trans_doc_type_id).ToList();
+    <tr>
+        <td>
+            <input class="AssignInput" type="checkbox" data-id="@item.Id" data-doc-id="@item.Trans_doc_type_id" />
+        </td>
+        <td>
+            <label class="DocType" data-id="@item.Id">
+                @item.Doc_type
+            </label>
+        </td>
+        <td>
+            <label class="DocNum" data-id="@item.Id">
+                @item.VDocument_number
+            </label>
+        </td>
+        <td>
+            @if (item.Due_date.HasValue)
+            {
+                @item.Due_date.Value.ToShortDateString()
+            }
+        </td>
+        <td>
+            <label class="TotalAmount" data-id="@item.Id">
+                @{ 
+                    Orginal = item.Purchase - item.Taken_discount + item.Tax;
+                }
+                @Orginal.ToString("0.00")
+            </label>
+        </td>
+        <td style="width:80px;">
+           <label>
+               @{ 
+                   Assigned = db.Assign_payable_docs.Where(x => x.Trans_doc_type_id_to == item.Trans_doc_type_id).ToList().DefaultIfEmpty(new Assign_payable_doc { Applay_assign = 0 }).Sum(x => x.Applay_assign);
+               }
+               @Assigned.ToString("0.00")
+           </label>
+        </td>
+        <td style="width:80px;" class="AssignTd">
+            <input class="AsignedAmount maskmoney Width80" id="AsignedAmount_@item.Id" value="0" disabled="disabled" />
+        </td>
+        <td style="width:80px;">
+            <label class="AmountRemaing maskmoney Width80" id="AmountRemaing_@item.Id" value="0">
+                @((Orginal - Assigned).ToString("0.00"))
+            </label>
+        </td>
+        <td style="width:80px;">
+            <input class="TakenDiscount maskmoney Width80" id="TakenDiscount_@item.Id" value="@item.Applay_asign_taken_discount.ToString(FabulousErp.Business.GetDecimalNumber())" disabled="disabled"/>
+        </td>
+        <td>
+            <label class="Currency" data-CurrId="@item.Currency_id">@item.Currency.ISOCode</label>
+        </td>
+        <td class="Rate">
+            @try
+            {
+                @item.Transaction_rate.ToString("0.00")
+
+            }
+            catch
+            {
+            }
+        </td>
+        <td>
+            <label class="EarningOrLose" id="EarningOrLose_@item.Id">
+                0
+            </label>
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+    $(document).on("click", ".AssignInput", function () {
+        if ($(this).is(":checked")) {
+            $(this).parents("tr").find("input").removeAttr("disabled")
+        } else {
+            $(this).parents("tr").find("input").not("input[type='checkbox']").attr("disabled", "disabled");
+            $(this).parents("tr").find(".AsignedAmount").val(0).trigger("change").trigger("keyup");
+        }
+    })
+ 
+</script>
+<style>
+    .Width80 {
+        width: 130px;
+    }
+</style>

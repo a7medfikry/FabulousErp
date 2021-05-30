@@ -1,0 +1,65 @@
+﻿@model FabulousDB.Models.Inv_pricelist
+
+@{
+    ViewBag.Title = "Price List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency.CurrencyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency.CurrencyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.Item_id)
+        </dd>
+
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.Price_lvl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price_lvl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Start_quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Start_quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.End_quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.End_quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

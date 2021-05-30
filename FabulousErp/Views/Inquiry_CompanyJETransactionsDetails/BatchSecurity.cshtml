@@ -1,0 +1,85 @@
+﻿@model List<FabulousModels.DTOModels.Inquiry.Inquiry_JETransaction_DTO>
+
+@{
+    ViewBag.Title = "Company Batch Security Inquiry";
+    ViewBag.FormCode = "ICBSI";
+}
+
+<div class="container-fluid">
+
+    <input class="hide-normal" type="text" id="IADI-GurrencyFormate" />
+    <span class="hide-normal" id="IADI-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+
+    <div class="form-row mb-2">
+        <label class="col-md-1">Search By : </label>
+        <div class="col-md-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="searchType" id="ICBSI-searchByBatch" class="custom-control-input" />
+                <label class="custom-control-label" for="ICBSI-searchByBatch">Batch</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="searchType" id="ICBSI-searchByUCreate" class="custom-control-input" />
+                <label class="custom-control-label" for="ICBSI-searchByUCreate">User Create</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" name="searchType" id="ICBSI-searchByUApproved" class="custom-control-input" />
+                <label class="custom-control-label" for="ICBSI-searchByUApproved">User Approved</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div id="ICBSI-SHBID" class="hide-normal">
+                @Html.DropDownList("ICBSI-BatchID", ViewBag.batchList as SelectList, "-Choose-", new { @id = "ICBSI-BatchID", @class = "form-control form-control-sm" })
+            </div>
+
+            <div id="ICBSI-SHUID" class="hide-normal">
+                @Html.DropDownList("ICBSI-UserID", ViewBag.userList as SelectList, "-Choose-", new { @id = "ICBSI-UserID", @class = "form-control form-control-sm" })
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="ICBSI-tbl">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>Batch Describtion</th>
+                    <th>Creation Date</th>
+                    <th>User Create</th>
+                    <th>User Approved</th>
+                    <th>Approved Date</th>
+                    <th>No. of Trx</th>
+                    <th>Batch Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    double? batchTotal = Model[i].BatchTotal;
+                    if (!Model[i].BatchTotal.HasValue)
+                    {
+                        batchTotal = 0;
+                    }
+
+                    <tr>
+                        <td>@Model[i].BatchID ( @Model[i].BatchFrom )</td>
+                        <td>@Model[i].BatchDescribtion</td>
+                        <td>@Model[i].BatchCreationDate</td>
+                        <td>@Model[i].UserCreatedBatch - @Model[i].UserCreatedBatchName</td>
+                        <td>@Model[i].UserApprovedBatch - @Model[i].UserApprovedBatchName</td>
+                        <td>@Model[i].ApprovedDate</td>
+                        <td>@Model[i].NoOfTrx</td>
+                        <td>@batchTotal</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Inquiry_JETransaction.js")
+

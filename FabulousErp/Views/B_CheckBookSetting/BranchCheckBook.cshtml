@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "Branch CheckBook Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "SBCB";
+}
+<div class="container-fluid">
+    <!-- **** For Session Checks **** -->
+    <span class="hide-normal" id="SBCB-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="SBCB-BranchID"></span>
+    <span class="hide-normal" id="SBCB-FactoryID"></span>
+
+    <form>
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-primary" id="SBCB-CheckbookSave">Save</button>
+            <button type="button" class="btn btn-info" id="SBCB-CheckbookUpdate" disabled>Update</button>
+            <button type="button" class="btn btn-danger" id="SBCB-CheckbookDelete" disabled>Delete</button>
+            <button type="button" class="btn btn-secondary" id="SBCB-CheckbookClear">Clear</button>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="fast-link">
+                    <a class="text-info font-italic" href="/Inquiry_CheckbookSetting/BranchCB"> Inquiry OF Branch Checkbook </a>
+                </div>
+                <!-- Global Errors -->
+                <span class="text-error" id="SBCB-GlobalErrors"></span>
+                <span class="text-success" id="SBCB-GlobalSuccess"></span>
+
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label for="SBCB-branchID" class="col-form-label col-form-label-sm"> Branch ID <span class="star">*</span> </label>
+                        @if (FabulousErp.Business.GetCompanyId() != null)
+                        {
+                            @Html.DropDownList("SBCB-branchID", ViewBag.BranchID as SelectList, "-Choose-", new { @id = "SBCB-branchID", @class = "form-control form-control-sm" })
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <label for="SBCB-branchName" class="col-form-label col-form-label-sm"> Branch Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-branchName" placeholder="..." disabled>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label for="SBCB-checkbookID" class="col-form-label col-form-label-sm"> Checkbook ID <span class="star">*</span> </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" id="SBCB-checkbookID" maxlength="10">
+                            <div class="input-group-append">
+                                <button type="button" id="SBCB-searchBtn" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#SBCB-searchModal"> <i class="fa fa-search"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="SBCB-checkbookName" class="col-form-label col-form-label-sm"> Checkbook Name <span class="star">*</span> </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-checkbookName">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="col-form-label col-form-label-sm text-hide"> Checkbook Status </label>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="SBCB-checkbookStatus" class="custom-control-input" value="False" />
+                            <label for="SBCB-checkbookStatus" class="custom-control-label"> Inactive </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="SBCB-checkbookType" class="col-form-label col-form-label-sm"> CheckBook Type <span class="star">*</span> </label>
+                        @Html.DropDownList("SBCB-checkbookType", new List<SelectListItem>
+                                             {
+                                             new SelectListItem{Text = "Cash" , Value = "Cash" },
+                                             new SelectListItem{Text = "Bank" , Value = "Bank" }
+                                             },"-Choose-",new { @id = "SBCB-checkbookType", @class= "form-control form-control-sm" })
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label for="SBCB-currency" class="col-form-label col-form-label-sm"> Currency <span class="star">*</span> </label>
+                        @Html.DropDownList("SCCB-currency", new SelectList(""), "-Choose-", new { @id = "SBCB-currency", @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="col-md-4">
+                        <label for="SBCB-accountID" class="col-form-label col-form-label-sm"> Account ID <span class="star">*</span> </label>
+                        @Html.DropDownList("SCCB-accountID", new SelectList(""), "-Choose-", new { @id = "SBCB-accountID", @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="col-md-5">
+                        <label for="SBCB-accountName" class="col-form-label col-form-label-sm"> Account Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-accountName" placeholder="..." disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-2">
+                        <label for="SBCB-minAmount" class="col-form-label col-form-label-sm"> Min. Amount </label>
+                        <input type="text" class="form-control form-control-sm" id="SCCB-minAmount" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="SBCB-maxAmount" class="col-form-label col-form-label-sm"> Max. Amount </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-maxAmount" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="SBCB-Nextwithdraw" class="col-form-label col-form-label-sm"> Next Withdraw Number <span class="star">*</span> </label>
+                        <input type="text" class="form-control form-control-sm" value="1" id="SBCB-Nextwithdraw" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="SBCB-Nextdeposit" class="col-form-label col-form-label-sm"> Next Deposit Number <span class="star">*</span> </label>
+                        <input type="text" class="form-control form-control-sm" value="1" id="SBCB-Nextdeposit" />
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="SBCB-currentBalance" class="col-form-label col-form-label-sm"> Current Checkbook Balance </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-currentBalance" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="SBCB-currentCash" class="col-form-label col-form-label-sm"> Current Cash Account Balance </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-currentCash" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="SBCB-lastReconcileBalance" class="col-form-label col-form-label-sm"> Last Reconcile Balance </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-lastReconcileBalance" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="SBCB-lastReconcileDate" class="col-form-label col-form-label-sm"> Last Reconcile Date </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-lastReconcileDate" disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 border br-5 bg-light">
+                <div class="form-row">
+                    <div class="col-md">
+                        <label for="SBCB-bankName" class="col-form-label col-form-label-sm"> bank Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-bankName" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md">
+                        <label for="SBCB-bankAccountNumber" class="col-form-label col-form-label-sm"> bank Account Number </label>
+                        <input type="number" class="form-control form-control-sm" id="SBCB-bankAccountNumber" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md">
+                        <label for="SBCB-bankAccountName" class="col-form-label col-form-label-sm"> bank Account Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-bankAccountName" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md">
+                        <label for="SBCB-branchName2" class="col-form-label col-form-label-sm"> Branch Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-branchName2" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label for="SBCB-swiftCode" class="col-form-label col-form-label-sm"> Swift Code </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-swiftCode" disabled />
+                    </div>
+                    <div class="col-md-12">
+                        <label for="SBCB-IBAN" class="col-form-label col-form-label-sm"> IBAN </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-IBAN" maxlength="30" style="font-size:13px" disabled />
+                    </div>
+                </div>
+                <hr />
+
+                <!-- Checkbook Security-->
+                <h5 class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted">Checkbook Security</span>
+                    <span class="fa fa-lock"></span>
+                </h5>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" name="CBS" id="SBCB-CBuserID" class="custom-control-input" />
+                            <label class="custom-control-label" for="SBCB-CBuserID"> User ID </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" name="CBS" id="SBCB-CBpassword" class="custom-control-input" />
+                            <label class="custom-control-label" for="SBCB-CBpassword"> Password </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md mb-1">
+                        <label for="SBCB-securityUserID" class="col-form-label col-form-label-sm"> User ID </label>
+                        @Html.DropDownList("SBCB-securityUserID", ViewBag.UserIDs as SelectList, "-Choose-", new { @id = "SBCB-securityUserID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md mb-1">
+                        <label for="SBCB-securityPassword" class="col-form-label col-form-label-sm"> Password </label>
+                        <input type="text" class="form-control form-control-sm" id="SBCB-securityPassword" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Checkbook Search Modal -->
+        <div class="modal fade" id="SBCB-searchModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabelSmall"> Checkbook Search </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @Html.DropDownList("SCCB-checkbookSearch", new SelectList(""), "-Choose-", new { @id = "SBCB-checkbookSearch", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End The modal -->
+    </form>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Branch/B_CheckBook/B_CheckBookSetting.js")

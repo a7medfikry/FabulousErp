@@ -1,0 +1,81 @@
+﻿@model FabulousDB.Models.Inv_items_serial
+
+@{
+    ViewBag.Title = "items serial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.Item_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lot_Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lot_Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lot_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lot_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serial_number_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serial_number_from)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serial_number_To)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serial_number_To)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

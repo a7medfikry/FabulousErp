@@ -1,0 +1,161 @@
+﻿@using FabulousDB.Models
+@model FabulousDB.Models.BPC_raw_settings
+@{
+    if (Request["RptType"] == "BallanceSheet")
+    {
+        ViewBag.Title = "Ballance Sheet";
+    }
+    else if (Request["RptType"] == "PL")
+    {
+        ViewBag.Title = "PL";
+    }
+    else if (Request["RptType"] == "CashFlow")
+    {
+        ViewBag.Title = "Cash Flow";
+    }
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("CreateRow", new AjaxOptions { UpdateTargetId = "RowSettings", OnSuccess = "ResetSelect" }))
+{
+    @Html.AntiForgeryToken()
+    <input name="RptType" value="@Request["RptType"]" type="hidden" />
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Row_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Row_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Row_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" id="AccountDiv" style="display:none;">
+            <label class="control-label col-md-2">Accounts</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Accounts_id", null, htmlAttributes: new { @class = "form-control selectpicker", multiple = "multiple", data_show_subtext = "true", data_live_search = "true" })
+            </div>
+        </div>
+        <div class="form-group" id="RowDiv" style="display:none;">
+            <label class="control-label col-md-2">Row Id</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Rows_id", null, htmlAttributes: new { @class = "form-control selectpicker", multiple = "multiple", data_show_subtext = "true", data_live_search = "true" })
+            </div>
+        </div>
+        @if (Request["RptType"] == Report_type.CashFlow.ToString())
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Minus, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Minus, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Minus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="UpdateRows" id="UpdateRows" class="btn btn-info" />
+    </div>
+</div>
+<div id="RowSettings" style="margin-top:20px;">
+    @Html.Action("RowList", new { RptType = Request["RptType"] })
+</div>
+
+<script>
+
+    $(function () {
+        $("#Type").find("option[value='0']").attr("value", "");
+        //  $('.mdb-select').dashboardCodeBsMultiSelect();
+    })
+    $("#Type").change(function () {
+        if ($(this).val() == 1) {
+            $("#AccountDiv").show();
+            $("#RowDiv").hide();
+
+        } else if ($(this).val() == 2) {
+            $("#RowDiv").show();
+            $("#AccountDiv").hide();
+        } else {
+            $("#AccountDiv").hide();
+            $("#RowDiv").hide();
+        }
+    })
+    function ResetSelect() {
+        $("#Rows_id").find("option:selected").prop("selected", false)
+        $("#Accounts_id").find("option:selected").prop("selected", false)
+        UpdateRowId();
+        UpdateAccountsId();
+    }
+    function UpdateRowId() {
+        $.ajax({
+            url: "/BPC/RowId?RptType=@Request["RptType"]",
+            method: "POST",
+            success: function (data) {
+                $("#Rows_id").empty();
+
+                $.each(data, function (k, i) {
+                    $("#Rows_id").append("<option value='" + i.Id + "'>" + i.Row_name + "</option>")
+
+                })
+                $("#Rows_id").selectpicker('refresh');
+            }
+        })
+    }
+    function UpdateAccountsId() {
+        $.ajax({
+            url: "/BPC/AccountsId?RptType=@Request["RptType"]",
+            method: "POST",
+            success: function (data) {
+                $("#Accounts_id").empty();
+                $.each(data, function (k, i) {
+                    $("#Accounts_id").append("<option value='" + i.Id + "'>" + i.Name + "</option>")
+                })
+                $("#Accounts_id").selectpicker('refresh');
+            }
+        })
+    }
+    $("#UpdateRows").click(function () {
+        $.ajax({
+            url: "/BPC/UpdateRows?RptType=@Request["RptType"]",
+            contentType: "html",
+            success: function (data) {
+                $("#UpdateRowModelBody").html(data);
+                $("#UpdateRowModel").modal("show");
+                $("#Accounts_id2").selectpicker('refresh');
+                $("#Rows_id2").selectpicker('refresh');
+            }
+        })
+    });
+</script>
+<div class="modal" tabindex="-1" role="dialog" id="UpdateRowModel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="UpdateRowModelBody">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

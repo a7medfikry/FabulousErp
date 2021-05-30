@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Company Cash Reciept";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCCR";
+}
+@Html.Action("CurrencyAndCheckBook")
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/CheckbookTransaction_Script.js")

@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Company Void General Transactions";
+    ViewBag.FormCode = "TCGV";
+}
+
+<div class="container-fluid">
+    <span id="importantForReport" hidden></span>
+
+    @*<span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+        <span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+        <span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+        <span class="hide-normal" id="TCGV-CheckPostingSetup">@ViewBag.CheckPostingSetup</span>
+        <span class="hide-normal" id="TCGV-PT">@ViewBag.PT</span>
+        <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+
+        <input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+        <input type="text" id="TCGE-HardGurrencyFormate" class="hide-normal" />*@
+
+    <div class="form-row mb-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Journal Entry Number : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCGV-JENum", ViewBag.JENumList as SelectList, "-Choose-", new { @id = "TCGV-JENum", @class = "form-control form-control-sm" })
+        </div>
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-primary" id="TCGV-Void">Void</button>
+            <button type="button" class="btn btn-secondary" id="TCGE-Reset">Reset</button>
+        </div>
+        <span class="text-error" id="TCGE-GlobalError"></span>
+    </div>
+
+    <section id="TCS-Header">
+        @{Html.RenderAction("GetBatchHeader");}
+    </section>
+
+    @Html.Partial("_MainVoidTransaction")
+
+    @Html.Action("UploadFile", "UploadFile")
+
+    @*<div class="mt-2">
+            <span id="TCS-NoAC" class="text-danger font-weight-bold"></span>
+            <table class="table table-bordered table-striped table-responsive-md" id="TCGE-GTbl">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Account Name</th>
+                        <th>Doc.</th>
+                        <th>Original Amount</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                </thead>
+                <tbody id="TCGE-TTbl"></tbody>
+                <tfoot class="text-center">
+                    <tr>
+                        <th colspan="4" style="text-align:right">Total</th>
+                        <th id="DebitTblFoot"></th>
+                        <th id="CreditTblFoot"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="text-align:right">Difference</th>
+                        <th colspan="2" id="DiffOfDAC"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="modal fade" id="TCGE-PUShowAnalyticAccount" data-keyboard="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4>Analytic Account..</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped table-responsive-md" id="TCGE-ShowTblAccountAnalytic">
+                            <thead>
+                                <tr>
+                                    <th>Distribution ID</th>
+                                    <th>Distribution Name</th>
+                                    <th>Percentage</th>
+                                    <th>Amount</th>
+                                    <th>Describtion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="TCGE-ShowTAccountAnalytic"></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm" id="TCGE-PUAACancel" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="TCGE-PUShowCostCenter" data-keyboard="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4>Cost Center..</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <label class="hide-normal" id="TCGE-PUSHCCHS">
+                            <label>Cost Center ID : </label> <label id="TCGE-PUSHCCCostID"></label>
+                        </label>
+
+                        <label class="hide-normal" id="TCGE-PUSHMCCHS">
+                            <label>Main Cost Center ID : </label> <label id="TCGE-PUSHCCMainCostID"></label>
+                        </label>
+
+                        <div class="mt-2">
+                            <table class="table table-bordered table-striped table-responsive-md" id="TCGE-TblShowCostCenter">
+                                <thead>
+                                    <tr>
+                                        <th>Cost Account ID</th>
+                                        <th>Cost Account Name</th>
+                                        <th>Percentage</th>
+                                        <th>Amount</th>
+                                        <th>Describtion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="TCGE-TShowCostCenter"></tbody>
+                            </table>
+
+                            <table class="table table-bordered table-striped table-responsive-md hide-normal" id="TCGE-TblShowMainCostCenter">
+                                <thead>
+                                    <tr>
+                                        <th>Cost Center ID</th>
+                                        <th>Cost Center Percentage</th>
+                                        <th>Cost Account ID</th>
+                                        <th>Cost Account Name</th>
+                                        <th>Percentage</th>
+                                        <th>Amount</th>
+                                        <th>Describtion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="TCGE-TShowMainCostCenter"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm" id="TCGE-PUCCCancel" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <table class="table table-bordered table-striped table-responsive hide-normal" id="TCGE-TDBAnalytic">
+            <thead>
+                <tr>
+                    <th>Analytic Account ID</th>
+                    <th>c_DistID</th>
+                    <th>Account Distribution ID</th>
+                    <th>Account Distribution Name</th>
+                    <th>AccountID</th>
+                    <th>Describtion</th>
+                    <th>Percentage</th>
+                    <th>Amount</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+            </thead>
+            <tbody id="TCGE-TAccountAnalyticDB"></tbody>
+        </table>
+
+        <table class="table table-bordered table-striped table-responsive hide-normal" id="TCGE-TDBCost">
+            <thead>
+                <tr>
+                    <th>Cost Center ID</th>
+                    <th>c_CAID</th>
+                    <th>Cost Account ID</th>
+                    <th>Cost Account Name</th>
+                    <th>AccountID</th>
+                    <th>Describtion</th>
+                    <th>Percentage</th>
+                    <th>Amount</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>CostCType</th>
+                    <th>MainCCID</th>
+                    <th>CCIDPercentage</th>
+                    <th>CostCenterName</th>
+                </tr>
+            </thead>
+            <tbody id="TCGE-TCostCenterAccountDB"></tbody>
+        </table>
+
+
+        <div class="modal fade" id="TCGE-PUMoreDetailsRecord">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <label>Account ID :</label>
+                        <label id="TCGE-PUMDAccID"></label>
+                        <br />
+                        <label>Describtion :</label>
+                        <label id="TCGE-PUMDDes"></label>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+</div>
+
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/ShowTransaction.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/VoidTransaction.js")

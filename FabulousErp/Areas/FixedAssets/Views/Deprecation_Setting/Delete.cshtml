@@ -1,0 +1,56 @@
+﻿@model FabulousDB.Models.Deprecation_Setting
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Deprecation_Setting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Auto_or_manual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Auto_or_manual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deprecation_calcualtion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deprecation_calcualtion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deprecation_jv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deprecation_jv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Change_deprecation_method)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Change_deprecation_method)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

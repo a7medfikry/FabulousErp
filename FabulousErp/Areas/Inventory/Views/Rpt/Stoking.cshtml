@@ -1,0 +1,271 @@
+﻿
+@{
+    ViewBag.Title = "Stoking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <section class="clearfix col-sm-12" id="MainData" style="margin-top:20px;">
+        <div class="form-group">
+            @Html.Label("", "Store Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control Store_id" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("", "Site Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control Site_id" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("", "Transaction Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="Date" class="form-control" type="date" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("", "Item_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Item_id", null, "", htmlAttributes: new { @class = "form-control Item_id" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label id="ItemName"></label>
+        </div>
+        <div class="form-group">
+            @Html.Label("", "UOM_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UOM_id", null, "", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("", "Orginal_Qty", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 Orginal_Qty">
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("", "Continuity", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="Continuity" type="number" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group WAuto">
+            <button type="submit" class="btn btn-primary" id="Add">Add</button>
+        </div>
+        <div class="form-group WAuto">
+            <button type="submit" class="btn btn-success" id="submit">Submit</button>
+        </div>
+        <div class="form-group WAuto hide">
+            <button class="btn btn-primary ToggleTransAction">Show Jv</button>
+        </div>
+    </section>
+<section id="Res" style="margin-top:20px;">
+    <table class="table NoDataTable">
+        <thead>
+            <tr>
+                <th>
+                    Item_id
+                </th>
+                <th>
+                    UOM
+                </th>
+                <th>
+                    Exist
+                </th>
+                <th>
+                    Adjust
+                </th> 
+                <th>
+                    Diffrance
+                </th> 
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+        </tbody>
+    </table>
+</section>
+<script>
+    UOMDropDown = true;
+    $("#Add").click(function () {
+        $("#Add").attr("disabled", "disabled");
+
+        $.ajax({
+            url: "/Inventory/Bussniss/GetEqQty?ItemId=" + $("#Item_id").val() + "&UOM=" + $("#UOM_id").val() + "&Qty=" + $("#Continuity").val(),
+            method: "POST",
+            success: function (data) {
+                var Total = parseFloat($(".Total").text());;
+                if (isNaN(Total)) {
+                    Total = 0;
+                }
+                    var Exist = 0;
+                    $("#itemsBody").find("tr").each(function () {
+                        if ($(this).find(".ItemId").attr("data-id") == $("#Item_id").val()) {
+                            Exist += parseFloat($(this).find(".Exist").text()) * $(this).find(".ItemId").attr("data-eqqty")
+                        }
+                    })
+                    var Dif = parseFloat($(".Orginal_Qty").text()) - (data.Qty) - Exist;
+                    if (Dif >= 0) {
+                        var Tr = $("#MyTr").text()
+                            .replace("{{ItemId}}", $("#Item_id").val())
+                            .replace("{{ItemName}}", $("#ItemName").text())
+                            .replace("{{UOM}}", $("#UOM_id").find("option:selected").text())
+                            .replace("{{UOMId}}", $("#UOM_id").val())
+                            .replace("{{Exist}}", parseFloat($("#Continuity").val()))
+                            .replace("{{OrQty}}", data.Qty)
+                            .replace("{{Total}}", data.Qty + Exist)
+                            .replace("{{Dif}}", Dif)
+                            .replace("{{MainQty}}", parseFloat($(".Orginal_Qty").text()))
+                            .replace("{{SiteId}}", parseFloat($("#Site_id").val()))
+                            .replace("{{EqQty}}", data.EqQty)
+                 
+                        if ($("#Item_id").val() != $("#itemsBody").find("tr").last().find(".ItemId").attr("data-id")
+                            && $("#itemsBody").find("tr").length>0) {
+                            $("#itemsBody").append("<tr class='NoData'></tr>");
+                        }
+                        $("#itemsBody").append(Tr);
+                        $("#Continuity").val("");
+                    }
+            
+
+                $("#Add").removeAttr("disabled", "disabled");
+            },
+            complete: function () {
+                $("#Add").removeAttr("disabled", "disabled");
+            }
+        })
+
+
+
+    })
+    $(document).on("change", "#Site_id", function () {
+        $.ajax({
+            url: "/inventory/Inv_po/GetPoItems?StoreId=" + $("#Store_id").val() + "&SiteId=" + $("#Site_id").val(),
+            method: "POST",
+            success: function (data) {
+                SetItems(data);
+            }
+        })
+    })
+    function SetItems(data) {
+        $("select#Item_id").empty();
+        $("select#Item_id").append("<option value=''></option>")
+        $.each(data, function (k, i) {
+            $("select#Item_id").append("<option value='" + i.Id + "' data-PoId='" + i.Po_id + "'>" + i.Item_id + "</option>")
+        })
+    }
+    $(document).on("change", "#Item_id", function () {
+        GetEqQty(function (data) {
+            $(".Orginal_Qty").text(data);
+        })
+        UOMDropDown = true;
+    })
+    function GetEqQty(CallBack = null) {
+        $.ajax({
+            url: "/Inventory/Inv_receive_po_items/GetPoItemQty?ItemId=" + $("#Item_id").val() + "&Store=" + $("#Store_id").val(),
+            method: "POST",
+            async:false,
+            success: function (data) {
+                if (CallBack != null) {
+                    CallBack(data);
+                }
+            }
+        });
+    }
+    $(document).on("click", ".DeleteItem", function () {
+        var ThisIndex = $(this).parents("tr").index();
+        var OtherThisIndex = $(this).parents("tr").index();
+        var Orginal = parseFloat($(".Orginal_Qty").text())
+        var Adjust = 0;
+        var Exist = 0;
+        $("#itemsBody").find("tr").each(function () {
+            var ThisTr = $(this);
+            if ($(this).index() > ThisIndex) {
+                GetEqQty(function () {
+                    Exist = 0;
+                    $("#itemsBody").find("tr").each(function () {
+                        if ($(this).index() <= OtherThisIndex) {
+                            if ($(this).index() != ThisIndex ) {
+                                Exist += parseFloat($(this).find(".Exist").attr("data-orqty"))
+                            }
+                        }
+                    })
+                    Exist += parseFloat($(ThisTr).find(".Exist").attr("data-orqty"))
+                    var Dif = Orginal - Exist;
+                    $(ThisTr).find(".Total").text(Exist)
+                    $(ThisTr).find(".Dif").text(Dif)
+                    OtherThisIndex++;
+                })
+            }
+        })
+        $(this).parents("tr").remove();
+    })
+    $("#submit").click(function () {
+        if (!$("#Date").val()) {
+            NotValid($("#Date"))
+            return;
+        }
+        var Data = [];
+        $("#submit").attr("disabled","disabled")
+        $("#itemsBody").find("tr").not(".NoData").each(function () {
+            Data.push({
+                Item_id: $(this).find(".ItemId").attr("data-id"),
+                UOM_id: $(this).find(".UOM").attr("data-id"),
+                Exist: parseFloat($(this).find(".Exist").text()),
+                Adjust: parseFloat($(this).find(".Total").text()),
+                Diffrance: parseFloat($(this).find(".Dif").text()),
+                Orginal_qty: parseFloat($(this).find(".ItemId").attr("data-orginalqty")),
+                Transaction_date: $("#Date").val(),
+                Site_id: $(this).find(".ItemId").attr("data-siteid")
+            });
+          
+        })
+        $.ajax({
+            url: "/Inventory/Rpt/Stoking/",
+            method: "POST",
+            data: { Stocking: Data },
+            success: function (data) {
+                window.location.reload();
+            }
+        })
+    })
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")
+<section id="JVSecCont">
+    <label id="TCGE-GlobalError"></label>
+    <input id="TCGE-CurrencyID" class="hide" value="@FabulousErp.Business.GetCompanyId()" />
+    <section id="JVTransactionSec" style="display:none;">
+        @Scripts.Render("~/MainTransaction")
+        <section class="DebitCreditSection">
+            @Html.Action("GetMainTransaction", "Business", new { FixedAssets = true, area = "" })
+        </section>
+    </section>
+</section>
+<script type="text/html" id="MyTr">
+    <tr>
+        <td class="ItemId" data-id="{{ItemId}}" data-eqqty="{{EqQty}}" data-orginalQty="{{MainQty}}" data-siteid="{{SiteId}}">
+            {{ItemName}}
+        </td>
+        <td data-id="{{UOMId}}" class="UOM">
+            {{UOM}}
+        </td>
+        <td class="Exist" data-orqty="{{OrQty}}">
+            {{Exist}}
+        </td>
+        <td class="Total">
+            {{Total}}
+        </td>
+        <td class="Dif">
+            {{Dif}}
+        </td>
+        <td>
+            <button class="btn btn-danger btn-sm DeleteItem"> <span class="fa fa-trash-o"></span></button>
+        </td>
+    </tr>
+</script>

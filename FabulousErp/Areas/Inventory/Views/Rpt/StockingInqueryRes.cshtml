@@ -1,0 +1,74 @@
+﻿@model List<FabulousDB.Models.Inv_stocking>
+@{
+    Layout = null;
+}
+<div style="margin-top:20px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item Id
+                </th>
+                <th>
+                    UOM
+                </th>
+                <th>
+                    Store
+                </th>
+                <th>
+                    Site
+                </th>
+                <th>
+                    Exist
+                </th>
+                <th>
+                    Adjust
+                </th>
+                <th>
+                    Diffrance
+                </th>
+                <th>
+                    Orginal
+                </th>
+                <th>
+                    Transaction Date
+                </th>
+            </tr>
+        </thead>
+        <tbody id="itemsBody">
+            @foreach (FabulousDB.Models.Inv_stocking i in Model)
+            {
+                <tr>
+                    <td>
+                      @i.Item.Item_id
+                    </td>
+
+                    <td>
+                       @i.UOM.Unit_id
+                    </td>
+                    <td>
+                        @i.Site.Store.Store_id
+                    </td>
+                    <td>
+                        @i.Site.Site_id
+                    </td>
+                    <td>
+                        @i.Exist
+                    </td>
+                    <td>
+                        @i.Adjust
+                    </td>
+                    <td>
+                        @i.Diffrance
+                    </td>
+                    <td>
+                        @i.Orginal_qty
+                    </td>
+                    <td>
+                        @i.Transaction_date.ToShortDateString()
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,43 @@
+﻿@model FabulousDB.Models.Additional_information
+<section class="Additional_parent">
+    @using (Ajax.BeginForm("Create", "Additional_information", new AjaxOptions { }, new { id = "" }))
+    {
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group hide">
+                @Html.LabelFor(model => model.Assets_id, "Assets_id", htmlAttributes: new { @class = "control-label col-md-2", id = "" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Assets_id, new { htmlAttributes = new { @class = "form-control Assets_id", id = "" } })
+                    @Html.ValidationMessageFor(model => model.Assets_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label class="control-label">Field_no</label>
+                    <div>
+                        @Html.Label("Field_no", new { @class = "control-label col-md-2 Field_no", id = "" })
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    @Html.LabelFor(model => model.Field_name, htmlAttributes: new { @class = "control-label col-md-2", id = "" })
+                    @Html.EditorFor(model => model.Field_name, new { htmlAttributes = new { @class = "form-control Field_name", id = "" } })
+                    @Html.ValidationMessageFor(model => model.Field_name, "", new { @class = "text-danger", id = "" })
+                </div>
+                <div>
+                    <h4 class="RemoveThisParent">X</h4>
+                </div>
+            </div>
+            <div class="form-group hide">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default Create" />
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<script>
+    $(document).on("click", ".RemoveThisParent", function () {
+        $(this).parents(".Additional_parent").remove();
+    })
+</script>

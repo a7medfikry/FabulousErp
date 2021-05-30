@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Company Analytic Account";
+    ViewBag.FormCode = "SCAA";
+}
+
+<div class="container-fluid">
+    <!--- Global Errors -->
+    <div class="mb-2">
+        <span class="text-error" id="GlobalError"></span>
+    </div>
+
+    <div class="form-row mb-2 hide">
+        <label class="col-md-2 col-form-label col-form-label-sm" for="CompanyID"> Company ID <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @*@Html.DropDownList("CompanyID", ViewBag.CompanyList as SelectList, "-Choose-", new { @id = "CompanyID", @class = "form-control form-control-sm" })*@
+            <input type="text" id="CompanyID" class="form-control form-control-sm" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm" for="CompanyName"> Company Name : </label>
+        <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" id="CompanyName" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+    
+    <div class="form-row mb-2">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts ID <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("AnalyticID", null, new { @id = "AnalyticID", @maxlength = "20", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Analytic Accounts Name <i class="star">*</i> </label>
+        <div class="col-md-3">
+            @Html.TextBox("AnalyticName", null, new { @id = "AnalyticName", @maxlength = "100", @class = "form-control form-control-sm" })
+        </div>
+
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary btn-sm" id="AddAnalyticToCompany">Save</button>
+            <label class="text-success" id="SaveSuccess"></label>
+        </div>
+    </div>
+
+    
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Analytic Account ID</th>
+                <th>Analytic Account Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="CompanyAnalyticData"></tbody>
+    </table>
+
+</div>
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Company/C_Analytic/C_CreateAnalyticAccounts/AddAnalytic.js")

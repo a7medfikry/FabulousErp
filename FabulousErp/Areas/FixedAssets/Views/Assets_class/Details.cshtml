@@ -1,0 +1,22 @@
+﻿@model FabulousDB.Models.Assets_class
+
+@{
+    ViewBag.Title = "Details Assets class";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="MainForm">
+    @Html.Action("Edit",new {id= ViewBag.Id , IsPartial =true})
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) 
+</p>
+<script>
+    $(function () {
+        var MainDiv = $(".MainForm");
+        $(MainDiv).find("input").attr("disabled", "disabled")
+        $(MainDiv).find("select").attr("disabled", "disabled")
+        $(MainDiv).find("input[type='submit']").remove();
+    })
+</script>

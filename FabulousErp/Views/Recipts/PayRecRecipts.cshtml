@@ -1,0 +1,298 @@
+﻿@model List<PayRecRecipt>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<style>
+    table tbody tr td {
+        text-align: right;
+        direction: rtl;
+    }
+
+    table {
+        width: 100%;
+        float: right;
+        direction: rtl;
+    }
+
+    * {
+        font-size: 24px;
+    }
+
+    .PaddingR15 {
+        padding-right: 15px;
+    }
+
+    .Right {
+        direction: ltr;
+        float: right;
+        margin-left: 8px;
+    }
+
+    .AllCenter * {
+        text-align: center;
+    }
+
+    .AllBorder > * {
+        border: 1px solid;
+    }
+</style>
+<section id="Print" style="margin-left:40px;margin-right:40px;">
+    <table cellspacing="0" border="0" style="width:100%;" class="NoDataTable">
+        <colgroup width="10"></colgroup>
+        <colgroup width="215"></colgroup>
+        <colgroup width="157"></colgroup>
+        <colgroup width="67"></colgroup>
+        <colgroup width="90"></colgroup>
+        <colgroup width="114"></colgroup>
+        <colgroup width="91"></colgroup>
+        <tr style="height: 150px;max-height:unset;">
+            <td style="border-bottom: 3px solid " colspan=4 height="42"><b>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_nam).Value</b></td>
+            <td style="border-bottom: 3px solid;" colspan="3" height="42"><img style="float:left;margin-left:20px;width:100px;height:100px;" src="@Model.FirstOrDefault(x => x.Prop == PayRecProp.Logo).Value" /></td>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+            @if (@Model.FirstOrDefault(x => x.Prop == PayRecProp.Inv_num).Value != "0")
+            {
+                <td colspan="7" class="text-center" style="font-size:32px;">@Model.FirstOrDefault(x => x.Prop == PayRecProp.Title).Value  @Model.FirstOrDefault(x => x.Prop == PayRecProp.Inv_num).Value</td>
+            }
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+            <td height="27">الاسم </td>
+            <td align="right" class="" valign="middle">@Model.FirstOrDefault(x => x.Prop == PayRecProp.Client_name).Value</td>
+            <td>@*رقم التسجيل الضريبي*@ </td>
+            <td>@*@Model.FirstOrDefault(x => x.Prop == PayRecProp.Tax_file_no).Value*@</td>
+            <td><br></td>
+            <td>تاريخ الفاتورة</td>
+            <td valign=bottom>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Inv_date).Value</td>
+        </tr>
+        <tr>
+            <td height="27" valign=top>العنوان </td>
+            <td>@Html.Raw(Model.FirstOrDefault(x => x.Prop == PayRecProp.Client_address).Value)</td>
+            <td>@*رقم الملف الضريبي*@ 	</td>
+            <td>@*@Model.FirstOrDefault(x => x.Prop == PayRecProp.Tax_file_no).Value*@</td>
+            <td><br></td>
+            <td>تاريخ الاستحقاق	</td>
+            <td>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Due_date).Value</td>
+        </tr>
+        <tr>
+            <td height="13" valign=top><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td valign=top><br></td>
+            <td valign=top><br></td>
+            <td valign=top><br></td>
+        </tr>
+        @if (ViewBag.IsInv == false)
+        {
+            <tr>
+                <td style="border: 1px solid;" colspan=6 height="20" class="text-center">بيان</td>
+                <td style="border: 1px solid;" class="PaddingR15">القيمة</td>
+            </tr>
+            <tr style="height:200px;">
+                <td style="border: 1px solid;" colspan=6 rowspan=8 height="500" class="text-center">@Model.FirstOrDefault(x => x.Prop == PayRecProp.Ref).Value</td>
+                <td style="border: 1px solid;" class="PaddingR15" rowspan=8>
+                    @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Purch).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr class="AllCenter AllBorder">
+                <th>
+                    كود الصنف
+                </th>
+                <th colspan="2">
+                    اسم الصنف
+                </th>
+                <th>
+                    وحدة القياس
+                </th>
+                <th>
+                    الكمية
+                </th>
+                <th>
+                    سعر الوحدة
+                </th>
+                <th>
+                    القيمة
+                </th>
+            </tr>
+            foreach (FabulousModels.Inventory.PoItemsPrint i in ViewBag.InvItems as List<FabulousModels.Inventory.PoItemsPrint>)
+            {
+                <tr class="AllCenter AllBorder">
+                    <td>
+                        @i.Item_id
+                    </td>
+                    <td colspan="2">
+                        @i.Item_name
+                    </td>
+                    <td>
+                        @i.UOM
+                    </td>
+                    <td>
+                        @i.Qty
+                    </td>
+                    <td>
+                        @(i.Unit_price.ToString(FabulousErp.Business.GetDecimalNumber()))
+                    </td>
+                    <td>
+                        @(((decimal)i.Qty * i.Unit_price).ToString(FabulousErp.Business.GetDecimalNumber()))
+                    </td>
+                </tr>
+            }
+        }
+
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+            <td height="20"><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td style="border: 1px solid;" class="PaddingR15">
+                @if (ViewBag.IsPay == true)
+                {
+                    <span>مشتريات</span>
+                }
+                else
+                {
+                    <span>المبيعات</span>
+                }
+            </td>
+            <td style="border: 1px solid;" class="PaddingR15">
+                @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Purch).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+        <tr>
+            <td height="20"><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td style="border: 1px solid;" class="PaddingR15">الخصم </td>
+            <td style="border: 1px solid;" class="PaddingR15">
+                (@Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Discount).Value).ToString(FabulousErp.Business.GetDecimalNumber()))
+            </td>
+        </tr>
+        <tr>
+            <td height="20"><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td style="border: 1px solid;" class="PaddingR15">ض.ق.م	</td>
+            <td style="border: 1px solid;" class="PaddingR15">
+                @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Vat_amount).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+        <tr>
+            <td height="20"><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td style="border: 1px solid;" class="PaddingR15">ض.أ.ص.ت	</td>
+            <td style="border: 1px solid;" class="PaddingR15">
+                (@Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Deduct).Value).ToString(FabulousErp.Business.GetDecimalNumber()))
+            </td>
+        </tr>
+        <tr>
+            <td colspan=5 height="20">
+                فقط وقدرة @Model.FirstOrDefault(x => x.Prop == PayRecProp.Money_text).Value
+            </td>
+            <td style="border: 1px solid;" class="PaddingR15">صافى الفاتورة	</td>
+            <td style="border: 1px solid;" class="PaddingR15">
+                @Convert.ToDecimal(Model.FirstOrDefault(x => x.Prop == PayRecProp.Total).Value).ToString(FabulousErp.Business.GetDecimalNumber())
+            </td>
+        </tr>
+        <tr>
+            <td height="20"><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+            <td><br></td>
+        </tr>
+    </table>
+    <div style="height:35.5cm;" class="v-middle">
+        @if (ViewBag.IsInv != false)
+        {
+                <table style="margin-top:15%;" class="NoDataTable">
+                    <tr>
+                        <td width="20%"></td>
+                        <td>
+                            توقيع المدير المالي
+                        </td>
+
+                        <td>
+                            توقيع مدير المبيعات
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td width="10%"></td>
+                        <td>
+                            (<span style="width:33%;display:inline-block;"></span>)
+                        </td>
+                        <td>
+                            (<span style="width:33%;display:inline-block;"></span>)
+                        </td>
+                    </tr>
+                </table>
+        }
+    </div>
+    @if (ViewBag.IsPay != true)
+    {
+        <table class="NoDataTable">
+            <colgroup width="10"></colgroup>
+            <colgroup width="215"></colgroup>
+            <colgroup width="157"></colgroup>
+            <colgroup width="67"></colgroup>
+            <colgroup width="90"></colgroup>
+            <colgroup width="114"></colgroup>
+            <colgroup width="91"></colgroup>
+            <tr>
+                <td height="20">العنوان</td>
+                <td>@Html.Raw(@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_Address).Value)</td>
+                <td><br></td>
+                <td>س.ت</td>
+                <td>@Html.Raw(@Model.FirstOrDefault(x => x.Prop == PayRecProp.ST).Value)</td>
+                <td>ب.ض</td>
+                <td>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Vat_id).Value</td>
+            </tr>
+            <tr>
+                <td height="20">رقم التليفون	</td>
+                <td>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_phon).Value</td>
+                <td><br></td>
+                <td align="right">رقم الفاكس	</td>
+                <td>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_fax).Value</td>
+
+                <td>م.ض</td>
+                <td>@Model.FirstOrDefault(x => x.Prop == PayRecProp.Comp_tax_reg_num).Value</td>
+            </tr>
+        </table>
+    }
+
+</section>
+
+<script>
+    $(function () {
+        JustPrintThis("Print", "", null);
+    })
+</script>

@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Stocking Inquery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Ajax.BeginForm("StockingInqueryRes", "Rpt", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes", OnSuccess = "ReTranslate" }))
+{
+    <div class="form-group">
+        @Html.Label("", $"Store", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Store_id", null, "", htmlAttributes: new { @class = "form-control " })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", $"Site", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Site_id", null, "", htmlAttributes: new { @class = "form-control " })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", $"Item", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Item_id", null, "", htmlAttributes: new { @class = "form-control ", required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", $"Item Name", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <label id="ItemName"></label>
+    </div>
+    </div>
+
+    <div class="col-md-10">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+<script>
+
+</script>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

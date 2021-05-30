@@ -1,0 +1,78 @@
+﻿@model List<FabulousErp.Receivable.Models.Receivable_password_option>
+@{
+    ViewBag.Title = "Edit";
+    Layout = null ;
+    int Count = 0;
+    string Display = "";
+}
+
+
+@using (Ajax.BeginForm("Edit","Password_option",new AjaxOptions { }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @foreach (Receivable_password_option i in Model)
+    {
+        <section class="clearfix MyHeight">
+            <input value="@i.Id" type="hidden" name="password_option[@Count].Id" />
+            <div class="form-group">
+                @Html.LabelFor(model => i.HasPassword, "Has Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.CheckBox($"password_option[{Count}].HasPassword",i.HasPassword,new { @class = "HasPassword v-middle" })
+                        @Html.ValidationMessageFor(model => i.HasPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            @if (i.HasPassword)
+            {
+                Display = "";
+            }
+            else
+            {
+                Display = "display:none;";
+
+            }
+            <div class="form-group" style="@Display">
+                @Html.LabelFor(model => i.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        <input class="form-control" value="@i.Password" name="password_option[@Count].Password" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group v-middle">
+                @{ 
+                    Password_optionEnum o = i.Option;
+                    var d = o.GetAttribute<DisplayAttribute>();
+                }
+                <div >
+                    @Html.LabelFor(model => i.Option, d.Name, htmlAttributes: new { @class = "WidthAuto" })
+
+                    <input type="hidden" name="password_option[@Count].Option" value="@i.Option" />
+                </div>
+            </div>
+        </section>
+        Count++;
+    }
+
+    <div class="form-group hide">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<script>
+    $(document).on("click", ".HasPassword", function () {
+        console.log("Password");
+        if ($(this).is(":checked")) {
+            $(this).parents(".form-group").next(".form-group").show();
+        } else {
+            $(this).parents(".form-group").next(".form-group").hide();
+
+        }
+    })
+</script>

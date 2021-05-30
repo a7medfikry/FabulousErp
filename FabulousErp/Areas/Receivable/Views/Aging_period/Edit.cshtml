@@ -1,0 +1,75 @@
+﻿@model List<FabulousErp.Receivable.Models.Receivable_aging_period>
+
+@{
+    Layout = null;
+    int Count = 0;
+    string Checked = "";
+}
+
+<section>
+    @using (Ajax.BeginForm("Edit", "Aging_period", new AjaxOptions { }))
+    {
+        @Html.AntiForgeryToken()
+
+        foreach (Receivable_aging_period i in Model)
+        {
+            <div class="form-horizontal clearfix AgingCnt">
+                <i class="fa fa-close closeAgeing" data-id="@i.Id" style=""></i><br />
+
+                <input value="@i.Id" type="hidden" name="aging_period[@Count].Id" />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => i.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input class="form-control" value="@i.Name" name="aging_period[@Count].Name" />
+
+                        @Html.ValidationMessageFor(model => i.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => i.From, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input class="form-control AgingFrom" value="@i.From" name="aging_period[@Count].From" />
+
+                        @Html.ValidationMessageFor(model => i.From, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => i.To, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input class="form-control AgingTo" value="@i.To" name="aging_period[@Count].To" />
+
+                        @Html.ValidationMessageFor(model => i.To, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            Count++;
+        }
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</section>
+
+<script>
+    $(document).on("click", ".closeAgeing", function () {
+        var This = $(this);
+        if ($(this).attr("data-id")) {
+            $.ajax({
+                url: "@Url.Action("DeleteJson")?id="+$(This).attr("data-id"),
+                success: function (data) {
+                    if (data == 1) {
+                        $(This).parents(".AgingCnt").remove();
+                    } else {
+                        Talert("SomeThing Went Wrong")
+                    }
+                },
+                method:"POST"
+            })
+        }
+    })
+</script>

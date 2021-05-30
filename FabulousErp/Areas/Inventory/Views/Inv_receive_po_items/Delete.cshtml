@@ -1,0 +1,125 @@
+﻿@model FabulousDB.Models.Inv_receive_po_items
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Inv_receive_po_items</h4>
+    <hr />
+    <dl class="dl-horizontal">
+       
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.Item_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.Item_id)
+        </dd>
+
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.UOM.Unit_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UOM.Unit_id)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unit_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unit_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount_system_currency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount_system_currency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Net_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Net_amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Table_vat_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Table_vat_amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vat_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vat_amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deduct_amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deduct_amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Receive_po_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Receive_po_id)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

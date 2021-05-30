@@ -1,0 +1,56 @@
+﻿@model FabulousDB.Models.Inv_quotation_request_item
+
+@{
+    Layout = null;
+}
+
+
+@using (Ajax.BeginForm("Create", "Inv_quotation_request_item", new AjaxOptions
+{
+
+}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.item_id, "item_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("item_id", null, htmlAttributes: new { @class = "form-control item_id" })
+                @Html.ValidationMessageFor(model => model.item_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quntaty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quntaty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quntaty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Quotation_request_id, "Quotation_request_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="Quotation_request_id" name="Quotation_request_id" class="Quotation_request_id" />
+                @Html.ValidationMessageFor(model => model.Quotation_request_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label class="fa fa-times DelPar"></label>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).on("click", ".DelPar", function () {
+        $(this).parents(".form-horizontal").remove();
+    })
+</script>

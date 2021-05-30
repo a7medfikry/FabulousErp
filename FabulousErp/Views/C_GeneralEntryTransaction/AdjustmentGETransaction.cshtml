@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Adjustment General Entry Transaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "TCAGE";
+}
+<div class="container-fluid d-print-none" id="TCGE">
+
+    <!-- **** For Checks **** -->
+    <span class="hide-normal" id="TCGE-BatchAction">@ViewBag.BatchAction</span>
+    <span class="hide-normal" id="TCGE-PostDateType">@ViewBag.PostDateType</span>
+    <span id="importantForReport" hidden></span>
+
+    <div class="btn-group btn-group-sm mb-1" role="group">
+        <button type="button" class="btn btn-info" id="TCGE-Attachment">Attachment</button>
+        <button type="button" class="btn btn-primary" id="TCGE-Save">Save</button>
+        <button type="button" class="btn btn-secondary" id="TCGE-Reset">Reset</button>
+        <button type="button" class="btn btn-danger" id="TCGE-Post">Post</button>
+    </div>
+    <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="collapse" aria-expanded="false" data-target="#collapseFirst" aria-controls="collapseFirst">Open&Close</button>
+
+    <!-- **** For Errors **** -->
+    <span class="text-error" id="TCGE-GlobalError"></span>
+
+    @{Html.RenderAction("GetAdjBatchHeader", new { TCS_JENum = true });}
+
+    <div class="modal fade" id="TCGE-PUSeveralRates">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>There Exist Several Rates To This Currency Choose One..</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("TCGE-SeveralSRate", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="TCGE-CancelChooseRate">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="TCGE-PUAddNewBatch">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Add New Batch..</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Batch ID :</label>
+                    @Html.TextBox("TCGE-ABatchID", null, new { @id = "TCGE-ABatchID" })
+                    <label>Batch Description :</label>
+                    @Html.TextBox("TCGE-ABatchDescription", null, new { @id = "TCGE-ABatchDescription" })
+                    <span id="TCGE-ANBError" class="text-error"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="TCGE-CancelAddNewBatch">Cancel</button>
+                    <button type="button" id="TCGE-ConfirmAddNewBatch" class="btn btn-primary btn-sm">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_MainTransaction")
+</div>
+<div class="aa"></div>
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Transaction_Script.js")
+<script>
+    $("#TCGE-AdjPostingDate").focusout(function () {
+        var postingDate = $(this).val();
+        CheckPostingDateInPeriods(postingDate, function (Test) {
+            if (Test) {
+                $("#TCGE-AdjPostingDate").css("border-color", "");
+                $("#TCGE-GlobalError").text("");
+            }
+        }, function (status) {
+            if (status == 404) {
+                $("#TCGE-AdjPostingDate").css("border-color", "red");
+                $("#TCGE-GlobalError").text("Posting Date Not Valid..!");
+                test = false;
+            } else if (status == 406)
+                $("#TCGE-AdjPostingDate").css("border-color", "red");
+            $("#TCGE-GlobalError").text("Posting Date In Close Period..!");
+            test = false;
+        })
+    });
+</script>
+
+
+<script>
+    $("#FUGAS").hide();
+    $("#FileUploadGlobalDelete").hide();
+    $("#CBT-Attachment").click(function () {
+        $(".AttachmentUploadFile").trigger("click")
+    })
+    $("#fileupload").find("input[type='checkbox']").hide()
+</script>

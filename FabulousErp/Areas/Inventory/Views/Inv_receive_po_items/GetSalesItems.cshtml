@@ -1,0 +1,130 @@
+﻿@{ 
+    decimal Total = 0;
+}
+@model IEnumerable<FabulousDB.Models.Inv_sales_invoice_items>
+
+    <table style="width:100%;" class="table table-bordered table-striped" id="ItemTbl">
+        <thead>
+            <tr>
+                <th class="hide">Item Id</th>
+                <th class="ShowRecipt" style="display:none;">Item Id</th>
+                <th>Item Name</th>
+                <th>U O M</th>
+                <th >QTY</th>
+                <th class="HideRecipt">Unit Cost</th>
+                <th class="HideRecipt">Total</th>
+                <th class="HideRecipt">Discount</th>
+                <th class="HideRecipt">Vat</th>
+                <th class="HideRecipt">Table Vat</th>
+                <th class="HideRecipt">Deduct</th>
+            </tr>
+        </thead>
+
+        <tbody id="itemsBody">
+            @foreach (FabulousDB.Models.Inv_sales_invoice_items i in Model)
+            {
+                <tr data-id="@i.Id">
+                    <td class="hide ItemId" >@i.Item_id</td>
+                    <td class="ShowRecipt" style="display:none;"> @i.Item.Item_id</td>
+                    <td>@i.Item.Short_description</td>
+                    <td data-id='@i.UOM_id'>@i.UOM.Unit_id</td>
+                    <td class='ItemQty '>@i.Quantity</td>
+                    <td class='ItemPriceMask MaskTxt HideRecipt'>@Inventory.Controllers.InvBus.CalcItemEqUnitPrice(i.Item_id, i.UOM_id.Value, i.Quantity, i.Cost_price.Value, true)</td>
+                    <td class='BodyTotal MaskTxt HideRecipt' data-caid="@i.Item.Item_gl_account.FirstOrDefault().Inventory.C_AID">@(Inventory.Controllers.InvBus.CalcItemEqUnitPrice(i.Item_id,i.UOM_id.Value, i.Quantity,i.Cost_price.Value,true)* (decimal)i.Quantity)</td>
+                    <td class='BodyDiscount MaskTxt HideRecipt'>@i.Discount</td>
+                    @{ 
+                        Total+= (Inventory.Controllers.InvBus.CalcItemEqUnitPrice(i.Item_id,i.UOM_id.Value, i.Quantity,i.Cost_price.Value,true)* (decimal)i.Quantity);
+                    }
+                    @try
+                    {
+                        <td data-tax-accId='@i.Item.Vat.C_AID' data-tax-id='@i.Item.Vat_id' data-tax-per='@i.Item.Vat.C_Taxpercentage' class='BodyVat MaskTxt HideRecipt'>@i.Vat_amount</td>
+                    }
+                    catch
+                    {
+                        <td data-tax-accId='' data-tax-id='' data-tax-per='' class='BodyVat HideRecipt'></td>
+                    }
+                    @try
+                    {
+                        <td data-tax-accId='@i.Item.Tbl_vat.C_AID' data-tax-id='@i.Item.Tbl_vat_Id' data-tax-per='@i.Item.Tbl_vat.C_Taxpercentage' class='BodyTableVat MaskTxt HideRecipt'>@i.Table_vat_amount</td>
+
+                    }
+                    catch
+                    {
+                        <td data-tax-accId='' data-tax-id='' data-tax-per='' class='BodyTableVat MaskTxt HideRecipt'></td>
+
+                    }
+                    @try
+                    {
+                        <td data-tax-accId='@i.Item.Deduct_tax.FirstOrDefault().Deduct.C_AID' data-tax-id='@i.Item.Deduct_tax.FirstOrDefault().Deduct.C_AID' data-tax-per='@i.Item.Deduct_tax.FirstOrDefault().Deduct.C_Taxpercentage' class='BodyDeduct MaskTxt HideRecipt'>@i.Deduct_amount</td>
+
+                    }
+                    catch
+                    {
+                        <td data-tax-accId='' data-tax-id='' data-tax-per='' class='BodyDeduct MaskTxt HideRecipt'>@i.Deduct_amount</td>
+                    }
+                    <td class='PoItem hide'>@i.Sales_invoice_id</td>
+                    <td class='ItemSite hide'>@i.Sales_invoice.Site_id</td>
+                    <td class='BodyFright hide'>@i.Fright</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="HideRecipt">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="MaskTxt">@Total </td>
+                <td class="MaskTxt">@Model.Sum(x => x.Discount)</td>
+                <td class="MaskTxt">@Model.Sum(x => x.Vat_amount)</td>
+                <td class="MaskTxt">@Model.Sum(x => x.Table_vat_amount)</td>
+                <td class="MaskTxt">@Model.Sum(x => x.Deduct_amount)</td>
+            </tr>
+        </tfoot>
+
+    </table>
+
+<script>
+    $(document).on("change", "#Quantity,#Unit_priceMask", function () {
+        $("#TotalMask").val(RoundNumber((parseFloat($("#Quantity").val()) * GetMaskNumber($("#Unit_priceMask").val()))) - GetMaskNumber($("#DiscountMask").val())).trigger('mask.maskMoney').trigger("change");
+    });
+    $(document).on("change", "#DiscountMask", function () {
+        $("#Net_amountMask").val(GetMaskNumber($("#TotalMask").val()) - GetMaskNumber($("#DiscountMask").val())).trigger('mask.maskMoney').trigger("change");
+    });
+    $("#Table_vat_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value"))/100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Table_vat_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    });
+    $("#Vat_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Vat_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    })
+    $("#Deduct_id").change(function () {
+        var NetAmount = GetMaskNumber($("#Net_amountMask").val());
+        var ThisVat = parseFloat($(this).find("option:selected").attr("data-value")) / 100;
+        var ThisValue = RoundNumber(GetMaskNumber($("#Net_amountMask").val()) * ThisVat);
+        $("#Deduct_amountMask").val(ThisValue).trigger('mask.maskMoney').trigger("change")
+    })
+    $("#Site_id").change(function () {
+        $("#Site_idDown").val($(this).val())
+        $("#Site_idDown").trigger("change");
+    })
+    $("#Site_idDown").change(function () {
+        $.ajax({
+            url: "/inventory/Inv_item/GetSiteItems?SiteId=" + $("#Site_idDown").val(),
+            method: "POST",
+            success: function (data) {
+                $("select#Item_id").empty();
+                $("select#Item_id").append("<option value=''></option>")
+
+                $.each(data, function (k, i) {
+                    $("select#Item_id").append("<option value='" + i.Id + "'>" + i.Item_id + "</option>")
+                })
+            }
+        })
+    })
+</script>

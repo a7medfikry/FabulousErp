@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue;
+    var Controller = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue;
+}
+@if (Controller.ToString() == "Receivable_transaction" && Action.ToString() == "Create")
+{
+
+   
+}
+

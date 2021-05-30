@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "Factory CheckBook Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "SFCB";
+}
+<div class="container-fluid">
+    <!-- **** For Session Checks **** -->
+    <span class="hide-normal" id="SFCB-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="SFCB-BranchID"></span>
+    <span class="hide-normal" id="SFCB-FactoryID"></span>
+
+    <form>
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-primary" id="SFCB-CheckbookSave">Save</button>
+            <button type="button" class="btn btn-info" id="SFCB-CheckbookUpdate" disabled>Update</button>
+            <button type="button" class="btn btn-danger" id="SFCB-CheckbookDelete" disabled>Delete</button>
+            <button type="button" class="btn btn-secondary" id="SFCB-CheckbookClear">Clear</button>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="fast-link">
+                    <a class="text-info font-italic" href="/Inquiry_CheckbookSetting/FactoryCB"> Inquiry OF Factory Checkbook </a>
+                </div>
+                <!-- Global Spans -->
+                <span class="text-error" id="SFCB-GlobalErrors"></span>
+                <span class="text-success" id="SFCB-GlobalSuccess"></span>
+
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm"> Factory ID <span class="star">*</span> </label>
+                        @if (FabulousErp.Business.GetCompanyId() != null )
+                        {
+                            @Html.DropDownList("SFCB-factoryID", ViewBag.FactoryID as SelectList, "-Choose-", new { @id = "SFCB-factoryID", @class = "form-control form-control-sm" })
+                        }
+                       
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-form-label col-form-label-sm"> Factory Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-factoryName" placeholder="..." disabled>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm"> Checkbook ID <span class="star">*</span> </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" id="SFCB-checkbookID" maxlength="10">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#SFCB-searchModal"> <i class="fa fa-search"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-form-label col-form-label-sm"> Checkbook Name <span class="star">*</span> </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-checkbookName">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="col-form-label col-form-label-sm text-hide"> Checkbook Status </label>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="SFCB-checkbookStatus" class="custom-control-input" value="False" />
+                            <label for="SFCB-checkbookStatus" class="custom-control-label"> Inactive </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm"> CheckBook Type <span class="star">*</span> </label>
+                        @Html.DropDownList("SFCB-checkbookType", new List<SelectListItem>
+                                             {
+                                             new SelectListItem{Text = "Cash" , Value = "Cash" },
+                                             new SelectListItem{Text = "Bank" , Value = "Bank" }
+                                             },"-Choose-",new { @id = "SFCB-checkbookType", @class= "form-control form-control-sm" })
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label class="col-form-label col-form-label-sm"> Currency <span class="star">*</span> </label>
+                        @Html.DropDownList("SCCB-currency", new SelectList(""), "-Choose-", new { @id = "SFCB-currency", @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-form-label col-form-label-sm"> Account ID <span class="star">*</span> </label>
+                        @Html.DropDownList("SCCB-accountID", new SelectList(""), "-Choose-", new { @id = "SFCB-accountID", @class = "form-control form-control-sm" })
+                    </div>
+                    <div class="col-md-5">
+                        <label class="col-form-label col-form-label-sm"> Account Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-accountName" placeholder="..." disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-2">
+                        <label class="col-form-label col-form-label-sm"> Min. Amount </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-minAmount" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="col-form-label col-form-label-sm"> Max. Amount </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-maxAmount" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-form-label col-form-label-sm"> Next Withdraw Number <span class="star">*</span> </label>
+                        <input type="text" class="form-control form-control-sm" value="1" id="SFCB-Nextwithdraw" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-form-label col-form-label-sm"> Next Deposit Number <span class="star">*</span> </label>
+                        <input type="text" class="form-control form-control-sm" value="1" id="SFCB-Nextdeposit" />
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label class="col-form-label col-form-label-sm"> Current Checkbook Balance </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-currentBalance" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-form-label col-form-label-sm"> Current Cash Account Balance </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-currentCash" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label class="col-form-label col-form-label-sm"> Last Reconcile Balance </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-lastReconcileBalance" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-form-label col-form-label-sm"> Last Reconcile Date </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-lastReconcileDate" disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 border br-5 bg-light">
+                <div class="form-row">
+                    <div class="col-md">
+                        <label class="col-form-label col-form-label-sm"> bank Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-bankName" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md">
+                        <label class="col-form-label col-form-label-sm"> bank Account Number </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-bankAccountNumber" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md">
+                        <label class="col-form-label col-form-label-sm"> bank Account Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-bankAccountName" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md">
+                        <label class="col-form-label col-form-label-sm"> Branch Name </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-branchName2" disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <label class="col-form-label col-form-label-sm"> Swift Code </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-swiftCode" disabled />
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-form-label col-form-label-sm"> IBAN </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-IBAN" maxlength="30" style="font-size:13px" disabled />
+                    </div>
+                </div>
+                <hr />
+
+                <!-- Checkbook Security-->
+                <h5 class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted">Checkbook Security</span>
+                    <span class="fa fa-lock"></span>
+                </h5>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" name="CBS" id="SFCB-CBuserID" class="custom-control-input" />
+                            <label class="custom-control-label" for="SFCB-CBuserID"> User ID </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" name="CBS" id="SFCB-CBpassword" class="custom-control-input" />
+                            <label class="custom-control-label" for="SFCB-CBpassword"> Password </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md mb-1">
+                        <label for="SFCB-securityUserID" class="col-form-label col-form-label-sm"> User ID </label>
+                        @Html.DropDownList("SFCB-securityUserID", ViewBag.UserIDs as SelectList, "-Choose-", new { @id = "SFCB-securityUserID", @class = "form-control form-control-sm", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md mb-1">
+                        <label for="SFCB-securityPassword" class="col-form-label col-form-label-sm"> Password </label>
+                        <input type="text" class="form-control form-control-sm" id="SFCB-securityPassword" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- checkbook search modal -->
+        <div class="modal fade" id="SFCB-searchModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabelSmall"> Checkbook Search </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @Html.DropDownList("SFCB-checkbookSearch", new SelectList(""), "-Choose-", new { @id = "SFCB-checkbookSearch", @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End The modal -->
+    </form>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Factory/F_CheckBook/F_CheckBookSetting.js")

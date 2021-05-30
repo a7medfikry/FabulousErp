@@ -1,0 +1,8 @@
+﻿@model IEnumerable<FabulousErp.Receivable.Models.Assign_Receivable_doc>
+
+@{
+    ViewBag.Title = "Assign Receivable Doc";
+    int SortBy = 1;
+}
+
+@Html.Action("ReportSearch", "Common", new { section = Request["section"], Cont = "Assign_Receivable_doc" })

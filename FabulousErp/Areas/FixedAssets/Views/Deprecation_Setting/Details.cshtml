@@ -1,0 +1,50 @@
+﻿@model FabulousDB.Models.Deprecation_Setting
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Deprecation_Setting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Auto_or_manual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Auto_or_manual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deprecation_calcualtion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deprecation_calcualtion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deprecation_jv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deprecation_jv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Change_deprecation_method)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Change_deprecation_method)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

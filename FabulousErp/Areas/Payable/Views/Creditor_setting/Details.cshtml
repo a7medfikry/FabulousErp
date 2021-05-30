@@ -1,0 +1,156 @@
+﻿@model FabulousErp.Payable.Models.Payable_creditor_setting
+
+@{
+    ViewBag.Title = "Creditor Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Check_book.CompanyID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Check_book.CompanyID)
+        </dd>
+
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Group_setting.Group_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group_setting.Group_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment_terms.Terms_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment_terms.Terms_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shippint_method.Ship_method)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shippint_method.Ship_method)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tax.TaxGroupID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tax.TaxGroupID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendor_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendor_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vendor_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vendor_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Minimum_order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Minimum_order)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Maximum_order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Maximum_order)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Revaluate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Revaluate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Credit_limit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Credit_limit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Minimum_payment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Minimum_payment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment_per)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment_per)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,99 @@
+﻿@model FabulousErp.Receivable.Models.Receivable_gl_account
+@{ 
+    Layout = null;
+}
+@using (Ajax.BeginForm("Create", "Gl_account",new AjaxOptions {OnSuccess="AccountCreated" },new {id="AccountForm" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h5 style="font-weight:bold;">
+        <span>Gl Account</span>
+        </h5>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account_Receivable_id, "Acc. Receivable", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m=>m.Account_Receivable_id, null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+                @Html.ValidationMessageFor(model => model.Account_Receivable_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sales_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m=>m.Sales_id, null,"", htmlAttributes: new { @class = "form-control NoSelect" })
+                @Html.ValidationMessageFor(model => model.Sales_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Discount_id, "Discount", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m=>m.Discount_id, null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+                @Html.ValidationMessageFor(model => model.Discount_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sales_variance_id, "Sales Var.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Sales_variance_id, null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+                @Html.ValidationMessageFor(model => model.Sales_variance_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Accrued_sales_id, "Sales Accr.", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Accrued_sales_id, null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+                @Html.ValidationMessageFor(model => model.Accrued_sales_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Returne_id, "Returne", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Returne_id, null, "", htmlAttributes: new { @class = "form-control NoSelect" })
+                @Html.ValidationMessageFor(model => model.Returne_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Receivable_Group_setting_id, "Group Setting ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Receivable_Group_setting_id, null, new { htmlAttributes = new { @class = "form-control",id= "Group_setting_id" } })
+                @Html.ValidationMessageFor(model => model.Receivable_Group_setting_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            @Html.LabelFor(model => model.Creditor_setting_id, "Creditor Setting ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m=>m.Creditor_setting_id, null,new { htmlAttributes= new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Creditor_setting_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group hide">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="CreateGlAccount" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function AccountCreated() {
+        var Red = window.location.href;
+        if (window.location.href.indexOf("/Create") > -1) {
+             Red = window.location.href.substring(0, window.location.href.indexOf("/Create"));
+
+        }
+        if (window.location.href.indexOf("/Edit") > -1) {
+            Red = window.location.href.substring(0, window.location.href.indexOf("/Edit"));
+
+        }
+        RedirectInt(Red);
+    }
+</script>

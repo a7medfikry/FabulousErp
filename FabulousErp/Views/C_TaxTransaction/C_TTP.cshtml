@@ -1,0 +1,245 @@
+﻿@{
+    Layout = null;
+}
+<div class="container-fluid">
+
+    <span class="hide-normal" id="TCGE-CompanyID">@FabulousErp.Business.GetCompanyId()</span>
+    <span class="hide-normal" id="TCGE-FJEPer">@ViewBag.FJEPer</span>
+    <span class="hide-normal" id="TCGE-CheckYear">@ViewBag.CheckYear</span>
+    <span class="hide-normal" id="TCGE-AllowUserERate">@ViewBag.AllowUserERate</span>
+    <span class="hide-normal" id="TCGE-EPD">@ViewBag.EPD</span>
+    <span class="hide-normal" id="TCGE-FormatSetting">@ViewBag.FormateSetting</span>
+
+    <input type="text" id="TCGE-GurrencyFormate" class="hide-normal" />
+    <input type="text" id="TCGE-HardGurrencyFormate" class="hide-normal" />
+
+    <span class="text-error font-weight-bold" id="TCGE-GlobalError"></span>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Date : <span class="star">*</span> </label>
+        <div class="col-md-2">
+            @Html.TextBox("TCT-JEDate", null, new { @id = "TCT-JEDate", @type = "date", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Posting Date : <span class="star">*</span></label>
+        <div class="col-md-2">
+            @Html.TextBox("TCT-PostingDate", null, new { @id = "TCT-PostingDate", @type = "date", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Document: <span class="star">*</span></label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCT-SUD", new List<SelectListItem>
+                                 {
+                                 new SelectListItem{Text = "Supported an external document" , Value = "SED" },
+                                 new SelectListItem{Text = "Supported an internal document" , Value = "SID" },
+                                 new SelectListItem{Text = "Unsupported" , Value = "UnS" }
+                                 }, "-Choose-", new { @id = "TCGE-SUD", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Currency : <span class="star">*</span></label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCGE-CurrencyID", @ViewBag.CurrencyIDList as SelectList, "-Choose-", new { @id = "TCGE-CurrencyID", @class = "form-control form-control-sm" })
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Reference : <span class="star">*</span></label>
+        <div class="col-md">
+            <input type="text" class="form-control form-control-sm" id="TCGE-Reference" maxlength="100" />
+        </div>
+    </div>
+    <div class="hide-normal" id="TCCR-rateField">
+        <div class="form-row mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> System Rate : <span class="star">*</span> </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-SystemRate" disabled />
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Transaction Rate : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-TransactionRate" disabled />
+            </div>
+
+            <label class="col-md-2 col-form-label col-form-label-sm"> Difference : </label>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="TCGE-DiffrenceRate " disabled />
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="form-row mb-1  validateTaxHeader">
+        <label class="col-md-2 col-form-label col-form-label-sm" style="display:inline-block">Doc. Type<span class="star">*</span></label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCT-documentType", new List<SelectListItem>
+                            {
+                            new SelectListItem{Text = "1- Invoice" , Value = "1" },
+                            new SelectListItem{Text = "2- Credit Memo" , Value = "2" },
+                            new SelectListItem{Text = "3- Debit Memo" , Value = "3" },
+                            new SelectListItem{Text = "4- Customs Clearance" , Value = "4" }
+                            }, "-Choose-", new { @id = "TCT-documentType", @class = "form-control form-control-sm d-inline-block col-sm-6" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm">Doc. Num. : <span class="star">*</span></label>
+        <div class="col-md-2">
+            <input type="text" id="TCT-documentNumber" class="form-control form-control-sm" maxlength="20" />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm">Date : <span class="star">*</span></label>
+        <div class="col-md-2">
+            <input type="date" id="TCT-documentDate" class="form-control form-control-sm" />
+        </div>
+
+    </div>
+
+    <div class="form-row mb-1 validateTaxHeader">
+        <label class="col-md-2 col-form-label col-form-label-sm ">Tax Group ID : <span class="star">*</span></label>
+        <div class="col-md-2">
+            @Html.DropDownList("TCT-taxGroupID", ViewBag.GroupTaxList as SelectList, new { @id = "TCT-taxGroupID", @class = "form-control form-control-sm" })
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm">Vendor Name : <span class="star">*</span></label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="TCT-vendorName" maxlength="50" />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm">Tax Register Number :</label>
+        <div class="col-md-2">
+            <input type="number" class="form-control form-control-sm" id="TCT-taxRegisterNo" maxlength="20" />
+        </div>
+
+    </div>
+
+    <div class="form-row mb-1 validateTaxHeader">
+
+        <label class="col-md-2 col-form-label col-form-label-sm">Tax File Number :</label>
+        <div class="col-md-2">
+            <input type="number" class="form-control form-control-sm" id="TCT-taxFileNo" maxlength="20" />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm">Address : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="TCT-address" maxlength="50" />
+        </div>
+
+        <label class="col-md-2 col-form-label col-form-label-sm">National ID : </label>
+        <div class="col-md-2">
+            <input type="number" class="form-control form-control-sm" id="TCT-nationalID" maxlength="20" />
+        </div>
+
+       
+
+    </div>
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm">Mobile Number : </label>
+        <div class="col-md-2">
+            <input type="number" class="form-control form-control-sm" id="TCT-mobileNumber" maxlength="20" />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm">Statement Type:</label>
+        <div class="col-md-2">
+            @Html.DropDownList("StatementType", new List<SelectListItem>
+                       {
+                           new SelectListItem{Text = "1- Local" , Value = "1" },
+                           new SelectListItem{Text = "2- Imported" , Value = "2" },
+                           new SelectListItem{Text = "5- Reconcile" , Value = "5" },
+                       }, "-Choose-", new { @id = "StatementType", @class = "form-control form-control-sm d-inline-block col-sm-6" ,disabled= "disabled" })
+        </div>
+    </div>
+    <hr />
+    @Html.Action("MainTax", "C_TaxTransaction", new { area = "" })
+    <section id="TCT-partAfterDone" class="hide-normal">
+        <div class="form-row mt-2 mb-1">
+            <label class="col-md-2 col-form-label col-form-label-sm"> Tax1 Deb. : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="TCT-taxDeb" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> Tax2 CR : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="TCT-taxCR" disabled />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-md-2 col-form-label col-form-label-sm"> PUSH Amount Deb. : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="TCT-pushAmount" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> PAY Amount CR. : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="TCT-payAmount" disabled />
+            </div>
+            <label class="col-md-2 col-form-label col-form-label-sm"> DIS Amount CR. : </label>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" id="TCT-disAmount" disabled />
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="TCGE-PUSeveralRates">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>There Exist Several Rates To This Currency Choose One..</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    @Html.DropDownList("TCGE-SeveralSRate", new SelectList(""), "-Choose-", new { @id = "TCGE-SeveralSRate", @class = "form-control form-control-sm" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="TCGE-CancelChooseRate">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="mt-2 table-responsive">
+            <table class="table table-bordered table-striped" id="TCT-GTbl">
+                <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Account Name</th>
+                        <th>Original Amount</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                </thead>
+                <tbody id="TCT-TTbl"></tbody>
+            </table>
+        </div>*@
+
+    <hr />
+    <!-- GE Transaction -->
+    @Html.Partial("_MainTransaction")
+
+
+    @* -------------------------------- Temp Table For Filters Accounts ----------------------------- *@
+    @*<div class="mt-2 table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Tax ID</th>
+                        <th>Account ID</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>*@
+
+
+
+
+</div>
+
+@**@
+@Html.IncludeVersionedJs("/_Content/JS/MainTransactions.js")
+<script>
+    $(function () {
+        $("#TCT-taxGroupID").trigger("change")
+    })
+    $("#TCT-documentType").on("change",function () {
+        if ($(this).val() == 1 || $(this).val() == 2
+            || $(this).val() == 3) {
+            $("#StatementType").val(1);
+        } else if ($(this).val() == 4) {
+            $("#StatementType").val(2)
+        }
+        ForceRefreshThisPicker("StatementType");
+    })
+</script>

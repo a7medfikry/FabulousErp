@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue;
+    var Controller = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue;
+}
+@using FabulousDB.DB_Context;
+@if (Controller.ToString()=="Payable_transaction"&& Action.ToString()=="Create")
+{
+
+   
+}
+

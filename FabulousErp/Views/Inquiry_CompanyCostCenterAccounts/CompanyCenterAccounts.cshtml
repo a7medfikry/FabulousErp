@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "List of Company Cost Center Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "ICCCA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <!-- Errors show -->
+        <span class="col-md-12 text-error" id="ICCCA-errors"></span>
+
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="ICCCA-companyID" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center ID : </label>
+        <div class="col-md-2">
+            @Html.DropDownList("CompAnalyticID", new SelectList(""), "-Choose-", new { @id = "ICCCA-CompCostID", @class = "form-control form-control-sm"})
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Cost Center Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" id="ICCCA-costname" disabled />
+        </div>
+    </div>
+
+    <!-- Table Area Start -->
+    <table class="table table-bordered table-striped display nowrap">
+        <thead>
+            <tr>
+                <th width="30%"> Cost Account ID </th>
+                <th width="70%"> Cost Account Name </th>
+            </tr>
+        </thead>
+        <tbody id="ICCCA-append-data"></tbody>
+    </table>
+</div>
+
+
+<!-- Scripts here -->
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/Financial-Accounting.js")
+

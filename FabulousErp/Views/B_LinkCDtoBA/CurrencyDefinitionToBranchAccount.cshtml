@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Link Currency Definition To Branch Account";
+    ViewBag.FormCode = "CDTBA";
+}
+<div class="container-fluid">
+    <span id="CDTBA-AccessError" class="text-danger"></span>
+    <div class="form-row mb-1">
+        @if (FabulousErp.Business.GetCompanyId() != null)
+        {
+            <div class="col-md-2">
+                <label for="BranchID"> Branch ID : <i class="star">*</i> </label>
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("CDTBA-BranchID", ViewBag.BranchList as SelectList, "-Choose-", new { @id = "CDTBA-BranchID", @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-2">
+                <label for="BranchName"> Branch Name : </label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="CDTBA-BranchName" class="form-control form-control-sm" disabled />
+            </div>
+        }
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-2">
+            <label> Currency : <span class="star">*</span> </label>
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("CDTBA-AccountCurrencyID", ViewBag.CurrencyList as SelectList, "-Choose-", new { @id = "CDTBA-AccountCurrencyID", @class = "form-control form-control-sm", @disabled = "disabled" })
+        </div>
+        <div class="col-md-2">
+            <label> Currency Name : </label>
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("CDTBA-AccountCurrencyName", null, new { @id = "CDTBA-AccountCurrencyName", @disabled = "disabled" , @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="form-row mb-1">
+        <div class="col-md-2">
+            <label> Profit Account ID : <i class="star">*</i> </label>
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("CDTBA-AccountID", new SelectList(""), "-Choose-", new { @id = "CDTBA-AccountID", @class = "form-control form-control-sm CDTBA-rAccountID" })
+        </div>
+        <div class="col-md-2">
+            <label> Account Name : </label>
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("CDTBA-AccountName", null, new { @id = "CDTBA-AccountName", @disabled = "disabled", @class = "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-2">
+            <label> Loss Account ID : <i class="star">*</i> </label>
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("CDTBA-AccountID2", new SelectList(""), "-Choose-", new { @id = "CDTBA-AccountID2", @class = "form-control form-control-sm CDTBA-rAccountID" })
+        </div>
+        <div class="col-md-2">
+            <label> Account Name : </label>
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("CDTBA-AccountName2", null, new { @id = "CDTBA-AccountName2", @disabled = "disabled" , @class = "form-control form-control-sm" })
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="CDTBA-AddAccToCurr" class="btn btn-primary btn-sm btn-block"> Save </button>
+            <button type="button" id="CDTBA-UpdateAccToCurr" class="btn btn-primary btn-sm btn-block hide-normal"> Update </button>
+        </div>
+    </div>
+
+</div>
+
+
+@Html.IncludeVersionedJs("/_Content/JS/Settings/Financial/Accounting/_Branch/B_Account/AddCurrencyDeToBAccount.js")
+

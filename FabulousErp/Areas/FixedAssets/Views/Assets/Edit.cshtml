@@ -1,0 +1,260 @@
+﻿@model FabulousDB.Models.Asset
+
+@{
+    ViewBag.Title = "Edit Assets";
+    if (ViewBag.IsPartial != true)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = null;
+    }
+}
+
+@using (Ajax.BeginForm("Edit", new AjaxOptions { OnSuccess = "SubmitOther" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @if (!string.IsNullOrWhiteSpace(Convert.ToString(Model.Assets_number)))
+    {
+        <div class="form-group SerialNumberDiv">
+            @Html.LabelFor(model => model.Assets_number, "Assets number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Assets_number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Assets_number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Assets_class_id, "Assets class", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Assets_class_id", null, "", htmlAttributes: new { @class = "form-control", @readonly = "readonly", required = "required" })
+            @Html.ValidationMessageFor(model => model.Assets_class_id, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Assets_main_id, "Assets main", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Assets_main_id", null, "", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Assets_main_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div id="PartsSerialDiv">
+        @{
+            int Count = 0;
+        }
+        @foreach (FabulousDB.Models.Assets_part_serial i in Model.Assets_part_serial.OrderBy(x => x.Part_number))
+        {
+            <div class='form-group Parts'>
+                <input name="PartsSerial[@Count].Id" value="@i.Id" class="AssetsPartId" type="hidden" />
+                <label>Assets Part Number @i.Part_number</label>
+                <input type='hidden' name='PartsSerial[@Count].Part_number' value='@i.Part_number' />
+                <input placeholder='Part @i.Part_number' class='form-control col-sm-12 AssetsPartSerial' name='PartsSerial[@Count].Serial' value="@i.Serial" required='required' />
+            </div>
+            Count++;
+        }
+
+    </div>
+    <div class="form-group Width60">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2 MyLable" })
+        <div class="col-md-10 MyDiv">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Foreign_name, "Foreign name", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Foreign_name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Foreign_name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Type", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Assets_type)), new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Proparty_type, "Proparty type", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Proparty_type", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Property_type)), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Proparty_type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Acquisation_cost, "Acquisation cost", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Acquisation_cost, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Acquisation_cost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date_of_orgin, "Date of orgin", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Date_of_orgin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Date_of_orgin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Scrap_value, "Scrap value", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Scrap_value, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Scrap_value, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @*@if (FixedAssets.Business.Business.GetChangeDeprecationMethod())
+        {*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.Deprecation_method, "Depr.  method", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Deprecation_method", EnumHelper.GetSelectList(typeof(FabulousDB.Models.Deprecation_method)), "", new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Deprecation_method, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @*}
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Deprecation_method, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.LabelFor(model => model.Deprecation_method,Enum.GetName(typeof(FabulousDB.Models.Deprecation_method), Model.Deprecation_method), htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
+            </div>
+        }*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Start_use, "Start use", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Start_use, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Start_use, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Use life Years</label>
+        <div class="col-md-10">
+            <input id="MyUseLife" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Use_life, "End Use life", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Use_life, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @readonly = "readonly" })
+
+
+            @Html.ValidationMessageFor(model => model.Use_life, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Number Of Days</label>
+        <div class="col-md-10 MyTotalDays">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Start_derecation_date, "Depr. date", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Start_derecation_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Start_derecation_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group Number_of_unitsDiv">
+        @Html.LabelFor(model => model.Number_of_units, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Number_of_units, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Number_of_units, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Include_scerap_value, "Add scrap value", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Include_scerap_value, new { htmlAttributes = new { @readonly = "readonly",@class="v-middle" } })
+                @Html.ValidationMessageFor(model => model.Include_scerap_value, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Deprecation_rate, "Depr. rate", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Deprecation_rate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Deprecation_rate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Deactive_depraction, "Deactive Depr.", htmlAttributes: new { @class = "control-label col-md-2", @readonly = "readonly" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Deactive_depraction, new { htmlAttributes = new { @readonly = "readonly", @class = "v-middle" } })
+                @Html.ValidationMessageFor(model => model.Deactive_depraction, "", new { @class = "text-danger", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Book, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.Book_id, null, "", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Book_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group hide">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="FirstForm" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<section id="AddtionalInfoDiv">
+    @foreach (FabulousDB.Models.Additional_information item in Model.Additional_information)
+    {
+        Html.RenderAction("Edit", "Additional_information", new { id = item.Id });
+    }
+</section>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" id="Save" value="Save" class="btn btn-success" />
+    </div>
+</div>
+<div class="form-group">
+    @Ajax.ActionLink("Add New Information", "Create", "Additional_information", new { area = "FixedAssets" }, new AjaxOptions { HttpMethod = "Get", Url = "/FixedAssets/Additional_information/Create", OnBegin = "MyLoader", OnSuccess = "CountFeildNo", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "AddtionalInfoDiv" }, new { @class = "btn btn-primary" })
+</div>
+<h4 class="Loader" style="display:none;">Please Wait</h4>
+@Html.IncludeVersionedJs("/Areas/FixedAssets/Scripts/AssetsScript.js")
+<script>
+    $(function () {
+        $("#MyUseLife").val(moment($("#Use_life").val()).diff(moment($("#Date_of_orgin").val()), 'years', true ));
+        $("#MyUseLife").attr("disabled", "disabled");
+        // CountFeildNo();
+        ///  $(".MyTotalDays").text(date_diff_indays($("#Start_derecation_date").val(), $("#Use_life").val()))
+    })
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index", new { Setting = "Edit" })
+</div>
+<script>
+    function SubmitOther() {
+        window.location.href = "/FixedAssets/Assets?Setting=Edit";
+    }
+</script>
+<script type="text/html" id="AssetsPartSerial">
+    <div class='Parts form-group' style="display:inline-block;">
+        <input name="PartsSerial[{{Count}}].Id" value="0" class="AssetsPartId" type="hidden" />
+        <label class="control-label col-md-2">Serial {{Part_number}}</label>
+        <div class="col-md-10">
+            <input type='hidden' name='PartsSerial[{{Count}}].Part_number' value='{{Part_number}}' />
+            <input placeholder='Part {{Part_number}}' class='form-control col-sm-12 AssetsPartSerial' name='PartsSerial[{{Count}}].Serial' value="" />
+        </div>
+
+    </div>
+</script>

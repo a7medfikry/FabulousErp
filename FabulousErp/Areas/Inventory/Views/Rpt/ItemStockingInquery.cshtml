@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Item Stocking Inquery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("ItemStockingInqueryRes", new AjaxOptions { UpdateTargetId = "Res", OnBegin = "EmptyRes" }))
+{
+
+    <div class="form-group">
+        <label class="col-md-4" >Serial</label>
+        <div class="col-md-10">
+            @Html.DropDownList("ItemSerial", null, "", new { @class = "form-control", name = "ItemSerial", id = "ItemSerial" })
+        </div>
+    </div>
+    <div class="col-md-3 d-inline-block">
+        <button type="submit" class="btn btn-success">Search</button>
+    </div>
+}
+<section id="Res">
+</section>
+@Html.IncludeVersionedJs("/Areas/Inventory/Script/CommonInventory.js")

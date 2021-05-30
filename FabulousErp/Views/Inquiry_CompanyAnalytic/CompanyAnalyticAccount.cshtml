@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "List Of Company Analytic Account";
+    ViewBag.FormCode = "ICAA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-1">
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company ID : </label>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-sm" id="InquiryCompanyID" value="@ViewBag.CompanyID" disabled />
+        </div>
+        <label class="col-md-2 col-form-label col-form-label-sm"> Company Name : </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" value="@ViewBag.CompanyName" disabled />
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th> Analytic Account ID </th>
+                <th> Analytic Account Name </th>
+            </tr>
+        </thead>
+        <tbody id="companyanalytic-append-data"></tbody>
+    </table>
+</div>
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/_Company/C_Analytic/Inquiry_CompanyAnalytic.js")

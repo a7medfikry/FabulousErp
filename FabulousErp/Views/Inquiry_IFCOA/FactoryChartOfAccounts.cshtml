@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Factory Chart Of Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.FormCode = "IFCOA";
+}
+<div class="container-fluid">
+    <div class="form-row mb-2">
+        <label class="col-form-label col-form-label-sm"> Factory ID : </label>
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    @Html.DropDownList("IFCOA-factoryID", ViewBag.FactoryID as SelectList, "-Choose-", new { @id = "IFCOA-factoryID", @class = "form-control form-control-sm" })
+                </div>
+                <input type="text" id="IFCOA-factoryName" class="form-control form-control-sm" readonly />
+            </div>
+        </div>
+
+        <label class="col-form-label col-form-label-sm"> Sort By : </label>
+        <div class="col-md-3">
+            @Html.DropDownList("ICOA-factorySort", new List<SelectListItem>
+                                     {
+                                     new SelectListItem{Text = "Account ID" , Value = "1" },
+                                     new SelectListItem{Text = "Account Name" , Value = "2" },
+                                     },"-Choose-",new { @id = "IFCOA-factorySort", @class= "form-control form-control-sm" })
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped display nowrap" id="example">
+        <thead>
+            <tr>
+                <td> Account ID </td>
+                <td> Account Name </td>
+                <td> Account Type </td>
+                <td> Account Group </td>
+                <td> Posting Type </td>
+            </tr>
+        </thead>
+        <tbody id="IFCOA-factorytbody"></tbody>
+    </table>
+    <button id="btnExport" class="btn btn-success btn-sm">Export To Excel <i class="fa fa-file-excel-o"></i> </button>
+
+</div>
+
+
+@*@Html.IncludeVersionedJs("/Scripts/jquery-3.3.1.js")*@
+@Html.IncludeVersionedJs("/_Content/JS/Inquiry/Financial/Accounting/ChartOfAccounts/Inquiry_ICOA.js")

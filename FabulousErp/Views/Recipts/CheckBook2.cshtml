@@ -1,0 +1,131 @@
+﻿@model List<ReciptsValues>
+@{
+    string From = "استلمنا من السادة";
+    if (Model.FirstOrDefault(x => x.Prop == ReciptProp.IsFrom).Value.ToLower() == "true".ToLower())
+    {
+        From = "استلمنا من السادة";
+    }
+    else
+    {
+        From = "يصرف إلي السادة";
+    }
+}
+<style>
+    .Fram {
+        outline: 5px solid #000;
+        border: 1px solid #000;
+        outline-offset: 3px;
+        background: #fff;
+    }
+
+    .col-md-6 {
+        width: 48%;
+        display: inline-block;
+    }
+
+    .Fram * {
+        direction: rtl;
+        font-size: 28px;
+    }
+
+    .right {
+        float: right;
+    }
+</style>
+<br />
+<br />
+
+<section class="Fram" style="min-height: 640px;">
+    <br />
+    <div>
+        <div class="col-md-6 CompanyName text-right" style="height:45px;overflow:hidden;">
+            <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Comp_nam).Value</span>
+        </div>
+        <div class="col-md-6 Logo text-center">
+            <img src="@Model.FirstOrDefault(x=>x.Prop==ReciptProp.Logo).Value" style="width: 300px;height:60px;" />
+        </div>
+    </div>
+    <br />
+    <div style="height:45px;overflow:hidden;">
+        <div class="col-md-6 CompanyName text-right">
+            <span>كود الخزينة:</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.CheckBook_id).Value</span>
+        </div>
+        <div class="col-md-6 text-center">
+            <span>اسم الخزينة:</span>  <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.CheckBook_Name).Value</span>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Title).Value</span>
+        (<span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Num).Value</span>)
+    </div>
+    <br />
+    <div>
+        <div class="col-md-6 right Padding0">
+            <div class="col-md-12 right text-right ">
+                <span>تحرر في:</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Date).Value</span>
+            </div>
+        </div>
+        <div class="col-md-6 Amount text-center" valign="middle">
+            <table style="width:55%;" class="table-bordered NoDataTable">
+                <tr>
+                    <td class="text-center">قرش</td>
+                    <td class="text-center">جنية</td>
+                </tr>
+                <tr>
+                    <td class="text-center">
+                        <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Amount).Value.Split('.').DefaultIfEmpty("00").ToList().LastOrDefault()</span>
+                    </td>
+                    <td class="text-center">
+                        <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Amount).Value.Split('.').DefaultIfEmpty("00").FirstOrDefault()</span>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="col-md-12 Number text-right">
+            <span>@From /</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Recive_from).Value</span>
+        </div>
+        <div class="col-md-12 Amount text-right" valign="middle">
+            <span>مبلغ وقدره  :</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Amount_text).Value فقط</span>
+        </div>
+    </div>
+    @if (Model.FirstOrDefault(x => x.Prop == ReciptProp.IsCash).Value.ToLower() == "False".ToLower())
+    {
+        <div>
+            <div class="col-md-12 Number text-right">
+                <span>شيك رقم :</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Cheque_num).Value</span>
+                <span>بتاريخ</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Cheque_date).Value</span>
+                <span>مسحوب علي بنك :</span>
+                <span>
+                    @if (Model.FirstOrDefault(x => x.Prop == ReciptProp.ShowBank).Value.ToString().ToLower() == "True".ToLower())
+                    {
+                        @Model.FirstOrDefault(x => x.Prop == ReciptProp.Cheque_bank).Value
+                    }
+                </span>
+            </div>
+        </div>
+    }
+
+    <div class="col-md-12 Number text-right">
+        <span>وذلك قيمة</span> <span>@Model.FirstOrDefault(x => x.Prop == ReciptProp.Ref).Value</span>
+    </div>
+    <div class="col-md-5 Number text-left d-inline-block" style="margin-left:20px;width:20%;float:left;">
+        <span>أمين الخزينة</span>
+        <br />
+        <span>(</span><span style="white-space: pre;">                </span><span>)</span>
+        <span></span>
+        <br />
+        <br />
+    </div>
+    <div class="col-md-3 Number text-right d-inline-block" style="margin-right:20px;float:right;width:20%;">
+        <span style="padding-right: 20px;">المستلم</span>
+        <br />
+        <span>(</span><span style="white-space: pre;">                </span><span>)</span>
+        <span></span>
+        <br />
+        <br />
+    </div>
+</section>
